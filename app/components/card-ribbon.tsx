@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import type * as THREE from 'three';
 import { team } from '@/lib/team';
 
-export default function CardRibbon({ paused, direction, onTogglePause }: { paused: boolean; direction: 1 | -1; onTogglePause: () => void }) {
+export default function CardRibbon({ paused, direction, onTogglePause, onSettled }: { paused: boolean; direction: 1 | -1; onTogglePause: () => void; onSettled: (status: 'ready' | 'fallback') => void }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const rearContainerRef = useRef<HTMLDivElement>(null);
   const pausedRef = useRef(paused);
@@ -22,20 +22,54 @@ export default function CardRibbon({ paused, direction, onTogglePause }: { pause
     const rearContainer = rearContainerRef.current;
     if (!container || !rearContainer) return;
     let stopped = false;
+    let settled = false;
     let frame = 0;
+    let revealFrame = 0;
     let renderer: THREE.WebGLRenderer | undefined;
     let rearRenderer: THREE.WebGLRenderer | undefined;
     const disposables: { dispose: () => void }[] = [];
     const removeListeners: (() => void)[] = [];
 
+    function releaseResources() {
+      cancelAnimationFrame(frame);
+      cancelAnimationFrame(revealFrame);
+      removeListeners.splice(0).forEach(remove => remove());
+      disposables.splice(0).forEach(resource => resource.dispose());
+      renderer?.dispose();
+      renderer?.domElement.remove();
+      renderer = undefined;
+      rearRenderer?.dispose();
+      rearRenderer?.domElement.remove();
+      rearRenderer = undefined;
+    }
+
+    function showFallback(error: unknown) {
+      if (stopped || settled) return;
+      stopped = true;
+      settled = true;
+      window.clearTimeout(startupTimeout);
+      releaseResources();
+      setReady(false);
+      onSettled('fallback');
+      console.warn('The 3D scene is unavailable; showing team characters.', error);
+    }
+
+    // A stalled asset or WebGL initialization must not block the whole website.
+    const startupTimeout = window.setTimeout(() => showFallback(new Error('Scene loading timed out.')), 20000);
+
     async function initialize() {
-      const Three = await import('three');
-      // Canvas textures are drawn once, so load Korean glyphs before painting them.
-      await document.fonts.load('500 47px "Pretendard Variable"', team.map(member => `${member.role} ${member.line}`).join(' '));
-      await document.fonts.ready;
       const atlas = new Image();
+      atlas.fetchPriority = 'high';
       atlas.src = '/images/team-miniatures.png';
-      await atlas.decode();
+      // Start these together; card textures need both the atlas and loaded glyphs.
+      const [Three] = await Promise.all([
+        import('three'),
+        atlas.decode(),
+        document.fonts.load('500 47px "Pretendard Variable"', team.map(member => `${member.role} ${member.line}`).join(' ')),
+        document.fonts.load('600 24px Inter', 'ON&OFF TEAM'),
+        document.fonts.load('400 19px Inter', 'CHARACTER EDITION'),
+        document.fonts.ready,
+      ]);
       if (stopped || !container || !rearContainer) return;
 
       // Split the same 3D scene at z=0, where the flat HTML wordmark sits.
@@ -234,22 +268,25 @@ export default function CardRibbon({ paused, direction, onTogglePause }: { pause
       renderer.render(scene, camera);
       setReady(true);
       frame = requestAnimationFrame(animate);
+      // Let both canvases paint before revealing the page, rather than just
+      // waiting for asset downloads or a fixed presentation delay.
+      revealFrame = requestAnimationFrame(() => {
+        revealFrame = requestAnimationFrame(() => {
+          if (stopped) return;
+          settled = true;
+          window.clearTimeout(startupTimeout);
+          onSettled('ready');
+        });
+      });
     }
 
-    initialize().catch(error => {
-      if (!stopped) console.warn('The 3D scene is unavailable; showing team characters.', error);
-    });
+    initialize().catch(showFallback);
     return () => {
       stopped = true;
-      cancelAnimationFrame(frame);
-      removeListeners.forEach(remove => remove());
-      disposables.forEach(resource => resource.dispose());
-      renderer?.dispose();
-      renderer?.domElement.remove();
-      rearRenderer?.dispose();
-      rearRenderer?.domElement.remove();
+      window.clearTimeout(startupTimeout);
+      releaseResources();
     };
-  }, []);
+  }, [onSettled]);
 
   return (
     <>

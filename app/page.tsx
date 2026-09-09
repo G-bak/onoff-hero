@@ -5,6 +5,7 @@ import CardRibbon from './components/card-ribbon';
 import Wordmark from './components/wordmark';
 import NewsRecruitmentLink from './components/news-recruitment-link';
 import ConsultationChat from './components/consultation-chat';
+import SceneLoader, { type SceneStatus } from './components/scene-loader';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 
@@ -35,9 +36,11 @@ function CompanyDetails() {
 export default function Home() {
   const [paused, setPaused] = useState(false);
   const [direction, setDirection] = useState<1 | -1>(1);
+  const [sceneStatus, setSceneStatus] = useState<SceneStatus>('loading');
   const directionLabel = direction === 1 ? '왼쪽에서 오른쪽' : '오른쪽에서 왼쪽';
   return (
-    <main className={`hero${paused ? ' is-paused' : ''}`} id="home">
+    <>
+    <main className={`hero${paused ? ' is-paused' : ''}`} id="home" aria-busy={sceneStatus === 'loading'}>
       <header className="site-header">
         <a className="brand" href="#home" aria-label="ON&OFF home">
           <img className="brand-logo" src="/images/onoff-logo.png" alt="ON&OFF" width={96} height={48} fetchPriority="high"/>
@@ -60,7 +63,7 @@ export default function Home() {
 
       <div className="scene-track" aria-hidden="true"/>
       <div className="scene-index" aria-hidden="true"><span>O—O</span><span>ONE TEAM.<br/>MANY MINDS.</span></div>
-      <CardRibbon paused={paused} direction={direction} onTogglePause={() => setPaused(value => !value)} />
+      <CardRibbon paused={paused} direction={direction} onTogglePause={() => setPaused(value => !value)} onSettled={setSceneStatus}/>
       <nav className="section-nav" aria-label="섹션 이동">
         <ol className="section-nav-list">
           <li>
@@ -100,5 +103,8 @@ export default function Home() {
         <ConsultationChat/>
       </footer>
     </main>
+    <SceneLoader status={sceneStatus}/>
+    <noscript><style>{'.scene-loader { display: none !important; }'}</style></noscript>
+    </>
   );
 }
