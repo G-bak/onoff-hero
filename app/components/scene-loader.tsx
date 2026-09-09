@@ -7,6 +7,7 @@ import { getLoadingOrbitPoints, sceneOrbit } from '@/lib/scene-orbit';
 export type SceneStatus = 'loading' | 'ready' | 'fallback';
 
 const dotCount = 24;
+const minimumDisplayMs = 2000;
 const orbitLayouts = [
   { name: 'desktop', camera: sceneOrbit.cameraDistance },
   { name: 'mobile', camera: sceneOrbit.mobileCameraDistance },
@@ -17,9 +18,16 @@ const orbitLayouts = [
 
 export default function SceneLoader({ status, progress }: { status: SceneStatus; progress: number }) {
   const [visible, setVisible] = useState(true);
-  const complete = status !== 'loading';
-  const value = complete ? 100 : Math.max(0, Math.min(99, progress));
+  const [minimumElapsed, setMinimumElapsed] = useState(false);
+  const sceneReady = status !== 'loading';
+  const complete = sceneReady && minimumElapsed;
+  const value = sceneReady ? 100 : Math.max(0, Math.min(99, progress));
   const filledDots = Math.floor(value / 100 * dotCount);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => setMinimumElapsed(true), minimumDisplayMs);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     if (!visible) return;
@@ -58,7 +66,7 @@ export default function SceneLoader({ status, progress }: { status: SceneStatus;
             </svg>
           </div>
           <Progress className="sr-only" value={value} aria-label="화면 준비 진행률"/>
-          <p className="scene-loader-label" role="status" aria-live="polite">{complete ? '화면이 준비되었습니다' : '화면을 불러오고 있습니다'}</p>
+          <p className="scene-loader-label" role="status" aria-live="polite">{sceneReady ? (status === 'ready' ? '3D 공간이 준비되었습니다' : '화면이 준비되었습니다') : '3D 공간을 구성하는 중입니다'}</p>
         </div>
       </div>
     </div>
