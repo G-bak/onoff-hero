@@ -2,17 +2,17 @@
 
 import { useEffect, useState } from 'react';
 import { Progress } from '@/components/ui/progress';
-import { projectLoadingOrbit, sceneOrbit } from '@/lib/scene-orbit';
+import { getLoadingOrbitPoints, sceneOrbit } from '@/lib/scene-orbit';
 
 export type SceneStatus = 'loading' | 'ready' | 'fallback';
 
-const dotCount = 28;
+const dotCount = 24;
 const orbitLayouts = [
   { name: 'desktop', camera: sceneOrbit.cameraDistance },
   { name: 'mobile', camera: sceneOrbit.mobileCameraDistance },
 ].map(layout => ({
   name: layout.name,
-  points: Array.from({ length: dotCount }, (_, index) => projectLoadingOrbit(index / dotCount * Math.PI * 2, layout.camera)),
+  points: getLoadingOrbitPoints(dotCount, layout.camera),
 }));
 
 export default function SceneLoader({ status, progress }: { status: SceneStatus; progress: number }) {

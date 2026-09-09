@@ -21,3 +21,23 @@ export function projectLoadingOrbit(angle: number, cameraDistance = sceneOrbit.c
   const scale = 54 * cameraDistance / (cameraDistance - worldZ);
   return { x: 180 + worldX * scale, y: 90 - worldY * scale };
 }
+
+export function getLoadingOrbitPoints(count: number, cameraDistance = sceneOrbit.cameraDistance) {
+  // Equal angles bunch up at the narrow sides after perspective projection.
+  // Space the dots by distance along the projected outline instead.
+  const samples = Array.from({ length: 721 }, (_, index) => projectLoadingOrbit(index / 720 * Math.PI * 2, cameraDistance));
+  const distances = [0];
+  for (let index = 1; index < samples.length; index++) {
+    distances.push(distances[index - 1] + Math.hypot(samples[index].x - samples[index - 1].x, samples[index].y - samples[index - 1].y));
+  }
+  const circumference = distances[distances.length - 1];
+  let segment = 1;
+  return Array.from({ length: count }, (_, index) => {
+    const distance = circumference * index / count;
+    while (segment < distances.length - 1 && distances[segment] < distance) segment++;
+    const fraction = (distance - distances[segment - 1]) / (distances[segment] - distances[segment - 1]);
+    const from = samples[segment - 1];
+    const to = samples[segment];
+    return { x: from.x + (to.x - from.x) * fraction, y: from.y + (to.y - from.y) * fraction };
+  });
+}
