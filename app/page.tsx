@@ -1,11 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import CardRibbon from './components/card-ribbon';
 import Wordmark from './components/wordmark';
 import NewsRecruitmentLink from './components/news-recruitment-link';
 import ConsultationChat from './components/consultation-chat';
-import SceneLoader, { type SceneStatus } from './components/scene-loader';
+import SceneLoader from './components/scene-loader';
+import type { SceneIssue, SceneStatus } from '@/lib/scene-loading';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 
@@ -38,6 +39,12 @@ export default function Home() {
   const [direction, setDirection] = useState<1 | -1>(1);
   const [sceneStatus, setSceneStatus] = useState<SceneStatus>('loading');
   const [sceneProgress, setSceneProgress] = useState(0);
+  const [sceneElapsed, setSceneElapsed] = useState(0);
+  const [sceneIssue, setSceneIssue] = useState<SceneIssue | null>(null);
+  const handleSceneError = useCallback((issue: SceneIssue) => {
+    setSceneIssue(issue);
+    setSceneStatus(issue.kind === 'timeout' ? 'timeout' : 'error');
+  }, []);
   const directionLabel = direction === 1 ? '왼쪽에서 오른쪽' : '오른쪽에서 왼쪽';
   return (
     <>
@@ -64,7 +71,7 @@ export default function Home() {
 
       <div className="scene-track" aria-hidden="true"/>
       <div className="scene-index" aria-hidden="true"><span>O—O</span><span>ONE TEAM.<br/>MANY MINDS.</span></div>
-      <CardRibbon paused={paused} direction={direction} onTogglePause={() => setPaused(value => !value)} onSettled={setSceneStatus} onProgress={setSceneProgress}/>
+      <CardRibbon paused={paused} direction={direction} enabled={sceneStatus !== 'fallback'} onTogglePause={() => setPaused(value => !value)} onSettled={setSceneStatus} onProgress={setSceneProgress} onElapsed={setSceneElapsed} onError={handleSceneError}/>
       <nav className="section-nav" aria-label="섹션 이동">
         <ol className="section-nav-list">
           <li>
@@ -104,7 +111,7 @@ export default function Home() {
         <ConsultationChat/>
       </footer>
     </main>
-    <SceneLoader status={sceneStatus} progress={sceneProgress}/>
+    <SceneLoader status={sceneStatus} progress={sceneProgress} elapsed={sceneElapsed} issue={sceneIssue} onContinue={() => setSceneStatus('fallback')}/>
     <noscript><style>{'.scene-loader { display: none !important; }'}</style></noscript>
     </>
   );

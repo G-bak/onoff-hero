@@ -11,6 +11,7 @@
     "deploy": "npm run build && wrangler deploy --config dist/server/wrangler.json",
     "start": "wrangler dev --config dist/server/wrangler.json",
     "lint": "oxlint",
+    "test:loading": "node --experimental-strip-types --test tests/scene-loading.test.mjs",
     "format": "oxfmt"
   },
   "dependencies": {

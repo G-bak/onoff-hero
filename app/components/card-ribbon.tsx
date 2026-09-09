@@ -4,8 +4,18 @@ import { useEffect, useRef, useState } from 'react';
 import type * as THREE from 'three';
 import { team } from '@/lib/team';
 import { sceneOrbit } from '@/lib/scene-orbit';
+import { getSceneIssue, SceneLoadError, startSceneLoadingClock, type SceneIssue } from '@/lib/scene-loading';
 
-export default function CardRibbon({ paused, direction, onTogglePause, onSettled, onProgress }: { paused: boolean; direction: 1 | -1; onTogglePause: () => void; onSettled: (status: 'ready' | 'fallback') => void; onProgress: (value: number) => void }) {
+export default function CardRibbon({ paused, direction, enabled, onTogglePause, onSettled, onProgress, onElapsed, onError }: {
+  paused: boolean;
+  direction: 1 | -1;
+  enabled: boolean;
+  onTogglePause: () => void;
+  onSettled: (status: 'ready') => void;
+  onProgress: (value: number) => void;
+  onElapsed: (seconds: number) => void;
+  onError: (issue: SceneIssue) => void;
+}) {
   const containerRef = useRef<HTMLDivElement>(null);
   const rearContainerRef = useRef<HTMLDivElement>(null);
   const pausedRef = useRef(paused);
@@ -19,6 +29,7 @@ export default function CardRibbon({ paused, direction, onTogglePause, onSettled
   }, [direction]);
 
   useEffect(() => {
+    if (!enabled) { setReady(false); return; }
     const container = containerRef.current;
     const rearContainer = rearContainerRef.current;
     if (!container || !rearContainer) return;
@@ -26,6 +37,8 @@ export default function CardRibbon({ paused, direction, onTogglePause, onSettled
     let settled = false;
     let frame = 0;
     let revealFrame = 0;
+    let phase: 'assets' | 'graphics' = 'assets';
+    const requests = new AbortController();
     let renderer: THREE.WebGLRenderer | undefined;
     let rearRenderer: THREE.WebGLRenderer | undefined;
     const disposables: { dispose: () => void }[] = [];
@@ -34,6 +47,7 @@ export default function CardRibbon({ paused, direction, onTogglePause, onSettled
     // Engine, image, fonts, each card texture, then the first painted frame.
     const totalUnits = team.length + 4;
     onProgress(0);
+    onElapsed(0);
 
     function finishLoadingUnit() {
       if (stopped || settled) return;
@@ -42,6 +56,7 @@ export default function CardRibbon({ paused, direction, onTogglePause, onSettled
     }
 
     function releaseResources() {
+      requests.abort();
       cancelAnimationFrame(frame);
       cancelAnimationFrame(revealFrame);
       removeListeners.splice(0).forEach(remove => remove());
@@ -54,28 +69,36 @@ export default function CardRibbon({ paused, direction, onTogglePause, onSettled
       rearRenderer = undefined;
     }
 
-    function showFallback(error: unknown) {
+    function showError(error: unknown) {
       if (stopped || settled) return;
       stopped = true;
       settled = true;
-      window.clearTimeout(startupTimeout);
+      stopStartupClock();
       releaseResources();
       setReady(false);
-      onSettled('fallback');
-      console.warn('The 3D scene is unavailable; showing team characters.', error);
+      onError(getSceneIssue(error, phase, navigator.onLine));
+      console.warn('The 3D scene could not be loaded.', error);
     }
 
-    // A stalled asset or WebGL initialization must not block the whole website.
-    const startupTimeout = window.setTimeout(() => showFallback(new Error('Scene loading timed out.')), 20000);
+    const stopStartupClock = startSceneLoadingClock(onElapsed, () => showError(new SceneLoadError('timeout')));
 
     async function initialize() {
       const atlas = new Image();
-      atlas.fetchPriority = 'high';
-      atlas.src = '/images/team-miniatures.png';
+      async function loadAtlas() {
+        const response = await fetch('/images/team-miniatures.png', { signal: requests.signal });
+        if (!response.ok) throw new SceneLoadError('server');
+        const blob = await response.blob();
+        if (stopped) return;
+        const url = URL.createObjectURL(blob);
+        removeListeners.push(() => URL.revokeObjectURL(url));
+        atlas.src = url;
+        try { await atlas.decode(); } catch { throw new SceneLoadError('asset'); }
+        finishLoadingUnit();
+      }
       // Start these together; card textures need both the atlas and loaded glyphs.
       const [Three] = await Promise.all([
         import('three').then(module => { finishLoadingUnit(); return module; }),
-        atlas.decode().then(finishLoadingUnit),
+        loadAtlas(),
         Promise.all([
           document.fonts.load('500 47px "Pretendard Variable"', team.map(member => `${member.role} ${member.line}`).join(' ')),
           document.fonts.load('600 24px Inter', 'ON&OFF TEAM'),
@@ -84,6 +107,7 @@ export default function CardRibbon({ paused, direction, onTogglePause, onSettled
         ]).then(finishLoadingUnit),
       ]);
       if (stopped || !container || !rearContainer) return;
+      phase = 'graphics';
 
       // Split the same 3D scene at z=0, where the flat HTML wordmark sits.
       // Clipping uses each fragment's world position, including the orbit's tilt.
@@ -289,19 +313,19 @@ export default function CardRibbon({ paused, direction, onTogglePause, onSettled
           if (stopped) return;
           finishLoadingUnit();
           settled = true;
-          window.clearTimeout(startupTimeout);
+          stopStartupClock();
           onSettled('ready');
         });
       });
     }
 
-    initialize().catch(showFallback);
+    initialize().catch(showError);
     return () => {
       stopped = true;
-      window.clearTimeout(startupTimeout);
+      stopStartupClock();
       releaseResources();
     };
-  }, [onSettled, onProgress]);
+  }, [enabled, onSettled, onProgress, onElapsed, onError]);
 
   return (
     <>
