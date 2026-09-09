@@ -5,7 +5,7 @@ import type * as THREE from 'three';
 import { team } from '@/lib/team';
 import { sceneOrbit } from '@/lib/scene-orbit';
 
-export default function CardRibbon({ paused, direction, onTogglePause, onSettled }: { paused: boolean; direction: 1 | -1; onTogglePause: () => void; onSettled: (status: 'ready' | 'fallback') => void }) {
+export default function CardRibbon({ paused, direction, onTogglePause, onSettled, onProgress }: { paused: boolean; direction: 1 | -1; onTogglePause: () => void; onSettled: (status: 'ready' | 'fallback') => void; onProgress: (value: number) => void }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const rearContainerRef = useRef<HTMLDivElement>(null);
   const pausedRef = useRef(paused);
@@ -30,6 +30,16 @@ export default function CardRibbon({ paused, direction, onTogglePause, onSettled
     let rearRenderer: THREE.WebGLRenderer | undefined;
     const disposables: { dispose: () => void }[] = [];
     const removeListeners: (() => void)[] = [];
+    let completedUnits = 0;
+    // Engine, image, fonts, each card texture, then the first painted frame.
+    const totalUnits = team.length + 4;
+    onProgress(0);
+
+    function finishLoadingUnit() {
+      if (stopped || settled) return;
+      completedUnits += 1;
+      onProgress(Math.round(completedUnits / totalUnits * 100));
+    }
 
     function releaseResources() {
       cancelAnimationFrame(frame);
@@ -64,12 +74,14 @@ export default function CardRibbon({ paused, direction, onTogglePause, onSettled
       atlas.src = '/images/team-miniatures.png';
       // Start these together; card textures need both the atlas and loaded glyphs.
       const [Three] = await Promise.all([
-        import('three'),
-        atlas.decode(),
-        document.fonts.load('500 47px "Pretendard Variable"', team.map(member => `${member.role} ${member.line}`).join(' ')),
-        document.fonts.load('600 24px Inter', 'ON&OFF TEAM'),
-        document.fonts.load('400 19px Inter', 'CHARACTER EDITION'),
-        document.fonts.ready,
+        import('three').then(module => { finishLoadingUnit(); return module; }),
+        atlas.decode().then(finishLoadingUnit),
+        Promise.all([
+          document.fonts.load('500 47px "Pretendard Variable"', team.map(member => `${member.role} ${member.line}`).join(' ')),
+          document.fonts.load('600 24px Inter', 'ON&OFF TEAM'),
+          document.fonts.load('400 19px Inter', 'CHARACTER EDITION'),
+          document.fonts.ready,
+        ]).then(finishLoadingUnit),
       ]);
       if (stopped || !container || !rearContainer) return;
 
@@ -178,6 +190,7 @@ export default function CardRibbon({ paused, direction, onTogglePause, onSettled
         ribbon.add(new Three.Mesh(geometry, front));
         ribbon.add(new Three.Mesh(geometry, back));
         disposables.push(geometry, front, back);
+        finishLoadingUnit();
       });
 
       let angle = .14;
@@ -274,6 +287,7 @@ export default function CardRibbon({ paused, direction, onTogglePause, onSettled
       revealFrame = requestAnimationFrame(() => {
         revealFrame = requestAnimationFrame(() => {
           if (stopped) return;
+          finishLoadingUnit();
           settled = true;
           window.clearTimeout(startupTimeout);
           onSettled('ready');
@@ -287,7 +301,7 @@ export default function CardRibbon({ paused, direction, onTogglePause, onSettled
       window.clearTimeout(startupTimeout);
       releaseResources();
     };
-  }, [onSettled]);
+  }, [onSettled, onProgress]);
 
   return (
     <>

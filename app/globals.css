@@ -41,17 +41,15 @@ a:focus-visible, button:focus-visible, .ribbon-stage:focus-visible { outline: 2p
 .hero { position: relative; isolation: isolate; width: 100%; height: 100svh; min-height: 740px; overflow: hidden; color: var(--foreground); }
 .scene-loader { position: fixed; z-index: 100; inset: 0; display: grid; place-items: center; padding: 24px; background: var(--background); opacity: 1; transition: opacity .5s ease, visibility .5s; }
 .scene-loader.is-complete { opacity: 0; visibility: hidden; }
-.scene-loader-content { display: flex; flex-direction: column; align-items: center; gap: 28px; width: min(360px, 100%); transform: translateY(-16px); }
-.scene-loader-orbit { position: relative; display: grid; place-items: center; width: 100%; aspect-ratio: 2; }
+.scene-loader-content { display: flex; flex-direction: column; align-items: center; gap: 18px; width: min(260px, 100%); transform: translateY(-16px); }
+.scene-loader-orbit { position: relative; width: 120px; aspect-ratio: 2; }
 .scene-loader-ring { position: absolute; inset: 0; width: 100%; height: 100%; }
-.scene-loader-dots { stroke: var(--blue); stroke-width: 2.5px; stroke-linecap: round; stroke-dasharray: 1 19; animation: scene-orbit-dots var(--orbit-period) linear infinite; animation-direction: var(--orbit-direction); }
-.scene-loader-dots-mobile { display: none; }
-.scene-loader-logo { position: relative; display: block; width: 110px; height: auto; }
-.scene-loader-progress { width: min(260px, 100%); }
-.scene-loader-meta { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 10px; line-height: 1; letter-spacing: .12em; color: var(--muted); }
-.scene-loader-meta > span:first-child { color: var(--ink); font-weight: 600; letter-spacing: -.02em; }
-.scene-loader-label { min-height: 20px; margin: 16px 0 0; text-align: center; font-size: 12px; line-height: 1.6; letter-spacing: -.02em; color: var(--muted); }
-@keyframes scene-orbit-dots { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -20; } }
+.scene-loader-dot { fill: #c3ccd0; transition: fill .2s ease; }
+.scene-loader-dot.is-filled { fill: var(--blue); }
+.scene-loader-points-mobile { display: none; }
+.scene-loader-logo { display: block; width: 110px; height: auto; }
+.scene-loader-progress { display: flex; flex-direction: column; align-items: center; width: 100%; }
+.scene-loader-label { min-height: 20px; margin: 8px 0 0; text-align: center; font-size: 12px; line-height: 1.6; letter-spacing: -.02em; color: var(--muted); }
 .site-header { position: absolute; top: 0; left: var(--edge); right: var(--edge); z-index: 5; display: grid; grid-template-columns: minmax(108px, 1fr) minmax(0, 760px) minmax(190px, 1fr); column-gap: clamp(12px, 1.5vw, 32px); align-items: center; min-height: 99px; border-bottom: 1px solid var(--border); }
 .brand { display: inline-flex; justify-self: start; align-items: center; line-height: 1; }
 .brand-logo { display: block; width: 96px; height: auto; object-fit: contain; }
@@ -180,8 +178,8 @@ a:focus-visible, button:focus-visible, .ribbon-stage:focus-visible { outline: 2p
   .hero-description { max-width: 245px; }
 }
 @media (max-width: 700px) {
-  .scene-loader-dots-desktop { display: none; }
-  .scene-loader-dots-mobile { display: block; }
+  .scene-loader-points-desktop { display: none; }
+  .scene-loader-points-mobile { display: block; }
   .news-dialog { padding: 32px 24px 24px; gap: 24px; }
   .news-dialog-title { font-size: 28px; }
   .news-dialog-description { font-size: 15px; }

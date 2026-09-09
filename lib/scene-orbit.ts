@@ -21,10 +21,3 @@ export function projectLoadingOrbit(angle: number, cameraDistance = sceneOrbit.c
   const scale = 54 * cameraDistance / (cameraDistance - worldZ);
   return { x: 180 + worldX * scale, y: 90 - worldY * scale };
 }
-
-export function loadingOrbitPath(cameraDistance = sceneOrbit.cameraDistance) {
-  return Array.from({ length: 181 }, (_, index) => {
-    const point = projectLoadingOrbit(index / 180 * Math.PI * 2, cameraDistance);
-    return `${index === 0 ? 'M' : 'L'}${point.x.toFixed(3)} ${point.y.toFixed(3)}`;
-  }).join(' ') + ' Z';
-}

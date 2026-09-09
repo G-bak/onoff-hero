@@ -37,6 +37,7 @@ export default function Home() {
   const [paused, setPaused] = useState(false);
   const [direction, setDirection] = useState<1 | -1>(1);
   const [sceneStatus, setSceneStatus] = useState<SceneStatus>('loading');
+  const [sceneProgress, setSceneProgress] = useState(0);
   const directionLabel = direction === 1 ? '왼쪽에서 오른쪽' : '오른쪽에서 왼쪽';
   return (
     <>
@@ -63,7 +64,7 @@ export default function Home() {
 
       <div className="scene-track" aria-hidden="true"/>
       <div className="scene-index" aria-hidden="true"><span>O—O</span><span>ONE TEAM.<br/>MANY MINDS.</span></div>
-      <CardRibbon paused={paused} direction={direction} onTogglePause={() => setPaused(value => !value)} onSettled={setSceneStatus}/>
+      <CardRibbon paused={paused} direction={direction} onTogglePause={() => setPaused(value => !value)} onSettled={setSceneStatus} onProgress={setSceneProgress}/>
       <nav className="section-nav" aria-label="섹션 이동">
         <ol className="section-nav-list">
           <li>
@@ -103,7 +104,7 @@ export default function Home() {
         <ConsultationChat/>
       </footer>
     </main>
-    <SceneLoader status={sceneStatus} direction={direction}/>
+    <SceneLoader status={sceneStatus} progress={sceneProgress}/>
     <noscript><style>{'.scene-loader { display: none !important; }'}</style></noscript>
     </>
   );
