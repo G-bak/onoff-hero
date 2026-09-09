@@ -118,11 +118,12 @@ a:focus-visible, button:focus-visible, .ribbon-stage:focus-visible { outline: 2p
 .hero-caption-emphasis { color: var(--blue); font-weight: 600; }
 .hero-description { margin: 12px 0 0; font-size: 12px; line-height: 1.6; letter-spacing: -.025em; color: var(--muted); }
 .motion-control { position: absolute; left: 50%; bottom: 2px; transform: translateX(-50%); display: flex; flex-shrink: 0; align-items: center; gap: 8px; font-size: 9px; letter-spacing: .08em; pointer-events: auto; }
-.motion-control .motion-switch { width: 37px; height: 21px; min-width: 37px; border: 0; background: #b4bfc2; border-radius: 99px; padding: 3px; box-shadow: none; }
-.motion-control .motion-switch[data-checked] { background: var(--ink); }
-/* Reset Tailwind's individual translate so it cannot add to the thumb's travel. */
-.motion-control .motion-switch [data-slot='switch-thumb'] { width: 15px; height: 15px; flex-shrink: 0; background: #fff; border-radius: 50%; box-shadow: none; translate: none; transform: translateX(0); }
-.motion-control .motion-switch[data-checked] [data-slot='switch-thumb'] { transform: translateX(16px); background: var(--lime); }
+.motion-control .motion-switch { --motion-thumb-x: 0px; width: 37px; height: 21px; min-width: 37px; border: 0; background: #b4bfc2; border-radius: 99px; padding: 3px; box-shadow: none; }
+.motion-control .motion-switch[data-checked] { --motion-thumb-x: 16px; background: var(--ink); }
+/* Use a single translate property. Production CSS optimization can discard
+   translate:none beside transform, allowing the primitive's travel to add up. */
+.motion-control .motion-switch [data-slot='switch-thumb'] { width: 15px; height: 15px; flex-shrink: 0; background: #fff; border-radius: 50%; box-shadow: none; translate: var(--motion-thumb-x) 0; }
+.motion-control .motion-switch[data-checked] [data-slot='switch-thumb'] { background: var(--lime); }
 .motion-state { width: 21px; }
 .motion-control .direction-toggle { width: 32px; height: 32px; padding: 0; border: 1px solid var(--border); border-radius: 50%; color: var(--muted); background: transparent; cursor: pointer; }
 .motion-control .direction-toggle:hover { color: var(--ink); background: #19232609; }
