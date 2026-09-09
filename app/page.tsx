@@ -103,7 +103,7 @@ export default function Home() {
         <ConsultationChat/>
       </footer>
     </main>
-    <SceneLoader status={sceneStatus}/>
+    <SceneLoader status={sceneStatus} direction={direction}/>
     <noscript><style>{'.scene-loader { display: none !important; }'}</style></noscript>
     </>
   );

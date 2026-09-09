@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type * as THREE from 'three';
 import { team } from '@/lib/team';
+import { sceneOrbit } from '@/lib/scene-orbit';
 
 export default function CardRibbon({ paused, direction, onTogglePause, onSettled }: { paused: boolean; direction: 1 | -1; onTogglePause: () => void; onSettled: (status: 'ready' | 'fallback') => void }) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -87,10 +88,10 @@ export default function CardRibbon({ paused, direction, onTogglePause, onSettled
       rearRenderer = createDepthRenderer(rearContainer, -1);
       const scene = new Three.Scene();
       const camera = new Three.PerspectiveCamera(35, 1, .1, 50);
-      camera.position.set(0, 0, 8.8);
+      camera.position.set(0, 0, sceneOrbit.cameraDistance);
       const tilt = new Three.Group();
       // The original ON&OFF composition slopes gently down to the right.
-      const restingTilt = { x: .22, y: -.04, z: -.17 };
+      const restingTilt = sceneOrbit.tilt;
       tilt.rotation.set(restingTilt.x, restingTilt.y, restingTilt.z);
       scene.add(tilt);
       const ribbon = new Three.Group();
@@ -156,7 +157,7 @@ export default function CardRibbon({ paused, direction, onTogglePause, onSettled
         return texture;
       }
 
-      const radius = 2.62;
+      const radius = sceneOrbit.radius;
       const cardHeight = 2.96;
       const arcWidth = Math.PI * 2 / team.length - .19;
       team.forEach((member, index) => {
@@ -192,7 +193,7 @@ export default function CardRibbon({ paused, direction, onTogglePause, onSettled
         renderer.setSize(width, height);
         rearRenderer.setSize(width, height);
         camera.aspect = width / height;
-        camera.position.z = window.innerWidth <= 700 ? 9.2 : 8.8;
+        camera.position.z = window.innerWidth <= 700 ? sceneOrbit.mobileCameraDistance : sceneOrbit.cameraDistance;
         camera.updateProjectionMatrix();
       };
       const observer = new ResizeObserver(resize);
@@ -249,7 +250,7 @@ export default function CardRibbon({ paused, direction, onTogglePause, onSettled
         if (!document.hidden) {
           const playing = !pausedRef.current && !reducedMotion.matches;
           if (!pointerDown && playing) {
-            targetAngle += dt * .11 * directionRef.current;
+            targetAngle += dt * sceneOrbit.angularSpeed * directionRef.current;
             targetAngle += inertiaRef.current;
             inertiaRef.current *= Math.exp(-dt * 5);
           }
