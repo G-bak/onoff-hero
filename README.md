@@ -1,0 +1,76 @@
+# ON&OFF — Creative in continuum
+
+ON&OFF의 첫 화면 디자인. 선명한 2D 워드마크와 회전하는 3D 미니어처 팀 카드를 중심으로 구성했습니다.
+
+## 실행
+
+```powershell
+cd C:\Users\usewr\Documents\ChatGPT\follow-art-hero
+npm install
+npm run dev -- --host 127.0.0.1 --port 5187 --strictPort
+```
+
+http://localhost:5187 에 접속합니다. `start-local.cmd`를 실행해도 됩니다. 5187 포트를 다른 프로세스가 쓰고 있으면 덮어쓰거나 종료하지 않고 시작을 중단합니다.
+
+이전 단계의 프로젝트 경로를 유지합니다. 별도 `onoff-website-redesign` 등 다른 프로젝트 파일은 수정하지 않았습니다. 회사 업종과 문의 이메일은 해당 기존 프로젝트의 사용자 자료를 참고했습니다.
+
+## 디자인
+
+- 쿨 그레이 #e9edef, 차콜 #192326, 코발트 #3854ed, 작은 라임 #d2f869 포인트
+- Inter Bold 기반의 고정된 2D ON&OFF 워드마크, 코발트 앰퍼샌드. 동일한 3D 카드 장면을 월드 좌표 z=0에서 앞·뒤로 잘라 글자 양쪽 레이어에 렌더링하므로 뒤쪽 카드는 글자 뒤로, 앞쪽 카드는 글자 앞으로 통과
+- 영문은 Inter, 한글은 프로젝트에 설치한 Pretendard Variable 1.3.9 사용. 카드의 한글은 글꼴 로딩이 끝난 뒤 그려지며 폰트 파일도 사이트에서 직접 제공
+- 헤더 왼쪽에는 사용자가 제공한 손글씨 로고만 배치, 너비 데스크톱 96px / 모바일 82px
+- 헤더 중앙은 데스크톱에서 두 줄로 구성: 첫 줄은 `© 2026 ON&OFF ALL RIGHTS RESERVED.` 저작권만, 둘째 줄은 대표자·전화·주소·`이메일 onoff3739@naver.com`. 저작권은 항상 한 줄로 표시하고, 좁은 화면에서는 회사 정보만 자연스럽게 줄바꿈. 이메일 아이콘은 사용하지 않음
+- 대표자 `홍길동`, 주소 `서울특별시 ○○구 ○○로 123, 3층`, 전화 `02-0000-0000`은 교체용 임시 값. 화면의 임시 정보 안내 문구는 사용자 요청으로 삭제
+- 헤더 오른쪽은 기존 대각선 화살표를 유지한 `News & Recruitment`. 현재는 페이지 준비 안내 모달을 열고, 확인·닫기·Escape·배경 클릭으로 닫을 수 있음. `lib/navigation.ts`에서 페이지 구현 후 `ready`를 `true`로 변경하면 `/news-recruitment`로 이동
+- 원본 로고의 투명도를 유지한 32px / 64px PNG 파비콘
+- 카드와 궤도 가이드는 최초 위치보다 데스크톱 34~46px, 모바일 34px 위로 이동(이번 조정에서 14px 추가)
+- 여유 있는 여백, 가는 기준선, 원형 문의 버튼
+- 오른쪽 중앙의 고정 섹션 메뉴: 현재는 `01 HOME` 한 항목만 표시. 클릭하면 첫 화면으로 부드럽게 이동하며 좁은 화면에서는 번호와 현재 위치 표시만 노출
+- Strategist / Art Director / Designer / Filmmaker / Developer / Media Planner 팀 캐릭터 카드
+- 같은 재질과 조명으로 생성한 성인 직원 미니어처 6명, 소품으로 직무 구분
+- 얼굴, 발, 받침대가 잘리지 않도록 원본 패널 전체를 카드에 배치
+- 원통형 곡면의 자동 회전, 마우스/터치 드래그, 키보드 방향키
+- 원본 영상에 맞추기 전의 ON&OFF 방향으로 복원: 오른쪽이 낮아지는 약 10° 기울기, 앞쪽 카드는 왼쪽에서 오른쪽으로 회전. 속도는 초당 .11 라디안이며 궤도선과 대체 카드 화면도 같은 사선 사용
+- ON/OFF 모션 스위치, 스페이스 키 재생/정지, 움직임 감소 설정 지원
+- 모션 스위치 옆 화살표 버튼으로 자동 회전 방향 전환. 정지 상태에서도 다음 재생 방향을 선택할 수 있으며 장면을 다시 생성하지 않음
+- 하단 오른쪽은 기존 짙은 캡슐 버튼과 라임색 원 안의 대각선 화살표를 사용하고, `실시간 상담톡` 문구만 표시. 첫 메시지만 자동 안내로 표시하며 주제 선택, 음성 기능, 입력에 따른 예시 자동 답변은 제거. 대화 시작 날짜는 한국 시간으로 표시하고, 입력 안내는 `메시지를 입력하세요` 사용
+- 상담톡 헤더에 운영시간 `09:00–18:00`, 하단에 영업시간 외·휴게시간·문의량에 따른 답변 지연 안내 표시. 화면의 미리보기 문구는 제거했으나 실제 AI API·상담사·외부 전송은 아직 연결하지 않음. 입력 메시지는 로컬 화면에만 추가되며 새로고침하면 초기화
+- 스위치 손잡이의 중복 이동을 제거해 ON/OFF 모두 트랙 안쪽 3px 여백 유지
+- WebGL 미지원 시 읽을 수 있는 텍스트 워드마크와 캐릭터 카드 대체 화면
+
+현재 미니어처는 실제 직원의 외모를 재현한 것이 아닌 직무별 캐릭터입니다. 이름을 임의로 만들지 않았습니다. 직원 정보가 준비되면 `lib/team.ts`의 `displayName`, `role`, `category`, `line`을 수정할 수 있습니다. 카드에는 `CHARACTER EDITION`을 표시합니다. 문의 링크는 기존 ON&OFF 자료의 `onoff3739@naver.com`을 사용합니다.
+
+첫 화면만 작업했습니다. 동영상과 후속 섹션은 추가하지 않았고 `public/videos`는 비어 있습니다.
+
+## GitHub와 Cloudflare 배포
+
+- 소스 저장소: https://github.com/G-bak/onoff-hero (비공개)
+- Cloudflare Worker: `onoff-hero-preview`
+- 임시 주소: https://onoff-hero-preview.ajdhfbx1836203.workers.dev
+- 배포 명령: `npm run deploy` (빌드 후 Cloudflare에 배포)
+- Git에 올린 소스와 배포는 별도로 관리합니다. Git push만으로 자동 배포되지는 않습니다.
+- 인증 정보, 의존성 폴더, 빌드 결과, 작업 출력물은 Git에 포함하지 않습니다.
+
+## 주요 파일
+
+- `app/page.tsx`: ON&OFF 워드마크, 첫 화면 구성, 문의 링크, 모션 스위치
+- `app/components/wordmark.tsx`: 2D 회사 이름
+- `app/components/card-ribbon.tsx`: 카드 3D 곡면, 캐릭터 텍스처, 인터랙션
+- `lib/team.ts`: 직원 이름/직무/소개와 캐릭터 매핑
+- `app/globals.css`: 색상, 타이포그래피, 반응형, 모션
+- `public/images/team-miniatures.png`: 생성한 6개 직원 미니어처
+- `public/images/onoff-logo-new.png`: 사용자 제공 로고 원본
+- `public/images/onoff-logo.png`: 투명 여백만 정리한 헤더용 로고
+- `public/favicon-onoff-32.png`, `public/favicon-onoff-64.png`: 같은 로고의 파비콘
+- `scripts/prepare-brand-assets.mjs`: 원본 디자인을 유지하며 로고 크기와 여백 정리
+- `public/images/ASSET-NOTES.md`: 생성 이미지 기록
+
+## 검증
+
+```powershell
+npx tsc --noEmit
+npm run build
+```
+
+초기 단계에서 참고한 사이트는 https://follow.art/ 입니다. 현재 버전은 그 사이트의 로고, 문구, 인물 카드, 서체, 색상, 붓 자국을 사용하지 않습니다. 이전에 생성한 실사 인물, 소재 사진, 입체 글자용 폰트 자료는 보관만 하며 현재 화면에서 불러오지 않습니다. Inter의 SIL Open Font License는 `public/fonts/INTER-LICENSE.txt`에 포함되어 있습니다.
