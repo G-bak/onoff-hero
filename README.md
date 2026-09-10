@@ -55,7 +55,7 @@ http://localhost:5187 에 접속합니다. `start-local.cmd`를 실행해도 됩
 - 임시 주소: https://onoff-hero-preview.ajdhfbx1836203.workers.dev
 - 최신 배포: 2026-09-10 13:38 KST, 메인 ON/OFF 문구의 마침표 제거까지 반영. 카드 상단 영역 삭제 및 높이 축소, 중앙·하단 문구 위치 교대, 검정 #333333·연두 네온 #D8FF3E·파랑 #343CFF 적용. [배포·복원 기록](DEPLOYMENT-NOTES.md)
 - 배포 명령: `npm run deploy` (빌드 후 Cloudflare에 배포)
-- 자동 배포 준비: `main` push → `npm run ci:build` → 기존 Worker 배포. Cloudflare의 GitHub 저장소 연결은 아직 완료되지 않아 현재는 자동 배포가 활성화되지 않았습니다. [최초 연결 및 설정값](AUTO-DEPLOY.md)
+- 자동 배포 연결 완료: `main` push → `npm run ci:build` → 기존 Worker 배포. 타입 검사·테스트·빌드·배포 CSS 검사가 성공한 버전만 반영합니다. 다른 브랜치의 미리보기 빌드는 비활성화했습니다. [연결 및 설정값](AUTO-DEPLOY.md)
 - 인증 정보, 의존성 폴더, 빌드 결과, 작업 출력물은 Git에 포함하지 않습니다.
 
 ## 주요 파일

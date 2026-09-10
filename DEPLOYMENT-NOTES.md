@@ -1,5 +1,12 @@
 # 배포 기록
 
+## 2026-09-10 — GitHub 자동 배포 연결
+
+- 사용자가 Cloudflare GitHub 앱의 접근 대상에 `G-bak/onoff-hero`를 추가한 뒤 저장소 연결 성공.
+- 기존 Worker `onoff-hero-preview`에 `main` 전용 운영 트리거 연결. 빌드 명령 `npm run ci:build`, 배포 명령 `npx wrangler deploy --config dist/server/wrangler.json`, 루트 `/`. 기본값으로 생성된 비운영 브랜치 미리보기 트리거는 제거.
+- 배포 토큰은 Cloudflare Workers Builds가 관리. GitHub에 비밀 값을 저장하지 않음.
+- 이 설정 문서의 `main` push로 최초 자동 배포를 검증한다. 실제 실행 상태와 대상 커밋은 Cloudflare Builds 및 GitHub 커밋 검사에 표시된다.
+
 ## 2026-09-10 — GitHub 소스 동기화 및 자동 배포 준비
 
 - 최신 배포본의 소스·글꼴·카드 이미지와 렌더링 최적화 테스트를 GitHub에 반영하도록 정리.

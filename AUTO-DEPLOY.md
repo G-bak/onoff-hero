@@ -4,7 +4,9 @@
 
 ## 현재 상태
 
-2026-09-10 기준 저장소용 설정은 준비했으나 Cloudflare의 GitHub 저장소 접근 연결은 아직 완료되지 않았다. Workers Builds 조회 결과 빌드 트리거와 빌드 토큰이 없으며, 저장소 연결 API는 저장소 접근 오류 `8000012`를 반환했다. 따라서 아래 연결 단계가 완료되기 전에는 push만으로 배포되지 않는다.
+2026-09-10에 GitHub 앱의 `onoff-hero` 접근 권한을 추가한 뒤 기존 Worker에 연결했다. 현재 `main` push를 받는 운영 트리거가 활성화돼 있다. 빌드 명령은 `npm run ci:build`, 배포 명령은 `npx wrangler deploy --config dist/server/wrangler.json`이다. 비운영 브랜치 미리보기 빌드는 비활성화했다.
+
+앞서 발생했던 저장소 접근 오류 `8000012`는 접근 권한 추가로 해결됐다. 배포 토큰은 Cloudflare Workers Builds에서 관리한다. 이 저장소를 다시 연결할 때만 아래 최초 연결 절차를 사용한다.
 
 검증: Git에 포함할 파일만 별도 빈 디렉터리에 내보낸 뒤 `npm ci`와 `npm run ci:build`를 실행했다. 타입 검사, 로딩 테스트 5개, 렌더링 테스트 7개, 빌드와 배포 CSS 검사에 모두 통과했다. 기존 로컬 서버는 유지했다.
 
@@ -44,6 +46,6 @@ npm ci
 npm run ci:build
 ```
 
-수동 배포가 필요하면 기존 `npm run deploy`를 사용할 수 있다. 자동 배포 연결이 완료되기 전에는 이 명령으로만 사이트가 갱신된다.
+수동 배포가 필요하면 기존 `npm run deploy`를 사용할 수 있다. 평소에는 변경을 커밋하고 `main`에 push하여 자동 배포한다.
 
 참고: [Cloudflare Git 연결](https://developers.cloudflare.com/workers/ci-cd/builds/), [빌드 설정](https://developers.cloudflare.com/workers/ci-cd/builds/configuration/), [Node 버전 설정](https://developers.cloudflare.com/workers/ci-cd/builds/build-image/).
