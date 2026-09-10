@@ -1,12 +1,16 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import CardRibbon from './components/card-ribbon';
 import Wordmark from './components/wordmark';
 import NewsRecruitmentLink from './components/news-recruitment-link';
-import ConsultationChat from './components/consultation-chat';
+import SiteControls from './components/site-controls';
 import SceneLoader from './components/scene-loader';
+import SceneRecoveryNotice from './components/scene-recovery-notice';
+import SectionEntry from './components/section-entry';
+import WhySection from './components/why-section';
 import type { SceneIssue, SceneStatus } from '@/lib/scene-loading';
+import type { SceneRecoveryStatus, SceneRuntimeStatus } from '@/lib/scene-recovery';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 
@@ -35,20 +39,53 @@ function CompanyDetails() {
 }
 
 export default function Home() {
+  const pageRef = useRef<HTMLElement>(null);
+  const handleSectionProgress = useCallback((progress: number) => {
+    pageRef.current?.style.setProperty('--section-progress', String(progress));
+  }, []);
   const [paused, setPaused] = useState(false);
+  const [heroCovered, setHeroCovered] = useState(false);
+  const [currentSection, setCurrentSection] = useState<'home' | 'why'>('home');
   const [direction, setDirection] = useState<1 | -1>(1);
   const [sceneStatus, setSceneStatus] = useState<SceneStatus>('loading');
   const [sceneProgress, setSceneProgress] = useState(0);
   const [sceneElapsed, setSceneElapsed] = useState(0);
   const [sceneIssue, setSceneIssue] = useState<SceneIssue | null>(null);
+  const [sceneRuntime, setSceneRuntime] = useState<SceneRuntimeStatus>('ready');
+  const [sceneAttempt, setSceneAttempt] = useState(0);
   const handleSceneError = useCallback((issue: SceneIssue) => {
     setSceneIssue(issue);
     setSceneStatus(issue.kind === 'timeout' ? 'timeout' : 'error');
+    setSceneRuntime(current => current === 'ready' ? current : 'fallback');
   }, []);
+  const handleSceneReady = useCallback(() => {
+    setSceneStatus('ready');
+    setSceneRuntime('ready');
+    setSceneIssue(null);
+  }, []);
+  const handleRecoveryChange = useCallback((status: SceneRecoveryStatus) => {
+    setSceneRuntime(status);
+    if (status === 'fallback') setSceneStatus('fallback');
+  }, []);
+  const continueWithBasic = useCallback(() => {
+    setSceneRuntime('fallback');
+    setSceneStatus('fallback');
+  }, []);
+  const retryScene = useCallback(() => {
+    setSceneRuntime('retrying');
+    setSceneStatus('loading');
+    setSceneIssue(null);
+    setSceneProgress(0);
+    setSceneElapsed(0);
+    setSceneAttempt(attempt => attempt + 1);
+  }, []);
+  const canControlScene = sceneStatus === 'ready' && sceneRuntime === 'ready';
   const directionLabel = direction === 1 ? '왼쪽에서 오른쪽' : '오른쪽에서 왼쪽';
   return (
     <>
-    <main className={`hero${paused ? ' is-paused' : ''}`} id="home" aria-busy={sceneStatus === 'loading'}>
+    <main className="site-pages" id="home" ref={pageRef}>
+    <SectionEntry id="why" onCovered={setHeroCovered} onSectionChange={setCurrentSection} onProgress={handleSectionProgress} front={
+    <section className={`hero${paused ? ' is-paused' : ''}`} aria-label="ON&OFF 소개" aria-busy={sceneStatus === 'loading'} inert={heroCovered}>
       <header className="site-header">
         <a className="brand" href="#home" aria-label="ON&OFF home">
           <img className="brand-logo" src="/images/onoff-logo.png" alt="ON&OFF" width={96} height={48} fetchPriority="high"/>
@@ -73,30 +110,19 @@ export default function Home() {
       <div className="hero-copy">
         <p className="hero-caption">당신은 사업만 <span className="hero-caption-emphasis">ON</span><br/>복잡한 마케팅은 <span className="hero-caption-emphasis">OFF</span></p>
       </div>
-      <CardRibbon paused={paused} direction={direction} enabled={sceneStatus !== 'fallback'} onTogglePause={() => setPaused(value => !value)} onSettled={setSceneStatus} onProgress={setSceneProgress} onElapsed={setSceneElapsed} onError={handleSceneError}/>
-      <nav className="section-nav" aria-label="섹션 이동">
-        <ol className="section-nav-list">
-          <li>
-            <a className="section-nav-link" href="#home" aria-current="location" aria-label="홈 섹션으로 이동">
-              <span className="section-nav-number" aria-hidden="true">01</span>
-              <span className="section-nav-label">HOME</span>
-              <span className="section-nav-track" aria-hidden="true"/>
-            </a>
-          </li>
-        </ol>
-      </nav>
-
+      <CardRibbon key={sceneAttempt} paused={paused} active={!heroCovered} direction={direction} enabled={sceneStatus !== 'fallback' && sceneRuntime !== 'fallback'} onTogglePause={() => setPaused(value => !value)} onSettled={handleSceneReady} onProgress={setSceneProgress} onElapsed={setSceneElapsed} onError={handleSceneError} onRecoveryChange={handleRecoveryChange}/>
       <footer className="hero-footer">
         <div className="scene-index"><span aria-hidden="true">O—O</span><span>ONE TEAM.<br/>MANY MINDS.</span></div>
         <div className="motion-control">
           <span id="motion-label">MOTION</span>
-          <Switch className="motion-switch" checked={!paused} onCheckedChange={playing => setPaused(!playing)} aria-labelledby="motion-label"/>
+          <Switch className="motion-switch" checked={!paused} disabled={!canControlScene} onCheckedChange={playing => setPaused(!playing)} aria-labelledby="motion-label"/>
           <span className="motion-state" aria-hidden="true">{paused ? 'OFF' : 'ON'}</span>
           <Button
             type="button"
             variant="ghost"
             size="icon"
             className="direction-toggle"
+            disabled={!canControlScene}
             aria-label="카드 회전 방향 전환"
             aria-pressed={direction === -1}
             title={`회전 방향 전환 · 현재 ${directionLabel}`}
@@ -106,12 +132,15 @@ export default function Home() {
               <path d="M4 8H20M16 4L20 8L16 12M20 16H4M8 12L4 16L8 20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </Button>
-          <span className="sr-only" role="status">현재 회전 방향: {directionLabel}</span>
+          <output className="sr-only">현재 회전 방향: {directionLabel}</output>
         </div>
-        <ConsultationChat/>
       </footer>
+    </section>
+    }><WhySection/></SectionEntry>
+    <SiteControls currentSection={currentSection}/>
     </main>
-    <SceneLoader status={sceneStatus} progress={sceneProgress} elapsed={sceneElapsed} issue={sceneIssue} onContinue={() => setSceneStatus('fallback')}/>
+    {!heroCovered && <SceneRecoveryNotice status={sceneRuntime} onRetry={retryScene} onContinue={continueWithBasic}/>}
+    <SceneLoader status={sceneStatus} progress={sceneProgress} elapsed={sceneElapsed} issue={sceneIssue} onContinue={continueWithBasic}/>
     <noscript><style>{'.scene-loader { display: none !important; }'}</style></noscript>
     </>
   );

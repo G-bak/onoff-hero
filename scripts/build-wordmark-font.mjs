@@ -1,12 +1,12 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import opentype from 'opentype.js';
+import { parse } from 'opentype.js/dist/opentype.mjs';
 import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const bytes = await fs.readFile(path.join(root, 'node_modules/@fontsource/inter/files/inter-latin-700-normal.woff'));
-const font = opentype.parse(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength));
+const font = parse(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength));
 const glyphs = {};
 const number = n => Math.round(n * 1000) / 1000;
 for (const char of new Set('ON&F')) {

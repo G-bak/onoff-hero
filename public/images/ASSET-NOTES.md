@@ -70,6 +70,20 @@ The user supplied `KakaoTalk_20260909_174935801.png` as the card-layout referenc
 
 Reference and source-alpha verification: `outputs/card-style-2026-09-09/`. The user explicitly requested deployment of the completed style; see root `DEPLOYMENT-NOTES.md` for the final deployment status.
 
+## Runtime delivery: generated lossless WebP — 2026-09-10
+
+The active PNG above remains the unchanged source. `scripts/team-asset.config.mjs` selects it; `npm run prepare:assets` uses the existing Sharp dependency to generate `app/assets/generated/team-atlas.webp`. This directory is ignored by Git and regenerated automatically before development and production builds.
+
+Original PNG: 1,237,554 bytes. Lossless WebP: 669,962 bytes (45.86% smaller). Both are 1254 × 1254. Generation verifies every alpha value and every RGB value with nonzero alpha: zero differences. RGB hidden under fully transparent pixels may be normalized by WebP and is not used to judge visual fidelity. No resize, crop, palette reduction, or character redesign is performed.
+
+Both the WebGL loader and fallback backgrounds use the same imported URL. Vite emits a content-hashed filename for cache updates. The production asset check compares its bytes with the verified generated image. Old source variants remain archived; they are not requested by the active card loader.
+
+## Page 02 supplied graphics — 2026-09-10
+
+The user supplied `2페이지 시안/page2.png`, its guide, and `2페이지 시안/05_Digital/page2-graphic1.png` / `page2-graphic2.png`. The two transparent brush PNGs are imported with Vite content hashes. The mockup itself is a reference, not a screenshot used in place of HTML.
+
+The page 02 character reuses the first cell of the existing verified team atlas as a decorative CSS background. The original atlas, first-screen card crop, and all other characters remain unchanged. No new character image was generated. Layout and responsive decisions are recorded in `PAGE2-NOTES.md` at the repository root.
+
 ## Archived: studio-atlas.png
 
 Generated with OpenAI ImageGen, 2026-09-09. 1254 × 1254 px, flush 3-column × 2-row grid. Each cell is 418 × 627 px.

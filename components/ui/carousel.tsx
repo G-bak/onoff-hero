@@ -6,6 +6,7 @@ import useEmblaCarousel, {
 } from 'embla-carousel-react';
 
 import { cn } from '@/lib/utils';
+import { getCarouselScrollState, subscribeCarouselScroll } from '@/lib/carousel-state';
 import { Button } from '@/components/ui/button';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 
@@ -58,14 +59,11 @@ function Carousel({
     },
     plugins,
   );
-  const [canScrollPrev, setCanScrollPrev] = React.useState(false);
-  const [canScrollNext, setCanScrollNext] = React.useState(false);
-
-  const onSelect = React.useCallback((api: CarouselApi) => {
-    if (!api) return;
-    setCanScrollPrev(api.canScrollPrev());
-    setCanScrollNext(api.canScrollNext());
-  }, []);
+  const subscribe = React.useCallback((notify: () => void) => subscribeCarouselScroll(api, notify), [api]);
+  const getSnapshot = React.useCallback(() => getCarouselScrollState(api), [api]);
+  const scrollState = React.useSyncExternalStore(subscribe, getSnapshot, getCarouselScrollState);
+  const canScrollPrev = (scrollState & 1) !== 0;
+  const canScrollNext = (scrollState & 2) !== 0;
 
   const scrollPrev = React.useCallback(() => {
     api?.scrollPrev();
@@ -92,17 +90,6 @@ function Carousel({
     if (!api || !setApi) return;
     setApi(api);
   }, [api, setApi]);
-
-  React.useEffect(() => {
-    if (!api) return;
-    onSelect(api);
-    api.on('reInit', onSelect);
-    api.on('select', onSelect);
-
-    return () => {
-      api?.off('select', onSelect);
-    };
-  }, [api, onSelect]);
 
   return (
     <CarouselContext.Provider

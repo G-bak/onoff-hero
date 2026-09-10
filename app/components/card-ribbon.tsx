@@ -6,9 +6,13 @@ import { team } from '@/lib/team';
 import { sceneOrbit } from '@/lib/scene-orbit';
 import { createSceneFrameLoop, settleSceneValue } from '@/lib/scene-frame-loop';
 import { getSceneIssue, SceneLoadError, startSceneLoadingClock, type SceneIssue } from '@/lib/scene-loading';
+import { loadCardFonts } from '@/lib/scene-fonts';
+import { createSceneRecovery, observeSceneContext, type SceneRecoveryStatus } from '@/lib/scene-recovery';
+import teamAtlasUrl from '@/app/assets/generated/team-atlas.webp?url';
 
-export default function CardRibbon({ paused, direction, enabled, onTogglePause, onSettled, onProgress, onElapsed, onError }: {
+export default function CardRibbon({ paused, active = true, direction, enabled, onTogglePause, onSettled, onProgress, onElapsed, onError, onRecoveryChange }: {
   paused: boolean;
+  active?: boolean;
   direction: 1 | -1;
   enabled: boolean;
   onTogglePause: () => void;
@@ -16,14 +20,24 @@ export default function CardRibbon({ paused, direction, enabled, onTogglePause, 
   onProgress: (value: number) => void;
   onElapsed: (seconds: number) => void;
   onError: (issue: SceneIssue) => void;
+  onRecoveryChange: (status: SceneRecoveryStatus) => void;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const rearContainerRef = useRef<HTMLDivElement>(null);
   const pausedRef = useRef(paused);
+  const activeRef = useRef(active);
+  const syncVisibilityRef = useRef<() => void>(() => {});
   const directionRef = useRef(direction);
   const inertiaRef = useRef(0);
   const requestRenderRef = useRef<() => void>(() => {});
   const [ready, setReady] = useState(false);
+  // Reset before committing the fallback, so enabling again cannot reveal a
+  // stale ready state while the previous WebGL resources have been disposed.
+  if (!enabled && ready) setReady(false);
+  useEffect(() => {
+    activeRef.current = active;
+    syncVisibilityRef.current();
+  }, [active]);
   useEffect(() => {
     pausedRef.current = paused;
     requestRenderRef.current();
@@ -35,13 +49,14 @@ export default function CardRibbon({ paused, direction, enabled, onTogglePause, 
   }, [direction]);
 
   useEffect(() => {
-    if (!enabled) { setReady(false); return; }
+    if (!enabled) return;
     const container = containerRef.current;
     const rearContainer = rearContainerRef.current;
     if (!container || !rearContainer) return;
     let stopped = false;
     let settled = false;
     let frameLoop: ReturnType<typeof createSceneFrameLoop> | undefined;
+    let resetInteraction = () => {};
     let revealFrame = 0;
     let phase: 'assets' | 'graphics' = 'assets';
     const requests = new AbortController();
@@ -62,37 +77,91 @@ export default function CardRibbon({ paused, direction, enabled, onTogglePause, 
     }
 
     function releaseResources() {
+      recovery.dispose();
       requests.abort();
       frameLoop?.dispose();
       requestRenderRef.current = () => {};
+      syncVisibilityRef.current = () => {};
       cancelAnimationFrame(revealFrame);
+      resetInteraction();
       removeListeners.splice(0).forEach(remove => remove());
       disposables.splice(0).forEach(resource => resource.dispose());
       renderer?.dispose();
+      if (renderer && !renderer.getContext().isContextLost()) renderer.forceContextLoss();
       renderer?.domElement.remove();
       renderer = undefined;
       rearRenderer?.dispose();
+      if (rearRenderer && !rearRenderer.getContext().isContextLost()) rearRenderer.forceContextLoss();
       rearRenderer?.domElement.remove();
       rearRenderer = undefined;
     }
 
     function showError(error: unknown) {
-      if (stopped || settled) return;
+      if (stopped) return;
+      const wasSettled = settled;
       stopped = true;
       settled = true;
       stopStartupClock();
       releaseResources();
       setReady(false);
-      onError(getSceneIssue(error, phase, navigator.onLine));
-      console.warn('The 3D scene could not be loaded.', error);
+      if (wasSettled) onRecoveryChange('fallback');
+      else onError(getSceneIssue(error, phase, navigator.onLine));
+      console.warn('The 3D scene could not be rendered.', error);
     }
 
     const stopStartupClock = startSceneLoadingClock(onElapsed, () => showError(new SceneLoadError('timeout')));
+    const recovery = createSceneRecovery({
+      visible: !document.hidden && activeRef.current,
+      onResume: () => frameLoop?.invalidate(),
+      onChange: status => {
+        if (stopped) return;
+        if (status === 'fallback') {
+          stopped = true;
+          stopStartupClock();
+          releaseResources();
+        } else if (status === 'recovering') {
+          frameLoop?.suspend();
+          cancelAnimationFrame(revealFrame);
+          revealFrame = 0;
+          resetInteraction();
+          // Drop the old GPU generation while the context is still lost.
+          // Three can upload these CPU-backed geometries/materials/textures again.
+          // Waiting until after restoration leaves disposal listeners holding
+          // invalid buffers from the previous context generation.
+          try { disposables.forEach(resource => resource.dispose()); }
+          catch (error) { showError(error); return; }
+        }
+        setReady(status === 'ready');
+        onRecoveryChange(status);
+      },
+    });
+
+    function checkContexts() {
+      if (renderer?.getContext().isContextLost()) recovery.lose('front');
+      if (rearRenderer?.getContext().isContextLost()) recovery.lose('rear');
+      return !stopped && recovery.canRender();
+    }
+
+    function scheduleInitialReveal() {
+      if (settled || revealFrame || stopped) return;
+      setReady(true);
+      // Keep the startup loader until the healthy pair has reached a paint.
+      revealFrame = requestAnimationFrame(() => {
+        revealFrame = requestAnimationFrame(() => {
+          revealFrame = 0;
+          if (!checkContexts()) return;
+          finishLoadingUnit();
+          settled = true;
+          stopStartupClock();
+          onSettled('ready');
+        });
+      });
+    }
 
     async function initialize() {
       const atlas = new Image();
       async function loadAtlas() {
-        const response = await fetch('/images/team-realistic-figurines-v3-photoroom.png', { signal: requests.signal });
+        const response = await fetch(teamAtlasUrl, { signal: requests.signal });
         if (!response.ok) throw new SceneLoadError('server');
         const blob = await response.blob();
         if (stopped) return;
@@ -106,12 +175,7 @@ export default function CardRibbon({ paused, direction, enabled, onTogglePause, 
       const [Three] = await Promise.all([
         import('three').then(module => { finishLoadingUnit(); return module; }),
         loadAtlas(),
-        Promise.all([
-          document.fonts.load('500 58px "Pretendard Variable"', team.map(member => member.role).join(' ')),
-          document.fonts.load('400 19px "Pretendard Variable"', team.map(member => member.line).join(' ')),
-          document.fonts.load('400 19px Inter', 'CHARACTER EDITION'),
-          document.fonts.ready,
-        ]).then(finishLoadingUnit),
+        loadCardFonts(document.fonts, team).then(finishLoadingUnit),
       ]);
       if (stopped || !container || !rearContainer) return;
       phase = 'graphics';
@@ -129,6 +193,8 @@ export default function CardRibbon({ paused, direction, enabled, onTogglePause, 
       }
       renderer = createDepthRenderer(container, 1);
       rearRenderer = createDepthRenderer(rearContainer, -1);
+      removeListeners.push(observeSceneContext(renderer.domElement, 'front', recovery));
+      removeListeners.push(observeSceneContext(rearRenderer.domElement, 'rear', recovery));
       const scene = new Three.Scene();
       const camera = new Three.PerspectiveCamera(35, 1, .1, 50);
       camera.position.set(0, 0, sceneOrbit.cameraDistance);
@@ -227,10 +293,20 @@ export default function CardRibbon({ paused, direction, enabled, onTogglePause, 
       let lastX = 0;
       let pointerX = 0;
       let pointerY = 0;
+      let activePointerId: number | null = null;
+      resetInteraction = () => {
+        pointerDown = false;
+        pointerX = 0;
+        pointerY = 0;
+        inertiaRef.current = 0;
+        container.classList.remove('is-dragging');
+        if (activePointerId !== null && container.hasPointerCapture(activePointerId)) container.releasePointerCapture(activePointerId);
+        activePointerId = null;
+      };
       const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
       const draw = (dt: number) => {
-        if (stopped || !renderer || !rearRenderer) return false;
+        if (!renderer || !rearRenderer || !checkContexts()) return false;
         const playing = !pausedRef.current && !reducedMotion.matches;
         if (!pointerDown && playing) {
           targetAngle += dt * sceneOrbit.angularSpeed * directionRef.current;
@@ -249,31 +325,45 @@ export default function CardRibbon({ paused, direction, enabled, onTogglePause, 
         }
         rearRenderer.render(scene, camera);
         renderer.render(scene, camera);
+        if (!checkContexts()) return false;
+        recovery.painted();
+        scheduleInitialReveal();
         // Manual input still eases to its target while automatic rotation is OFF.
         return (playing && !pointerDown) || angle !== targetAngle || tiltMoving;
       };
-      frameLoop = createSceneFrameLoop(draw, { canRun: () => !document.hidden });
+      const renderFrame = (dt: number) => {
+        try { return draw(dt); }
+        catch (error) { showError(error); return false; }
+      };
+      frameLoop = createSceneFrameLoop(renderFrame, { canRun: () => !stopped && !document.hidden && (!settled || activeRef.current) && recovery.canRender() });
       const requestRender = frameLoop.invalidate;
       requestRenderRef.current = requestRender;
 
       const resize = () => {
-        if (!renderer || !rearRenderer) return;
-        const { width, height } = container.getBoundingClientRect();
-        renderer.setSize(width, height);
-        rearRenderer.setSize(width, height);
-        camera.aspect = width / height;
-        camera.position.z = window.innerWidth <= 700 ? sceneOrbit.mobileCameraDistance : sceneOrbit.cameraDistance;
-        camera.updateProjectionMatrix();
-        requestRender();
+        if (stopped || !renderer || !rearRenderer) return;
+        try {
+          // Size the renderers from layout, not the enclosing page's rotation.
+          const width = container.clientWidth;
+          const height = container.clientHeight;
+          if (width <= 0 || height <= 0) return;
+          renderer.setSize(width, height);
+          rearRenderer.setSize(width, height);
+          camera.aspect = width / height;
+          camera.position.z = window.innerWidth <= 700 ? sceneOrbit.mobileCameraDistance : sceneOrbit.cameraDistance;
+          camera.updateProjectionMatrix();
+          requestRender();
+        } catch (error) { showError(error); }
       };
       const observer = new ResizeObserver(resize);
       observer.observe(container);
       removeListeners.push(() => observer.disconnect());
       resize();
+      if (stopped) return;
 
       const onDown = (event: PointerEvent) => {
-        if (event.button !== 0) return;
+        if (event.button !== 0 || !recovery.canRender()) return;
         pointerDown = true;
+        activePointerId = event.pointerId;
         lastX = event.clientX;
         inertiaRef.current = 0;
         container.classList.add('is-dragging');
@@ -281,6 +371,7 @@ export default function CardRibbon({ paused, direction, enabled, onTogglePause, 
         requestRender();
       };
       const onMove = (event: PointerEvent) => {
+        if (!recovery.canRender()) return;
         const bounds = container.getBoundingClientRect();
         pointerX = (event.clientX - bounds.left) / bounds.width - .5;
         pointerY = (event.clientY - bounds.top) / bounds.height - .5;
@@ -291,9 +382,10 @@ export default function CardRibbon({ paused, direction, enabled, onTogglePause, 
         }
         requestRender();
       };
-      const onUp = () => { pointerDown = false; container.classList.remove('is-dragging'); requestRender(); };
+      const onUp = () => { pointerDown = false; activePointerId = null; container.classList.remove('is-dragging'); requestRender(); };
       const onLeave = () => { pointerX = 0; pointerY = 0; requestRender(); };
       const onKey = (event: KeyboardEvent) => {
+        if (!recovery.canRender()) return;
         if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
           event.preventDefault();
           targetAngle += event.key === 'ArrowLeft' ? -.38 : .38;
@@ -308,13 +400,14 @@ export default function CardRibbon({ paused, direction, enabled, onTogglePause, 
       container.addEventListener('pointerleave', onLeave);
       container.addEventListener('keydown', onKey);
       const onVisibilityChange = () => {
-        if (document.hidden) frameLoop?.suspend();
+        const visible = !document.hidden && activeRef.current;
+        recovery.setVisible(visible);
+        if (document.hidden || (!visible && settled)) frameLoop?.suspend();
         else requestRender();
       };
+      syncVisibilityRef.current = onVisibilityChange;
       document.addEventListener('visibilitychange', onVisibilityChange);
       reducedMotion.addEventListener('change', requestRender);
-      renderer.domElement.addEventListener('webglcontextrestored', requestRender);
-      rearRenderer.domElement.addEventListener('webglcontextrestored', requestRender);
       removeListeners.push(() => {
         container.removeEventListener('pointerdown', onDown);
         container.removeEventListener('pointermove', onMove);
@@ -325,24 +418,10 @@ export default function CardRibbon({ paused, direction, enabled, onTogglePause, 
         container.removeEventListener('keydown', onKey);
         document.removeEventListener('visibilitychange', onVisibilityChange);
         reducedMotion.removeEventListener('change', requestRender);
-        renderer?.domElement.removeEventListener('webglcontextrestored', requestRender);
-        rearRenderer?.domElement.removeEventListener('webglcontextrestored', requestRender);
       });
 
-      draw(0);
-      setReady(true);
+      renderFrame(0);
       requestRender();
-      // Let both canvases paint before revealing the page, rather than just
-      // waiting for asset downloads or a fixed presentation delay.
-      revealFrame = requestAnimationFrame(() => {
-        revealFrame = requestAnimationFrame(() => {
-          if (stopped) return;
-          finishLoadingUnit();
-          settled = true;
-          stopStartupClock();
-          onSettled('ready');
-        });
-      });
     }
 
     initialize().catch(showError);
@@ -351,12 +430,12 @@ export default function CardRibbon({ paused, direction, enabled, onTogglePause, 
       stopStartupClock();
       releaseResources();
     };
-  }, [enabled, onSettled, onProgress, onElapsed, onError]);
+  }, [enabled, onSettled, onProgress, onElapsed, onError, onRecoveryChange]);
 
   return (
     <>
     <div ref={rearContainerRef} className={`ribbon-stage ribbon-back${ready ? ' is-ready' : ''}`} aria-hidden="true"/>
-    <div ref={containerRef} className={`ribbon-stage${ready ? ' is-ready' : ''}`} tabIndex={0} role="group" aria-label="ON&OFF의 회전하는 미니어처 팀 캐릭터 카드. 드래그 또는 좌우 방향키로 회전하고 스페이스 키로 일시정지할 수 있습니다." onKeyDown={event => { if (event.key === ' ') { event.preventDefault(); onTogglePause(); } }}>
+    <div ref={containerRef} className={`ribbon-stage${ready ? ' is-ready' : ''}`} tabIndex={enabled && ready ? 0 : -1} role="group" aria-label={ready ? 'ON&OFF의 회전하는 미니어처 팀 캐릭터 카드. 드래그 또는 좌우 방향키로 회전하고 스페이스 키로 일시정지할 수 있습니다.' : 'ON&OFF의 기본 팀 카드'} onKeyDown={event => { if (enabled && ready && event.key === ' ') { event.preventDefault(); onTogglePause(); } }}>
       <div className="ribbon-fallback" aria-hidden="true">
         {team.slice(0, 3).map(member => (
           <div className="fallback-card" key={member.visual}>
@@ -365,7 +444,7 @@ export default function CardRibbon({ paused, direction, enabled, onTogglePause, 
             <span className="fallback-description">{member.line}</span>
             <span className="fallback-edition">CHARACTER EDITION</span>
             <span className="fallback-backdrop"/>
-            <span className="fallback-visual" style={{ backgroundPosition: `${member.visual % 3 * 50}% ${Math.floor(member.visual / 3) * 100}%` }}/>
+            <span className="fallback-visual" style={{ backgroundImage: `url("${teamAtlasUrl}")`, backgroundPosition: `${member.visual % 3 * 50}% ${Math.floor(member.visual / 3) * 100}%` }}/>
             <span className="fallback-arrow">↗</span>
           </div>
         ))}

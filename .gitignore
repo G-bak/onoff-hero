@@ -62,4 +62,5 @@ next-env.d.ts
 /.wrangler/
 /outputs/
 /work/
+/app/assets/generated/
 *.tsbuildinfo

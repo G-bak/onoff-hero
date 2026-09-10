@@ -5,6 +5,7 @@ import * as RechartsPrimitive from 'recharts';
 import type { TooltipValueType } from 'recharts';
 
 import { cn } from '@/lib/utils';
+import { getChartConfigKey } from '@/lib/chart-key';
 
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: '', dark: '.dark' } as const;
@@ -152,7 +153,7 @@ function ChartTooltipContent({
     }
 
     const [item] = payload;
-    const key = `${labelKey ?? item?.dataKey ?? item?.name ?? 'value'}`;
+    const key = getChartConfigKey(labelKey, item?.dataKey, item?.name);
     const itemConfig = getPayloadConfigFromPayload(config, item, key);
     const value =
       !labelKey && typeof label === 'string'
@@ -200,7 +201,7 @@ function ChartTooltipContent({
         {payload
           .filter((item) => item.type !== 'none')
           .map((item, index) => {
-            const key = `${nameKey ?? item.name ?? item.dataKey ?? 'value'}`;
+            const key = getChartConfigKey(nameKey, item.name, item.dataKey);
             const itemConfig = getPayloadConfigFromPayload(config, item, key);
             const indicatorColor = color ?? item.payload?.fill ?? item.color;
 
@@ -299,7 +300,7 @@ function ChartLegendContent({
       {payload
         .filter((item) => item.type !== 'none')
         .map((item, index) => {
-          const key = `${nameKey ?? item.dataKey ?? 'value'}`;
+          const key = getChartConfigKey(nameKey, item.dataKey);
           const itemConfig = getPayloadConfigFromPayload(config, item, key);
 
           return (

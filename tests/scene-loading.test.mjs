@@ -25,7 +25,7 @@ function fakeClock(initial = 0) {
   return { clock, advance: ms => runUntil(now + ms), resumeAfter: ms => runUntil(now + ms, true), pending: () => jobs.size };
 }
 
-test('starts the visible timer at ten seconds and expires once at five minutes', () => {
+await test('starts the visible timer at ten seconds and expires once at five minutes', () => {
   const time = fakeClock(47000);
   const ticks = [];
   let timeouts = 0;
@@ -45,7 +45,7 @@ test('starts the visible timer at ten seconds and expires once at five minutes',
   assert.equal(time.pending(), 0);
 });
 
-test('completion, an error, or leaving for the basic view cancels future updates', () => {
+await test('completion, an error, or leaving for the basic view cancels future updates', () => {
   for (const finishAt of [800, 12000, 299999]) {
     const time = fakeClock();
     const ticks = [];
@@ -62,7 +62,7 @@ test('completion, an error, or leaving for the basic view cancels future updates
   }
 });
 
-test('a suspended tab uses elapsed time instead of counting delayed interval ticks', () => {
+await test('a suspended tab uses elapsed time instead of counting delayed interval ticks', () => {
   const time = fakeClock();
   const ticks = [];
   let timeouts = 0;
@@ -73,7 +73,7 @@ test('a suspended tab uses elapsed time instead of counting delayed interval tic
   assert.equal(time.pending(), 0);
 });
 
-test('network, offline, server, asset, graphics and timeout errors stay distinct', () => {
+await test('network, offline, server, asset, graphics and timeout errors stay distinct', () => {
   assert.equal(getSceneIssue(new Error(), 'assets', true).kind, 'network');
   assert.equal(getSceneIssue(new Error(), 'assets', false).kind, 'offline');
   assert.equal(getSceneIssue(new SceneLoadError('server'), 'assets', true).kind, 'server');
@@ -82,7 +82,7 @@ test('network, offline, server, asset, graphics and timeout errors stay distinct
   assert.equal(getSceneIssue(new SceneLoadError('timeout'), 'assets', false).kind, 'timeout');
 });
 
-test('shows one-second minimum and formats the five-minute waiting limit', () => {
+await test('shows one-second minimum and formats the five-minute waiting limit', () => {
   assert.equal(sceneLoadingTiming.minimumMs, 1000);
   assert.equal(formatSceneWait(10), '00:10');
   assert.equal(formatSceneWait(61), '01:01');

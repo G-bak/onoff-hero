@@ -55,15 +55,23 @@ export default function SceneLoader({ status, progress, elapsed, issue, onContin
   }, [visible]);
 
   useEffect(() => {
-    if (!visible) return;
-    const hero = document.getElementById('home');
+    if (!visible || complete) return;
     const previousOverflow = document.body.style.overflow;
-    const previousInert = hero?.inert ?? false;
     document.body.style.overflow = 'hidden';
-    if (hero) hero.inert = true;
+    // Restore the scrollbar when the reveal starts, before the page is visible.
+    return () => { document.body.style.overflow = previousOverflow; };
+  }, [visible, complete]);
+
+  useEffect(() => {
+    if (!visible) return;
+    const page = document.getElementById('home');
+    const previousInert = page?.inert ?? false;
+    if (page) page.inert = true;
     return () => {
-      document.body.style.overflow = previousOverflow;
-      if (hero) hero.inert = previousInert;
+      if (page) page.inert = previousInert;
+      // Initial fragment navigation may run before the loader releases the
+      // scroll lock. Use the untransformed section anchor once it is released.
+      if (window.location.hash === '#why') document.getElementById('why')?.scrollIntoView({ behavior: 'instant', block: 'start' });
     };
   }, [visible]);
 
@@ -92,7 +100,7 @@ export default function SceneLoader({ status, progress, elapsed, issue, onContin
             </svg>
           </div>
           <Progress className="sr-only" value={value} aria-label="화면 준비 진행률"/>
-          {notice ? <p className="scene-loader-error" role="alert"><CircleAlert aria-hidden="true"/><span>{notice}</span></p> : <p className="scene-loader-label" role="status" aria-live="polite">{sceneReady ? (status === 'ready' ? '3D 공간이 준비되었습니다' : '화면이 준비되었습니다') : '3D 공간을 구성하는 중입니다'}</p>}
+          {notice ? <p className="scene-loader-error" role="alert"><CircleAlert aria-hidden="true"/><span>{notice}</span></p> : <output className="scene-loader-label" aria-live="polite">{sceneReady ? (status === 'ready' ? '3D 공간이 준비되었습니다' : '화면이 준비되었습니다') : '3D 공간을 구성하는 중입니다'}</output>}
           {delayed && !sceneReady && <p className="scene-loader-timer">대기 시간 <span role="timer" aria-live="off">{formatSceneWait(elapsed)}</span><span className="scene-loader-limit">/ 최대 05:00</span></p>}
           {notice && status !== 'timeout' && <div className="scene-loader-actions">
             <Button className="scene-loader-retry" onClick={retry}>다시 시도</Button>

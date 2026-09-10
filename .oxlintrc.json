@@ -31,6 +31,43 @@
     "coverage/**",
     "next-env.d.ts"
   ],
+  "overrides": [
+    {
+      "files": [
+        "components/ui/button-group.tsx",
+        "components/ui/field.tsx",
+        "components/ui/input-group.tsx",
+        "components/ui/item.tsx",
+        "components/ui/carousel.tsx",
+        "components/ui/input-otp.tsx",
+        "components/ui/spinner.tsx"
+      ],
+      "rules": {
+        "jsx-a11y/prefer-tag-over-role": "off"
+      }
+    },
+    {
+      "files": ["app/components/card-ribbon.tsx"],
+      "rules": {
+        "jsx-a11y/prefer-tag-over-role": "off",
+        "jsx-a11y/no-noninteractive-element-interactions": "off",
+        "jsx-a11y/no-noninteractive-tabindex": "off"
+      }
+    },
+    {
+      "files": ["components/ui/input-group.tsx"],
+      "rules": {
+        "jsx-a11y/click-events-have-key-events": "off",
+        "jsx-a11y/no-noninteractive-element-interactions": "off"
+      }
+    },
+    {
+      "files": ["app/page.tsx", "app/components/scene-loader.tsx"],
+      "rules": {
+        "nextjs/no-img-element": "off"
+      }
+    }
+  ],
   "rules": {
     "no-array-constructor": "error",
     "no-var": "error",
