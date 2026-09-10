@@ -1,0 +1,49 @@
+# GitHub 자동 배포 설정
+
+기존 Cloudflare Worker `onoff-hero-preview`를 GitHub의 `G-bak/onoff-hero` 저장소에 연결한다. `main`에 push하면 검사·빌드가 성공한 버전만 현재 사이트에 배포하는 구성이다.
+
+## 현재 상태
+
+2026-09-10 기준 저장소용 설정은 준비했으나 Cloudflare의 GitHub 저장소 접근 연결은 아직 완료되지 않았다. Workers Builds 조회 결과 빌드 트리거와 빌드 토큰이 없으며, 저장소 연결 API는 저장소 접근 오류 `8000012`를 반환했다. 따라서 아래 연결 단계가 완료되기 전에는 push만으로 배포되지 않는다.
+
+검증: Git에 포함할 파일만 별도 빈 디렉터리에 내보낸 뒤 `npm ci`와 `npm run ci:build`를 실행했다. 타입 검사, 로딩 테스트 5개, 렌더링 테스트 7개, 빌드와 배포 CSS 검사에 모두 통과했다. 기존 로컬 서버는 유지했다.
+
+## 최초 연결
+
+1. Cloudflare 대시보드에서 **Workers & Pages → onoff-hero-preview → Settings → Builds → Connect**를 연다.
+2. GitHub 계정 **G-bak**, 저장소 **onoff-hero**를 선택한다. 저장소가 보이지 않으면 Cloudflare GitHub App의 접근 대상에 이 저장소를 추가한다.
+3. 다음 값을 설정하고 연결한다.
+
+| 항목 | 값 |
+| --- | --- |
+| Production branch | `main` |
+| Root directory | `/` |
+| Build command | `npm run ci:build` |
+| Deploy command | `npx wrangler deploy --config dist/server/wrangler.json` |
+| Non-production branch builds | 비활성화 |
+| Node.js | `.node-version`의 `24.19.0` |
+| API token | Cloudflare의 Builds에서 생성·보관하는 배포 토큰 |
+
+Cloudflare의 기본 의존성 설치와 저장소의 `package-lock.json`을 사용한다. 빌드에 개발 의존성이 필요하므로 설치 단계에 `NODE_ENV=production` 또는 `NPM_CONFIG_PRODUCTION=true`를 설정하지 않는다. 현재 프로젝트는 D1·R2를 사용하지 않는다.
+
+이 프로젝트는 Vite의 Cloudflare 플러그인이 `dist/server/wrangler.json`을 생성하므로 배포 명령의 `--config` 경로를 그대로 사용한다. 이 설정의 Worker 이름은 기존 `onoff-hero-preview`와 일치한다.
+
+## 연결 후 확인
+
+- 첫 빌드를 실행하거나 `main`에 변경을 push한다.
+- Cloudflare Builds에서 GitHub의 최신 커밋 SHA와 빌드 성공을 확인한다.
+- 배포가 기존 주소 `https://onoff-hero-preview.ajdhfbx1836203.workers.dev`에 반영됐는지 확인한다.
+- 이후에는 변경을 커밋하고 `main`에 push한다. 타입 검사·로딩 및 렌더링 테스트·빌드·배포 CSS 검사 중 하나라도 실패하면 배포 단계가 실행되지 않는다.
+
+배포 인증 정보는 Cloudflare에 보관하며 저장소에 기록하지 않는다. GitHub Actions의 별도 배포 워크플로는 만들지 않아 중복 배포를 방지한다.
+
+## 로컬에서 같은 검사 실행
+
+```sh
+npm ci
+npm run ci:build
+```
+
+수동 배포가 필요하면 기존 `npm run deploy`를 사용할 수 있다. 자동 배포 연결이 완료되기 전에는 이 명령으로만 사이트가 갱신된다.
+
+참고: [Cloudflare Git 연결](https://developers.cloudflare.com/workers/ci-cd/builds/), [빌드 설정](https://developers.cloudflare.com/workers/ci-cd/builds/configuration/), [Node 버전 설정](https://developers.cloudflare.com/workers/ci-cd/builds/build-image/).

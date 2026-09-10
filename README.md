@@ -16,9 +16,9 @@ http://localhost:5187 에 접속합니다. `start-local.cmd`를 실행해도 됩
 
 ## 디자인
 
-- 쿨 그레이 #e9edef, 차콜 #192326, 코발트 #3854ed, 작은 라임 #d2f869 포인트
-- Inter Bold 기반의 고정된 2D ON&OFF 워드마크, 코발트 앰퍼샌드. 동일한 3D 카드 장면을 월드 좌표 z=0에서 앞·뒤로 잘라 글자 양쪽 레이어에 렌더링하므로 뒤쪽 카드는 글자 뒤로, 앞쪽 카드는 글자 앞으로 통과
-- 영문은 Inter, 한글은 프로젝트에 설치한 Pretendard Variable 1.3.9 사용. 카드의 한글은 글꼴 로딩이 끝난 뒤 그려지며 폰트 파일도 사이트에서 직접 제공
+- 쿨 그레이 #e9edef, 검정 #333333, 파랑 #343CFF, 연두 네온 #D8FF3E 포인트
+- Montserrat Bold(700) 기반의 고정된 2D ON&OFF 워드마크, 코발트 앰퍼샌드. 동일한 3D 카드 장면을 월드 좌표 z=0에서 앞·뒤로 잘라 글자 양쪽 레이어에 렌더링하므로 뒤쪽 카드는 글자 뒤로, 앞쪽 카드는 글자 앞으로 통과
+- 큰 워드마크 외 영문은 Inter, 한글은 프로젝트에 설치한 Pretendard Variable 1.3.9 사용. 카드의 한글은 글꼴 로딩이 끝난 뒤 그려지며 폰트 파일도 사이트에서 직접 제공. Montserrat는 워드마크에 필요한 Latin 700만 불러오며, 라이선스는 `public/fonts/MONTSERRAT-LICENSE.txt`에 보관
 - 헤더 왼쪽에는 사용자가 제공한 손글씨 로고만 배치, 너비 데스크톱 96px / 모바일 82px
 - 헤더 중앙은 데스크톱에서 두 줄로 구성: 첫 줄은 `© 2026 ON&OFF ALL RIGHTS RESERVED.` 저작권만, 둘째 줄은 대표자·전화·주소·`이메일 onoff3739@naver.com`. 저작권은 항상 한 줄로 표시하고, 좁은 화면에서는 회사 정보만 자연스럽게 줄바꿈. 이메일 아이콘은 사용하지 않음
 - 대표자 `홍길동`, 주소 `서울특별시 ○○구 ○○로 123, 3층`, 전화 `02-0000-0000`은 교체용 임시 값. 화면의 임시 정보 안내 문구는 사용자 요청으로 삭제
@@ -28,11 +28,12 @@ http://localhost:5187 에 접속합니다. `start-local.cmd`를 실행해도 됩
 - 여유 있는 여백, 가는 기준선, 원형 문의 버튼
 - 오른쪽 중앙의 고정 섹션 메뉴: 현재는 `01 HOME` 한 항목만 표시. 클릭하면 첫 화면으로 부드럽게 이동하며 좁은 화면에서는 번호와 현재 위치 표시만 노출
 - Strategist / Art Director / Designer / Filmmaker / Developer / Media Planner 팀 캐릭터 카드
-- 같은 재질과 조명으로 생성한 성인 직원 미니어처 6명, 소품으로 직무 구분
-- 얼굴, 발, 받침대가 잘리지 않도록 원본 패널 전체를 카드에 배치
+- 사용자가 제공한 Photoroom 투명 배경 실사 피규어 6명, 소품으로 직무 구분. 3D 카드와 대체 화면에 같은 이미지 사용
+- 사용자 카드 예시에 맞춰 영문 분야 → 큰 직무명 → 소개 → `CHARACTER EDITION`을 위쪽에 모으고, 아래쪽 회색 배경판에 누끼 인물을 겹쳐 배치. 상단 로고·TEAM 번호·구분선 영역 98px을 제거해 카드를 640×782로 축소하고, 모든 내용을 98px 위로 이동. 3D 카드도 같은 비율로 낮추되 위쪽 가장자리는 고정하여 내용과 하단이 위로 올라옴. 회색 판은 (214, 256), 366×416, 인물 패널은 (340, 364), 높이 386으로 오른쪽 아래에 배치하며 판 아래로 내려옴. 얼굴·소품·발·받침대가 잘리지 않도록 투명 원본 셀 전체를 사용. 대체 화면도 같은 비율 사용
 - 원통형 곡면의 자동 회전, 마우스/터치 드래그, 키보드 방향키
 - 원본 영상에 맞추기 전의 ON&OFF 방향으로 복원: 오른쪽이 낮아지는 약 10° 기울기, 앞쪽 카드는 왼쪽에서 오른쪽으로 회전. 속도는 초당 .11 라디안이며 궤도선과 대체 카드 화면도 같은 사선 사용
 - ON/OFF 모션 스위치, 스페이스 키 재생/정지, 움직임 감소 설정 지원
+- 처음에는 MOTION ON으로 시작. OFF에서도 드래그·방향키·마우스 기울기 반응은 유지하며, 움직임이 완전히 끝나면 렌더링을 쉬고 다음 조작이나 화면 크기 변경 때 재개. 숨겨진 탭에서는 프레임 예약을 멈추고 돌아왔을 때 다시 시작
 - 모션 스위치 옆 화살표 버튼으로 자동 회전 방향 전환. 정지 상태에서도 다음 재생 방향을 선택할 수 있으며 장면을 다시 생성하지 않음
 - 하단 오른쪽은 기존 짙은 캡슐 버튼과 라임색 원 안의 대각선 화살표를 사용하고, `실시간 상담톡` 문구만 표시. 첫 메시지에 서비스 준비 중임을 알리고 이메일 문의 링크 제공. 날짜는 한국 시간으로 표시. 실제 상담 기능 연결 전까지 입력창·전송 버튼을 비활성화하고 메시지 추가·전송 처리도 제거
 - 상담톡 헤더에 `서비스 준비 중`, 하단에 운영 예정 시간 `09:00–18:00` 표시. 호출부에서 공통 Dialog의 중앙 정렬 클래스를 제거하고 화면 가장자리 여백으로 배치. 모바일 안전 영역과 화면 높이를 반영하며 본문만 스크롤. 빌드 검사에서 중앙 정렬 제거와 배포 CSS를 확인
@@ -52,8 +53,9 @@ http://localhost:5187 에 접속합니다. `start-local.cmd`를 실행해도 됩
 - 소스 저장소: https://github.com/G-bak/onoff-hero (비공개)
 - Cloudflare Worker: `onoff-hero-preview`
 - 임시 주소: https://onoff-hero-preview.ajdhfbx1836203.workers.dev
+- 최신 배포: 2026-09-10 13:38 KST, 메인 ON/OFF 문구의 마침표 제거까지 반영. 카드 상단 영역 삭제 및 높이 축소, 중앙·하단 문구 위치 교대, 검정 #333333·연두 네온 #D8FF3E·파랑 #343CFF 적용. [배포·복원 기록](DEPLOYMENT-NOTES.md)
 - 배포 명령: `npm run deploy` (빌드 후 Cloudflare에 배포)
-- Git에 올린 소스와 배포는 별도로 관리합니다. Git push만으로 자동 배포되지는 않습니다.
+- 자동 배포 준비: `main` push → `npm run ci:build` → 기존 Worker 배포. Cloudflare의 GitHub 저장소 연결은 아직 완료되지 않아 현재는 자동 배포가 활성화되지 않았습니다. [최초 연결 및 설정값](AUTO-DEPLOY.md)
 - 인증 정보, 의존성 폴더, 빌드 결과, 작업 출력물은 Git에 포함하지 않습니다.
 
 ## 주요 파일
@@ -61,9 +63,13 @@ http://localhost:5187 에 접속합니다. `start-local.cmd`를 실행해도 됩
 - `app/page.tsx`: ON&OFF 워드마크, 첫 화면 구성, 문의 링크, 모션 스위치
 - `app/components/wordmark.tsx`: 2D 회사 이름
 - `app/components/card-ribbon.tsx`: 카드 3D 곡면, 캐릭터 텍스처, 인터랙션
+- `lib/scene-frame-loop.ts`: 필요할 때만 실행하는 렌더링 예약과 움직임 마무리
 - `lib/team.ts`: 직원 이름/직무/소개와 캐릭터 매핑
 - `app/globals.css`: 색상, 타이포그래피, 반응형, 모션
-- `public/images/team-miniatures.png`: 생성한 6개 직원 미니어처
+- `public/images/team-realistic-figurines-v3-photoroom.png`: 현재 카드에 적용한 사용자 제공 최신 누끼 이미지
+- `public/images/team-realistic-figurines-photoroom.png`: 이전 누끼 이미지 보관
+- `public/images/team-realistic-figurines-v4.png`: 배경 제거 전 실사 피규어 원본 보관
+- `public/images/team-miniatures.png`: 이전 캐릭터 미니어처 원본 보관
 - `public/images/onoff-logo-new.png`: 사용자 제공 로고 원본
 - `public/images/onoff-logo.png`: 투명 여백만 정리한 헤더용 로고
 - `public/favicon-onoff-32.png`, `public/favicon-onoff-64.png`: 같은 로고의 파비콘
@@ -75,6 +81,7 @@ http://localhost:5187 에 접속합니다. `start-local.cmd`를 실행해도 됩
 ```powershell
 npx tsc --noEmit
 npm run test:loading
+npm run test:render
 npm run build
 ```
 

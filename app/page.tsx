@@ -70,7 +70,9 @@ export default function Home() {
       <Wordmark />
 
       <div className="scene-track" aria-hidden="true"/>
-      <div className="scene-index" aria-hidden="true"><span>O—O</span><span>ONE TEAM.<br/>MANY MINDS.</span></div>
+      <div className="hero-copy">
+        <p className="hero-caption">당신은 사업만 <span className="hero-caption-emphasis">ON</span><br/>복잡한 마케팅은 <span className="hero-caption-emphasis">OFF</span></p>
+      </div>
       <CardRibbon paused={paused} direction={direction} enabled={sceneStatus !== 'fallback'} onTogglePause={() => setPaused(value => !value)} onSettled={setSceneStatus} onProgress={setSceneProgress} onElapsed={setSceneElapsed} onError={handleSceneError}/>
       <nav className="section-nav" aria-label="섹션 이동">
         <ol className="section-nav-list">
@@ -85,9 +87,7 @@ export default function Home() {
       </nav>
 
       <footer className="hero-footer">
-        <div className="hero-copy">
-          <p className="hero-caption">당신은 사업만 <span className="hero-caption-emphasis">ON</span>.<br/>복잡한 마케팅은 <span className="hero-caption-emphasis">OFF</span>.</p>
-        </div>
+        <div className="scene-index"><span aria-hidden="true">O—O</span><span>ONE TEAM.<br/>MANY MINDS.</span></div>
         <div className="motion-control">
           <span id="motion-label">MOTION</span>
           <Switch className="motion-switch" checked={!paused} onCheckedChange={playing => setPaused(!playing)} aria-labelledby="motion-label"/>

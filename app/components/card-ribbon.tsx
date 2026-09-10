@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import type * as THREE from 'three';
 import { team } from '@/lib/team';
 import { sceneOrbit } from '@/lib/scene-orbit';
+import { createSceneFrameLoop, settleSceneValue } from '@/lib/scene-frame-loop';
 import { getSceneIssue, SceneLoadError, startSceneLoadingClock, type SceneIssue } from '@/lib/scene-loading';
 
 export default function CardRibbon({ paused, direction, enabled, onTogglePause, onSettled, onProgress, onElapsed, onError }: {
@@ -21,11 +22,16 @@ export default function CardRibbon({ paused, direction, enabled, onTogglePause, 
   const pausedRef = useRef(paused);
   const directionRef = useRef(direction);
   const inertiaRef = useRef(0);
+  const requestRenderRef = useRef<() => void>(() => {});
   const [ready, setReady] = useState(false);
-  useEffect(() => { pausedRef.current = paused; }, [paused]);
+  useEffect(() => {
+    pausedRef.current = paused;
+    requestRenderRef.current();
+  }, [paused]);
   useEffect(() => {
     directionRef.current = direction;
     inertiaRef.current = 0;
+    requestRenderRef.current();
   }, [direction]);
 
   useEffect(() => {
@@ -35,7 +41,7 @@ export default function CardRibbon({ paused, direction, enabled, onTogglePause, 
     if (!container || !rearContainer) return;
     let stopped = false;
     let settled = false;
-    let frame = 0;
+    let frameLoop: ReturnType<typeof createSceneFrameLoop> | undefined;
     let revealFrame = 0;
     let phase: 'assets' | 'graphics' = 'assets';
     const requests = new AbortController();
@@ -57,7 +63,8 @@ export default function CardRibbon({ paused, direction, enabled, onTogglePause, 
 
     function releaseResources() {
       requests.abort();
-      cancelAnimationFrame(frame);
+      frameLoop?.dispose();
+      requestRenderRef.current = () => {};
       cancelAnimationFrame(revealFrame);
       removeListeners.splice(0).forEach(remove => remove());
       disposables.splice(0).forEach(resource => resource.dispose());
@@ -85,7 +92,7 @@ export default function CardRibbon({ paused, direction, enabled, onTogglePause, 
     async function initialize() {
       const atlas = new Image();
       async function loadAtlas() {
-        const response = await fetch('/images/team-miniatures.png', { signal: requests.signal });
+        const response = await fetch('/images/team-realistic-figurines-v3-photoroom.png', { signal: requests.signal });
         if (!response.ok) throw new SceneLoadError('server');
         const blob = await response.blob();
         if (stopped) return;
@@ -100,8 +107,8 @@ export default function CardRibbon({ paused, direction, enabled, onTogglePause, 
         import('three').then(module => { finishLoadingUnit(); return module; }),
         loadAtlas(),
         Promise.all([
-          document.fonts.load('500 47px "Pretendard Variable"', team.map(member => `${member.role} ${member.line}`).join(' ')),
-          document.fonts.load('600 24px Inter', 'ON&OFF TEAM'),
+          document.fonts.load('500 58px "Pretendard Variable"', team.map(member => member.role).join(' ')),
+          document.fonts.load('400 19px "Pretendard Variable"', team.map(member => member.line).join(' ')),
           document.fonts.load('400 19px Inter', 'CHARACTER EDITION'),
           document.fonts.ready,
         ]).then(finishLoadingUnit),
@@ -133,59 +140,54 @@ export default function CardRibbon({ paused, direction, enabled, onTogglePause, 
       const ribbon = new Three.Group();
       tilt.add(ribbon);
 
+      // Remove the 98px header band; keep the remaining artwork at its original scale.
+      const cardTextureHeight = 782;
       function createCardTexture(member: typeof team[number]) {
         const canvas = document.createElement('canvas');
         canvas.width = 640;
-        canvas.height = 880;
+        canvas.height = cardTextureHeight;
         const ctx = canvas.getContext('2d')!;
         const paper = '#edf0f2';
-        const ink = '#1d2b34';
+        const ink = '#333333';
         const muted = '#657581';
-        const accent = '#3854ed';
+        const accent = '#343CFF';
         ctx.beginPath();
-        ctx.roundRect(0, 0, 640, 880, 13);
+        ctx.roundRect(0, 0, 640, cardTextureHeight, 13);
         ctx.clip();
         ctx.fillStyle = paper;
-        ctx.fillRect(0, 0, 640, 880);
+        ctx.fillRect(0, 0, 640, cardTextureHeight);
         ctx.textBaseline = 'top';
-        ctx.fillStyle = ink;
-        ctx.font = '600 24px Inter, Arial';
-        ctx.fillText('ON&OFF', 30, 29);
-        ctx.font = '400 14px Inter, Arial';
-        ctx.textAlign = 'right';
-        ctx.fillText(`TEAM / 0${member.visual + 1}`, 608, 34);
-        ctx.textAlign = 'left';
-        ctx.strokeStyle = '#19232630';
-        ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.moveTo(30, 78); ctx.lineTo(610, 78); ctx.stroke();
         ctx.fillStyle = accent;
-        ctx.font = '400 15px Inter, Arial';
-        ctx.fillText(member.category, 30, 108);
+        ctx.font = '400 22px Inter, Arial';
+        ctx.fillText(member.category, 30, 30);
         ctx.fillStyle = ink;
-        ctx.font = '500 47px Inter, "Pretendard Variable", "Malgun Gothic", sans-serif';
-        ctx.fillText(member.displayName ?? member.role, 28, 141);
+        ctx.font = '500 58px Inter, "Pretendard Variable", "Malgun Gothic", sans-serif';
+        ctx.fillText(member.displayName ?? member.role, 28, 74);
+        ctx.font = '400 19px Inter, "Pretendard Variable", "Malgun Gothic", sans-serif';
+        ctx.fillText(member.line, 30, 156);
+        ctx.fillStyle = muted;
+        ctx.font = '400 12px Inter, Arial';
+        ctx.fillText('CHARACTER EDITION', 30, 200);
+
+        // The backdrop bends with the card; the cutout overlaps its lower edge.
+        ctx.fillStyle = '#c5cbd1';
+        ctx.beginPath();
+        ctx.roundRect(214, 256, 366, 416, 26);
+        ctx.fill();
         const sourceWidth = atlas.naturalWidth / 3;
         const sourceHeight = atlas.naturalHeight / 2;
         const sourceX = member.visual % 3 * sourceWidth;
         const sourceY = Math.floor(member.visual / 3) * sourceHeight;
-        // Contain the whole cell so the miniature's head, props and plinth stay visible.
-        const portraitHeight = 546;
+        // Match the supplied layout: a small figure at the lower right.
+        // Draw the full transparent cell, including shoes, props and plinth.
+        const portraitHeight = 386;
         const portraitWidth = portraitHeight * sourceWidth / sourceHeight;
-        ctx.save();
-        ctx.beginPath();
-        ctx.roundRect((640 - portraitWidth) / 2, 207, portraitWidth, portraitHeight, 8);
-        ctx.clip();
-        ctx.drawImage(atlas, sourceX, sourceY, sourceWidth, sourceHeight, (640 - portraitWidth) / 2, 207, portraitWidth, portraitHeight);
-        ctx.restore();
-        ctx.fillStyle = ink;
-        ctx.font = '400 19px Inter, "Pretendard Variable", "Malgun Gothic", sans-serif';
-        ctx.fillText(member.line, 30, 778);
-        ctx.fillStyle = muted;
-        ctx.font = '400 12px Inter, Arial';
-        ctx.fillText('CHARACTER EDITION', 30, 834);
+        const portraitLeft = 340;
+        const portraitTop = 364;
+        ctx.drawImage(atlas, sourceX, sourceY, sourceWidth, sourceHeight, portraitLeft, portraitTop, portraitWidth, portraitHeight);
         ctx.strokeStyle = ink;
         ctx.lineWidth = 1.5;
-        ctx.beginPath(); ctx.moveTo(586, 844); ctx.lineTo(602, 828); ctx.moveTo(587, 828); ctx.lineTo(602, 828); ctx.lineTo(602, 843); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(586, 746); ctx.lineTo(602, 730); ctx.moveTo(587, 730); ctx.lineTo(602, 730); ctx.lineTo(602, 745); ctx.stroke();
         const texture = new Three.CanvasTexture(canvas);
         texture.colorSpace = Three.SRGBColorSpace;
         texture.anisotropy = Math.min(renderer!.capabilities.getMaxAnisotropy(), 8);
@@ -194,7 +196,9 @@ export default function CardRibbon({ paused, direction, enabled, onTogglePause, 
       }
 
       const radius = sceneOrbit.radius;
-      const cardHeight = 2.96;
+      const cardHeight = 2.96 * cardTextureHeight / 880;
+      // Anchor the top edge so the content and bottom edge rise as the row collapses.
+      const cardOffsetY = (2.96 - cardHeight) / 2;
       const arcWidth = Math.PI * 2 / team.length - .19;
       team.forEach((member, index) => {
         const geometry = new Three.PlaneGeometry(1, cardHeight, 40, 8);
@@ -203,7 +207,7 @@ export default function CardRibbon({ paused, direction, enabled, onTogglePause, 
         const centerAngle = index * Math.PI * 2 / team.length;
         for (let i = 0; i < position.count; i++) {
           const angle = centerAngle + (uv.getX(i) - .5) * arcWidth;
-          position.setXYZ(i, Math.sin(angle) * radius, position.getY(i), Math.cos(angle) * radius);
+          position.setXYZ(i, Math.sin(angle) * radius, position.getY(i) + cardOffsetY, Math.cos(angle) * radius);
         }
         position.needsUpdate = true;
         geometry.computeVertexNormals();
@@ -224,6 +228,34 @@ export default function CardRibbon({ paused, direction, enabled, onTogglePause, 
       let pointerX = 0;
       let pointerY = 0;
       const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+      const draw = (dt: number) => {
+        if (stopped || !renderer || !rearRenderer) return false;
+        const playing = !pausedRef.current && !reducedMotion.matches;
+        if (!pointerDown && playing) {
+          targetAngle += dt * sceneOrbit.angularSpeed * directionRef.current;
+          targetAngle += inertiaRef.current;
+          inertiaRef.current *= Math.exp(-dt * 5);
+        }
+        angle = settleSceneValue(angle, targetAngle, 1 - Math.exp(-dt * 9));
+        ribbon.rotation.y = angle;
+        let tiltMoving = false;
+        if (!reducedMotion.matches) {
+          const targetX = restingTilt.x + pointerY * .09;
+          const targetZ = restingTilt.z - pointerX * .035;
+          tilt.rotation.x = settleSceneValue(tilt.rotation.x, targetX, .035);
+          tilt.rotation.z = settleSceneValue(tilt.rotation.z, targetZ, .035);
+          tiltMoving = tilt.rotation.x !== targetX || tilt.rotation.z !== targetZ;
+        }
+        rearRenderer.render(scene, camera);
+        renderer.render(scene, camera);
+        // Manual input still eases to its target while automatic rotation is OFF.
+        return (playing && !pointerDown) || angle !== targetAngle || tiltMoving;
+      };
+      frameLoop = createSceneFrameLoop(draw, { canRun: () => !document.hidden });
+      const requestRender = frameLoop.invalidate;
+      requestRenderRef.current = requestRender;
+
       const resize = () => {
         if (!renderer || !rearRenderer) return;
         const { width, height } = container.getBoundingClientRect();
@@ -232,6 +264,7 @@ export default function CardRibbon({ paused, direction, enabled, onTogglePause, 
         camera.aspect = width / height;
         camera.position.z = window.innerWidth <= 700 ? sceneOrbit.mobileCameraDistance : sceneOrbit.cameraDistance;
         camera.updateProjectionMatrix();
+        requestRender();
       };
       const observer = new ResizeObserver(resize);
       observer.observe(container);
@@ -245,6 +278,7 @@ export default function CardRibbon({ paused, direction, enabled, onTogglePause, 
         inertiaRef.current = 0;
         container.classList.add('is-dragging');
         container.setPointerCapture(event.pointerId);
+        requestRender();
       };
       const onMove = (event: PointerEvent) => {
         const bounds = container.getBoundingClientRect();
@@ -255,57 +289,49 @@ export default function CardRibbon({ paused, direction, enabled, onTogglePause, 
           targetAngle += inertiaRef.current;
           lastX = event.clientX;
         }
+        requestRender();
       };
-      const onUp = () => { pointerDown = false; container.classList.remove('is-dragging'); };
-      const onLeave = () => { pointerX = 0; pointerY = 0; };
+      const onUp = () => { pointerDown = false; container.classList.remove('is-dragging'); requestRender(); };
+      const onLeave = () => { pointerX = 0; pointerY = 0; requestRender(); };
       const onKey = (event: KeyboardEvent) => {
         if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
           event.preventDefault();
           targetAngle += event.key === 'ArrowLeft' ? -.38 : .38;
+          requestRender();
         }
       };
       container.addEventListener('pointerdown', onDown);
       container.addEventListener('pointermove', onMove);
       container.addEventListener('pointerup', onUp);
       container.addEventListener('pointercancel', onUp);
+      container.addEventListener('lostpointercapture', onUp);
       container.addEventListener('pointerleave', onLeave);
       container.addEventListener('keydown', onKey);
+      const onVisibilityChange = () => {
+        if (document.hidden) frameLoop?.suspend();
+        else requestRender();
+      };
+      document.addEventListener('visibilitychange', onVisibilityChange);
+      reducedMotion.addEventListener('change', requestRender);
+      renderer.domElement.addEventListener('webglcontextrestored', requestRender);
+      rearRenderer.domElement.addEventListener('webglcontextrestored', requestRender);
       removeListeners.push(() => {
         container.removeEventListener('pointerdown', onDown);
         container.removeEventListener('pointermove', onMove);
         container.removeEventListener('pointerup', onUp);
         container.removeEventListener('pointercancel', onUp);
+        container.removeEventListener('lostpointercapture', onUp);
         container.removeEventListener('pointerleave', onLeave);
         container.removeEventListener('keydown', onKey);
+        document.removeEventListener('visibilitychange', onVisibilityChange);
+        reducedMotion.removeEventListener('change', requestRender);
+        renderer?.domElement.removeEventListener('webglcontextrestored', requestRender);
+        rearRenderer?.domElement.removeEventListener('webglcontextrestored', requestRender);
       });
 
-      let lastTime = performance.now();
-      const animate = (time: number) => {
-        if (stopped || !renderer || !rearRenderer) return;
-        const dt = Math.min((time - lastTime) / 1000, .05);
-        lastTime = time;
-        if (!document.hidden) {
-          const playing = !pausedRef.current && !reducedMotion.matches;
-          if (!pointerDown && playing) {
-            targetAngle += dt * sceneOrbit.angularSpeed * directionRef.current;
-            targetAngle += inertiaRef.current;
-            inertiaRef.current *= Math.exp(-dt * 5);
-          }
-          angle += (targetAngle - angle) * (1 - Math.exp(-dt * 9));
-          ribbon.rotation.y = angle;
-          if (!reducedMotion.matches) {
-            tilt.rotation.x += (restingTilt.x + pointerY * .09 - tilt.rotation.x) * .035;
-            tilt.rotation.z += (restingTilt.z - pointerX * .035 - tilt.rotation.z) * .035;
-          }
-          rearRenderer.render(scene, camera);
-          renderer.render(scene, camera);
-        }
-        frame = requestAnimationFrame(animate);
-      };
-      rearRenderer.render(scene, camera);
-      renderer.render(scene, camera);
+      draw(0);
       setReady(true);
-      frame = requestAnimationFrame(animate);
+      requestRender();
       // Let both canvases paint before revealing the page, rather than just
       // waiting for asset downloads or a fixed presentation delay.
       revealFrame = requestAnimationFrame(() => {
@@ -332,7 +358,17 @@ export default function CardRibbon({ paused, direction, enabled, onTogglePause, 
     <div ref={rearContainerRef} className={`ribbon-stage ribbon-back${ready ? ' is-ready' : ''}`} aria-hidden="true"/>
     <div ref={containerRef} className={`ribbon-stage${ready ? ' is-ready' : ''}`} tabIndex={0} role="group" aria-label="ON&OFF의 회전하는 미니어처 팀 캐릭터 카드. 드래그 또는 좌우 방향키로 회전하고 스페이스 키로 일시정지할 수 있습니다." onKeyDown={event => { if (event.key === ' ') { event.preventDefault(); onTogglePause(); } }}>
       <div className="ribbon-fallback" aria-hidden="true">
-        {team.slice(0, 3).map((member, i) => <div className="fallback-card" key={i}><span className="fallback-meta"><span>ON&OFF</span><span>0{i + 1}</span></span><span>{member.displayName ?? member.role}</span><span className="fallback-visual"/></div>)}
+        {team.slice(0, 3).map(member => (
+          <div className="fallback-card" key={member.visual}>
+            <span className="fallback-category">{member.category}</span>
+            <span className="fallback-role">{member.displayName ?? member.role}</span>
+            <span className="fallback-description">{member.line}</span>
+            <span className="fallback-edition">CHARACTER EDITION</span>
+            <span className="fallback-backdrop"/>
+            <span className="fallback-visual" style={{ backgroundPosition: `${member.visual % 3 * 50}% ${Math.floor(member.visual / 3) * 100}%` }}/>
+            <span className="fallback-arrow">↗</span>
+          </div>
+        ))}
       </div>
       <p className="sr-only">전략 기획, 크리에이티브 디렉션, 디자인, 영상 제작, 개발, 미디어 기획을 표현하는 여섯 미니어처 캐릭터입니다. 실제 직원 이름과 외모를 반영하기 전의 직무별 캐릭터 구성입니다.</p>
     </div>
