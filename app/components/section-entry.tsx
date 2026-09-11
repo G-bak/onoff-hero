@@ -39,6 +39,10 @@ export default function SectionEntry({ id, front, children, onCovered, onSection
       const state = getSectionEntry(-turn.getBoundingClientRect().top, viewportHeight, height, width, reduced.matches);
       turn.classList.toggle('is-turning', state.turning);
       turn.classList.toggle('is-turned', state.covered);
+      // Replay the heading accents only after a complete return to HOME.
+      // Small reverse scrolls near the turn endpoint must not erase them.
+      if (state.covered) turn.classList.add('is-why-revealed');
+      else if (state.progress === 0) turn.classList.remove('is-why-revealed');
       sheet.style.transform = !reduced.matches && state.progress > 0
         ? `translate3d(${state.x}px, ${state.y}px, 0) rotate(${state.angle}deg)` : '';
       back.inert = !reduced.matches && !state.covered;
@@ -97,7 +101,7 @@ export default function SectionEntry({ id, front, children, onCovered, onSection
       reduced.removeEventListener('change', schedule);
       document.removeEventListener('visibilitychange', visibilityChanged);
       sheet.removeEventListener('focusin', revealFocusedControl);
-      turn.classList.remove('is-enhanced', 'is-turning', 'is-turned');
+      turn.classList.remove('is-enhanced', 'is-turning', 'is-turned', 'is-why-revealed');
       sheet.style.transform = '';
       back.inert = false;
     };
