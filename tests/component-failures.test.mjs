@@ -122,20 +122,20 @@ await test('TOGETHER prompt waits for visible ready content, ends attention and 
   try {
     assert.equal(hasNote(render('home', false)), false); assert.equal(timers.size, 0);
     activity.visible = true; activity.motion = true;
-    render('film', false); assert.equal(timers.size, 0, 'Unready film never starts the prompt timer');
-    render('film', true); advance(2100); assert.equal(hasNote(render('film', true)), false);
-    activity.visible = false; render('film', true); advance(3000); assert.equal(timers.size, 0);
-    assert.equal(hasNote(render('film', true)), false, 'Hidden time does not complete the viewing interval');
-    activity.visible = true; render('film', true); advance(2200);
-    let tree = render('film', true); assert.equal(hasNote(tree), true); assert.equal(tree.props['data-attention'], true);
-    assert.equal(nodes(tree).find(node => node.type === 'PageLink').props.href, '/inquiry?from=film');
-    advance(4400); tree = render('film', true); assert.equal(tree.props['data-attention'], undefined); assert.equal(hasNote(tree), true);
+    render('together', false); assert.equal(timers.size, 0, 'Unready film never starts the prompt timer');
+    render('together', true); advance(2100); assert.equal(hasNote(render('together', true)), false);
+    activity.visible = false; render('together', true); advance(3000); assert.equal(timers.size, 0);
+    assert.equal(hasNote(render('together', true)), false, 'Hidden time does not complete the viewing interval');
+    activity.visible = true; render('together', true); advance(2200);
+    let tree = render('together', true); assert.equal(hasNote(tree), true); assert.equal(tree.props['data-attention'], true);
+    assert.equal(nodes(tree).find(node => node.type === 'PageLink').props.href, '/inquiry?from=together');
+    advance(4400); tree = render('together', true); assert.equal(tree.props['data-attention'], undefined); assert.equal(hasNote(tree), true);
     activity.visible = false; assert.equal(hasNote(render('services', true)), false);
-    activity.visible = true; tree = render('film', true); assert.equal(tree.props['data-attention'], undefined);
+    activity.visible = true; tree = render('together', true); assert.equal(tree.props['data-attention'], undefined);
     const close = nodes(tree).find(node => node.props?.['aria-label'] === '프로젝트 문의 안내 닫기');
     close.props.onClick({ currentTarget: { closest: () => ({ querySelector: () => ({ focus: () => focus++ }) }) } });
-    assert.equal(hasNote(render('film', true)), false); assert.equal(focus, 1); advance(5000);
-    assert.equal(hasNote(render('film', true)), false); assert.equal(timers.size, 0);
+    assert.equal(hasNote(render('together', true)), false); assert.equal(focus, 1); advance(5000);
+    assert.equal(hasNote(render('together', true)), false); assert.equal(timers.size, 0);
   } finally {
     harness.dispose();
     for (const [name, descriptor] of originals) { if (descriptor) Object.defineProperty(globalThis, name, descriptor); else delete globalThis[name]; }

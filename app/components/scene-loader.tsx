@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { getLoadingOrbitPoints, sceneOrbit } from '@/lib/scene-orbit';
 import { formatSceneWait, getInitialSceneTiming, sceneLoadingTiming, type SceneIssue, type SceneStatus } from '@/lib/scene-loading';
-import { siteSections } from '@/lib/site-sections';
+import { resolveSiteSection } from '@/lib/site-sections';
 import { shouldPlayHomeOpening } from '@/lib/home-opening';
 import HeroOpening, { type OpeningResult } from './hero-opening';
 
@@ -127,8 +127,8 @@ export default function SceneLoader({ status, progress, elapsed, issue, onContin
       if (page) page.inert = previousInert;
       // Initial fragment navigation may run before the loader releases the
       // scroll lock. Use the untransformed section anchor once it is released.
-      const section = siteSections.find(item => `#${item.id}` === window.location.hash);
-      if (section) document.getElementById(section.id)?.scrollIntoView({ behavior: 'instant', block: 'start' });
+      const section = resolveSiteSection(window.location.hash.slice(1));
+      if (section) document.getElementById(section)?.scrollIntoView({ behavior: 'instant', block: 'start' });
       if (focusAfterSkip.current && (!location.hash || location.hash === '#home')) page?.focus({ preventScroll: true });
     };
   }, [visible]);

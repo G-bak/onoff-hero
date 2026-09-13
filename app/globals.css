@@ -271,7 +271,7 @@ a:focus-visible, button:focus-visible, .ribbon-stage:focus-visible { outline: 2p
 /* Match the hero's viewport-height layout. Type and illustrations retain
    their own proportions without fixing the whole section's aspect ratio. */
 .page-turn { --page-front-height: var(--hero-height); --page-scroll-height: var(--page-front-height); position: relative; }
-.section-entry { outline: none; }
+.section-entry { position: relative; outline: none; }
 .page-turn-runway { display: none; }
 /* The back leaf pins from the beginning, then releases into normal scrolling. */
 .page-turn.is-enhanced { display: grid; grid-template-columns: minmax(0, 1fr); }

@@ -1,7 +1,15 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { getSectionEntry, getSectionScrollLength } from '../lib/section-entry.ts';
-import { getSiteNavigation } from '../lib/site-sections.ts';
+import { getSiteNavigation, resolveSiteSection, siteSections } from '../lib/site-sections.ts';
+
+await test('section URLs resolve the old final-page name without accepting arbitrary return targets', () => {
+  for (const section of siteSections) assert.equal(resolveSiteSection(section.id), section.id);
+  assert.equal(resolveSiteSection('film'), 'together');
+  for (const value of [undefined, null, '', 'unknown', '#film', '//example.com', 'https://example.com', ['film']]) {
+    assert.equal(resolveSiteSection(value), undefined);
+  }
+});
 
 await test('front poster starts flat and leaves fully at the unchanged WHY anchor', () => {
   const initial = getSectionEntry(0, 900, 900, 1440);
@@ -132,7 +140,7 @@ await test('shortening a turn preserves tall-page reading and the reduced-motion
 await test('seven-page navigation follows every continuous turn and restores on reverse scroll', () => {
   const front = { progress: 0, backActive: false };
   const back = { progress: 1, backActive: true };
-  const ids = ['home', 'why', 'design', 'web', 'card', 'services', 'film'];
+  const ids = ['home', 'why', 'design', 'web', 'card', 'services', 'together'];
   for (const index of [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1, 0]) {
     const transitions = Array.from({ length: 6 }, (_, i) => i < index ? back : front);
     assert.deepEqual(getSiteNavigation(transitions), { section: ids[index], progress: index / 6 });

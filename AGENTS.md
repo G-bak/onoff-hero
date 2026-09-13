@@ -1,5 +1,9 @@
 # ON&OFF 프로젝트 작업 지침
 
+## 2026-09-13 TOGETHER 주소 정리
+
+최신 요청으로 마지막 섹션의 공개 주소·내부 섹션 ID·문의 복귀 값을 `together`로 통일했다. 기본 링크는 `/#together`, 문의는 `/inquiry?from=together`다. 이전 `#film`은 실제 새 앵커와 같은 위치의 SSR 별칭으로 연결하며 JavaScript 사용 시 기존 history state를 보존한 `replaceState`로 주소만 정리한다. `from=film`도 허용 목록에서 `together`로 해석한다. 뒤로가기·직접 해시·JS 미사용을 위해 이 호환 처리를 유지한다. `BrandFilm`·영상 파일·CSS 클래스 이름은 영상 구현을 설명하는 명칭이므로 유지한다. [7페이지 기록](docs/pages/PAGE7-NOTES.md)이 기준이다.
+
 ## 2026-09-13 최종 전체 검사
 
 [최종 검사 기록](docs/reviews/FINAL-AUDIT-2026-09-13.md)이 이번 마무리 점검의 기준이다. 문의 ID는 `lib/inquiry-request-id.ts`에서 네이티브 UUID 또는 안전한 난수 바이트로 생성한다. ID 생성과 전송 준비를 오류 처리 안에 두고 브라우저 전송 제한은 `AbortController`와 15초 타이머를 사용한다. 전송 시작 전 실패는 작성 화면을 다시 열 수 있게 하며, 실제 요청 후 결과 불명은 기존 재전송 잠금·이메일 확인을 유지한다. 접수 ID의 Slack 표시·서버 중복 방지 정책은 유지한다. 로컬 전용이라는 과거 문장은 해당 기록 시점의 이력이며 이후 사용자 승인으로 GitHub 반영·운영 배포를 진행했다. 검증 출력은 `outputs/qa/2026-09-13/final-audit/`에 보관한다.
@@ -84,9 +88,9 @@ TOGETHER가 보이고 실제 영상 프레임 또는 정적 대체 화면이 준
 
 최신 크기 조정: 7페이지 `FROM START / TO RESULTS.` 제목은 기존 반응형 크기의 92%다. `--film-title-size`에 기존 화면별 기준값을 유지하고 공통 배율을 적용한다. 등장·발광·영상 연출은 유지한다. 고정 `프로젝트 문의` 링크의 글자는 16px이며 기존 작은 화면의 아이콘 전용 표시 조건은 보존한다.
 
-최신 메뉴명: 7페이지 사이드 메뉴는 `TOGETHER`다. 사용자가 FILM이라는 목적 구분을 원하지 않아 마무리 의미로 변경했다. 주소와 내부 ID는 `film`을 유지하며, 아래 FILM 표기는 구현 이력이다. 접근성 설명은 ‘온앤오프 마무리 페이지 보기’다.
+최신 메뉴명: 7페이지 사이드 메뉴는 `TOGETHER`다. 사용자가 FILM이라는 목적 구분을 원하지 않아 마무리 의미로 변경했다. 주소와 내부 ID도 최신 요청으로 `together`이며, 아래 FILM 표기는 구현 이력이다. 접근성 설명은 ‘온앤오프 마무리 페이지 보기’다.
 
-현재 홈페이지 메뉴는 HOME → SYSTEM → DESIGN → WEB → MARKETING → SERVICES → TOGETHER다. 마지막 내부 ID는 `film`이다. 공통 메뉴 7개, 전환 6개이며 `lib/site-sections.ts` 목록 길이로 계산한다. 이전 페이지 수 표기는 작업 이력이다. FILM은 사용자가 지정한 이웃 프로젝트 `onoff-website-redesign`의 배경 영상 섹션을 분석해 이 사이트의 공통 전환·재생 정책에 맞춘 7페이지다. 이웃 프로젝트는 수정하지 않는다. 원본 5초 영상과 포스터를 보존하고, `FROM START / TO RESULTS.` 및 한국어 문구를 유지한다. 핵심 `RESULTS.`는 사용자 요청에 따라 라임 그라데이션·라임/파랑 발광·한 번 지나가는 빛을 사용한다. 제목은 등장 후 고정한다. 첫 실제 영상 프레임 전에는 준비 UI를 표시하며 자동재생 차단·네트워크 오류·움직임 감소·MOTION OFF·JS 미사용을 처리한다. [PAGE7-NOTES.md](docs/pages/PAGE7-NOTES.md), [영상 출처](design/brand-film/README.md)가 기준이다. 로컬만 반영했다.
+현재 홈페이지 메뉴는 HOME → SYSTEM → DESIGN → WEB → MARKETING → SERVICES → TOGETHER다. 마지막 내부 ID는 `together`다. 공통 메뉴 7개, 전환 6개이며 `lib/site-sections.ts` 목록 길이로 계산한다. 이전 페이지 수 표기는 작업 이력이다. FILM은 사용자가 지정한 이웃 프로젝트 `onoff-website-redesign`의 배경 영상 섹션을 분석해 이 사이트의 공통 전환·재생 정책에 맞춘 7페이지다. 이웃 프로젝트는 수정하지 않는다. 원본 5초 영상과 포스터를 보존하고, `FROM START / TO RESULTS.` 및 한국어 문구를 유지한다. 핵심 `RESULTS.`는 사용자 요청에 따라 라임 그라데이션·라임/파랑 발광·한 번 지나가는 빛을 사용한다. 제목은 등장 후 고정한다. 첫 실제 영상 프레임 전에는 준비 UI를 표시하며 자동재생 차단·네트워크 오류·움직임 감소·MOTION OFF·JS 미사용을 처리한다. [PAGE7-NOTES.md](docs/pages/PAGE7-NOTES.md), [영상 출처](design/brand-film/README.md)가 기준이다. 로컬만 반영했다.
 
 최신 SERVICES 진입 수정: 이전 MARKETING 면이 넘어가는 도중부터 사진·문구가 등장한다. `useSceneActivity`의 기존 `duringTransition` 옵션을 장식 미디어에 사용하되 링크·버튼의 `inert`는 공통 전환에서 유지한다. 글꼴과 실제 이미지 디코딩 전에는 전용 준비 UI를 표시한다. 임의 최소 지연은 없으며 12초 지연 또는 실패 시 본문과 이미지 재시도를 제공한다. 호버는 승인된 0.2초 교차 페이드를 유지하고 큰 펼침은 첫 등장에서만 사용한다. 새 WebGL 장면을 추가한 것이 아니라 기존 CSS 입체 연출의 준비 상태를 일관되게 처리한다. [PAGE6-NOTES.md](docs/pages/PAGE6-NOTES.md)의 최신 기록을 따른다.
 

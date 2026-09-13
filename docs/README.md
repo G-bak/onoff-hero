@@ -12,9 +12,9 @@
 | 04 WEB | `web` | [영상·재생](pages/PAGE4-NOTES.md), [인물 v5](../design/people-motion/v5/README.md) |
 | 05 MARKETING | `card` | [마케팅 페이지](pages/PAGE5-NOTES.md), [채널 캠페인 v3](../design/marketing/v3/README.md) |
 | 06 SERVICES | `services` | [목록·진입·모션](pages/PAGE6-NOTES.md) |
-| 07 TOGETHER | `film` | [마무리 영상](pages/PAGE7-NOTES.md), [프로젝트 문의 안내·검증](reviews/OPENING-AND-INQUIRY-2026-09-13.md), [원본 출처](../design/brand-film/README.md) |
+| 07 TOGETHER | `together` | [마무리 영상·주소 정리](pages/PAGE7-NOTES.md), [프로젝트 문의 안내·검증](reviews/OPENING-AND-INQUIRY-2026-09-13.md), [원본 출처](../design/brand-film/README.md) |
 
-메뉴·진행률은 `lib/site-sections.ts`의 7개 항목을 기준으로 하며 전환은 6개다. TOGETHER는 메뉴명이고 내부 `film`은 주소 호환성을 위해 유지한다.
+메뉴·진행률은 `lib/site-sections.ts`의 7개 항목을 기준으로 하며 전환은 6개다. TOGETHER의 현재 주소·내부 ID는 `together`다. 이전 `#film`·`from=film`은 호환 입력으로만 받아 새 위치·복귀 링크로 연결한다.
 
 서비스 요약·메타데이터는 `lib/services.ts`, 기획·디자인·마케팅·운영 상세는 `lib/service-details.ts`, 웹 상세는 `lib/web-service.ts`가 담당한다. [네 서비스 상세](pages/SERVICE-DETAILS-NOTES.md)와 [웹 상세](pages/WEB-SERVICE-NOTES.md)가 초기 PAGE6 상세 시안보다 우선한다. 견적·계약 조건은 상담 후 확인한다.
 

@@ -15,7 +15,7 @@ export default function SiteControls({ currentSection, paused, filmReady }: { cu
   const [promptVisible, setPromptVisible] = useState(false);
   const [dismissed, setDismissed] = useState(false);
   const [attention, setAttention] = useState(false);
-  const { visible, motion } = useSceneActivity(host, { active: currentSection === 'film', paused, covered: false });
+  const { visible, motion } = useSceneActivity(host, { active: currentSection === 'together', paused, covered: false });
   useEffect(() => {
     if (!visible || !filmReady || dismissed || prompted.current || promptedDocuments.has(document)) return;
     const timer = window.setTimeout(() => {
@@ -28,7 +28,7 @@ export default function SiteControls({ currentSection, paused, filmReady }: { cu
     const timer = window.setTimeout(() => setAttention(false), motion ? 4400 : 0);
     return () => window.clearTimeout(timer);
   }, [attention, motion]);
-  const nudge = currentSection === 'film' && promptVisible && !dismissed;
+  const nudge = currentSection === 'together' && promptVisible && !dismissed;
   return (
     <div className="site-controls" ref={host} data-section={currentSection} data-inquiry-nudge={nudge || undefined} data-attention={nudge && attention || undefined} data-motion={motion}>
       <nav className="section-nav" aria-label="섹션 이동" style={{ '--section-count': sections.length } as CSSProperties}>

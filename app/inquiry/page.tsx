@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import ProjectInquiry from '@/app/components/project-inquiry';
 import { getService } from '@/lib/services';
-import { siteSections } from '@/lib/site-sections';
+import { resolveSiteSection } from '@/lib/site-sections';
 
 export const metadata: Metadata = {
   title: '프로젝트 문의 — ON&OFF',
@@ -11,6 +11,6 @@ export const metadata: Metadata = {
 export default async function InquiryPage({ searchParams }: { searchParams: Promise<{ service?: string; from?: string }> }) {
   const params = await searchParams;
   const service = getService(params.service ?? '');
-  const from = siteSections.find(section => section.id === params.from)?.id ?? 'home';
+  const from = resolveSiteSection(params.from) ?? 'home';
   return <ProjectInquiry key={service?.slug ?? 'all'} initialService={service?.slug} returnTo={from}/>;
 }

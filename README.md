@@ -2,7 +2,7 @@
 
 브랜드 기획부터 디자인·웹사이트·마케팅·운영까지 소개하는 사이트다. React·TypeScript, Vinext·Vite, Tailwind CSS, Three.js와 Cloudflare Worker 구성을 사용한다.
 
-현재 홈페이지는 **HOME → SYSTEM → DESIGN → WEB → MARKETING → SERVICES → TOGETHER**의 7개 섹션과 6개 면 전환이다. 마지막 메뉴명은 TOGETHER, 내부 주소 ID는 `film`이다. 다섯 서비스 상세와 프로젝트 문의 페이지를 제공한다. 자세한 현재 기준은 [문서 색인](docs/README.md)에 있다.
+현재 홈페이지는 **HOME → SYSTEM → DESIGN → WEB → MARKETING → SERVICES → TOGETHER**의 7개 섹션과 6개 면 전환이다. 마지막 메뉴명과 주소는 TOGETHER·`/#together`로 맞췄으며 기존 `/#film`은 같은 위치로 연결한다. 다섯 서비스 상세와 프로젝트 문의 페이지를 제공한다. 자세한 현재 기준은 [문서 색인](docs/README.md)에 있다.
 
 ## 로컬 실행
 

@@ -221,7 +221,7 @@ export default function Home() {
         <SectionEntry id="web" onCovered={setDesignCovered} onNavigation={handleWebNavigation} front={<DesignEditorial active={designVisible} paused={paused} covered={designCovered}/> }>
           <SectionEntry id="card" scrollRatio={0.8} onCovered={setWebCovered} onNavigation={handleCardNavigation} front={<WebSection active={webVisible} paused={paused} covered={webCovered}/>}>
             <SectionEntry id="services" scrollRatio={0.8} onCovered={setCardCovered} onNavigation={handleServicesNavigation} front={<CardShowcase active={cardVisible} paused={paused} covered={cardCovered}/>}>
-              <SectionEntry id="film" scrollRatio={0.8} onNavigation={handleFilmNavigation} front={<ServicesSection active={servicesVisible} paused={paused}/>}>
+              <SectionEntry id="together" legacyId="film" scrollRatio={0.8} onNavigation={handleFilmNavigation} front={<ServicesSection active={servicesVisible} paused={paused}/>}>
                 <BrandFilm active={filmVisible} paused={paused} onReadyChange={setFilmReady}/>
               </SectionEntry>
             </SectionEntry>

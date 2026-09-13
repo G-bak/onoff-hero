@@ -5,11 +5,17 @@ export const siteSections = [
   { id: 'web', number: '04', label: 'WEB', description: '웹 서비스 보기' },
   { id: 'card', number: '05', label: 'MARKETING', description: '마케팅 콘텐츠 보기' },
   { id: 'services', number: '06', label: 'SERVICES', description: '서비스별 상세 안내 보기' },
-  { id: 'film', number: '07', label: 'TOGETHER', description: '온앤오프 마무리 페이지 보기' },
+  { id: 'together', number: '07', label: 'TOGETHER', description: '온앤오프 마무리 페이지 보기' },
 ] as const;
 
 export type SiteSection = typeof siteSections[number]['id'];
 export type SectionTransition = { progress: number; backActive: boolean };
+
+// Previously shared URLs and inquiry return links used the old menu name.
+export function resolveSiteSection(value: unknown): SiteSection | undefined {
+  const id = value === 'film' ? 'together' : value;
+  return siteSections.find(section => section.id === id)?.id;
+}
 
 // Later transitions must not move the indicator before their front is reached.
 export function getSiteNavigation(transitions: readonly SectionTransition[]) {

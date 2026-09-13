@@ -4,8 +4,9 @@ import { useLayoutEffect, useRef, type ReactNode } from 'react';
 import { getSectionEntry, getSectionScrollLength } from '@/lib/section-entry';
 import type { SectionTransition } from '@/lib/site-sections';
 
-export default function SectionEntry({ id, front, children, onCovered, onNavigation, scrollRatio = 1 }: {
+export default function SectionEntry({ id, legacyId, front, children, onCovered, onNavigation, scrollRatio = 1 }: {
   id: string;
+  legacyId?: string;
   front: ReactNode;
   children: ReactNode;
   onCovered?: (covered: boolean) => void;
@@ -133,13 +134,28 @@ export default function SectionEntry({ id, front, children, onCovered, onNavigat
     };
   }, [onCovered, onNavigation, scrollRatio]);
 
+  useLayoutEffect(() => {
+    if (!legacyId) return;
+    function normalizeHash() {
+      if (window.location.hash !== `#${legacyId}`) return;
+      // Keep the router's history state and saved scroll; the colocated alias
+      // handles native fragment scrolling, including without JavaScript.
+      window.history.replaceState(window.history.state, '', `${window.location.pathname}${window.location.search}#${id}`);
+    }
+    normalizeHash();
+    window.addEventListener('hashchange', normalizeHash);
+    return () => window.removeEventListener('hashchange', normalizeHash);
+  }, [id, legacyId]);
+
   return <div className="page-turn" data-next-section={id} data-scroll-ratio={scrollRatio} ref={turnRef}>
     <div className="page-turn-front-track">
       <div className="page-turn-front">
         <div className="page-turn-sheet" ref={sheetRef}>{front}</div>
       </div>
     </div>
-    <div className="section-entry" id={id} ref={anchorRef} tabIndex={-1}/>
+    <div className="section-entry" id={id} ref={anchorRef} tabIndex={-1}>
+      {legacyId && <span id={legacyId} aria-hidden="true" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}/>}
+    </div>
     <div className="page-turn-back-track">
       <div className="section-surface" ref={backRef}>{children}</div>
       <div className="page-turn-runway" aria-hidden="true"/>

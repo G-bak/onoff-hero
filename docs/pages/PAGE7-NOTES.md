@@ -1,12 +1,22 @@
 # 7페이지 TOGETHER · 마무리
 
+## 최신 주소 정리
+
+사용자의 이전 경로 정리 요청으로 마지막 섹션의 기본 주소를 `/#film`에서 `/#together`로 바꿨다. 메뉴·실제 섹션 ID·말풍선과 조작의 상태 선택자·문의 `from`·복귀 링크가 모두 `together`를 사용한다. 영상 자체를 설명하는 `BrandFilm`·영상 파일·CSS 클래스 이름은 유지한다.
+
+옛 즐겨찾기·공유 링크는 실제 새 앵커의 자식인 SSR `#film` 별칭으로 같은 위치에 도착한다. JavaScript 사용 시 현재 history state를 보존한 `replaceState`로 `#together`를 표시한다. 새 방문 기록이나 강제 맨 위 이동을 만들지 않는다. JavaScript 미사용에서는 원래 주소를 유지하면서 같은 본문을 읽는다. `resolveSiteSection()`이 `from=film`과 초기 로더의 옛 해시를 새 ID로 해석하며 임의 복귀 주소는 허용하지 않는다. 검사 자료는 Git 제외 `outputs/qa/2026-09-13/together-url/`에 보관한다.
+
+검증: `npm run ci:build`의 142개 검사·린트·타입·빌드·CSS/자산 검사를 통과했다. Chromium 1440×900·375×812에서 새/옛 직접 해시, 메뉴07, 문의 이동, 뒤로·앞으로가기와 복귀 링크, 옛·유효하지 않은 `from`, history state·방문 기록 수 보존, 움직임 감소·JS 미사용을 확인했다. 별칭은 기본 `.section-entry`의 `position:relative` 안에 두어 일반 문서 흐름에서도 새 앵커와 좌표가 같고, 기존 enhanced의 absolute 위치 규칙을 유지한다. 브라우저 검사는 글꼴·스타일과 실제 스크롤 도착이 완료된 뒤 판단한다. 이전 고정 750ms 측정은 진행 중인 부드러운 이동을 실패로 분류했으므로 도착 조건으로 고쳤다. 파일은 `local-results.json`·`ci-build.log`, 운영 후 확인은 같은 폴더의 배포·운영 결과에 보관한다. 문의 전송은 시도하지 않았다.
+
+## 이전 구현 기록
+
 최신 문의 안내: TOGETHER가 보이고 영상 또는 대체 화면이 준비된 뒤 2.2초 후 프로젝트 문의 말풍선과 버튼 강조를 제공한다. 구체적인 문구·닫기·모션 정책·PC·모바일 검증은 [추가 QA](../reviews/OPENING-AND-INQUIRY-2026-09-13.md)를 따른다. 기존 제목·영상·재생 조작을 보존한다.
 
-최신 메뉴명 수정: 사용자 요청에 따라 7페이지의 사이드 메뉴를 `FILM`에서 `TOGETHER`로 바꿨다. 별도 영상 서비스가 아닌 ‘고객과 한 팀으로’ 마무리하는 페이지라는 의미다. 접근성 설명도 ‘온앤오프 마무리 페이지 보기’로 변경했다. 기존 주소 `#film`, 내부 식별자, 본문과 영상은 유지한다. 아래 FILM 명칭은 최초 구현 이력이다.
+이전 메뉴명 수정: 사용자 요청에 따라 7페이지의 사이드 메뉴를 `FILM`에서 `TOGETHER`로 바꿨다. 별도 영상 서비스가 아닌 ‘고객과 한 팀으로’ 마무리하는 페이지라는 의미다. 접근성 설명도 ‘온앤오프 마무리 페이지 보기’로 변경했다. 당시 주소 `#film`은 유지했으나 위 최신 주소 정리에서 변경했다. 아래 FILM 명칭은 최초 구현 이력이다.
 
 2026-09-13. 사용자가 지정한 이웃 프로젝트의 영상 섹션을 분석해 현재 홈페이지의 SERVICES 다음에 추가했다. 이웃 프로젝트는 읽기만 했으며 현재 저장소에 로컬 반영했다. 커밋·push·배포하지 않았다.
 
-- 확인: http://localhost:5187/#film
+- 현재 확인: http://localhost:5187/#together
 - 원본 프로젝트: `C:/Users/usewr/Documents/ChatGPT/onoff-website-redesign`
 - 원본 코드: `app/page.tsx`의 `brand-film`, `app/globals.css`의 대응 스타일.
 - 자산 출처·재현: [design/brand-film/README.md](../../design/brand-film/README.md).
