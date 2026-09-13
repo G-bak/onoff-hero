@@ -2,6 +2,18 @@
 
 > 날짜별 배포 이력이다. 현재 운영 버전은 실제 Worker 배포와 GitHub 커밋을 함께 확인한다. 2026-09-13 초기 점검은 로컬이었으며, 최신 사용자가 실제 Slack 테스트 후 전체 GitHub 반영·배포를 승인했다.
 
+## 2026-09-13 — 운영 문의 502 수정 배포·실제 접수 성공 확인
+
+- 사용자 신고 후 운영 문의 POST의 HTTP 502를 8ms·13ms에 확인했다. 기존 실제 Slack 성공 1건은 로컬 Node 브라우저 테스트였으며, 앞선 운영 접수 검증은 GET 200/활성 상태와 동의 없는 POST 400에 한정됐다. 운영 전송 성공까지 검증한 것으로 해석하지 않는다.
+- Cloudflare [workerd 소스](https://github.com/cloudflare/workerd/blob/main/src/workerd/api/http.c%2B%2B#L447)는 `redirect: 'error'`를 요청 생성 단계에서 거절한다. `redirect: 'manual'`로 수정하고 route의 전송 함수는 fetch 래퍼로 주입했다. 리디렉션을 따라가지 않고 HTTP 200/`ok`만 성공으로 인정한다.
+- 301·302·307·308 응답 거절 검증을 확장한 뒤 `npm run ci:build`의 137개 검사·린트·타입·빌드·CSS/자산 검사를 통과했다.
+- 코드 커밋 `052822586bfeb74884c2d0dfd724565d707da8d6`, Cloudflare Build `b46fb66e-c549-4d83-b370-45245d8f1e83`의 success와 Worker 버전 `d49c8001-fced-40b7-9354-2b1c50e1dedd`의 100% 배포를 확인했다.
+- 첫 실제 운영 테스트는 375px Playwright에서 제출 도중 도구가 `Transport closed`로 종료됐다. 운영 로그의 `2026-09-13T11:30:13.922Z`, HTTP 200, wall 304ms, Cloudflare 요청 ID `93236816f98826c4b6905807a393b0d8`를 확인했다. 이 요청의 앱 요청 ID·응답 JSON·완료 화면은 확보하지 못했다.
+- 완료 화면 검증을 위해 별도의 가상 문의 `운영 완료 화면 검증용 테스트` 1건을 추가 전송했다. `2026-09-13T11:32:52.570Z`에 앱 HTTP 200, `ok:true`, `code:delivered`, 요청 ID `6ada2ac0-19ed-4798-bebd-5de56b3cf0b4`, 438ms, POST 1회를 확인했다. 1440×900에서 실제 접수 완료 문구·비활성 버튼 캡처를 확보했다.
+- 운영 테스트 2요청 모두 HTTP 200이며 두 번째는 결과 JSON과 완료 UI까지 확인했다. 375px·320px 리사이즈에서도 완료 DOM이 유지되고 가로 넘침은 없었다(너비 차이 -15px는 stable scrollbar gutter). 실제 모바일 기기 검증이나 Slack 채널 UI 열람으로 설명하지 않는다.
+- 실제 운영 HOME 320×568도 주소 오른쪽 내부 여백 28px, 가로 넘침 0, 주소와 메뉴의 분리를 확인했다. `production-home-320.json`과 `production-home-320.png`에 측정·화면을 보관한다.
+- 증거는 Git 제외 `outputs/deploy/2026-09-13/inquiry-runtime-fix/`의 `ci-build.log`, `production-verification.json`, `production-success-1440.png` 등에 보관한다.
+
 ## 2026-09-13 — 확정 회사 정보·연락처 후속 반영
 
 - 사용자 제공 정보: 대표자 조은준, 주소 경기도 평택시 산단로16번길 26 엠에스원타워 407호, 이메일 jej4628@naver.com, 전화010-5838-6781. 홈페이지와 현재 기준 문서에 적용했다. 홈페이지·서비스 상세·문의·개인정보 안내는 공통 연락처를 재사용하며 전화는 모바일에서 바로 걸 수 있다.
@@ -13,7 +25,7 @@
 ## 2026-09-13 — 전체 개선과 Slack 문의 배포 완료
 
 - HOME 오프닝·일곱 섹션·서비스 상세·문의 화면과 전체 감사 후속 개선을 반영한다. 기존 Cloudflare Worker와 `G-bak/onoff-hero`의 main 자동 배포 연결을 재확인했다.
-- Slack 실제 테스트 문의 1건을 브라우저에서 제출해 앱 HTTP200/delivered와 Slack HTTP200/ok 성공 경로를 확인했다. 가상 정보만 사용했으며 채널 화면을 직접 열람하지는 않았다.
+- Slack 실제 테스트 문의 1건을 로컬 Node 미리보기의 브라우저에서 제출해 앱 HTTP200/delivered와 Slack HTTP200/ok 성공 경로를 확인했다. 운영 Worker의 성공 POST 검증은 아니었다. 가상 정보만 사용했으며 채널 화면을 직접 열람하지는 않았다.
 - 최대 90일 보관, 담당 업무명/기존 이메일, 수집·이용과 국외 처리위탁 동의, 서버 정책 버전 검증을 적용했다. 웹훅과 정책 버전은 기존 Worker의 secret으로 설정했다. 비밀 값은 Git과 빌드에 넣지 않았다.
 - 전체 검사 137개·린트·타입·운영 빌드·CSS/자산 검사를 통과했다. 실제 웹훅 문자열이 빌드 377파일에 없는지 확인했다. 기존 대형 Three.js 청크 경고는 오류와 구분한다.
 - outputs 2,946파일 이동·원본 해시 일치를 확인했다. 로컬 서버 PID14112와 현재 로그는 유지한다. [정리 기준](OUTPUTS.md).

@@ -6,6 +6,13 @@
 
 [outputs 정리](../operations/OUTPUTS.md)는 2,946파일을 날짜·용도별로 이동하고 SHA-256으로 보존을 확인했다. 현재 서버 PID14112의 로그는 `outputs/runtime/2026-09-13/`에 유지한다. 이후 문서의 PID38272·문서77개 등의 수치는 당시 검증 기록이다.
 
+## 최신 문의 오류 후속 — 운영 배포·실제 접수 성공 확인
+
+- 사용자 신고로 운영 문의 POST가 8ms·13ms에 HTTP 502를 반환함을 확인했다. Cloudflare [workerd 요청 생성 소스](https://github.com/cloudflare/workerd/blob/main/src/workerd/api/http.c%2B%2B#L447)는 `redirect: 'error'`를 무조건 거절하므로, 로컬 Node 성공만으로 검증하지 못한 런타임 차이가 있었다.
+- `redirect: 'manual'`과 API route의 fetch 주입 래퍼로 수정했다. 301·302·307·308을 따라가지 않고 거절하는 검증을 확장했고, `npm run ci:build`의 137개 검사·린트·타입·빌드·CSS/자산 검사를 통과했다.
+- 코드 `052822586bfeb74884c2d0dfd724565d707da8d6`의 빌드 성공과 Worker `d49c8001-fced-40b7-9354-2b1c50e1dedd`의 100% 배포 후 실제 운영 POST 2건의 HTTP 200을 확인했다. 첫 요청은 자동화 도구 연결 종료로 운영 로그만 확보했고, 추가 가상 테스트는 HTTP 200/`delivered`, POST 1회, 1440×900 완료 문구·비활성 버튼과 응답 JSON까지 확인했다. 375px·320px 리사이즈에서도 완료 DOM 유지와 가로 넘침 없음을 확인했다.
+- 앞서 기록한 실제 Slack 성공 1건은 로컬 Node 브라우저 테스트였고, 종전 운영 검증은 GET 200/접수 활성과 동의 없는 POST 400에 한정됐다. 이번 확인도 실제 모바일 기기나 Slack 채널 UI 열람을 뜻하지 않는다. 요청별 시각·식별자는 [배포 기록](../operations/DEPLOYMENT-NOTES.md), 증거는 Git 제외 `outputs/deploy/2026-09-13/inquiry-runtime-fix/`에 보관한다.
+
 ## 해결한 항목
 
 | 항목 | 변경 |
