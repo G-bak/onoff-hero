@@ -40,7 +40,7 @@
 
 브라우저 페이지 오류 0, 의도적으로 주입한 렌더링 실패에 대한 앱 경고 1건 외 콘솔 오류·경고 0이었다. 데스크톱 1440×900과 모바일 390×844의 복구 중·복원 후 스크린샷을 열어 기본 카드와 3D 카드가 실제로 표시되는 것도 확인했다. 단순히 `is-ready` 클래스나 복원 이벤트만 검사하지 않았다.
 
-결과·이미지는 Git 제외 경로 `outputs/qa/2026-09-10/home/recovery-browser-results.json`, `outputs/qa/2026-09-10/home/recovery-production-browser-results.json`, `outputs/recovery-*.png`에 보관했다. 전체 검사 로그는 `outputs/qa/2026-09-10/home/recovery-ci.log`다. 검증용 Playwright는 프로젝트 밖 임시 폴더에 설치하여 앱 의존성은 변경하지 않았다. 임시 Worker 서버는 종료하고 사용자의 5187 서버는 유지했다.
+결과·이미지는 Git 제외 경로 `outputs/qa/2026-09-10/home/recovery-browser-results.json`, `outputs/qa/2026-09-10/home/recovery-production-browser-results.json`, `outputs/qa/2026-09-10/home/recovery-*.png`에 보관했다. 전체 검사 로그는 `outputs/qa/2026-09-10/home/recovery-ci.log`다. 검증용 Playwright는 프로젝트 밖 임시 폴더에 설치하여 앱 의존성은 변경하지 않았다. 임시 Worker 서버는 종료하고 사용자의 5187 서버는 유지했다.
 
 확인 범위는 해당 Chrome의 제어된 WebGL 손실·복원과 예외 주입이다. 실제 GPU 드라이버 충돌, 다른 브라우저·실물 모바일 기기 전체에 대한 무오류 보장은 아니다. 숨겨진 탭의 시간 정책은 가상 시계 단위 테스트로 검증했다. 기존 500kB 초과 Three.js 청크 빌드 경고 및 로딩 시간 실측은 별도 성능 검토 대상으로 유지한다.
 

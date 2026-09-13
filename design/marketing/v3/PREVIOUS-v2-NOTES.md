@@ -1,6 +1,6 @@
 # 5페이지 MARKETING — 채널 캠페인 v2
 
-이전 v2 작업 당시의 보관 기록이며 현재 구현은 v3/README.md와 루트 PAGE5-NOTES.md를 따른다. 2026-09-12 당시 사용자 요청. 로컬 http://localhost:5187/#card 에 적용하며 커밋·push·배포하지 않는다. 이전 피드 두 장/쇼츠 영상 버전은 [보관 기록](../HISTORY-v1.md)이다.
+이전 v2 작업 당시의 보관 기록이며 현재 구현은 [v3 안내](README.md)와 [PAGE5-NOTES.md](../../../docs/pages/PAGE5-NOTES.md)를 따른다. 2026-09-12 당시 사용자 요청. 로컬 http://localhost:5187/#card 에 적용하며 커밋·push·배포하지 않는다. 이전 피드 두 장/쇼츠 영상 버전은 [보관 기록](../HISTORY-v1.md)이다.
 
 ## 현재 구성
 
@@ -29,7 +29,7 @@
 
 npm run ci:build: lint·TypeScript·동작 테스트·프로덕션 CSS·폰트·실제 배포 자산 해시 검증. tests/card-showcase.test.mjs는 실제 Three.js 카메라로 카드8모서리를 투영해 화면비/포인터/부유 시간/스크롤 조합에서 카드 간 분리와 화면 경계를 검사한다.
 
-브라우저 기록은 outputs/qa/2026-09-12/marketing/marketing-v2-browser.json, screenshots는 outputs/marketing-v2-*.png, 빌드 로그는 outputs/qa/2026-09-12/marketing/marketing-v2-ci.log이다. 실제 휠 등장 중 글자 transform 변화와 opacity1, 카드 펼침, 마케터8포즈, 역스크롤 재진입, 숨긴 탭, MOTION OFF, WebGL 손실/복원, 움직임 감소, JavaScript 없는 대체 화면을 검사한다. 1440×900·1920×1080·1280×720·1024×768·768×1024·390×844·320×568·667×375·844×390을 확인한다. 이 검증은 Chrome 소프트웨어 WebGL이며 실제 휴대폰 성능 측정은 아니다.
+브라우저 기록은 outputs/qa/2026-09-12/marketing/marketing-v2-browser.json, screenshots는 outputs/qa/2026-09-12/marketing/marketing-v2-*.png, 빌드 로그는 outputs/qa/2026-09-12/marketing/marketing-v2-ci.log이다. 실제 휠 등장 중 글자 transform 변화와 opacity1, 카드 펼침, 마케터8포즈, 역스크롤 재진입, 숨긴 탭, MOTION OFF, WebGL 손실/복원, 움직임 감소, JavaScript 없는 대체 화면을 검사한다. 1440×900·1920×1080·1280×720·1024×768·768×1024·390×844·320×568·667×375·844×390을 확인한다. 이 검증은 Chrome 소프트웨어 WebGL이며 실제 휴대폰 성능 측정은 아니다.
 
 WEB의 기존 실제 휠 진입·버튼·역스크롤·새로고침 회귀 검증은 outputs/qa/2026-09-12/web/web-wheel-marketing-v2.json에 기록한다. 미리보기 자산 재생성 중 SSR/client URL에 HMR timestamp 차이가 발생해 서버를 재시작한 뒤 새 브라우저로 다시 검사했다. 배포 설정은 수정하지 않는다.
 

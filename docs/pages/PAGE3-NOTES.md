@@ -36,6 +36,6 @@ PC 1440×900·모바일 390×844 브라우저에서 앞뒤 스크롤의 세 작�
 
 이전 v4 인물 검증: outputs/qa/2026-09-12/design/people-v4-ci.log의 필수 빌드와63개 테스트 통과. outputs/qa/2026-09-12/design/motion-v4-browser.json의12화면 크기, 실제 포즈 진행·MOTION OFF·숨김·가려짐·움직임 감소 확인. outputs/assets/2026-09-12/people-v4/의 실제 연속 캡처에서 올라감/내려감/반복 경계를 검토했다. 아래는 앞선 지면 자체의 검증 기록이다.
 
-필수 npm run ci:build가 린트·타입·53개 동작 테스트·배포 CSS·자산 해시·전체 한글 폰트 검사를 수행한다. 현재 로그는 outputs/qa/2026-09-12/design/design-editorial-ci.log. 브라우저 기록은 outputs/qa/2026-09-12/design/editorial-browser.json과 outputs/editorial-final-*.png. 실제 스크롤바를 보이는 Chrome/소프트웨어 WebGL 환경이며 휴대폰 실기기 성능 측정은 아니다.
+필수 npm run ci:build가 린트·타입·53개 동작 테스트·배포 CSS·자산 해시·전체 한글 폰트 검사를 수행한다. 현재 로그는 outputs/qa/2026-09-12/design/design-editorial-ci.log. 브라우저 기록은 outputs/qa/2026-09-12/design/editorial-browser.json과 outputs/qa/2026-09-12/design/editorial-final-*.png. 실제 스크롤바를 보이는 Chrome/소프트웨어 WebGL 환경이며 휴대폰 실기기 성능 측정은 아니다.
 
 최종 검증: npm run ci:build 통과. outputs/qa/2026-09-12/design/editorial-browser.json에서 스크롤 앞뒤 선택, 썸네일·NEXT·키보드 조작, 실제5개 출력 애니메이션과 탭 숨김 일시 정지/재개, 정착 후RAF 휴식, MOTION OFF 수동 선택, SYSTEM 최종 인물 유지, 기존 MARKETING 영상 재생·이탈 정지가 통과했다.1440×900·2048×1020·768×1024·390×844·320×740·844×390에서 세 작업물 모두 검사했으며 가로 넘침과 본문/이미지 설명/목차/하단/상담 버튼 겹침이 없다. 움직임 감소의 정적 선택과 JavaScript 미사용의 이미지·썸네일도 확인했다. 정상 실행의 페이지·콘솔 오류는 없었다. 마지막 접근성 보정 후 현재 이미지의 대체 설명이 접근성 트리에1개 존재함을 확인했고 좁은 화면의 세로 보조 문구는 숨겼다.

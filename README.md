@@ -2,7 +2,7 @@
 
 브랜드 기획부터 디자인·웹사이트·마케팅·운영까지 소개하는 사이트다. React·TypeScript, Vinext·Vite, Tailwind CSS, Three.js와 Cloudflare Worker 구성을 사용한다.
 
-현재 로컬 홈페이지는 **HOME → SYSTEM → DESIGN → WEB → MARKETING → SERVICES → TOGETHER**의 7개 섹션과 6개 면 전환이다. 마지막 메뉴명은 TOGETHER, 내부 주소 ID는 `film`이다. 다섯 서비스 상세와 프로젝트 문의 페이지를 제공한다. 자세한 현재 기준은 [문서 색인](docs/README.md)에 있다.
+현재 홈페이지는 **HOME → SYSTEM → DESIGN → WEB → MARKETING → SERVICES → TOGETHER**의 7개 섹션과 6개 면 전환이다. 마지막 메뉴명은 TOGETHER, 내부 주소 ID는 `film`이다. 다섯 서비스 상세와 프로젝트 문의 페이지를 제공한다. 자세한 현재 기준은 [문서 색인](docs/README.md)에 있다.
 
 ## 로컬 실행
 
@@ -57,8 +57,8 @@ npm run dev -- --host 127.0.0.1 --port 5187 --strictPort
 npm run ci:build
 ```
 
-`check`는 문서의 로컬 링크 경로·공개 자산 목록, 린트, 타입, 회귀 검사를 실행한다. `build`는 자산 준비·Vinext 빌드 후 배포 CSS와 글꼴·미디어 바이트, 보관 자료의 배포 제외를 검사한다. 두 단계는 `ci:build`에 포함된다. 문서 외부 URL·제목 앵커, 브라우저 조작, Cloudflare 런타임 검증을 자동으로 수행한다는 의미는 아니다.
+`check`는 문서의 로컬 링크 경로·제목 앵커·공개 자산 목록, 린트, 타입, 회귀 검사를 실행한다. `build`는 자산 준비·Vinext 빌드 후 배포 CSS와 글꼴·미디어 바이트, 보관 자료의 배포 제외를 검사한다. 두 단계는 `ci:build`에 포함된다. 외부 URL의 HTTP 응답은 `npm run check:links`로 별도 검사하며, 브라우저 조작과 Cloudflare 런타임 검증도 별도로 진행한다.
 
 `main` push는 기존 Cloudflare 자동 배포를 실행한다. 로컬 검토 중에는 push나 `npm run deploy`를 실행하지 않는다. Worker `onoff-hero-preview`, `.openai/hosting.json`, `vite.config.ts`를 보존한다. [자동 배포 절차](docs/operations/AUTO-DEPLOY.md)와 [날짜별 배포 이력](docs/operations/DEPLOYMENT-NOTES.md)을 구분하며, 과거 기록만으로 현재 운영 버전을 단정하지 않는다.
 
-2026-09-13 전체 점검은 로컬에만 반영했다. [문제·수정·검증·후속 항목](docs/reviews/PROJECT-AUDIT-2026-09-13.md)에 작업을 기록한다. 커밋·GitHub push·운영 배포는 하지 않았다.
+2026-09-13 최초 전체 점검 이후 사용자 승인으로 소스·문서를 GitHub에 반영하고 운영 배포했다. [최종 전체 검사](docs/reviews/FINAL-AUDIT-2026-09-13.md), [최초 감사](docs/reviews/PROJECT-AUDIT-2026-09-13.md), [후속 개선](docs/reviews/MAINTENANCE-2026-09-13.md), [Slack 접수와 최신 알림](docs/operations/SLACK-INQUIRY.md)에 범위·검증을 기록한다. 현재 배포 확인은 [배포 이력](docs/operations/DEPLOYMENT-NOTES.md)과 실제 Worker 상태를 함께 따른다.

@@ -26,6 +26,6 @@ MOTION OFF, 움직임 감소, 탭 숨김과 화면 이탈의 정지 정책을 �
 
 `npm run ci:build`로 린트·타입·동작 테스트·배포 CSS·자산 해시·전체 한글 폰트를 검사한다. 브라우저 기록은 `outputs/qa/2026-09-12/design/design-browser.json`. 실제 네이티브 스크롤바를 보이는 Chrome과 소프트웨어 WebGL로 검사하며 실제 휴대폰 FPS 측정은 아니다.
 
-1440×900, 2048×1020, 390×844, 320×740, 768×1024, 844×390에서 확인한다. 검사 범위: 모든 메뉴 앞뒤 이동, 단일 인디케이터·상담 버튼, DESIGN 3개 작업판, 5페이지 영상 재생/이탈 정지, SYSTEM 재방문 자세 보존, WebGL 손실/복원, 숨긴 탭·MOTION OFF, 움직임 감소와 JavaScript 미사용. 최종 화면은 outputs/design-final-*.png.
+1440×900, 2048×1020, 390×844, 320×740, 768×1024, 844×390에서 확인한다. 검사 범위: 모든 메뉴 앞뒤 이동, 단일 인디케이터·상담 버튼, DESIGN 3개 작업판, 5페이지 영상 재생/이탈 정지, SYSTEM 재방문 자세 보존, WebGL 손실/복원, 숨긴 탭·MOTION OFF, 움직임 감소와 JavaScript 미사용. 최종 화면은 outputs/qa/2026-09-12/design/design-final-*.png.
 
 최종 결과: npm run ci:build 통과(동작 테스트54개 포함). outputs/qa/2026-09-12/design/design-browser.json의 전체 기능 검증과 outputs/qa/2026-09-12/design/design-layout.json의 최종6뷰포트 검사가 통과했고 정상 실행의 콘솔/페이지 오류는 없었다. 짧은 가로 화면에서 모든 페이지의05메뉴를 실제 hit-test로 확인했으며 상담 버튼에 가리지 않는다. DESIGN→WEB 전환의 연속 진행률은0.5625→0.625→0.6875로 확인했다. 최종 모바일 작업물은 메뉴 숫자 왼쪽에 배치하고 표기는 작업물 아래의3열에 맞췄다. 소프트웨어 WebGL 검증이며 실제 휴대폰 성능 검증은 포함하지 않는다.

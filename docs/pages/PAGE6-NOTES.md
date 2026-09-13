@@ -66,7 +66,7 @@ MARKETING 면이 완전히 넘어가야 사진·문구가 보이던 진입 조�
 
 실제 UI의 MOTION OFF→서비스 진입 시 제목 애니메이션과 변환이 없는 완성 화면을 확인했고, ON 재개도 확인했다. `outputs/qa/2026-09-13/services/services-v2-lifecycle.json`은 이미지 응답 지연 중 준비 UI·본문 숨김, 이후 제목의 시작/중간/완료 변환, visibility 이벤트 모의 입력에 따른 정지를 검증한다. 자동화 Chrome의 탭 전환은 document.hidden을 바꾸지 않아 실제 OS 백그라운드 전환 검증으로 주장하지 않는다. 종료 변환은 CSS의 `none` 문자열 대신 항등 행렬 여부로 판정한다.
 
-최종 캡처는 `outputs/services-v2-*.png`. 아래는 최초 버전의 검증 이력이다.
+최종 캡처는 `outputs/qa/2026-09-13/services/services-v2-*.png`. 아래는 최초 버전의 검증 이력이다.
 
 ### 최초 버전 이력
 
@@ -74,4 +74,4 @@ MARKETING 면이 완전히 넘어가야 사진·문구가 보이던 진입 조�
 
 `outputs/qa/2026-09-13/services/services-browser.json`: 실제 휠로 MARKETING에서 진입, 가려진 카드 정지, 다섯 행의 빈 영역 클릭, 상세 메타데이터·목차·가격 정책·이메일, 목록 복귀, 키보드 Enter/브라우저 뒤로가기, 1440×900와 6개 추가 화면 크기, 움직임 감소 검증. 첫 JS 미사용 검사는 화면 밖 링크에 대한 도구의 안정화 대기에서 실패했다. 네이티브 스크롤로 링크를 화면 안에 위치시킨 뒤 실제 클릭을 별도 재검증했다.
 
-`outputs/qa/2026-09-13/services/services-final-checks.json`: JS 미사용 상태의 네이티브 링크·상세 HTML, 잘못된 주소의 404, 아이콘 보완 후 새 브라우저의 실제 링크 이동/복귀를 최종 확인한다. 두 보고서를 함께 본다. 브라우저는 Chrome 소프트웨어 WebGL이며 실제 휴대폰 성능 측정은 아니다. 상세 화면과 목록의 데스크톱/모바일 캡처는 `outputs/service*-*.png`다.
+`outputs/qa/2026-09-13/services/services-final-checks.json`: JS 미사용 상태의 네이티브 링크·상세 HTML, 잘못된 주소의 404, 아이콘 보완 후 새 브라우저의 실제 링크 이동/복귀를 최종 확인한다. 두 보고서를 함께 본다. 브라우저는 Chrome 소프트웨어 WebGL이며 실제 휴대폰 성능 측정은 아니다. 상세 화면과 목록의 데스크톱/모바일 캡처는 `outputs/qa/2026-09-13/services/service*-*.png`다.

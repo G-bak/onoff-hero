@@ -69,7 +69,7 @@
 - Chrome에서 데스크톱·태블릿·휴대폰·가로 휴대폰의 6개 크기를 확인했다. 가로 넘침·일반 콘솔·런타임 오류 0건이며, 작은 가로 화면의 서비스 라벨 잘림을 세로 배치로 수정했다.
 - 별과 실제 픽셀 이동, 8포즈, 숨김/복귀, 컨텍스트 손실/재생성, CARD 뒤 정지, HOME 재진입, 상담, OFF, 움직임 감소, JS 미사용, WebGL 불가 대체 화면 등 12항목 통과. 강제 WebGL 실패 로그는 의도된 테스트 결과로 따로 구분한다.
 - Chrome 소프트웨어 렌더 검사에서 데스크톱 44 draw calls·40,720 triangles, 작은 화면 30 draw calls·40,706 triangles. 1440×900과 390×844의 rAF 간격 중앙값 약 16.7ms, 95백분위 약 16.9ms. 실제 iOS/Safari·모바일 GPU의 60fps를 보장하는 수치는 아니다.
-- 로그·캡처·측정은 `outputs/why-studio-*`에 있다. 실제 녹화는 `outputs/qa/2026-09-11/system/why-studio-motion.webm`이며 배포 자산에 포함하지 않는다. 검증 서버는 Windows 앱 제어 제한 때문에 Node/Vite 미리보기를 사용했다.
+- 로그·캡처·측정은 `outputs/qa/2026-09-11/system/why-studio-*`에 있다. 실제 녹화는 `outputs/qa/2026-09-11/system/why-studio-motion.webm`이며 배포 자산에 포함하지 않는다. 검증 서버는 Windows 앱 제어 제한 때문에 Node/Vite 미리보기를 사용했다.
 
 ## 이전 작업 기록
 
@@ -96,7 +96,7 @@
 
 - 최종 방향 선택: 왼쪽으로 쏠리는 방향을 시험한 뒤 사용자가 기존 오른쪽 방향으로 복원하도록 지시했다. 회전 중심 `0 0`과 음수 각도를 복원했다. `page-left-*`는 이전 왼쪽 방향 시험 기록이다.
 - 우측 색상 바는 `.section-nav-indicator` 하나로 통합했다. 항목별 `::after`를 제거하고, `SectionEntry`의 0~1 진행률을 main의 `--section-progress`로 전달해 두 메뉴 중심 사이를 연속 이동한다. 페이지 전체를 매 프레임 React로 다시 렌더링하지 않는다. 120ms CSS 전환은 큰 휠 이동의 중간 위치를 보여주며, 움직임 감소 설정에서는 생략된다. 현재 메뉴의 `aria-current`와 배경별 색상 구분은 별도로 유지한다.
-- 최신 검사: `npm run ci:build`와 38개 테스트 통과. Chrome에서 실제 0·25·50·75·100% 스크롤 시 색상 바 중심이 416·433·450·467·484px로 이동하고 역방향에도 같은 위치로 돌아오는 것을 확인했다(1440×900). 최종 프로덕션 브라우저 검사는 6개 화면 크기, 연속 바 위치, 큰 스크롤 점프의 중간 프레임, 역방향, 메뉴·상담·키보드·리사이즈·움직임 감소·JS 미사용을 통과했고 런타임·콘솔 오류는 0건이었다. 결과는 `outputs/qa/2026-09-10/navigation/page-indicator-browser-results.json`, 검사 스크립트와 화면·빌드 로그는 `outputs/page-indicator-*`다. 아래는 이전 방향 검증 기록이다.
+- 최신 검사: `npm run ci:build`와 38개 테스트 통과. Chrome에서 실제 0·25·50·75·100% 스크롤 시 색상 바 중심이 416·433·450·467·484px로 이동하고 역방향에도 같은 위치로 돌아오는 것을 확인했다(1440×900). 최종 프로덕션 브라우저 검사는 6개 화면 크기, 연속 바 위치, 큰 스크롤 점프의 중간 프레임, 역방향, 메뉴·상담·키보드·리사이즈·움직임 감소·JS 미사용을 통과했고 런타임·콘솔 오류는 0건이었다. 결과는 `outputs/qa/2026-09-10/navigation/page-indicator-browser-results.json`, 검사 스크립트와 화면·빌드 로그는 `outputs/qa/2026-09-10/navigation/page-indicator-*`다. 아래는 이전 방향 검증 기록이다.
 
 - 사용자 피드백에 따라 말리는 종이 효과를 취소했다. 원래 FOLLOW.ART의 큰 면과 사선 움직임을 응용하되, 뒤 페이지가 고정되고 앞 페이지가 위로 빠지는 방향은 유지했다.
 - `translate3d`와 평면 회전을 사용한다. 이동은 스크롤 초반에 조금 더 빠르게 반응하고 후반에 줄어든다. 회전은 최대 12° 이내이며, 넓은 화면은 화면 높이에 대한 대각선 낙차를 제한해 과도하게 기울지 않게 한다. 렌더링을 위한 그림자·뒷면·추가 장식 레이어는 없다.
@@ -104,7 +104,7 @@
 - `npm run ci:build` 통과: 38개 테스트, 린트·타입·프로덕션 빌드·CSS·자산 검사. 로그는 `outputs/qa/2026-09-10/navigation/page-slide-ci.log`다.
 - 실제 Chrome의 로컬 개발 서버와 최종 프로덕션 Worker에서 1440×900, 2560×1080, 768×1024, 390×844, 320×740, 844×390을 검사했다. 고정된 뒷면, 역방향의 같은 변환, 페이지 앵커, 공통 조작, 상담창·키보드 포커스, 가로 넘침, 긴 본문 스크롤을 통과했다. 전환 중 리사이즈 후 캔버스의 실제 CSS 크기가 레이아웃 크기와 같은 것도 확인했다.
 - 움직임 감소와 JavaScript 미사용 환경의 읽기 흐름도 통과했다. 런타임·콘솔 오류 0건. 데스크톱과 모바일의 중간 화면을 직접 확인했다. 모바일은 Chrome 에뮬레이션이며 실제 iOS/Safari 기기 검증은 아니다.
-- 결과: `outputs/qa/2026-09-10/navigation/page-slide-browser-results.json`, 스크립트: `outputs/qa/2026-09-10/navigation/page-slide-browser-check.mjs`, 화면: `outputs/page-slide-*.png`. 로컬에만 반영했고 커밋·push·배포하지 않았다.
+- 결과: `outputs/qa/2026-09-10/navigation/page-slide-browser-results.json`, 스크립트: `outputs/qa/2026-09-10/navigation/page-slide-browser-check.mjs`, 화면: `outputs/qa/2026-09-10/navigation/page-slide-*.png`. 로컬에만 반영했고 커밋·push·배포하지 않았다.
 
 ## 이전: 위로 넘기는 종이 전환 — 2026-09-10
 
@@ -122,7 +122,7 @@
 - 진행률 0·25·50·75·100%에서 뒷면의 y=0 고정, 앞면 접힘 표시, 완료 시 숨김, 역방향의 같은 곡선, 긴 본문의 일반 스크롤 연결, 가로 넘침 없음, 고정 조작의 위치·개수·활성 항목을 검사했다. 대표 데스크톱·모바일 중간 화면과 완료 화면을 직접 확인했다.
 - `#why` 최초 접속, HOME/WHY 클릭, 마우스 휠, 양쪽 페이지와 전환 도중 상담창 열기·Escape 닫기·호출 버튼 포커스 복귀, 가려진 모션 조작의 키보드 복귀, 뒷면 제목의 마우스 입력 도달을 검사했다. 움직임 감소 설정과 JavaScript 비활성화에서도 두 번째 본문을 읽을 수 있었다.
 - 모션·방향 상태는 페이지 왕복 후 유지됐다. 프로덕션 WebGL 호출 계수로 첫 화면 재생, 완전히 걷힌 후 렌더링 정지, 복귀 시 재생을 확인했다. 최종 일반 검사에서 런타임·콘솔 오류는 0이었다.
-- 결과: `outputs/qa/2026-09-10/navigation/page-turn-browser-results.json`, `outputs/qa/2026-09-10/navigation/page-turn-gpu-results.json`, 스크립트: `outputs/qa/2026-09-10/navigation/page-turn-browser-check.mjs`, 화면: `outputs/page-turn-*.png`. 최종 수정 후 `npm run ci:build`도 통과했다. 아래 기록은 이전 전환 단계의 검증이다. 커밋·push·운영 배포는 하지 않았다.
+- 결과: `outputs/qa/2026-09-10/navigation/page-turn-browser-results.json`, `outputs/qa/2026-09-10/navigation/page-turn-gpu-results.json`, 스크립트: `outputs/qa/2026-09-10/navigation/page-turn-browser-check.mjs`, 화면: `outputs/qa/2026-09-10/navigation/page-turn-*.png`. 최종 수정 후 `npm run ci:build`도 통과했다. 아래 기록은 이전 전환 단계의 검증이다. 커밋·push·운영 배포는 하지 않았다.
 
 ## 공통 메뉴·상담톡 검증 — 2026-09-10
 
@@ -130,7 +130,7 @@
 - Chrome과 로컬 프로덕션 Worker에서 320·390·768·844·1440·2560px의 6개 화면 크기를 확인했다. 최초 `#why` 접속, WHY → HOME → WHY 이동, 활성 항목과 막대가 하나인 것, 메뉴·상담 버튼 위치가 페이지 사이에 바뀌지 않는 것을 검사했다.
 - 두 페이지에서 상담 창 열기·Escape로 닫기·호출 버튼으로 포커스 복귀를 확인했다. 입력·전송은 서비스 준비 상태에 맞게 비활성화돼 있다. 메뉴와 버튼은 가려진 첫 화면의 `inert` 영향을 받지 않는다.
 - 모바일 본문은 우측 메뉴 여백을 확보하고 인물을 공통 버튼과 겹치지 않게 배치했다. 모션 조작·인물과 상담 버튼의 겹침, 가로 스크롤, 런타임·콘솔 오류가 없었다.
-- `npm run ci:build` 통과. 검증 결과는 `outputs/qa/2026-09-10/navigation/site-controls-browser-results.json`, 스크립트는 `outputs/qa/2026-09-10/navigation/site-controls-browser-check.mjs`, 화면은 `outputs/site-controls-*.png`에 있다. 로컬만 반영했다.
+- `npm run ci:build` 통과. 검증 결과는 `outputs/qa/2026-09-10/navigation/site-controls-browser-results.json`, 스크립트는 `outputs/qa/2026-09-10/navigation/site-controls-browser-check.mjs`, 화면은 `outputs/qa/2026-09-10/navigation/site-controls-*.png`에 있다. 로컬만 반영했다.
 
 ## 화면 높이 기준으로 변경 후 검증 — 2026-09-10
 
@@ -149,4 +149,4 @@
 - `#why` 최초 접속, `02 WHY` 클릭, `#home` 복귀, 모션·방향 상태 유지, 첫 화면을 가렸을 때 WebGL draw 호출이 멈추고 복귀 후 재개되는 것을 확인했다.
 - 실제 양쪽 WebGL 컨텍스트를 손실시키고 두 번째 화면에서 11초 대기했다. 가려진 동안 안내·복구 제한 시간이 진행되지 않았고, 첫 화면 복귀 후 컨텍스트 복원과 카드 재표시를 확인했다.
 - 모바일 환경의 움직임 감소, JavaScript 비활성화, WebGL 비활성화 후 기본 화면에서도 두 번째 섹션을 읽을 수 있었다. 일반 검증 페이지의 런타임 오류·콘솔 오류·실패한 HTTP 응답은 0이었다.
-- 재현 스크립트와 결과는 Git에서 제외된 `outputs/qa/2026-09-10/system/page2-browser-check.mjs`, `outputs/qa/2026-09-10/system/page2-production-browser-results.json`, `outputs/page2-production-*.png`에 있다. 실제 모든 모바일 기기의 검증을 뜻하지 않는다.
+- 재현 스크립트와 결과는 Git에서 제외된 `outputs/qa/2026-09-10/system/page2-browser-check.mjs`, `outputs/qa/2026-09-10/system/page2-production-browser-results.json`, `outputs/qa/2026-09-10/system/page2-production-*.png`에 있다. 실제 모든 모바일 기기의 검증을 뜻하지 않는다.

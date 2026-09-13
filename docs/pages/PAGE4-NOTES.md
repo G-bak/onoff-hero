@@ -52,7 +52,7 @@ outputs/qa/2026-09-12/design/people-v4-ci.log에서 필수 빌드·63개 테스�
 
 필수 `npm run ci:build`: 린트·타입·60개 동작 테스트·프로덕션 CSS·한글 전체 글꼴·새 영상/인물 해시·MP4 fast-start 검사. 인물/초기 요청 복구의 이전 로그는 `outputs/qa/2026-09-12/design/motion-v2-ci.log`이며 현재 스크롤 잠금 수정은 위 로그가 기준이다. 기존 웹 페이지 검사 기록은 아래에 보존한다.
 
-브라우저 검증의 상세 결과는 `outputs/qa/2026-09-12/web/web-browser.json`, 스크린샷은 `outputs/web-final-*` 및 `outputs/design-person-*`에 기록한다. 실제 스크롤바를 보이는 Chrome/소프트웨어 WebGL 환경이며 실기기 성능 측정은 아니다.
+브라우저 검증의 상세 결과는 `outputs/qa/2026-09-12/web/web-browser.json`, 스크린샷은 `outputs/qa/2026-09-12/web/web-final-*` 및 `outputs/qa/2026-09-12/design/design-person-*`에 기록한다. 실제 스크롤바를 보이는 Chrome/소프트웨어 WebGL 환경이며 실기기 성능 측정은 아니다.
 
 최종 확인: ci:build 통과. 브라우저12크기(1440×900,1920×1080,2048×1020,1366×768,1280×720,768×1024,390×844,375×667,320×740,844×390,667×375,320×568)에서100svh·16:9·푸터 표시·조작/인물/문구/상담 버튼 겹침과 가로 넘침 검사를 통과했다. 두 인물의 실제 애니메이션 시간 진행과 숨김/가려짐/MOTION OFF 일시정지, 재생·음소거·장면 선택·키보드 탐색·영상 반복, 움직임 감소와 no-JavaScript 대체 조작도 통과했다. 정상 브라우저 실행의 앱/콘솔 오류는0개다. 별도 `outputs/qa/2026-09-12/web/web-failure-browser.json`에서 느린 로딩 UI·503오류 안내·다시 재생 복구를 확인했다.
 

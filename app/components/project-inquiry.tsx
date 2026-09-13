@@ -11,6 +11,7 @@ import ConsultationChat from './consultation-chat';
 import { consultationChatEnabled, consultationEmail } from '@/lib/consultation';
 import { inquiryBudgets, inquirySchedules, inquiryServiceOptions, validateInquiry, type InquiryDraft, type InquiryErrors } from '@/lib/project-inquiry';
 import { inquiryPrivacyVersion, inquiryPrivacyNotice, inquiryOverseasNotice, type InquiryDeliveryStatus } from '@/lib/inquiry-privacy';
+import { createInquiryRequestId } from '@/lib/inquiry-request-id';
 
 const subscribeToHydration = () => () => {};
 const clientReady = () => true;
@@ -68,12 +69,17 @@ export default function ProjectInquiry({ initialService, returnTo }: { initialSe
     if (!delivery.enabled || !consent || !overseasConsent || sending.current || submission === 'sent' || submission === 'unknown') return;
     sending.current = true;
     setSubmission('sending'); setDeliveryError('');
-    requestId.current ??= crypto.randomUUID();
+    let requestStarted = false;
+    let timeout: ReturnType<typeof setTimeout> | undefined;
     try {
+      requestId.current ??= createInquiryRequestId();
+      const body = JSON.stringify({ ...draft, consent: true, overseasConsent: true, privacyVersion: delivery.privacyVersion, requestId: requestId.current });
+      const controller = new AbortController();
+      timeout = setTimeout(() => controller.abort(), 15000);
+      requestStarted = true;
       const response = await fetch('/api/inquiry', {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, cache: 'no-store',
-        body: JSON.stringify({ ...draft, consent: true, overseasConsent: true, privacyVersion: delivery.privacyVersion, requestId: requestId.current }),
-        signal: AbortSignal.timeout(15000),
+        body, signal: controller.signal,
       });
       const result = await response.json();
       if (!result || typeof result !== 'object' || !('ok' in result)) throw new Error('Invalid delivery response');
@@ -84,9 +90,14 @@ export default function ProjectInquiry({ initialService, returnTo }: { initialSe
         setDeliveryError('message' in result && typeof result.message === 'string' ? result.message : '문의를 전달하지 못했습니다. 잠시 후 다시 시도해 주세요.');
       }
     } catch {
-      setSubmission('unknown');
-      setDeliveryError('접수 여부를 확인하지 못했습니다. 중복 문의를 피하려면 이메일로 확인해 주세요.');
-    } finally { sending.current = false; }
+      setSubmission(requestStarted ? 'unknown' : 'idle');
+      setDeliveryError(requestStarted
+        ? '접수 여부를 확인하지 못했습니다. 중복 문의를 피하려면 이메일로 확인해 주세요.'
+        : '문의 전송을 준비하지 못했습니다. 다른 브라우저를 이용하거나 이메일로 문의해 주세요.');
+    } finally {
+      if (timeout !== undefined) clearTimeout(timeout);
+      sending.current = false;
+    }
   }
   const error = (key: keyof InquiryDraft) => errors[key] ? <p className="inquiry-error" id={`inquiry-${key}-error`}>{errors[key]}</p> : null;
 

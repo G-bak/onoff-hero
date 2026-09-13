@@ -67,7 +67,7 @@ MOTION OFF·움직임 감소는 완성된 정지 장면을 표시한다. WebGL �
 
 ## 검증
 
-초기 은하 버전 결과는 Git에서 제외되는 outputs/galaxy-v3-*에 기록한다. 아래 과거 검증은 당시 버전의 이력이다. 실제 진입 영상은 outputs/qa/2026-09-11/system/galaxy-v3-entry.webm이다. 이전 galaxy-entry.webm은 과거 버전이므로 이번 결과로 제공하지 않는다.
+초기 은하 버전 결과는 Git에서 제외되는 outputs/qa/2026-09-11/system/galaxy-v3-*에 기록한다. 아래 과거 검증은 당시 버전의 이력이다. 실제 진입 영상은 outputs/qa/2026-09-11/system/galaxy-v3-entry.webm이다. 이전 galaxy-entry.webm은 과거 버전이므로 이번 결과로 제공하지 않는다.
 
 최종 npm run ci:build 통과: 린트·타입·단위 검사 50개·프로덕션 빌드·CSS/글꼴/자산 검사. 1440×900, 2048×1020, 390×844, 320×740, 768×1024, 844×390에서 경계·글자·인물을 검사했고 가로 넘침은 없었다. 브라우저 13개 시나리오(부분 진입 대기·단계 순서·공전·인물 모션·숨긴 탭·WebGL 손실/복원·CARD 가림·HOME 재생·공통 상담·MOTION OFF·움직임 감소·JavaScript 없음·WebGL 없음)가 통과했다. 강제로 WebGL을 차단한 시나리오의 예상 오류 외에 예기치 않은 콘솔/페이지 오류는 없었다. 브라우저 검증은 Chrome 소프트웨어 WebGL 환경이며 실제 휴대폰의 FPS 측정으로 해석하지 않는다.
 

@@ -15,7 +15,7 @@
 | [PMREMGenerator](https://threejs.org/docs/pages/PMREMGenerator.html) | 거칠기에 따른 환경광의 사전 필터링 | 외부 HDR 파일 없이 자체 스튜디오 광원 환경을 만들고 금속 표면에 반사. |
 | [UnrealBloomPass](https://threejs.org/docs/pages/UnrealBloomPass.html) · [InstancedMesh](https://threejs.org/docs/pages/InstancedMesh.html) | 밝기 임계값 기반 블룸, 반복 메시 draw call 절약 | 높은 밝기의 빛에만 제한적으로 번짐. 작은 반복체는 공유 형상·배치로 관리. |
 
-브라우저 관찰·기술 문서를 근거로 한 아래 아트 방향은 본 프로젝트의 설계 판단이며 레퍼런스 사이트의 내부 구현을 복제하거나 확인했다고 주장하지 않는다. 캡처는 `outputs/research-*`에만 보관한다.
+브라우저 관찰·기술 문서를 근거로 한 아래 아트 방향은 본 프로젝트의 설계 판단이며 레퍼런스 사이트의 내부 구현을 복제하거나 확인했다고 주장하지 않는다. 캡처는 `outputs/qa/2026-09-11/research/research-*`에만 보관한다.
 
 ## 현재 초안의 문제
 
