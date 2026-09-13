@@ -210,7 +210,9 @@ export async function handleInquirySubmission(request: Request, options: Inquiry
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(createInquirySlackMessage(draft, requestId)),
           signal: controller.signal,
-          redirect: 'error',
+          // Workers supports manual/follow, not redirect:error. Do not follow
+          // redirects; the HTTP 200 check below rejects every 3xx response.
+          redirect: 'manual',
           cache: 'no-store',
         });
         if (response.status !== 200) {

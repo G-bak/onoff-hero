@@ -16,5 +16,5 @@ export function GET() {
 }
 
 export function POST(request: Request) {
-  return handleInquirySubmission(request, { ...configuration(), fetcher: fetch });
+  return handleInquirySubmission(request, { ...configuration(), fetcher: (url, init) => fetch(url, init) });
 }

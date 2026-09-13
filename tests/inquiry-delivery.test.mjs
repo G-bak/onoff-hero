@@ -92,7 +92,7 @@ await test('valid inquiry uses a fixed notification and plain_text blocks withou
     calls++;
     assert.equal(url, webhookUrl);
     assert.equal(init.method, 'POST');
-    assert.equal(init.redirect, 'error');
+    assert.equal(init.redirect, 'manual');
     assert.equal(init.cache, 'no-store');
     assert.equal(init.headers['Content-Type'], 'application/json');
     assert.ok(init.signal instanceof AbortSignal);
@@ -120,7 +120,7 @@ await test('exactly 3000 description characters fit their own Slack block', asyn
 });
 
 await test('only HTTP 200 with ok body is success and no upstream error details leak', async () => {
-  for (const [status, text] of [[200, 'invalid_payload FAKE_SECRET_NEVER_SENT'], [201, 'ok'], [204, null], [403, 'secret revoked'], [429, 'limited'], [500, 'upstream internals']]) {
+  for (const [status, text] of [[200, 'invalid_payload FAKE_SECRET_NEVER_SENT'], [201, 'ok'], [204, null], [301, 'redirect'], [302, 'redirect'], [307, 'redirect'], [308, 'redirect'], [403, 'secret revoked'], [429, 'limited'], [500, 'upstream internals']]) {
     const input = draft(), guard = createInquiryDeliveryGuard();
     const response = await result(await handleInquirySubmission(request(input), configured({ guard, fetcher: async () => new Response(text, { status }) })));
     assert.equal(response.status, 502);
