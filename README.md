@@ -1,102 +1,64 @@
-# ON&OFF — Creative in continuum
+# ON&OFF
 
-ON&OFF의 첫 화면 디자인. 선명한 2D 워드마크와 회전하는 3D 미니어처 팀 카드를 중심으로 구성했습니다.
+브랜드 기획부터 디자인·웹사이트·마케팅·운영까지 소개하는 사이트다. React·TypeScript, Vinext·Vite, Tailwind CSS, Three.js와 Cloudflare Worker 구성을 사용한다.
 
-## 실행
+현재 로컬 홈페이지는 **HOME → SYSTEM → DESIGN → WEB → MARKETING → SERVICES → TOGETHER**의 7개 섹션과 6개 면 전환이다. 마지막 메뉴명은 TOGETHER, 내부 주소 ID는 `film`이다. 다섯 서비스 상세와 프로젝트 문의 페이지를 제공한다. 자세한 현재 기준은 [문서 색인](docs/README.md)에 있다.
+
+## 로컬 실행
+
+Node 버전은 [.node-version](.node-version)의 24.19.0, 패키지 관리자는 npm이다. 새 체크아웃에서는 `npm ci`로 설치한다.
 
 ```powershell
-cd C:\Users\usewr\Documents\ChatGPT\follow-art-hero
-npm install
+npm run preview:node
+```
+
+주소는 http://localhost:5187 이다. [start-local.cmd](start-local.cmd)도 같은 명령을 실행한다. 이 PC는 Windows Application Control이 Cloudflare workerd를 차단하므로 Node/Vite로 UI를 미리 본다. Worker 바인딩과 실제 Cloudflare 런타임 검증은 별도다.
+
+Cloudflare 로컬 런타임을 실행할 수 있는 환경에서는 다음 명령을 사용한다.
+
+```powershell
 npm run dev -- --host 127.0.0.1 --port 5187 --strictPort
 ```
 
-http://localhost:5187 에 접속합니다. `start-local.cmd`를 실행해도 됩니다. 5187 포트를 다른 프로세스가 쓰고 있으면 덮어쓰거나 종료하지 않고 시작을 중단합니다.
+이미 실행 중인 이 프로젝트 서버는 재사용한다. 5187을 다른 프로세스가 쓰면 임의 종료하거나 포트를 바꾸지 않는다. 로그·임시 출력은 Git에서 제외되는 `outputs/`에 둔다.
 
-이전 단계의 프로젝트 경로를 유지합니다. 별도 `onoff-website-redesign` 등 다른 프로젝트 파일은 수정하지 않았습니다. 회사 업종과 문의 이메일은 해당 기존 프로젝트의 사용자 자료를 참고했습니다.
+## 현재 동작과 콘텐츠
 
-## 디자인
+- 새 홈페이지 로드에서 글자별 네 번의 탄성 도약 → `&` 낙하·정렬 → 기존 워드마크 안착 → 카드·문구 등장으로 이어지는 약 5.8초(기존 대비 1.5배속) 3D 오프닝을 제공한다. 도킹과 카드 하강은 Ease Out이며 건너뛰기·움직임 감소·직접 섹션 주소·뒤로가기를 처리한다. [구현·참고·검증](docs/pages/HOME-OPENING-NOTES.md).
+- TOGETHER가 보이고 화면 준비가 끝난 뒤 2.2초 후 구체적인 서비스 안내 말풍선과 프로젝트 문의 버튼 강조를 표시한다. 닫기·모션 중지·문의 페이지 연결을 제공한다. [문구·PC·모바일 검증](docs/reviews/OPENING-AND-INQUIRY-2026-09-13.md).
+- 첫 화면 3D 카드, SYSTEM 은하, DESIGN 편집 지면, WEB 영상, MARKETING 광고 카드, SERVICES 목록, TOGETHER 브랜드 영상. 움직임 감소·MOTION OFF·화면 밖 정지·오류 대체 화면을 유지한다.
+- 고정 링크는 **프로젝트 문의**로 이동한다. 상담톡은 `lib/consultation.ts`의 `consultationChatEnabled=false`로 숨기며 컴포넌트와 스타일은 보존한다.
+- `/inquiry`는 입력·참고 링크를 Slack 메시지로 전달하며 실제 테스트 성공 응답을 확인했다. 최대 90일 보관과 담당 업무명·이메일을 안내하고 수집·이용/국외 처리위탁 동의를 따로 받는다. 웹훅과 현재 정책 버전이 없으면 접수를 잠근다. 파일 업로드·메일 자동 발송·DB는 추가하지 않았다. [연결과 검증](docs/operations/SLACK-INQUIRY.md), [로컬 산출물 정리](docs/operations/OUTPUTS.md).
+- `/services/` 아래 `planning`, `design`, `web`, `marketing`, `operations`의 다섯 상세 경로를 제공한다. 금액·납기·수정 횟수는 확정하지 않고 상담 후 견적으로 안내한다.
+- 포트폴리오와 인물은 가상 브랜드 시안·직무별 캐릭터다. 실제 고객 실적·직원·성과로 설명하지 않는다. 참고 사진과 글꼴의 출처·라이선스를 보존한다.
+- 홈페이지의 부드러운 섹션 이동을 유지한다. 별도 페이지는 `PageLink`와 루트 `scroll-behavior:auto` 규칙으로 진입·뒤로가기·직접 해시를 처리한다.
 
-- 쿨 그레이 #e9edef, 검정 #333333, 파랑 #343CFF, 연두 네온 #D8FF3E 포인트
-- Montserrat Bold(700) 기반의 고정된 2D ON&OFF 워드마크, 코발트 앰퍼샌드. 동일한 3D 카드 장면을 월드 좌표 z=0에서 앞·뒤로 잘라 글자 양쪽 레이어에 렌더링하므로 뒤쪽 카드는 글자 뒤로, 앞쪽 카드는 글자 앞으로 통과
-- 큰 워드마크 외 영문은 Inter, 한글은 프로젝트에 설치한 Pretendard Variable 1.3.9의 공식 동적 서브셋 사용. 전체 글자 범위를 사이트에서 직접 제공하고 화면에 필요한 조각만 받음. 새 이름·소개도 `lib/scene-fonts.ts`가 해당 글자를 준비한 뒤 카드에 그림. Montserrat는 워드마크에 필요한 Latin 700만 불러오며, 라이선스는 `public/fonts/MONTSERRAT-LICENSE.txt`에 보관
-- 헤더 왼쪽에는 사용자가 제공한 손글씨 로고만 배치, 너비 데스크톱 96px / 모바일 82px
-- 헤더 중앙은 데스크톱에서 두 줄로 구성: 첫 줄은 `© 2026 ON&OFF ALL RIGHTS RESERVED.` 저작권만, 둘째 줄은 대표자·전화·주소·`이메일 onoff3739@naver.com`. 좁은 화면에서는 저작권과 회사 정보가 필요한 만큼 줄바꿈. 보조 글자색은 `#596569`, 일반 HTML 안내·조작 글자는 모바일에서도 최소 12px. 이메일 아이콘은 사용하지 않음
-- 대표자 `홍길동`, 주소 `서울특별시 ○○구 ○○로 123, 3층`, 전화 `02-0000-0000`은 교체용 임시 값. 화면의 임시 정보 안내 문구는 사용자 요청으로 삭제
-- 헤더 오른쪽은 기존 대각선 화살표를 유지한 `News & Recruitment`. 현재는 페이지 준비 안내 모달을 열고, 확인·닫기·Escape·배경 클릭으로 닫을 수 있음. `lib/navigation.ts`에서 페이지 구현 후 `ready`를 `true`로 변경하면 `/news-recruitment`로 이동
-- 원본 로고의 투명도를 유지한 32px / 64px PNG 파비콘
-- 카드와 궤도 가이드는 최초 위치보다 데스크톱 34~46px, 모바일 34px 위로 이동(이번 조정에서 14px 추가)
-- 여유 있는 여백, 가는 기준선, 원형 문의 버튼
-- 오른쪽 중앙의 고정 섹션 메뉴는 `01 HOME` / `02 WHY`를 두 페이지에 공통 표시. 하나의 색상 바가 스크롤 진행률에 맞춰 두 항목 사이를 부드럽게 오가며, 클릭으로 양쪽 화면을 이동한다. 좁은 화면에서는 번호와 현재 위치 표시만 노출한다. 첫 화면은 파랑, 두 번째 파란 배경에서는 라임색으로 현재 위치를 구분한다.
-- Strategist / Art Director / Designer / Filmmaker / Developer / Media Planner 팀 캐릭터 카드
-- 사용자가 제공한 Photoroom 투명 배경 실사 피규어 6명, 소품으로 직무 구분. 3D 카드와 대체 화면에 같은 이미지 사용
-- 사용자 카드 예시에 맞춰 영문 분야 → 큰 직무명 → 소개 → `CHARACTER EDITION`을 위쪽에 모으고, 아래쪽 회색 배경판에 누끼 인물을 겹쳐 배치. 상단 로고·TEAM 번호·구분선 영역 98px을 제거해 카드를 640×782로 축소하고, 모든 내용을 98px 위로 이동. 3D 카드도 같은 비율로 낮추되 위쪽 가장자리는 고정하여 내용과 하단이 위로 올라옴. 회색 판은 (214, 256), 366×416, 인물 패널은 (340, 364), 높이 386으로 오른쪽 아래에 배치하며 판 아래로 내려옴. 얼굴·소품·발·받침대가 잘리지 않도록 투명 원본 셀 전체를 사용. 대체 화면도 같은 비율 사용
-- 원통형 곡면의 자동 회전, 마우스/터치 드래그, 키보드 방향키
-- 원본 영상에 맞추기 전의 ON&OFF 방향으로 복원: 오른쪽이 낮아지는 약 10° 기울기, 앞쪽 카드는 왼쪽에서 오른쪽으로 회전. 속도는 초당 .11 라디안이며 궤도선과 대체 카드 화면도 같은 사선 사용
-- ON/OFF 모션 스위치, 스페이스 키 재생/정지, 움직임 감소 설정 지원
-- 처음에는 MOTION ON으로 시작. OFF에서도 드래그·방향키·마우스 기울기 반응은 유지하며, 움직임이 완전히 끝나면 렌더링을 쉬고 다음 조작이나 화면 크기 변경 때 재개. 숨겨진 탭에서는 프레임 예약을 멈추고 돌아왔을 때 다시 시작
-- 모션 스위치 옆 화살표 버튼으로 자동 회전 방향 전환. 정지 상태에서도 다음 재생 방향을 선택할 수 있으며 장면을 다시 생성하지 않음
-- 사용 중 3D 연결이 끊기면 기본 카드와 복구 안내 표시. 앞·뒤 화면 모두 복원 및 렌더링된 뒤 복귀하며, 보이는 시간 합산 10초를 넘으면 기본 화면 유지. `3D 다시 시도`는 페이지 새로고침 없이 장면만 다시 만들고 모션·방향 설정 보존. [복구 정책과 검증](RECOVERY-NOTES.md)
-- 하단 오른쪽 상담톡은 두 페이지에서 같은 위치의 공통 버튼으로 표시한다. 기존 짙은 캡슐과 라임색 원 안의 대각선 화살표, `실시간 상담톡` 문구를 사용한다. 첫 메시지에 서비스 준비 중임을 알리고 이메일 문의 링크를 제공한다. 날짜는 한국 시간으로 표시하며 실제 상담 기능 연결 전까지 입력창·전송 버튼은 비활성화한다.
-- 상담톡 헤더에 `서비스 준비 중`, 하단에 운영 예정 시간 `09:00–18:00` 표시. 호출부에서 공통 Dialog의 중앙 정렬 클래스를 제거하고 화면 가장자리 여백으로 배치. 모바일 안전 영역과 화면 높이를 반영하며 본문만 스크롤. 빌드 검사에서 중앙 정렬 제거와 배포 CSS를 확인
-- 스위치 손잡이는 `--motion-thumb-x` 변수와 단일 `translate` 속성으로 위치를 제어해 ON/OFF 모두 트랙 안쪽 3px 여백 유지. 배포 CSS에서 `translate: none`이 최적화로 사라져 기본 이동과 추가 이동이 겹치는 문제를 방지
-- WebGL 미지원 시 읽을 수 있는 텍스트 워드마크와 캐릭터 카드 대체 화면
-- 첫 접속 시 로고 아래에 작은 점선 타원을 표시하고, 엔진·이미지·글꼴·카드 텍스처·첫 화면 출력의 완료 단계에 따라 회색 점이 파란색으로 채워짐. 점의 위치는 고정되며 회전하지 않음. `lib/scene-orbit.ts`의 카드 기울기·카메라·반지름을 사용하므로 WebGL 로딩 전에도 같은 형태로 표시. 준비 완료 후 부드럽게 해제하며 로딩 중 배경 조작을 방지. 움직임 감소 설정에서는 전환 애니메이션 생략
-- 로딩 타원의 점은 24개이며, 투영된 윤곽선의 길이를 기준으로 균등 배치해 좁은 양옆에서도 서로 겹치지 않도록 구성
-- 로딩 화면은 최소 1초 동안 표시한 뒤 0.5초에 걸쳐 사라짐. 안내 문구는 `3D 공간을 구성하는 중입니다`, 완료 후 `3D 공간이 준비되었습니다` 사용
-- 세로 스크롤바 공간을 처음부터 확보해 로딩 종료 시 화면 폭이 바뀌지 않게 함. 스크롤 잠금은 페이드 시작 시 해제하고, 배경 조작의 `inert`는 페이드 종료까지 유지. 두 번째 섹션은 첫 HTML부터 포함됨
-- 10초 이상 지연되면 빨간 안내와 전체 경과 시간 `00:10 / 최대 05:00`을 표시. 오프라인·네트워크 오류·서버의 실패 응답·이미지 해석 오류·3D 초기화 오류를 구분해 빨간 안내와 복구 버튼을 표시. 로딩 시작 후 5분까지 완료되지 않으면 요청을 중단하고 안내 팝업 표시. `다시 시도`는 페이지를 새로고침하고, `기본 화면 보기`는 진행 중인 3D 초기화를 중단한 뒤 사이트 이용을 허용
+## 디렉터리
 
-현재 미니어처는 실제 직원의 외모를 재현한 것이 아닌 직무별 캐릭터입니다. 이름을 임의로 만들지 않았습니다. 직원 정보가 준비되면 `lib/team.ts`의 `displayName`, `role`, `category`, `line`을 수정할 수 있습니다. 카드에는 `CHARACTER EDITION`을 표시합니다. 문의 링크는 기존 ON&OFF 자료의 `onoff3739@naver.com`을 사용합니다.
+| 위치 | 역할 |
+| --- | --- |
+| `app/` | 라우트, 제품 컴포넌트, CSS |
+| `app/assets/` | Vite 해시 주소로 제공하는 미디어; `generated/`는 자동 생성 |
+| `components/ui/`, `hooks/` | 공통 UI와 공유 훅 |
+| `lib/` | 서비스 데이터·장면 수학·프레임 루프·복구·재생 정책 |
+| `scripts/` | [검사·자산 생성 명령](scripts/README.md) |
+| `tests/` | 상태·모션·복구 회귀 검사 |
+| `docs/` | [페이지 기준·운영·검토·참고 문서](docs/README.md) |
+| `design/` | 원본·프롬프트·제작 근거·해시·버전 이력 |
+| `design/archive/public/` | public에서 분리한 과거 시안·비교 GIF·자산 기록 |
+| `public/` | 공개 고정 자산·라이선스와 현재 팀·로고 원본 |
+| `outputs/` | 로컬 로그·검증 결과·임시 도구; Git 제외 |
 
-첫 화면과 두 번째 `WHY ON&OFF` 섹션을 로컬에서 작업했습니다. [2페이지 바로가기](http://localhost:5187/#why)와 [구현 기록](PAGE2-NOTES.md)을 참고하세요. 두 번째 섹션의 별도 헤더는 사용자 요청으로 삭제했습니다. 큰 화면은 첫 화면처럼 너비 100%와 화면 높이를 기준으로 배치하고, 좁은 화면은 읽을 수 있는 세로 흐름으로 배치합니다. 페이지 전체의 종횡비는 고정하지 않습니다. 동영상은 추가하지 않았고 `public/videos`는 비어 있습니다.
+현재 팀 원본은 `public/images/team-realistic-figurines-v3-photoroom.png`다. `scripts/team-asset.config.mjs`의 설정으로 768×768 무손실 WebP를 만들며, 3D와 대체 카드가 같은 생성물을 사용한다. `predev`·`prebuild`·`preview:node`에서 자동 준비한다. 보관된 다른 실행 자산에는 현재 생성기의 입력도 있으므로 단순 미참조 검색으로 삭제하지 않는다.
 
-## GitHub와 Cloudflare 배포
-
-- 소스 저장소: https://github.com/G-bak/onoff-hero (비공개)
-- Cloudflare Worker: `onoff-hero-preview`
-- 임시 주소: https://onoff-hero-preview.ajdhfbx1836203.workers.dev
-- 최신 배포: 2026-09-10 13:38 KST, 메인 ON/OFF 문구의 마침표 제거까지 반영. 카드 상단 영역 삭제 및 높이 축소, 중앙·하단 문구 위치 교대, 검정 #333333·연두 네온 #D8FF3E·파랑 #343CFF 적용. [배포·복원 기록](DEPLOYMENT-NOTES.md)
-- 배포 명령: `npm run deploy` (린트·타입·테스트·빌드 검사 후 Cloudflare에 배포)
-- 자동 배포 연결 완료: `main` push → `npm run ci:build` → 기존 Worker 배포. 타입 검사·테스트·빌드·배포 CSS 검사가 성공한 버전만 반영합니다. 다른 브랜치의 미리보기 빌드는 비활성화했습니다. [연결 및 설정값](AUTO-DEPLOY.md)
-- 인증 정보, 의존성 폴더, 빌드 결과, 작업 출력물은 Git에 포함하지 않습니다.
-
-## 주요 파일
-
-- `app/page.tsx`: ON&OFF 워드마크, 첫 화면 구성, 문의 링크, 모션 스위치
-- `app/components/wordmark.tsx`: 2D 회사 이름
-- `app/components/why-section.tsx`: 두 번째 섹션의 문구와 시안 그래픽
-- `app/components/site-controls.tsx`: 두 페이지 공통 섹션 메뉴와 상담톡
-- `app/components/section-entry.tsx`, `lib/section-entry.ts`: 스크롤에 따른 면 전환과 첫 화면 가림 상태
-- 현재 전환은 고정된 2페이지 위에서 1페이지 전체가 오른쪽으로 쏠리며 위로 빠져나가는 그래픽한 면 전환이다. 사용자 요청으로 종이 말림·뒷면·그림자를 제거했다. 역방향으로 되돌릴 수 있고, 전환 뒤의 긴 본문은 일반 스크롤로 읽는다. 움직임 감소 설정에서는 일반 문서 흐름을 사용한다.
-- `app/components/card-ribbon.tsx`: 카드 3D 곡면, 캐릭터 텍스처, 인터랙션
-- `lib/scene-frame-loop.ts`: 필요할 때만 실행하는 렌더링 예약과 움직임 마무리
-- `lib/scene-recovery.ts`, `app/components/scene-recovery-notice.tsx`: 앞·뒤 3D 장애 복구 상태, 기본 화면 안내와 재시도
-- `lib/team.ts`: 직원 이름/직무/소개와 캐릭터 매핑
-- `app/globals.css`: 색상, 타이포그래피, 반응형, 모션
-- `public/images/team-realistic-figurines-v3-photoroom.png`: 현재 카드의 사용자 제공 누끼 원본
-- `scripts/team-asset.config.mjs`, `scripts/prepare-team-assets.mjs`: 원본 선택과 무손실 WebP 자동 생성·검증
-- `lib/scene-fonts.ts`: 이름·직무·소개 변경을 반영하는 캔버스 글꼴 준비
-- `public/images/team-realistic-figurines-photoroom.png`: 이전 누끼 이미지 보관
-- `public/images/team-realistic-figurines-v4.png`: 배경 제거 전 실사 피규어 원본 보관
-- `public/images/team-miniatures.png`: 이전 캐릭터 미니어처 원본 보관
-- `public/images/onoff-logo-new.png`: 사용자 제공 로고 원본
-- `public/images/onoff-logo.png`: 투명 여백만 정리한 헤더용 로고
-- `public/favicon-onoff-32.png`, `public/favicon-onoff-64.png`: 같은 로고의 파비콘
-- `scripts/prepare-brand-assets.mjs`: 원본 디자인을 유지하며 로고 크기와 여백 정리
-- `public/images/ASSET-NOTES.md`: 생성 이미지 기록
-
-## 검증
+## 검증과 배포
 
 ```powershell
 npm run ci:build
 ```
 
-빌드 마지막 단계에서 `scripts/check-production-css.mjs`가 상담창의 실제 클래스 병합 결과와 최적화된 CSS, 모션 스위치 이동, 9개 화면 크기의 팝업 경계를 검사합니다. 위치 관련 검사가 실패하면 배포용 빌드도 실패합니다.
+`check`는 문서의 로컬 링크 경로·공개 자산 목록, 린트, 타입, 회귀 검사를 실행한다. `build`는 자산 준비·Vinext 빌드 후 배포 CSS와 글꼴·미디어 바이트, 보관 자료의 배포 제외를 검사한다. 두 단계는 `ci:build`에 포함된다. 문서 외부 URL·제목 앵커, 브라우저 조작, Cloudflare 런타임 검증을 자동으로 수행한다는 의미는 아니다.
 
-`ci:build`는 린트부터 실행하며 오류·경고가 있으면 이후 검사와 빌드를 진행하지 않습니다. 수동 `npm run deploy`도 같은 검사 경로를 사용합니다. 파일별 린트 예외의 이유와 수정 기록은 [LINT-NOTES.md](LINT-NOTES.md)에 있습니다. 이 변경은 로컬 작업 상태이며 다음 GitHub push 이후 자동 배포에 반영됩니다.
+`main` push는 기존 Cloudflare 자동 배포를 실행한다. 로컬 검토 중에는 push나 `npm run deploy`를 실행하지 않는다. Worker `onoff-hero-preview`, `.openai/hosting.json`, `vite.config.ts`를 보존한다. [자동 배포 절차](docs/operations/AUTO-DEPLOY.md)와 [날짜별 배포 이력](docs/operations/DEPLOYMENT-NOTES.md)을 구분하며, 과거 기록만으로 현재 운영 버전을 단정하지 않는다.
 
-`npm run dev`와 `npm run build`는 먼저 `npm run prepare:assets`를 실행합니다. 이 명령은 원본을 보존하면서 `app/assets/generated/team-atlas.webp`를 만들고 픽셀·투명도·크기를 확인합니다. 생성 파일은 Git에서 제외하며 새 체크아웃에서도 자동으로 만들어집니다. 이미지 교체는 `scripts/team-asset.config.mjs`의 원본 경로를 바꾸면 됩니다. 3D와 대체 화면은 같은 가져오기 주소를 사용하고 배포 파일명에는 Vite 해시가 붙습니다.
-
-빌드의 `scripts/check-production-assets.mjs`는 공식 글꼴 조각이 모두 포함됐는지, 파일 내용과 문자 범위가 유지됐는지, 외부 글꼴 URL이 없는지, 이미지가 검증된 생성물과 같은지 확인합니다. 새 한글 문구는 별도의 폰트 생성 없이 필요한 조각을 자동으로 사용합니다. 의존성 버전과 라이선스는 그대로 유지합니다. 로딩·렌더링·글꼴 준비·공용 상태·3D 복구 테스트는 `npm run check`에 포함됩니다.
-
-초기 단계에서 참고한 사이트는 https://follow.art/ 입니다. 현재 버전은 그 사이트의 로고, 문구, 인물 카드, 서체, 색상, 붓 자국을 사용하지 않습니다. 이전에 생성한 실사 인물, 소재 사진, 입체 글자용 폰트 자료는 보관만 하며 현재 화면에서 불러오지 않습니다. Inter의 SIL Open Font License는 `public/fonts/INTER-LICENSE.txt`에 포함되어 있습니다.
+2026-09-13 전체 점검은 로컬에만 반영했다. [문제·수정·검증·후속 항목](docs/reviews/PROJECT-AUDIT-2026-09-13.md)에 작업을 기록한다. 커밋·GitHub push·운영 배포는 하지 않았다.

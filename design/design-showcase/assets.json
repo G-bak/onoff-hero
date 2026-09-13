@@ -1,0 +1,23 @@
+[
+  {
+    "name": "identity",
+    "width": 720,
+    "height": 900,
+    "bytes": 34618,
+    "sha256": "da74b8a67afc0586148e882ddea0e4e8287f215316296b1f06b10354d6d88fbb"
+  },
+  {
+    "name": "package",
+    "width": 720,
+    "height": 900,
+    "bytes": 59300,
+    "sha256": "27a11bac44d4759227b8c9e2bc0ab29c99ca50287175bc0287100e87472540b2"
+  },
+  {
+    "name": "editorial",
+    "width": 720,
+    "height": 900,
+    "bytes": 42654,
+    "sha256": "a719f9754564da7f027ec4984e24385cf81019d33738f836d6236231749df294"
+  }
+]

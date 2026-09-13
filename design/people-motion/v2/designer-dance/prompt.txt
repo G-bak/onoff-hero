@@ -1,0 +1,26 @@
+Use case: stylized-concept
+Asset type: production animation sprite sheet, 16 chronological full-body exposures of one consistent character.
+Primary request: Generate EXACTLY one 2048x2048 PNG, a STRICT uniform 4-column by 4-row grid, each invisible cell exactly 512x512. Sixteen successive frames read left to right, top to bottom, covering ONE smooth complete playful hip-hop groove cycle.
+Input images: Image 1 is the IDENTITY AND WARDROBE reference: preserve this same Korean woman, face, short dark bob, cream button-up blouse with rolled sleeves, charcoal wide trousers, white sneakers, realistic miniature character rendering. Remove her display pedestal. Image 2 is MOTION REFERENCE ONLY: use its loose side/back dance articulation, weight shifts and bounce; do not copy the blonde woman, face, clothes, room, framing or background.
+Scene/backdrop: Every background pixel is pure FLAT CHROMA GREEN #00FF00, across every cell and every gap. No ground, floor shading, pedestal, cast shadows, gradient, vignette, transparency or alpha checkerboard.
+Camera/framing: Fixed camera and identical scale in every frame, orthographic-style mild perspective. Full head, ALL hands, both feet and clothes are fully visible with safe equal margins in each cell. Character height about 80% of each cell, centered near x50%, feet baseline y90%. Keep clear empty green separation between silhouettes. No visible grid lines or frame numbers.
+Action and anatomy: A joyful bouncing dance, genuinely moving knees, hips, shoulders, elbows, wrists and feet. Relaxed open loose hands, anatomically sound fingers. Fabric follows the changing bend and weight. The groove alternates bent knees / up bounce, dropped shoulder, arm swing from near ear across chest and the other arm following. Weight actually transfers with small lateral steps, heel lifts and foot pivots, rather than a rigid body spinning. The pelvis, shoulders and arms have substantial changing silhouettes. It must read as DANCING, not presenting, waving, walking in place or sixteen similar standing portraits.
+STRICT VIEW RULE: She faces LEFT in pure side profile at first, then turns only toward REAR THREE-QUARTER while dancing, then returns toward left side. Yaw stays between 90 and 170 degrees from front. NEVER show a frontal or front-three-quarter torso or face, NEVER look toward camera. No full spin, no mirrored frames.
+Chronological choreography, each frame a small successive exposure:
+0 left-side profile, knees flexed, hip sitting lightly back, left hand near ear, right elbow loose at ribs, feet apart.
+1 slightly deeper knee bounce, right shoulder dips, left forearm begins sweeping forward, rear heel lifts.
+2 knees rise, arm swing crosses chest, left foot begins small lateral step; head remains left/away.
+3 planted left foot accepts weight, actual right-foot pivot rotates torso slightly away, arms continue opposite swing.
+4 rear three-quarter, knees flex again, hip shifts over left support, right elbow rises and left elbow lowers.
+5 upward bounce, trailing right heel peels off, right forearm swings near head, left hand sweeps low.
+6 a small right lateral step, grounded left support leg bent, shoulders counter-rotate, hands loose.
+7 deepest rear-three-quarter groove (about yaw165), feet replant apart, pronounced knee dip, both elbows asymmetrically bent.
+8 rebound upward in same rear-three-quarter, left heel lifts, right arm crosses upper chest, opposite elbow opens.
+9 body shifts toward right support foot, left leg follows small side step, shoulders bob down.
+10 knees extend halfway, left arm arcs up near ear as right hand swings forward, tiny foot pivot starts return to side.
+11 rear three-quarter becoming more sideways, right knee bends deeper, left shoulder dips, fabric folds change naturally.
+12 side-rear angle, lateral step back toward starting stance, arms reverse swing, one heel visibly raised.
+13 near left-side profile, knees rebound up, left forearm sweeps forward, right arm follows smoothly.
+14 left profile, feet settle into opening stance, knees begin next dip, left hand rises back toward ear.
+15 left profile, knee/hip/arm state immediately before frame0 so the cycle loops naturally; small real pose difference from frame0.
+Lighting/style: Clean detailed realistic 3D miniature character, same identity, proportions, hairstyle and wardrobe in all 16 exposures; soft studio light on character only. No accessories, portfolio, laptop, other people, text, logos, motion streaks or multi-exposure ghosts. Exactly 16 clean separate silhouettes in a precise 4x4 contact sheet.

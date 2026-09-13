@@ -1,0 +1,26 @@
+{
+  "generator": "OpenAI ImageGen",
+  "date": "2026-09-12",
+  "files": [
+    {
+      "file": "luma-feed-ad.png",
+      "bytes": 2092927,
+      "sha256": "29593a69c7176d4b764d09bfd077e79c6bed98aa26245d056f5ad9c7515d7c09"
+    },
+    {
+      "file": "daybreak-feed-ad.png",
+      "bytes": 2442328,
+      "sha256": "3e4d00a283ff55fd783a672d877f69937b9ad13c72c7c58edaf61de8fb946bfc"
+    },
+    {
+      "file": "shorts-athletic-master.png",
+      "bytes": 1716090,
+      "sha256": "db85b312703964f7722fec6fc1865f846964150f2de25888a2b75f037c895880"
+    },
+    {
+      "file": "marketer-poses.png",
+      "bytes": 1611411,
+      "sha256": "46aaa83338cc0d1e604e2beb49947ecb140ddf23dabb83d4d289fb0d82249963"
+    }
+  ]
+}

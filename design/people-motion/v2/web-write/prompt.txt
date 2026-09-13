@@ -1,0 +1,26 @@
+Use case: stylized-concept
+Asset type: production animation sprite sheet, sixteen progressive full-body exposures of one character turning from side to rear and writing with chalk.
+Primary request: Generate EXACTLY one 2048x2048 PNG in a STRICT uniform 4-column by 4-row grid, each invisible cell 512x512. Exactly sixteen chronological frames, row-major left-to-right then top-to-bottom.
+Input images: Image 1 is the IDENTITY AND WARDROBE reference: preserve this same Korean woman with round black glasses, short dark bob, navy cardigan over white top, charcoal wide trousers, white sneakers, realistic miniature character rendering. Remove display pedestal and any props. Image 2 is MOTION REFERENCE ONLY for realistic shoulder, elbow and wrist articulation of writing toward a board on the LEFT; do not copy that person's face, hair, clothes, actual board or environment.
+Scene/backdrop: Absolutely pure uniform FLAT CHROMA GREEN #00FF00 everywhere behind the character, including all gaps. No shadows on floor, no floor line, no pedestal, no gradients, no alpha checkerboard. The board is deliberately ABSENT: this sheet contains only the person and one tiny piece of white chalk pinched in her RIGHT hand.
+Fixed camera/framing: Same full-body scale, same camera distance, equal safe margins across all cells. Each complete character about 80% of cell height, feet centered around x60%, baseline y90%. All head, fingers, hands and both feet remain inside their own cell. Put the writing hand endpoint in the UPPER LEFT quadrant, around x32%, y35% while she writes. Her hand reaches to an imaginary fixed vertical board plane LEFT of the body. Keep empty green gaps between every silhouette. No grid lines, frame labels, numbers, captions or background objects.
+STRICT FACING RULE: Frame0 is exact LEFT-SIDE profile, no frontal torso. Frames1-4 turn gradually AWAY from camera using actual small foot pivots and weight transfer. Frames4-15 are REAR THREE-QUARTER facing away-left. Never return to a frontal view, never look at camera. No spin or mirrored imitation.
+Action sequence; smooth adjacent exposures, not disconnected poses:
+0 pure left-side profile, both arms down and relaxed, small white chalk held in RIGHT fingers.
+1 head begins turning away-left, torso still mostly side, shoulder subtly follows.
+2 shoulders rotate away, right heel starts a small pivot, head follows the imaginary writing surface.
+3 rear-three-quarter develops, small forward-left step and real weight transfer, arms still low.
+4 rear-three-quarter established, feet finish shifting toward imaginary board to LEFT, chalk hand begins preparing.
+5 RIGHT elbow rises outward naturally, forearm bends toward board, left hand stays low near hip.
+6 RIGHT forearm lifts UP AND LEFT, chalk-bearing fingertip approaches x32%,y35%, wrist not twisted.
+7 RIGHT hand touches imaginary writing plane around x31%,y32%, shoulder stable, tiny beginning chalk stroke.
+8 hand moves a few pixels right around x35%,y32%, realistic wrist extension and minute elbow adjustment.
+9 hand moves gently down-left around x32%,y35%, same rear-three-quarter body with subtle weight support.
+10 tiny rightward writing stroke around x36%,y35%, elbow and forearm change with the endpoint.
+11 short downward stroke around x35%,y38%, no wholesale arm swing.
+12 hand shifts left to start another small line around x30%,y38%, fingers remain holding chalk.
+13 hand glides slightly right around x34%,y38%, stable planted feet, relaxed writing posture.
+14 short diagonal-down stroke around x33%,y40%, wrist and elbow articulate naturally.
+15 continues writing near x35%,y40%, final REAR THREE-QUARTER stance maintained, RIGHT hand remains raised with chalk, never turns back toward viewer.
+Only frames0-6 have the preparation/turn/lift; frames7-15 stay at the board and produce subtle but genuinely different successive writing gestures. Anatomically correct right arm, plausible shoulder/elbow joint angles, real small chalk grip, all fingers intact. Do not duplicate one still sixteen times. Do not show a laptop, pointer, board, letters, words, writing marks, desk, text or icons in this sheet.
+Rendering: Consistent clean detailed realistic 3D miniature woman matching Image1, identical identity, outfit and proportions all sixteen frames, soft light only on the character, crisp silhouette. Precisely 4x4 with sixteen clearly isolated full-body poses.

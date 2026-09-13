@@ -1,0 +1,42 @@
+﻿[
+    {
+        "Key":  "strategy",
+        "Path":  "C:/Users/usewr/AppData/Local/Temp/onoff-crew-gesture-v2/strategy-16.png",
+        "Width":  1024,
+        "Height":  1536,
+        "Bytes":  1552222,
+        "SHA256":  "D8B9F7323A01B5718541AC5D60BD66CAEFC926B6287CD14ACDB897A4AAF8E20B"
+    },
+    {
+        "Key":  "design",
+        "Path":  "C:/Users/usewr/AppData/Local/Temp/onoff-crew-gesture-v2/design-16.png",
+        "Width":  1024,
+        "Height":  1536,
+        "Bytes":  1595917,
+        "SHA256":  "41642BB78E904735B313974FCA83BDADF589352228163BBB85F9C0831C6F1C5B"
+    },
+    {
+        "Key":  "website",
+        "Path":  "C:/Users/usewr/AppData/Local/Temp/onoff-crew-gesture-v2/website-16.png",
+        "Width":  1024,
+        "Height":  1536,
+        "Bytes":  1610000,
+        "SHA256":  "BA6096DB049C770BA5A562A64CCD6F9F20EE3945842EF16D3014568022CFCA35"
+    },
+    {
+        "Key":  "marketing",
+        "Path":  "C:/Users/usewr/AppData/Local/Temp/onoff-crew-gesture-v2/marketing-16.png",
+        "Width":  1024,
+        "Height":  1536,
+        "Bytes":  1619681,
+        "SHA256":  "E8EA6B4DB104B8EF9A6A8C79E6E22886207E89A1888682071BAEDBE6709B1E1E"
+    },
+    {
+        "Key":  "operation",
+        "Path":  "C:/Users/usewr/AppData/Local/Temp/onoff-crew-gesture-v2/operation-16.png",
+        "Width":  1024,
+        "Height":  1536,
+        "Bytes":  1641900,
+        "SHA256":  "A8B3164E8F821DE2E16F0770768270205B1D60DC51A06E98DB97AE29FE33A1B4"
+    }
+]

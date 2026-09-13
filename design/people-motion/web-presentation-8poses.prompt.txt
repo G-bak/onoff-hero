@@ -1,0 +1,17 @@
+﻿Use case: photorealistic-natural
+Asset type: production animation sprite sheet, one final image with exactly eight successive full-body poses.
+Input image: supplied local image is the identity, hairstyle, outfit, and realistic miniature style reference. Preserve the same young Korean woman with a short dark bob, round dark glasses, navy buttoned cardigan worn open over a plain white top, charcoal wide-leg trousers, and white sneakers. Do not preserve the pedestal.
+Primary request: create ONE high-quality 1536x1024 landscape transparent PNG sheet, strictly 4 columns by 2 rows of 8 equal invisible 384x512 cells, read left to right on the top row then left to right on the bottom row. Each cell contains exactly one complete photographic miniature of this same woman, a new sequential pose. No extra figure or missing cell.
+Scene/backdrop: actual transparent alpha background, no painted checkerboard, no colored backdrop, no ground plane. Only a very modest soft contact shadow immediately under each pair of shoes. No pedestal.
+Composition/framing: lock identical fixed front-view camera, lens, lighting, scale, and feet baseline across all eight cells. Center the body in each cell. Her full head, hair, arms, laptop, fingertips, shoes, and shadow must remain inside the cell with at least 10 percent empty margin on all four sides. No overlap between cells. Each figure about 80 percent of cell height at most. Natural hands, five fingers, stable face and identity.
+Action: a closed slim unbranded charcoal laptop is tucked securely under her LEFT arm throughout. She begins looking front, shifts her bodyweight naturally and turns her head slightly toward the VIEWER'S LEFT. She gradually raises her empty RIGHT hand toward the VIEWER'S LEFT as if introducing a video screen there, finishing with a relaxed loose open-palm presenting gesture. The eight successive poses are:
+top row cell 1: relaxed looking at camera, laptop tucked under left arm, right arm down;
+top row cell 2: slight weight shift, right shoulder and hand prepare;
+top row cell 3: head turns slightly toward viewer's left, right elbow begins to bend;
+top row cell 4: bent right forearm raised naturally toward viewer's left;
+bottom row cell 1: right hand extends a little toward viewer's left;
+bottom row cell 2: gentle open palm introducing a video offscreen to viewer's left;
+bottom row cell 3: bodyweight and wrist settle softly;
+bottom row cell 4: confident calm final presenting stance, loose open palm to viewer's left, friendly subtle expression.
+Style/medium: premium photoreal studio miniature, matching reference identity and garment textures, realistic facial proportions and articulated anatomy, soft consistent studio illumination.
+Constraints: eight genuinely newly posed successive photographs, not rotated copies of a single still. Keep whole body visible and same size, stable bob/glasses/outfit/colors/face/laptop, a gentle progression appropriate for later ping-pong animation. Right hand always empty. No X mark on any wrist. No cartoon, no illustration, no pedestal, no motion blur, no motion trails, no grid lines, no labels, no numbers, no text, no logo, no watermark. True alpha transparency.

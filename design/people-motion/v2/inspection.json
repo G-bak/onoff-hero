@@ -1,0 +1,83 @@
+[
+    {
+        "asset":  "blank-chalkboard",
+        "path":  "C:\\Users\\usewr\\Documents\\ChatGPT\\onoff-motion-v2-20260912\\blank-chalkboard\\source.png",
+        "width":  1254,
+        "height":  1254,
+        "bytes":  1268279,
+        "cornersRGBA":  [
+                            "19,242,11,255",
+                            "21,241,10,255",
+                            "21,242,15,255",
+                            "17,245,10,255"
+                        ],
+        "topLeft32pxColors":  [
+                                  {
+                                      "Name":  "5,250,2",
+                                      "Value":  120
+                                  },
+                                  {
+                                      "Name":  "4,250,2",
+                                      "Value":  118
+                                  },
+                                  {
+                                      "Name":  "5,250,3",
+                                      "Value":  81
+                                  }
+                              ]
+    },
+    {
+        "asset":  "designer-dance",
+        "path":  "C:\\Users\\usewr\\Documents\\ChatGPT\\onoff-motion-v2-20260912\\designer-dance\\source.png",
+        "width":  1254,
+        "height":  1254,
+        "bytes":  1589958,
+        "cornersRGBA":  [
+                            "16,240,11,255",
+                            "15,238,8,255",
+                            "14,241,10,255",
+                            "16,244,9,255"
+                        ],
+        "topLeft32pxColors":  [
+                                  {
+                                      "Name":  "3,248,2",
+                                      "Value":  146
+                                  },
+                                  {
+                                      "Name":  "2,248,1",
+                                      "Value":  137
+                                  },
+                                  {
+                                      "Name":  "3,249,2",
+                                      "Value":  91
+                                  }
+                              ]
+    },
+    {
+        "asset":  "web-write",
+        "path":  "C:\\Users\\usewr\\Documents\\ChatGPT\\onoff-motion-v2-20260912\\web-write\\source.png",
+        "width":  1254,
+        "height":  1254,
+        "bytes":  1367430,
+        "cornersRGBA":  [
+                            "16,240,16,255",
+                            "16,239,11,255",
+                            "18,241,17,255",
+                            "17,244,15,255"
+                        ],
+        "topLeft32pxColors":  [
+                                  {
+                                      "Name":  "3,249,4",
+                                      "Value":  254
+                                  },
+                                  {
+                                      "Name":  "3,249,3",
+                                      "Value":  77
+                                  },
+                                  {
+                                      "Name":  "4,249,5",
+                                      "Value":  74
+                                  }
+                              ]
+    }
+]

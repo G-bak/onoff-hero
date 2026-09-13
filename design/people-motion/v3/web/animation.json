@@ -1,0 +1,69 @@
+{
+  "width": 256,
+  "height": 256,
+  "columns": 12,
+  "rows": 12,
+  "count": 144,
+  "fps": 24,
+  "durationMs": 6000,
+  "keyPoses": 12,
+  "iterations": 1,
+  "scale": 0.7612903225806451,
+  "bounds": {
+    "left": -7,
+    "right": 241,
+    "top": -27,
+    "bottom": 282
+  },
+  "boardAnchors": [
+    [
+      89,
+      45
+    ],
+    [
+      89,
+      44
+    ],
+    [
+      89,
+      45
+    ],
+    [
+      88,
+      45
+    ],
+    [
+      89,
+      44
+    ],
+    [
+      89,
+      44
+    ],
+    [
+      88,
+      44
+    ],
+    [
+      88,
+      44
+    ],
+    [
+      89,
+      42
+    ],
+    [
+      89,
+      42
+    ],
+    [
+      88,
+      42
+    ],
+    [
+      88,
+      42
+    ]
+  ],
+  "interpolation": "FFmpeg motion-compensated interpolation; person, chalk and board share one frame sequence"
+}

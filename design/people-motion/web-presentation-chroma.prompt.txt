@@ -1,0 +1,9 @@
+﻿Use case: precise-object-edit
+Asset type: production 8-pose sprite sheet, background repair only.
+Input image: this is the exact edit target. It already has the desired eight photographic miniature poses in a four-column by two-row arrangement.
+Primary request: replace ONLY the entire gray-and-white checkerboard background with a perfectly uniform flat chroma GREEN background, exact RGB(0,255,0), hex #00ff00. The green is a solid opaque flat fill, NOT transparency. All background pixels including between arms and torso, between legs, around hair, between fingers, and around objects must use the same flat #00ff00 green. Remove every remnant of the checker pattern. No texture, no gradient, no checkerboard, no vignette, no color variation in the green. Do not cast green light or green spill onto the person.
+Invariants: preserve the eight existing person instances as closely as possible; same exact identities, facial expressions, skin, hair, clothes, footwear, accessories, hand and finger shapes, orientations, positions, poses, gesture directions, lighting, fine garment textures, number of figures, 4x2 grid, image dimensions 1536x1024, framing, full-body silhouettes, foot baselines and scale. Do not change, flip, reorder, move, crop, enlarge, or regenerate the poses. No pedestal. Keep only the existing modest contact shadows at the shoes if present; everywhere else must be perfectly uniform pure green.
+Text: none.
+Avoid: any new figure, any missing figure, any duplicate pose replacing an existing pose, changing the hand gestures, labels, cell numbers, words, grid lines, watermarks, transparency simulation, checkerboard, textured background, shadows across the background, green clothing, green tint on skin.
+Deliver ONE image, the repaired source sheet.
+Subject lock: the same young Korean woman with dark bob and round glasses, navy cardigan and charcoal trousers holding the closed charcoal laptop, all eight existing web developer poses.

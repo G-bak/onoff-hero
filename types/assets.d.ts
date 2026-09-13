@@ -1,9 +1,24 @@
+declare module '*.webm?url' {
+  const url: string;
+  export default url;
+}
+
 declare module '*.webp?url' {
   const url: string;
   export default url;
 }
 
 declare module '*.png?url' {
+  const url: string;
+  export default url;
+}
+
+declare module '*.mp4?url' {
+  const url: string;
+  export default url;
+}
+
+declare module '*.vtt?url' {
   const url: string;
   export default url;
 }

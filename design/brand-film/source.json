@@ -1,0 +1,16 @@
+{
+  "sourceProject": "onoff-website-redesign",
+  "sourceFile": "public/assets/onf-cinematic-intro.mp4",
+  "sourceBytes": 1996184,
+  "sourceSha256": "8baf577041c5affea1ee54a0ead9c29704512a0991bc0400a6ff52d936f09814",
+  "outputBytes": 1996184,
+  "outputSha256": "8baf577041c5affea1ee54a0ead9c29704512a0991bc0400a6ff52d936f09814",
+  "posterSha256": "d751c38f4b52516adf12e9ed2dc53500cf8102e371b94a895e683ea476333a63",
+  "treatment": "Original bytes copied unchanged.",
+  "durationSeconds": 5,
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "videoCodec": "H.264",
+  "audioCodec": "AAC"
+}

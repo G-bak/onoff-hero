@@ -4,6 +4,14 @@ export type SceneIssue = { kind: SceneIssueKind; message: string };
 
 export const sceneLoadingTiming = { minimumMs: 1000, delayMs: 10000, maximumMs: 300000 };
 
+export function getInitialSceneTiming(fragment: string) {
+  // A direct SYSTEM refresh has its own preparation UI. Do not add an artificial
+  // logo hold in front of that scene; still wait for the actual ready status.
+  return fragment === '#why'
+    ? { minimumMs: 0, fadeMs: 180 }
+    : { minimumMs: sceneLoadingTiming.minimumMs, fadeMs: 500 };
+}
+
 const messages: Record<SceneIssueKind, string> = {
   offline: '인터넷 연결이 끊겼습니다. 연결 상태를 확인한 뒤 다시 시도해 주세요.',
   network: '3D 콘텐츠를 불러오지 못했습니다. 인터넷 연결 상태를 확인한 뒤 다시 시도해 주세요.',

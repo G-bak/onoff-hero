@@ -1,0 +1,32 @@
+{
+  "sourceName": "ONOFF_FINAL_15s_20260912.mp4",
+  "sourceBytes": 13304772,
+  "sourceSha256": "ab8289142b5c929989845f2aecc903078f72b5fcc1146f8b80175392491d3ab0",
+  "source": "User-supplied ONOFF_FINAL_15s_20260912.mp4, original preserved in AI-Video-Studio/06_Exports",
+  "output": "app/assets/web-showcase/onoff-web-film.mp4",
+  "outputBytes": 3093276,
+  "outputSha256": "2d4436b310c0c061955276a8876b98d6385b1684a1008314784ab29957736f7a",
+  "dimensions": [
+    1280,
+    720
+  ],
+  "durationSeconds": 15.04,
+  "fps": 24,
+  "settings": [
+    "-c:v",
+    "libx264",
+    "-preset",
+    "slow",
+    "-crf",
+    "21",
+    "-pix_fmt",
+    "yuv420p",
+    "-c:a",
+    "aac",
+    "-b:a",
+    "128k",
+    "-movflags",
+    "+faststart"
+  ],
+  "posterSeconds": 0.4
+}

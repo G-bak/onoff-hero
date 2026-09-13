@@ -1,12 +1,19 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { CircleAlert } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { getLoadingOrbitPoints, sceneOrbit } from '@/lib/scene-orbit';
-import { formatSceneWait, sceneLoadingTiming, type SceneIssue, type SceneStatus } from '@/lib/scene-loading';
+import { formatSceneWait, getInitialSceneTiming, sceneLoadingTiming, type SceneIssue, type SceneStatus } from '@/lib/scene-loading';
+import { siteSections } from '@/lib/site-sections';
+import { shouldPlayHomeOpening } from '@/lib/home-opening';
+import HeroOpening, { type OpeningResult } from './hero-opening';
+
+// A new document gets an opening. Router returns within that document do not.
+const visitedDocuments = new WeakSet<Document>();
+type EntryMode = 'checking' | 'opening' | 'standard' | 'resume';
 
 const dotCount = 24;
 const orbitLayouts = [
@@ -14,21 +21,41 @@ const orbitLayouts = [
   { name: 'mobile', camera: sceneOrbit.mobileCameraDistance },
 ].map(layout => ({
   name: layout.name,
-  points: getLoadingOrbitPoints(dotCount, layout.camera),
+  // Trigonometric rounding can differ between server and browser engines.
+  points: getLoadingOrbitPoints(dotCount, layout.camera).map(point => ({
+    x: Number(point.x.toFixed(3)),
+    y: Number(point.y.toFixed(3)),
+  })),
 }));
 
-export default function SceneLoader({ status, progress, elapsed, issue, onContinue }: {
+export default function SceneLoader({ status, progress, elapsed, issue, onContinue, onOpeningHold, onDismiss }: {
   status: SceneStatus;
   progress: number;
   elapsed: number;
   issue: SceneIssue | null;
   onContinue: () => void;
+  onOpeningHold: (hold: boolean) => void;
+  onDismiss: () => void;
 }) {
   const [visible, setVisible] = useState(true);
   const [minimumElapsed, setMinimumElapsed] = useState(false);
+  const [timing, setTiming] = useState(() => getInitialSceneTiming(''));
   const [online, setOnline] = useState(true);
+  const [mode, setMode] = useState<EntryMode>('checking');
+  const [openingStarted, setOpeningStarted] = useState(false);
+  const [openingDone, setOpeningDone] = useState(false);
+  const [scrollReleased, setScrollReleased] = useState(false);
+  const entry = useRef<{ mode: EntryMode; hash: string; reduced: boolean } | null>(null);
+  const focusAfterSkip = useRef(false);
   const sceneReady = status === 'ready' || status === 'fallback';
-  const complete = sceneReady && minimumElapsed;
+  const complete = sceneReady && mode !== 'checking' && (mode === 'opening' ? openingDone || status === 'fallback' : minimumElapsed);
+  const openingActive = openingStarted && !openingDone && status === 'ready';
+  const startOpening = useCallback(() => setOpeningStarted(true), []);
+  const revealOpening = useCallback(() => { setScrollReleased(true); onOpeningHold(false); }, [onOpeningHold]);
+  const finishOpening = useCallback((result: OpeningResult) => {
+    focusAfterSkip.current = result === 'skipped';
+    setOpeningDone(true); onOpeningHold(false);
+  }, [onOpeningHold]);
   const value = sceneReady ? 100 : Math.max(0, Math.min(99, progress));
   const filledDots = Math.floor(value / 100 * dotCount);
   const delayed = elapsed >= sceneLoadingTiming.delayMs / 1000;
@@ -38,9 +65,38 @@ export default function SceneLoader({ status, progress, elapsed, issue, onContin
   const retry = () => window.location.reload();
 
   useEffect(() => {
-    const timer = window.setTimeout(() => setMinimumElapsed(true), sceneLoadingTiming.minimumMs);
+    if (!entry.current) {
+      const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined;
+      const initialPath = new URL(navigation?.name || window.location.href).pathname;
+      const claimed = visitedDocuments.has(document);
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const options = { claimed, initialPath, navigationType: navigation?.type || 'navigate', hash: location.hash, scrollY: window.scrollY, reduced };
+      const nextMode = shouldPlayHomeOpening(options) ? 'opening' : claimed || initialPath !== '/' || navigation?.type === 'back_forward' ? 'resume' : 'standard';
+      entry.current = { mode: nextMode, hash: location.hash, reduced };
+      visitedDocuments.add(document);
+    }
+    const decision = entry.current;
+    setMode(decision.mode);
+    onOpeningHold(decision.mode === 'opening');
+    if (decision.mode === 'resume') { setVisible(false); return; }
+    const initial = decision.reduced ? { minimumMs: 0, fadeMs: 0 } : getInitialSceneTiming(decision.hash);
+    const timer = window.setTimeout(() => {
+      setTiming(initial);
+      setMinimumElapsed(true);
+    }, initial.minimumMs);
     return () => window.clearTimeout(timer);
-  }, []);
+  }, [onOpeningHold]);
+
+  useEffect(() => {
+    if (status === 'error' || status === 'timeout' || status === 'fallback') {
+      const timer = window.setTimeout(() => { setOpeningDone(true); onOpeningHold(false); }, 0);
+      return () => window.clearTimeout(timer);
+    }
+  }, [status, onOpeningHold]);
+
+  useEffect(() => {
+    if (!visible) onDismiss();
+  }, [visible, onDismiss]);
 
   useEffect(() => {
     if (!visible) return;
@@ -55,15 +111,15 @@ export default function SceneLoader({ status, progress, elapsed, issue, onContin
   }, [visible]);
 
   useEffect(() => {
-    if (!visible || complete) return;
+    if (!visible || complete || scrollReleased || entry.current?.mode === 'resume') return;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     // Restore the scrollbar when the reveal starts, before the page is visible.
     return () => { document.body.style.overflow = previousOverflow; };
-  }, [visible, complete]);
+  }, [visible, complete, scrollReleased]);
 
   useEffect(() => {
-    if (!visible) return;
+    if (!visible || entry.current?.mode === 'resume') return;
     const page = document.getElementById('home');
     const previousInert = page?.inert ?? false;
     if (page) page.inert = true;
@@ -71,22 +127,25 @@ export default function SceneLoader({ status, progress, elapsed, issue, onContin
       if (page) page.inert = previousInert;
       // Initial fragment navigation may run before the loader releases the
       // scroll lock. Use the untransformed section anchor once it is released.
-      if (window.location.hash === '#why') document.getElementById('why')?.scrollIntoView({ behavior: 'instant', block: 'start' });
+      const section = siteSections.find(item => `#${item.id}` === window.location.hash);
+      if (section) document.getElementById(section.id)?.scrollIntoView({ behavior: 'instant', block: 'start' });
+      if (focusAfterSkip.current && (!location.hash || location.hash === '#home')) page?.focus({ preventScroll: true });
     };
   }, [visible]);
 
   useEffect(() => {
     if (!complete) return;
-    const delay = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 500;
+    const delay = mode === 'opening' || window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : timing.fadeMs;
     const timer = window.setTimeout(() => setVisible(false), delay);
     return () => window.clearTimeout(timer);
-  }, [complete]);
+  }, [complete, mode, timing.fadeMs]);
 
   if (!visible) return null;
 
   return (
     <>
-    <div className={`scene-loader${complete ? ' is-complete' : ''}`}>
+    <div className={`scene-loader${complete ? ' is-complete' : ''}`} data-opening-active={openingActive || undefined} style={{ transitionDuration: `${mode === 'opening' ? 0 : timing.fadeMs}ms` }}>
+      {mode === 'opening' && !openingDone && (status === 'loading' || status === 'ready') && <HeroOpening ready={status === 'ready'} onStart={startOpening} onReveal={revealOpening} onComplete={finishOpening}/>}
       <div className="scene-loader-content">
         <img className="scene-loader-logo" src="/images/onoff-logo.png" alt="ON&OFF" width={110} height={55} fetchPriority="high"/>
         <div className="scene-loader-progress">

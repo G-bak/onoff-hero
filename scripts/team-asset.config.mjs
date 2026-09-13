@@ -3,4 +3,6 @@
 export const teamAsset = {
   source: 'public/images/team-realistic-figurines-v3-photoroom.png',
   output: 'app/assets/generated/team-atlas.webp',
+  // 256 × 384 per figure matches the card's 386px portrait texture area.
+  maxWidth: 768,
 };

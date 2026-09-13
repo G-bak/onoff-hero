@@ -20,8 +20,8 @@ for (let y = 0; y < info.height; y++) {
 }
 if (right < left || bottom < top) throw new Error('The supplied logo is empty.');
 console.log(JSON.stringify({ width: metadata.width, height: metadata.height, hasAlpha: metadata.hasAlpha, visiblePixels, bounds: { left, top, right, bottom } }));
-await fs.mkdir(path.join(root, 'outputs'), { recursive: true });
-await sharp(source).flatten({ background: '#e9edef' }).resize({ width: 768 }).png().toFile(path.join(root, 'outputs/logo-inspection.png'));
+await fs.mkdir(path.join(root, 'outputs/assets/brand'), { recursive: true });
+await sharp(source).flatten({ background: '#e9edef' }).resize({ width: 768 }).png().toFile(path.join(root, 'outputs/assets/brand/logo-inspection.png'));
 
 // Preserve the supplied design and alpha; only remove transparent padding.
 const padding = 8;

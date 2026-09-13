@@ -20,7 +20,7 @@ export default function ConsultationChat() {
   return (
     <Dialog open={open} onOpenChange={changeOpen}>
       <DialogTrigger className="chat-launcher">
-        <span>실시간 상담톡</span>
+        <span className="chat-launcher-label">실시간 상담톡</span>
         <span className="chat-launcher-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18L18 6M6 6H18V18" stroke="currentColor" strokeWidth="1.5"/></svg></span>
       </DialogTrigger>
       <DialogContent className="consultation-dialog top-auto left-auto translate-x-0 translate-y-0 origin-bottom-right" showCloseButton={false}>

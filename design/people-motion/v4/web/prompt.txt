@@ -1,0 +1,43 @@
+﻿Create one polished animation pose sheet for the ON&OFF WEB showcase, using eight real generated anatomical poses, like the successful marketing pose-sheet production method.
+
+PRIMARY identity reference = image 1, the ORIGINAL woman with laptop from the original team atlas. Preserve this exact realistic adult Korean woman's natural face/head/body ratio and silhouette. Her soft layered wavy dark-brown bob has natural irregular layers and loose strands around the cheeks; it is NOT a smooth round cartoon bob or helmet. Her dark round glasses and warm natural Korean features must remain. Her NAVY CARDIGAN IS A LOOSE LONG RIBBED KNIT CARDIGAN with visible vertical knit ribs, generous sleeves, large buttons, relaxed hip-length hem and real soft fabric volume. It is NOT a short smooth blue fitted jacket. Keep the loose white crewneck tee, long loose washed-charcoal wide trousers with the original worn fabric and fold detail, and off-white low sneakers from the original. Keep natural adult proportions, original leg length and relaxed body shape. Do not make a squat toy, big-headed chibi or pinched waist.
+SECONDARY reference = image 2, the successful male marketer pose sheet, ONLY for consistent polished realistic miniature rendering, clean sheet composition and eight meaningful real pose phases. DO NOT copy the male person, clothes, front view, presenting/pointing gesture or plinth. Image 1 is the authority for the woman's identity, clothing, fabric, hair and proportions.
+
+Remove the laptop completely. Remove ALL plinths, discs, cylindrical bases, platforms, pedestals, stands under the person, floor pads and oval ground shadows. The woman stands directly on invisible level ground with both sneakers grounded. No object whatsoever under her feet in any frame.
+
+OUTPUT: ONE 1536 x 1024 landscape PNG, exactly FOUR columns by TWO rows, eight complete woman-plus-chalkboard scenes in an invisible regular grid. Each cell384 x512. Read frames left-to-right across the top row, then left-to-right across the bottom row. No grid lines, borders, labels, numbers, captions, logo, text or watermarks. Same person, board, scale, camera, light, shoe baseline and scene positions in every cell. Keep entire hair, hand/fingers, shoes and full chalkboard including stand visible, at least24px clean green margins around the combined scene. No part crosses a cell boundary.
+
+BACKGROUND: flat perfectly uniform pure chroma green RGB(0,255,0), hexadecimal #00FF00. No environment, floor, gradient, shadow outside objects, checkerboard, green spill or texture.
+
+SCENE: woman is in the right foreground, always rear three-quarter view looking toward the chalkboard to her left. At most a small cheek/glasses sliver, never front-facing and no turn-to-camera introduction. Both feet and hips stay fixed throughout; head and writing shoulder follow the hand only a little. The small freestanding BLACK CHALKBOARD is behind and to her left, with a slim light-wood frame and simple narrow legs reaching the same invisible ground level as her sneakers. Compact upright board, with upper middle comfortable to write on, front surface readable toward camera with mild perspective. Board, frame, legs, perspective and position are IDENTICAL in all eight cells. Woman has NO base. The chalkboard has only its normal simple legs, no large shared platform.
+
+COMPOSITION GUIDE inside each384x512cell: complete person stands toward x250..320, hair top roughly y55, sneaker soles roughly y476. Board black surface roughly x60..226, y95..300, with slender supporting legs down to y476. Keep the small motion in the board's upper-middle area and within a comfortable reach. Do not make the woman's arm disproportionately long or let the board become huge.
+
+BLANK BOARD REQUIREMENT: the black writing surface is COMPLETELY EMPTY in ALL EIGHT frames. No words, no letters, no white dots, no lines, no browser outline, no chalk residues, no ghosted shapes, no tiny diagrams. Even where the chalk touches, do not draw any mark. Only the actual short WHITE CHALK STICK held in the hand is white. The functional browser outline will be added later from the actual hand positions; DO NOT render that outline now. Coordinates below are pose targets, not visible artwork.
+
+ARM/LOOP: only her board-side LEFT arm writes, same as a rear three-quarter figure naturally reaching left. The non-writing RIGHT arm remains relaxed DOWN beside her body. EXACTLY two arms total and exactly two hands total in every frame. No stacked/doubled hand, ghost hand or old hand left behind. Left hand naturally grips a small white chalk piece with the tip visible and touching the blank black surface. Moderate changing elbow bend and small wrist travel, no pointing finger substitute, no waving, no huge across-board reach, no body twist, no stepping, no raised heel. Real anatomy and real fabric changes between poses; do not clone a frozen body with a disconnected hand.
+
+The eight poses follow one complete clockwise cycle around a SMALL rounded rectangular browser-outline area about65px wide by55px high on the EMPTY board. This sheet contains the complete loop, with no initial hand-down intro and no final held/rest pose. Frame7 naturally continues back into frame0. Meaningful but small neighboring hand position changes all around the cycle.
+
+Approximate target coordinates LOCAL to each384x512cell:
+A upper-left corner = (137,145).
+B halfway along top = (170,145).
+C upper-right corner = (202,145).
+D halfway down right edge = (202,173).
+E lower-right corner = (202,200).
+F halfway along bottom = (170,200).
+G lower-left corner = (137,200).
+H halfway up left edge = (137,173).
+Use the same unseen small screen area in every cell. Positions may adapt slightly for natural contact and anatomy, but MUST clearly preserve this clockwise rectangular path, with A/B/C at nearly the same upper height, C/D/E at the same right column, E/F/G at nearly the same lower height and G/H/A at the same left column. Do NOT cluster all tips together. Do NOT draw the rectangle.
+
+EIGHT PHASES:
+0 TOP LEFT: left chalk TIP touches A upper-left on a completely blank board. Rear three-quarter woman, moderate bent elbow, right arm relaxed down.
+1 TOP SECOND: tip touches B top-middle, a small rightward wrist/forearm change at the same height. Board blank.
+2 TOP THIRD: tip touches C upper-right, completing the small top travel. Board blank.
+3 TOP RIGHT: tip touches D right-middle, lowering the working hand modestly. Board blank.
+4 BOTTOM LEFT: tip touches E lower-right, continuing down the same side. Board blank.
+5 BOTTOM SECOND: tip touches F bottom-middle, moving left at the same lower height. Board blank.
+6 BOTTOM THIRD: tip touches G lower-left, continuing left at the same lower height. Board blank.
+7 BOTTOM RIGHT: tip touches H left-middle, moving up the left edge so the next frame0 naturally reaches A again. Board blank. Do not drop the hand to rest.
+
+Keep original realistic likeness and the visibly RIBBED, long loose navy knit cardigan in every frame. Preserve washed loose trousers, natural soft layered bob, glasses and off-white shoes. Every board blank, every person without a plinth, eight visibly distinct coherent clockwise contact poses, no duplicate hands.

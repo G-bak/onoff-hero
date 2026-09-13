@@ -1,0 +1,16 @@
+﻿{
+    "mode":  "Built-in image_gen.imagegen; referenced_image_paths; compositing",
+    "generatedImageCount":  1,
+    "retries":  0,
+    "supportingInsert":  "C:/Users/usewr/Documents/ChatGPT/follow-art-hero/design/marketing/v2/sources/poster.png",
+    "sourceWidth":  1122,
+    "sourceHeight":  1402,
+    "generatedSource":  "C:/Users/usewr/.codex/generated_images/01a095da-bab0-7ab0-8475-d15ea36caee2/exec-1a67774a-b4c8-44b4-8e48-443d87ba5656.png",
+    "savedOutput":  "C:\\Users\\usewr\\Documents\\ChatGPT\\onoff-marketing-context-review\\morning-oven-installed-poster.png",
+    "outputWidth":  1122,
+    "outputHeight":  1402,
+    "outputBytes":  2541813,
+    "promptFile":  "C:\\Users\\usewr\\Documents\\ChatGPT\\onoff-marketing-context-review\\morning-oven-installed-poster.prompt.txt",
+    "sha256":  "DF475789537C4A7855DB49BE30FEDCD5F31B545B1F45C922DC6D104A6921508D",
+    "status":  "Fictional campaign deployment mockup; not a real installation or client claim"
+}

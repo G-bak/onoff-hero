@@ -1,0 +1,41 @@
+﻿Use case: precise-object-edit with identity preservation.
+Asset type: a clean 12-keyframe miniature chalk-drawing motion sprite sheet with EMPTY CHALKBOARDS for later animation compositing.
+
+Input image 1 is the accepted composition/identity reference: the first WEB miniature sheet, 1536 x 1024, exactly four columns by three rows. Image 2 confirms the approved woman's identity. Create one revised sheet using image 1's same composition and exact person; remove ALL existing lettering from ALL boards, and change the writing-arm poses to the twelve positions specified below.
+
+Output exactly ONE landscape 1536 x 1024 PNG sheet, 4 equal columns by 3 equal rows, 12 complete poses in reading order left to right across top, middle, then bottom row. No grid, frame borders, captions, labels, numbers, watermark, or other text.
+
+ABSOLUTE REQUIREMENT: EVERY chalkboard in EVERY cell is ENTIRELY BLANK. No white lines, letters, dots, web diagram, chalk marks, chalk dust, residue or ghosted old writing on the board. Even when her chalk tip touches the board, the board itself remains completely unmarked. Only the small real white chalk stick in her hand may be white. A separate animation layer will later draw the diagram. Do NOT draw any part of the diagram now.
+
+Keep unchanged from input image 1: the exact slender Korean female miniature with rounded softly wavy dark-brown bob, round dark-rimmed glasses, navy cardigan, white tee, long charcoal wide trousers, white shoes, pale circular low plinth, refined miniature materials, lighting and camera. Woman remains in the right foreground, facing the board in the same rear three-quarter view, with just a tiny cheek/glasses sliver. Board remains behind and to her left: same black rectangle, pale slender wood frame, two-legged stand, entire board/stand visible. Keep the exact figure scale, board geometry, perspective, position, circular base center/baseline and both feet position in all frames. Same soft light. Clean flat bright chroma green #00FF00 background, no ground plane or outside shadows.
+
+Anatomy and motion: keep the existing board-side LEFT writing arm; her other RIGHT arm stays relaxed DOWN in the exact same position beside her body. EXACTLY TWO ARMS TOTAL and EXACTLY ONE HAND ON EACH ARM in every pose. Never leave an old hand in place when moving an arm. One left hand holds a short white chalk stick with a natural writing grip. Maintain natural human arm length and comfortable shoulder/elbow bends. Only that writing shoulder, elbow, forearm and wrist adjust to reach the positions. Head may subtly follow the hand. Torso stays back three-quarter, hips and feet fixed, no front turn, no stepping, no kicking or exaggerated whole-body movement. Do not mirror the scene or switch arms.
+
+The motion is a slow clockwise outline of a SMALL horizontal rectangular screen, then a short horizontal header line, then a short content line. The future rectangle must be recognizable from the CHALK-TIP POSITIONS alone, while the actual board is blank in every frame. Direction and relative position matter: first upper-left, upper-right, lower-right, lower-left, back upper-left. Then left-to-right header. Then left-to-right content.
+
+Coordinates are local inside each approximately 384 x 341 cell. Board rectangle is around x88..228, y44..192, unchanged. Target chalk-tip points:
+A = (125,82): upper-left screen corner.
+B = (199,82): upper-right screen corner.
+C = (199,137): lower-right screen corner.
+D = (125,137): lower-left screen corner.
+E = (125,98): header-left.
+F = (199,98): header-right.
+G = (141,115): content-left.
+H = (179,115): content-right.
+Keep all contacts within the black writing surface; no contact on the wood frame. Use these as the clear relative pattern, naturally positioning the same single working arm. The A/B/C/D contact positions should outline a small wide rectangle, not a dot cluster or diagonal-only sweep.
+
+12 chronological poses, read left to right across rows:
+0: same quiet side/rear stance, BOTH hands low, board entirely blank.
+1: LEFT chalk tip touching point A, upper-left. Board entirely blank.
+2: LEFT chalk tip touching point B, upper-right at SAME height as A. Board entirely blank.
+3: LEFT chalk tip touching point C, lower-right directly BELOW B. Board entirely blank.
+4: LEFT chalk tip touching point D, lower-left at SAME height as C. Board entirely blank.
+5: LEFT chalk tip back touching point A, upper-left directly ABOVE D. Board entirely blank.
+6: LEFT chalk tip touching point E, a little BELOW A on the left edge of the future rectangle. Board entirely blank.
+7: LEFT chalk tip touching point F, right edge at SAME height as E. Board entirely blank.
+8: LEFT chalk tip lifts slightly OFF the board close to point F. Board entirely blank.
+9: LEFT chalk tip reaches and touches point G, inside the future rectangle toward its left, BELOW the header height. Board entirely blank.
+10: LEFT chalk tip touching point H, inside toward right at SAME height as G. Board entirely blank.
+11: LEFT writing hand lowers toward rest beside the board's right edge, keeping the exact same single arm and hand. RIGHT non-writing hand remains low. Board entirely blank.
+
+Do not generate drawn lines in any cell. Do not include the letters WEB anywhere. Do not duplicate hands. Preserve full feet and complete round plinth and entire board and stand with clear green separation between cells.

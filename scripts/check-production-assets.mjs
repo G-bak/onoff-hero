@@ -1,4 +1,4 @@
-import assert from 'node:assert/strict';
+﻿import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -66,6 +66,12 @@ const expectedByRange = new Map(expected.map(face => [face.points.join(','), {
   bytes: fs.readFileSync(path.resolve(path.dirname(fontCss), face.url)),
 }]));
 const files = filesIn(client);
+// public/ is copied verbatim by Vite. Archived previews and working documents
+// must stay out of the deployment even if a generator is run again later.
+for (const archived of filesIn(path.join(root, 'design/archive/public'))) {
+  const formerPublicPath = path.relative(path.join(root, 'design/archive/public'), archived);
+  assert.ok(!fs.existsSync(path.join(client, formerPublicPath)), `Archived source leaked into the build: ${formerPublicPath}`);
+}
 const seen = new Set();
 const covered = new Set();
 for (const file of files.filter(file => file.endsWith('.css'))) {
@@ -84,11 +90,50 @@ for (let code = 0xac00; code <= 0xd7a3; code++) {
 }
 
 // The atlas is imported by both views and must be emitted under a hashed URL.
-// Compare bytes with the generated image already checked against the original.
+// Compare bytes with the generated image verified against the resized source.
 const generated = fs.readFileSync(path.join(root, teamAsset.output));
 const atlases = files.filter(file => /^team-atlas[.-][\w-]+\.webp$/.test(path.basename(file)));
 assert.equal(atlases.length, 1, 'Expected one shared, hashed team atlas.');
 assert.equal(digest(fs.readFileSync(atlases[0])), digest(generated), 'Built atlas differs from the verified image.');
+
+const crewSprite = fs.readFileSync(path.join(root, 'app/assets/galaxy-crew/crew-sprite.webp'));
+const crewAtlases = files.filter(file => /^crew-sprite[.-][\w-]+\.webp$/.test(path.basename(file)));
+assert.equal(crewAtlases.length, 1, 'Five synchronized people must share one hashed motion atlas.');
+assert.equal(digest(fs.readFileSync(crewAtlases[0])), digest(crewSprite), 'Built crew poses differ from the reviewed atlas.');
+
+for (const name of ['instagram-ongyeol.webp', 'blog-ruum.webp', 'poster-installed.webp', 'marketer-no-plinth-v2.webp']) {
+  const extension = path.extname(name), stem = path.basename(name, extension);
+  const emitted = files.filter(file => [`.`, `-`].some(separator => path.basename(file).startsWith(`${stem}${separator}`)) && file.endsWith(extension));
+  assert.equal(emitted.length, 1, `Expected one hashed marketing asset: ${name}`);
+  assert.equal(digest(fs.readFileSync(emitted[0])), digest(fs.readFileSync(path.join(root, 'app/assets/marketing', name))), `Built marketing asset changed: ${name}`);
+}
+
+for (const name of ['design-bakery.webp', 'design-beauty.webp', 'design-living.webp']) {
+  const stem = path.basename(name, '.webp');
+  const emitted = files.filter(file => [`.`, `-`].some(separator => path.basename(file).startsWith(`${stem}${separator}`)) && file.endsWith('.webp'));
+  assert.equal(emitted.length, 1, `Expected one hashed design asset: ${name}`);
+  assert.equal(digest(fs.readFileSync(emitted[0])), digest(fs.readFileSync(path.join(root, 'app/assets/design-showcase', name))), `Built design asset changed: ${name}`);
+}
+
+for (const [directory, name] of [
+  ['people-motion', 'designer-rhythm-v4.webp'], ['people-motion', 'web-writer-v5.webp'],
+  ['web-showcase', 'onoff-web-film.mp4'], ['web-showcase', 'web-film-poster.webp'],
+  ['brand-film', 'onf-cinematic-intro.mp4'], ['brand-film', 'onf-cinematic-poster.png'], ['brand-film', 'brand-film-ko.vtt'],
+]) {
+  const extension = path.extname(name), stem = path.basename(name, extension);
+  const emitted = files.filter(file => [`.`, `-`].some(separator => path.basename(file).startsWith(`${stem}${separator}`)) && file.endsWith(extension));
+  assert.equal(emitted.length, 1, `Expected one hashed chapter media asset: ${name}`);
+  assert.equal(digest(fs.readFileSync(emitted[0])), digest(fs.readFileSync(path.join(root, 'app/assets', directory, name))), `Built media asset changed: ${name}`);
+}
+const film = fs.readFileSync(path.join(root, 'app/assets/web-showcase/onoff-web-film.mp4'));
+const filmSource = JSON.parse(fs.readFileSync(path.join(root, 'design/web-showcase/video-source.json'), 'utf8'));
+assert.equal(digest(film), filmSource.outputSha256, 'Web film differs from the reviewed source manifest.');
+assert.ok(film.indexOf('moov') >= 0 && film.indexOf('moov') < film.indexOf('mdat'), 'Web film must support fast-start playback.');
+const brandFilm = fs.readFileSync(path.join(root, 'app/assets/brand-film/onf-cinematic-intro.mp4'));
+const brandSource = JSON.parse(fs.readFileSync(path.join(root, 'design/brand-film/source.json'), 'utf8'));
+assert.equal(digest(brandFilm), brandSource.outputSha256, 'Brand film differs from the user-supplied project.');
+assert.equal(digest(fs.readFileSync(path.join(root, 'app/assets/brand-film/onf-cinematic-poster.png'))), brandSource.posterSha256, 'Brand film poster changed.');
+assert.ok(brandFilm.indexOf('moov') >= 0 && brandFilm.indexOf('moov') < brandFilm.indexOf('mdat'), 'Brand film must support fast-start playback.');
 
 // This is a source-based upper estimate, not a browser/network measurement:
 // include Korean strings in app and lib, including unopened dialogs and errors.
@@ -102,4 +147,5 @@ for (const char of authored) {
 const selected = [...expectedByRange.values()].filter(face => face.points.some(code => korean.has(code)));
 const estimate = selected.reduce((sum, face) => sum + face.bytes.length, 0);
 console.log(`Production assets passed: ${seen.size} self-hosted font subsets, all 11,172 Korean syllable ranges, one shared hashed atlas (${generated.length} bytes).`);
+console.log(`Synchronized crew sprite: one hashed atlas (${crewSprite.length} bytes).`);
 console.log(`Korean text in current app/lib source maps to ${selected.length} subsets (${estimate} bytes); actual requests depend on visible text and cache.`);

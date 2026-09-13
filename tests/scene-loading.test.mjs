@@ -1,6 +1,11 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { formatSceneWait, getSceneIssue, SceneLoadError, sceneLoadingTiming, startSceneLoadingClock } from '../lib/scene-loading.ts';
+import { formatSceneWait, getInitialSceneTiming, getSceneIssue, SceneLoadError, sceneLoadingTiming, startSceneLoadingClock } from '../lib/scene-loading.ts';
+
+await test('only a direct SYSTEM entry omits the artificial logo hold', () => {
+  assert.deepEqual(getInitialSceneTiming('#why'), { minimumMs: 0, fadeMs: 180 });
+  for (const hash of ['', '#home', '#design', '#web', '#card']) assert.deepEqual(getInitialSceneTiming(hash), { minimumMs: 1000, fadeMs: 500 });
+});
 
 function fakeClock(initial = 0) {
   let now = initial;

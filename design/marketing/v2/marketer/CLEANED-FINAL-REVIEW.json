@@ -1,0 +1,437 @@
+{
+  "status": "verified and visually reviewed",
+  "scope": "All 8 final PNGs; RGB comparison and upper-band RGBA comparison use decoded bytes. Only alpha below row277 changes.",
+  "visual_review": {
+    "reviewed_frames": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "images": "shoes-before-after-0.png through shoes-before-after-7.png (top original, bottom final), plus flattened full contacts",
+    "findings": "No circular plinth or bridge between shoes is visible. Shoe toes, heels and dark outsole remain visible in every frame. Small residual white plinth-top spurs at inner heels were removed by a second coordinate refinement. Original pink lighting/shoe texture is retained because no RGB is changed.",
+    "limitation": "The source frames are only 240x320; existing shoe/platform edge pixels contain antialiasing and pink reflected light. This is a visually reviewed alpha segmentation, not a claim to recover a physically hidden shoe surface. No new shoe RGB was synthesized."
+  },
+  "checks": [
+    {
+      "frame": 0,
+      "dimensions": [
+        240,
+        320
+      ],
+      "channels": 4,
+      "source_file_unchanged": true,
+      "rgb_changed_pixels": 0,
+      "rgba_above_278_changed_pixels": 0,
+      "alpha_increased_pixels": 0,
+      "alpha_changed_pixels": 2681,
+      "alpha_changed_y_range": [
+        278,
+        309
+      ],
+      "nontransparent_pixels_at_y_ge_291": 0,
+      "original_shoe_interior_samples": [
+        {
+          "x": 82,
+          "y": 285,
+          "unchanged": true
+        },
+        {
+          "x": 86,
+          "y": 287,
+          "unchanged": true
+        },
+        {
+          "x": 95,
+          "y": 283,
+          "unchanged": true
+        },
+        {
+          "x": 149,
+          "y": 283,
+          "unchanged": true
+        },
+        {
+          "x": 157,
+          "y": 287,
+          "unchanged": true
+        },
+        {
+          "x": 163,
+          "y": 285,
+          "unchanged": true
+        }
+      ],
+      "output_sha256": "578b37275b40ac75cc3c67ecc492145437249d86e2e0f9d981ac9e49b9cc7d7c",
+      "removal_mask_sha256": "0dd20f6e136f19d3053098ed10ee8cf5ab25de6fd09cb7878d3458d51a6ca796"
+    },
+    {
+      "frame": 1,
+      "dimensions": [
+        240,
+        320
+      ],
+      "channels": 4,
+      "source_file_unchanged": true,
+      "rgb_changed_pixels": 0,
+      "rgba_above_278_changed_pixels": 0,
+      "alpha_increased_pixels": 0,
+      "alpha_changed_pixels": 2668,
+      "alpha_changed_y_range": [
+        278,
+        309
+      ],
+      "nontransparent_pixels_at_y_ge_291": 0,
+      "original_shoe_interior_samples": [
+        {
+          "x": 82,
+          "y": 285,
+          "unchanged": true
+        },
+        {
+          "x": 86,
+          "y": 287,
+          "unchanged": true
+        },
+        {
+          "x": 95,
+          "y": 283,
+          "unchanged": true
+        },
+        {
+          "x": 149,
+          "y": 283,
+          "unchanged": true
+        },
+        {
+          "x": 157,
+          "y": 287,
+          "unchanged": true
+        },
+        {
+          "x": 163,
+          "y": 285,
+          "unchanged": true
+        }
+      ],
+      "output_sha256": "a66db0598dea18e4ea92febac8cd154c2a97f751c71ed20f9aa962c3a9830a3e",
+      "removal_mask_sha256": "1858c399c2236dd39599915354779555ad20cfb0b286c6ec55b94e5ec8b88a8f"
+    },
+    {
+      "frame": 2,
+      "dimensions": [
+        240,
+        320
+      ],
+      "channels": 4,
+      "source_file_unchanged": true,
+      "rgb_changed_pixels": 0,
+      "rgba_above_278_changed_pixels": 0,
+      "alpha_increased_pixels": 0,
+      "alpha_changed_pixels": 2693,
+      "alpha_changed_y_range": [
+        278,
+        309
+      ],
+      "nontransparent_pixels_at_y_ge_291": 0,
+      "original_shoe_interior_samples": [
+        {
+          "x": 82,
+          "y": 285,
+          "unchanged": true
+        },
+        {
+          "x": 86,
+          "y": 287,
+          "unchanged": true
+        },
+        {
+          "x": 95,
+          "y": 283,
+          "unchanged": true
+        },
+        {
+          "x": 149,
+          "y": 283,
+          "unchanged": true
+        },
+        {
+          "x": 157,
+          "y": 287,
+          "unchanged": true
+        },
+        {
+          "x": 163,
+          "y": 285,
+          "unchanged": true
+        }
+      ],
+      "output_sha256": "8703b5b12771edc5cfa8a50b0e00a5eff0622ba460acd5eccc6c61883410216b",
+      "removal_mask_sha256": "a183870e089fc1ae72e53871cd988b20ccee4a15580b28459eaac6cdc345b81d"
+    },
+    {
+      "frame": 3,
+      "dimensions": [
+        240,
+        320
+      ],
+      "channels": 4,
+      "source_file_unchanged": true,
+      "rgb_changed_pixels": 0,
+      "rgba_above_278_changed_pixels": 0,
+      "alpha_increased_pixels": 0,
+      "alpha_changed_pixels": 2701,
+      "alpha_changed_y_range": [
+        278,
+        309
+      ],
+      "nontransparent_pixels_at_y_ge_291": 0,
+      "original_shoe_interior_samples": [
+        {
+          "x": 82,
+          "y": 285,
+          "unchanged": true
+        },
+        {
+          "x": 86,
+          "y": 287,
+          "unchanged": true
+        },
+        {
+          "x": 95,
+          "y": 283,
+          "unchanged": true
+        },
+        {
+          "x": 149,
+          "y": 283,
+          "unchanged": true
+        },
+        {
+          "x": 157,
+          "y": 287,
+          "unchanged": true
+        },
+        {
+          "x": 163,
+          "y": 285,
+          "unchanged": true
+        }
+      ],
+      "output_sha256": "1813a90d78bfb237ccd10ded1855340cf77c4076f8d9ac98d723b70e93d47c33",
+      "removal_mask_sha256": "32a2c0ebc14c06ec1fbb755116b507781c47be7bf59d43a8ff608c5f0c9f7530"
+    },
+    {
+      "frame": 4,
+      "dimensions": [
+        240,
+        320
+      ],
+      "channels": 4,
+      "source_file_unchanged": true,
+      "rgb_changed_pixels": 0,
+      "rgba_above_278_changed_pixels": 0,
+      "alpha_increased_pixels": 0,
+      "alpha_changed_pixels": 2680,
+      "alpha_changed_y_range": [
+        278,
+        309
+      ],
+      "nontransparent_pixels_at_y_ge_291": 0,
+      "original_shoe_interior_samples": [
+        {
+          "x": 82,
+          "y": 285,
+          "unchanged": true
+        },
+        {
+          "x": 86,
+          "y": 287,
+          "unchanged": true
+        },
+        {
+          "x": 95,
+          "y": 283,
+          "unchanged": true
+        },
+        {
+          "x": 149,
+          "y": 283,
+          "unchanged": true
+        },
+        {
+          "x": 157,
+          "y": 287,
+          "unchanged": true
+        },
+        {
+          "x": 163,
+          "y": 285,
+          "unchanged": true
+        }
+      ],
+      "output_sha256": "d827e74f5c13f4b04ff0b943008cc348d2eda2163a2b8c78feada932633cf39f",
+      "removal_mask_sha256": "49091695ab669363ddbdde40c3c8572875780725b39f1ed9728c987e85fc4066"
+    },
+    {
+      "frame": 5,
+      "dimensions": [
+        240,
+        320
+      ],
+      "channels": 4,
+      "source_file_unchanged": true,
+      "rgb_changed_pixels": 0,
+      "rgba_above_278_changed_pixels": 0,
+      "alpha_increased_pixels": 0,
+      "alpha_changed_pixels": 2678,
+      "alpha_changed_y_range": [
+        278,
+        309
+      ],
+      "nontransparent_pixels_at_y_ge_291": 0,
+      "original_shoe_interior_samples": [
+        {
+          "x": 82,
+          "y": 285,
+          "unchanged": true
+        },
+        {
+          "x": 86,
+          "y": 287,
+          "unchanged": true
+        },
+        {
+          "x": 95,
+          "y": 283,
+          "unchanged": true
+        },
+        {
+          "x": 149,
+          "y": 283,
+          "unchanged": true
+        },
+        {
+          "x": 157,
+          "y": 287,
+          "unchanged": true
+        },
+        {
+          "x": 163,
+          "y": 285,
+          "unchanged": true
+        }
+      ],
+      "output_sha256": "000e05e5afc31c2afd3217aca3385b58dd02966a73ae47718593cb6dfd0fed82",
+      "removal_mask_sha256": "9eaad553787239e15e6d308f924d7556599eb362c4fc897e516949266e7f3df3"
+    },
+    {
+      "frame": 6,
+      "dimensions": [
+        240,
+        320
+      ],
+      "channels": 4,
+      "source_file_unchanged": true,
+      "rgb_changed_pixels": 0,
+      "rgba_above_278_changed_pixels": 0,
+      "alpha_increased_pixels": 0,
+      "alpha_changed_pixels": 2705,
+      "alpha_changed_y_range": [
+        278,
+        309
+      ],
+      "nontransparent_pixels_at_y_ge_291": 0,
+      "original_shoe_interior_samples": [
+        {
+          "x": 82,
+          "y": 285,
+          "unchanged": true
+        },
+        {
+          "x": 86,
+          "y": 287,
+          "unchanged": true
+        },
+        {
+          "x": 95,
+          "y": 283,
+          "unchanged": true
+        },
+        {
+          "x": 149,
+          "y": 283,
+          "unchanged": true
+        },
+        {
+          "x": 157,
+          "y": 287,
+          "unchanged": true
+        },
+        {
+          "x": 163,
+          "y": 285,
+          "unchanged": true
+        }
+      ],
+      "output_sha256": "ddbbcfd53c8035c1774299d7dbd6ed26d856987f897d5299e758805188eb951c",
+      "removal_mask_sha256": "7207276c76085de5961905004262f1fdf23d2abd6ed1f3beac01ddd77d37be0e"
+    },
+    {
+      "frame": 7,
+      "dimensions": [
+        240,
+        320
+      ],
+      "channels": 4,
+      "source_file_unchanged": true,
+      "rgb_changed_pixels": 0,
+      "rgba_above_278_changed_pixels": 0,
+      "alpha_increased_pixels": 0,
+      "alpha_changed_pixels": 2700,
+      "alpha_changed_y_range": [
+        278,
+        309
+      ],
+      "nontransparent_pixels_at_y_ge_291": 0,
+      "original_shoe_interior_samples": [
+        {
+          "x": 82,
+          "y": 285,
+          "unchanged": true
+        },
+        {
+          "x": 86,
+          "y": 287,
+          "unchanged": true
+        },
+        {
+          "x": 95,
+          "y": 283,
+          "unchanged": true
+        },
+        {
+          "x": 149,
+          "y": 283,
+          "unchanged": true
+        },
+        {
+          "x": 157,
+          "y": 287,
+          "unchanged": true
+        },
+        {
+          "x": 163,
+          "y": 285,
+          "unchanged": true
+        }
+      ],
+      "output_sha256": "bc22043c70303bbfe86c7e09d76d664948d5bc7b7994c4f7952ce76fb516e316",
+      "removal_mask_sha256": "355e0489a5e3406f14de11850991ba7cc5cbdbd949675d4b9ca8626913113497"
+    }
+  ]
+}

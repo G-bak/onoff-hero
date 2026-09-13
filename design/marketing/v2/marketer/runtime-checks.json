@@ -1,0 +1,94 @@
+{
+  "width": 240,
+  "height": 320,
+  "bandStart": 278,
+  "sequence": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    6,
+    5,
+    4,
+    3,
+    2,
+    1,
+    0
+  ],
+  "delays": [
+    400,
+    100,
+    110,
+    120,
+    180,
+    110,
+    130,
+    2200,
+    140,
+    120,
+    150,
+    120,
+    110,
+    100,
+    800
+  ],
+  "duration": 4890,
+  "loop": true,
+  "aboveBandRgbaChanges": 0,
+  "visibleRgbChanges": 0,
+  "checks": [
+    {
+      "frame": 0,
+      "changedAlpha": 2681
+    },
+    {
+      "frame": 1,
+      "changedAlpha": 2668
+    },
+    {
+      "frame": 2,
+      "changedAlpha": 2693
+    },
+    {
+      "frame": 3,
+      "changedAlpha": 2701
+    },
+    {
+      "frame": 4,
+      "changedAlpha": 2680
+    },
+    {
+      "frame": 5,
+      "changedAlpha": 2678
+    },
+    {
+      "frame": 6,
+      "changedAlpha": 2705
+    },
+    {
+      "frame": 7,
+      "changedAlpha": 2700
+    }
+  ],
+  "assets": [
+    {
+      "path": "app/assets/marketing/marketer-sprite.webp",
+      "bytes": 92488,
+      "sha256": "0661d45969ae14b5629c8064c881b71a9cb0e6ff1169dc574a65135e7a741c95"
+    },
+    {
+      "path": "app/assets/marketing/marketer-no-plinth-v2.webp",
+      "bytes": 193496,
+      "sha256": "ca5736a38e39de89e7fb29ec464ab4d982e4392a1204e6d3a9d7acc7c83d14bb"
+    },
+    {
+      "path": "design/archive/public/images/marketing/marketer-no-plinth-v2.gif",
+      "bytes": 192984,
+      "sha256": "91816c8327f620ef64801e61a6e58f25028e4b8a79e5d77a2346da618f06ba03"
+    }
+  ]
+}

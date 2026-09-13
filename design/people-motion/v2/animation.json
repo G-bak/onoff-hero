@@ -1,0 +1,24 @@
+{
+  "designer-dance": {
+    "sourceSha256": "e9546d4e8263e028b6dca285a9079d5cf073f8d8c2d53a9cc7938e83c0061d0b",
+    "width": 240,
+    "height": 320,
+    "poses": 16,
+    "scale": 1,
+    "baseline": 298,
+    "spriteBytes": 177866,
+    "poseDurationMs": 140,
+    "loop": "all poses"
+  },
+  "web-write": {
+    "sourceSha256": "eadd5ed14c6ac2409a4b95162a86245f89a65b1ffce18fadf729477a70260814",
+    "width": 240,
+    "height": 320,
+    "poses": 16,
+    "scale": 1,
+    "baseline": 301,
+    "spriteBytes": 130954,
+    "poseDurationMs": 120,
+    "loop": "poses 8–15 after one side-to-rear turn"
+  }
+}

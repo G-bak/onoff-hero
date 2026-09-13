@@ -1,0 +1,9 @@
+Use case: product-mockup
+Asset type: isolated blank professional freestanding chalkboard prop for compositing behind an animated writing person.
+Primary request: Generate a single 1024x1024 PNG of one complete freestanding BLACK chalkboard on two thin silver aluminum easel legs. Product-photoreal studio rendering, centered with safe empty margins.
+Scene/backdrop: Pure FLAT uniform CHROMA GREEN #00FF00. This green is ONLY the background. No floor, floor shadow, gradient, vignette, transparency or alpha checkerboard.
+Subject: Professional matte CHARCOAL BLACK writing surface, completely blank, with a very thin neat silver aluminum perimeter frame. Two fine narrow metal easel legs below, small structurally plausible rear support visible subtly. No heavy wooden stand. The board is a quiet rear-of-studio prop.
+Geometry: Whole object width-to-height about 0.85. Landscape rectangular writing surface with width-to-height around1.45; the framed panel occupies roughly the top60% of whole object height; simple thin legs occupy the lower40%. Entire object including feet fits within centered x15%-85%, y9%-91% of canvas. All extremities visible, ample pure green safe margins.
+Camera: Mostly straight-on, only a very slight three-quarter angle so the thin RIGHT edge is just visible. Front writing surface faces camera and remains almost rectangular, not steeply foreshortened. No dramatic perspective.
+Materials/light: Believable matte black slate with extremely subtle physical texture and uniform dark tone, no chalk dust, smudges, glare or graphics. Thin brushed silver aluminum frame and legs, restrained soft studio highlights confined to the object, crisp detailed edges.
+Text: NONE. Absolutely no text, icons, lettering, writing, logos, people, hands, chalk sticks or decoration. Exactly one empty black chalkboard.

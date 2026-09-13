@@ -1,0 +1,302 @@
+{
+  "width": 240,
+  "height": 320,
+  "poses": 8,
+  "people": [
+    {
+      "id": "strategy",
+      "sourceSha256": "9ebacd418fefd22a6ebe9b20c686107fd1cc56983836c32e585547cfd5fbb076",
+      "cellWidth": 384,
+      "cellHeight": 512,
+      "flip": [],
+      "alignments": [
+        {
+          "pose": 0,
+          "dx": -24,
+          "dy": 27
+        },
+        {
+          "pose": 1,
+          "dx": -17,
+          "dy": 27
+        },
+        {
+          "pose": 2,
+          "dx": -2,
+          "dy": 26
+        },
+        {
+          "pose": 3,
+          "dx": 4,
+          "dy": 27
+        },
+        {
+          "pose": 4,
+          "dx": -13,
+          "dy": 44
+        },
+        {
+          "pose": 5,
+          "dx": -16,
+          "dy": 43
+        },
+        {
+          "pose": 6,
+          "dx": -10,
+          "dy": 43
+        },
+        {
+          "pose": 7,
+          "dx": 2,
+          "dy": 43
+        }
+      ]
+    },
+    {
+      "id": "design",
+      "sourceSha256": "0bc4033ad365f62cd70f2bdf128b8d1b0040dd01e3d5937a3e6d8726c93cb0d7",
+      "cellWidth": 384,
+      "cellHeight": 512,
+      "flip": [
+        5,
+        6,
+        7
+      ],
+      "alignments": [
+        {
+          "pose": 0,
+          "dx": -1,
+          "dy": 35
+        },
+        {
+          "pose": 1,
+          "dx": -5,
+          "dy": 35
+        },
+        {
+          "pose": 2,
+          "dx": 2,
+          "dy": 35
+        },
+        {
+          "pose": 3,
+          "dx": 1,
+          "dy": 35
+        },
+        {
+          "pose": 4,
+          "dx": 1,
+          "dy": 50
+        },
+        {
+          "pose": 5,
+          "dx": 2,
+          "dy": 50
+        },
+        {
+          "pose": 6,
+          "dx": -1,
+          "dy": 50
+        },
+        {
+          "pose": 7,
+          "dx": 0,
+          "dy": 50
+        }
+      ]
+    },
+    {
+      "id": "website",
+      "sourceSha256": "2eac23fdf4bac90e645443fe2ea3c43b86fe6e180b2d8a65a88b9d16af6c14a3",
+      "cellWidth": 384,
+      "cellHeight": 512,
+      "flip": [
+        5,
+        6,
+        7
+      ],
+      "alignments": [
+        {
+          "pose": 0,
+          "dx": -32,
+          "dy": 34
+        },
+        {
+          "pose": 1,
+          "dx": -13,
+          "dy": 34
+        },
+        {
+          "pose": 2,
+          "dx": 17,
+          "dy": 34
+        },
+        {
+          "pose": 3,
+          "dx": 28,
+          "dy": 34
+        },
+        {
+          "pose": 4,
+          "dx": -30,
+          "dy": 51
+        },
+        {
+          "pose": 5,
+          "dx": 11,
+          "dy": 51
+        },
+        {
+          "pose": 6,
+          "dx": -18,
+          "dy": 51
+        },
+        {
+          "pose": 7,
+          "dx": -27,
+          "dy": 51
+        }
+      ]
+    },
+    {
+      "id": "marketing",
+      "sourceSha256": "cac24b4b56282b398c74bd76eebc9d85e1cb8265b4f30501fbafcd1981a5a452",
+      "cellWidth": 384,
+      "cellHeight": 512,
+      "flip": [
+        6,
+        7
+      ],
+      "alignments": [
+        {
+          "pose": 0,
+          "dx": -10,
+          "dy": 17
+        },
+        {
+          "pose": 1,
+          "dx": -5,
+          "dy": 17
+        },
+        {
+          "pose": 2,
+          "dx": 4,
+          "dy": 18
+        },
+        {
+          "pose": 3,
+          "dx": 5,
+          "dy": 18
+        },
+        {
+          "pose": 4,
+          "dx": -11,
+          "dy": 35
+        },
+        {
+          "pose": 5,
+          "dx": -7,
+          "dy": 35
+        },
+        {
+          "pose": 6,
+          "dx": -6,
+          "dy": 34
+        },
+        {
+          "pose": 7,
+          "dx": -6,
+          "dy": 34
+        }
+      ]
+    },
+    {
+      "id": "operation",
+      "sourceSha256": "b37a55abb3a83d28d25cc3839e01946b44b3f75491caeaf2a7ef083b65bd3e67",
+      "cellWidth": 384,
+      "cellHeight": 512,
+      "flip": [
+        5,
+        6,
+        7
+      ],
+      "alignments": [
+        {
+          "pose": 0,
+          "dx": 0,
+          "dy": 21
+        },
+        {
+          "pose": 1,
+          "dx": 2,
+          "dy": 21
+        },
+        {
+          "pose": 2,
+          "dx": 6,
+          "dy": 21
+        },
+        {
+          "pose": 3,
+          "dx": 3,
+          "dy": 21
+        },
+        {
+          "pose": 4,
+          "dx": -2,
+          "dy": 32
+        },
+        {
+          "pose": 5,
+          "dx": 0,
+          "dy": 32
+        },
+        {
+          "pose": 6,
+          "dx": -8,
+          "dy": 32
+        },
+        {
+          "pose": 7,
+          "dx": -6,
+          "dy": 32
+        }
+      ]
+    }
+  ],
+  "sequence": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    6,
+    5,
+    4,
+    3,
+    2,
+    1
+  ],
+  "delays": [
+    1400,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    1700,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120
+  ],
+  "duration": 4540,
+  "spriteBytes": 413024,
+  "gifBytes": 822302
+}

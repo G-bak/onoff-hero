@@ -46,6 +46,7 @@ for (const char of Object.keys(glyphs)) {
   console.log(`${char}: ${shapes.length} shape, ${shapes[0].holes.length} counters`);
 }
 await fs.mkdir(path.join(root, 'public/fonts'), { recursive: true });
-await fs.writeFile(path.join(root, 'public/fonts/onoff-display.json'), JSON.stringify(data));
+await fs.mkdir(path.join(root, 'design/archive/public/fonts'), { recursive: true });
+await fs.writeFile(path.join(root, 'design/archive/public/fonts/onoff-display.json'), JSON.stringify(data));
 await fs.copyFile(path.join(root, 'node_modules/@fontsource/inter/LICENSE'), path.join(root, 'public/fonts/INTER-LICENSE.txt'));
-console.log('Created public/fonts/onoff-display.json');
+console.log('Created design/archive/public/fonts/onoff-display.json');

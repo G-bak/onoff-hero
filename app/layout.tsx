@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import '@fontsource/inter/latin-400.css';
 import '@fontsource/inter/latin-500.css';
 import '@fontsource/inter/latin-600.css';
@@ -6,6 +6,21 @@ import '@fontsource/inter/latin-700.css';
 import '@fontsource/montserrat/latin-700.css';
 import 'pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css';
 import './globals.css';
+import './why-galaxy.css';
+import './marketing-showcase.css';
+import './creative-sections.css';
+import './design-editorial.css';
+import './people-motion.css';
+import './web-cinema.css';
+import './why-loading.css';
+import './services.css';
+import './web-service.css';
+import './service-details.css';
+import './brand-film.css';
+import './project-inquiry.css';
+import './home-opening.css';
+import './inquiry-nudge.css';
+
 
 export const metadata: Metadata = {
   title: 'ON&OFF — 가능성을 켜고, 경험을 연결합니다',
@@ -21,5 +36,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="ko"><body>{children}</body></html>;
+  return <html lang="ko" data-scroll-behavior="smooth"><body>{children}</body></html>;
 }

@@ -1,40 +1,31 @@
-import teamAtlasUrl from '@/app/assets/generated/team-atlas.webp?url';
-import brushUrl from '@/public/images/2페이지 시안/05_Digital/page2-graphic1.png?url';
-import brushTextureUrl from '@/public/images/2페이지 시안/05_Digital/page2-graphic2.png?url';
+import WhyGalaxy from './why-galaxy';
+import GalaxyCrew from './galaxy-crew';
+import { galaxyServices } from '@/lib/galaxy';
+import crewSpriteUrl from '@/app/assets/galaxy-crew/crew-sprite.webp?url';
 
-export default function WhySection() {
-  return (
-    <section className="why-section" aria-labelledby="why-heading">
-      <div className="why-frame">
-      <div className="why-artboard">
-      <p className="why-kicker">WHY ON&OFF / 02</p>
-      <svg className="why-outline" viewBox="0 0 3817 2160" preserveAspectRatio="xMidYMid slice" fill="none" aria-hidden="true">
-        <path d="M148 1997 790 975 3651 226 3010 1250Z" stroke="currentColor" strokeWidth="1" vectorEffect="non-scaling-stroke"/>
-      </svg>
-
-      <h2 className="why-heading" id="why-heading">
-        <span className="why-heading-intro">문제는 <mark>서비스의 수</mark>가 아니라</span>
-        <span className="why-heading-main">
-          <span className="why-brush" style={{ backgroundImage: `url("${brushUrl}")` }} aria-hidden="true"/>
-          <span className="why-brush-texture" style={{ backgroundImage: `url("${brushTextureUrl}")` }} aria-hidden="true"/>
-          <span className="why-heading-text">연결의 방향.</span>
-        </span>
-      </h2>
-
-      <p className="why-problem" id="why-services">
-        <span>기획은 여기, 디자인은 저기,</span>
-        <span>영상과 광고 운영은 또 다른 곳에.</span>
-        <span>여러 곳에 나뉘면 브랜드의 판단도 함께 흩어집니다.</span>
-      </p>
-      <p className="why-answer">
-        <span>온앤오프는 모든 결과물을</span>
-        <span>하나의 메시지, 하나의 운영 체계, 하나의 개선 흐름으로 연결합니다.</span>
-      </p>
-
-      <div className="why-wordmark" aria-hidden="true">ONETEAM</div>
-      <div className="why-person" style={{ backgroundImage: `url("${teamAtlasUrl}")` }} aria-hidden="true"/>
+export default function WhySection({ active = false, revealed = false, paused = false, covered = false }: { active?: boolean; revealed?: boolean; paused?: boolean; covered?: boolean }) {
+  return <section className="why-section" aria-labelledby="why-heading" data-visible={active} data-galaxy="pending">
+    <div className="why-frame">
+      <output className="why-loading"><span className="why-loading-ring" aria-hidden="true"/><span>하나로 연결하는 중</span><small>ON&amp;OFF / SYSTEM</small></output>
+      <WhyGalaxy active={active} revealed={revealed} paused={paused} covered={covered}/>
+      <p className="why-kicker"><span className="galaxy-status" aria-hidden="true"/> THE CONNECTED UNIVERSE <span>/ 02</span></p>
+      <div className="galaxy-editorial">
+        <p className="galaxy-eyebrow">기획부터 제작·운영까지</p>
+        <h2 className="why-heading" id="why-heading"><span>마케팅 전부,</span><span>온앤오프 하나로</span></h2>
+        <p className="galaxy-integration"><span>ALL-IN-ONE AGENCY</span><strong>다섯 분야를 한 번에</strong></p>
       </div>
+      <ol className="galaxy-services" id="why-services" aria-label="통합 서비스">
+        {galaxyServices.map((service, index) => <li className={`galaxy-service galaxy-service-${index}`} key={service.id}>
+          <span className="galaxy-service-number" aria-hidden="true">0{index + 1}</span>
+          <div><h3>{service.ko}</h3><p>{service.keyword}</p><span className="galaxy-service-tags">{service.tags}</span></div>
+        </li>)}
+      </ol>
+      <div className="galaxy-crew">
+        <GalaxyCrew active={active} spriteUrl={crewSpriteUrl}/>
+        <p><span>분야별 전문가</span><strong>한 팀에서 끝까지</strong><span aria-hidden="true">↗</span></p>
       </div>
-    </section>
-  );
+      <div className="galaxy-folio"><span>ON&amp;OFF / ONE TEAM</span><span className="galaxy-folio-line" aria-hidden="true"/><span>TOGETHER, IN ORBIT</span></div>
+    </div>
+    <noscript><style>{`.why-section[data-galaxy='pending'] .why-frame > :not(.why-loading) { visibility: visible; } .why-loading { display: none !important; }`}</style></noscript>
+  </section>;
 }

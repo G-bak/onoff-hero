@@ -1,0 +1,27 @@
+﻿Use case: precise-object-edit, strict identity preservation.
+Edit image 1, the accepted WEB v4 eight-pose sheet, with ONE VERY LOCAL CORRECTION ONLY.
+Image 2 is the original woman's identity/outfit reference. The approved identity and clothing in image 1 are already correct and MUST stay exactly as they are.
+
+OUTPUT: same full1536 x1024 PNG sheet, exactly four columns by two rows. KEEP CELLS0,1,2,3,4,5,6 UNCHANGED. Correct ONLY CELL7, the BOTTOM-RIGHT cell, x1152..1535 and y512..1023. Do not redesign, reroll, rearrange or retime any other pose. The final deliverable will use only corrected cell7 from this sheet.
+
+THE ONLY ERROR TO FIX: current cell7 suddenly turns the woman's whole torso away and shows her back, unlike cells0..6. Replace that wrong rear-facing torso/hips/legs/camera angle with the EXACT SAME side / mild rear-three-quarter BODY ORIENTATION as CELL6 (bottom row third cell), retaining the original cell7 hand contact at the LEFT-MIDDLE of the blank board.
+
+Use cell6 as the direct body template for corrected cell7:
+- same head/body scale, camera, shoulder direction, hip direction, torso silhouette, knee position and both planted feet/shoe angles;
+- same visible front edge of long navy cardigan, large buttons, white tee sliver, knit rib direction, loose sleeve volume and long relaxed hem;
+- same soft layered wavy dark-brown bob and dark round glasses;
+- same natural adult Korean proportions, washed charcoal wide trousers and off-white sneakers;
+- head looks LEFT toward the chalkboard as in cell6, never toward the viewer;
+- the broad back panel must NOT suddenly rotate toward the camera. This should look like another nearby moment of cell6, not a new camera angle or turnaround.
+No foot movement, step, hip twist, torso rotation, scale change or body lean to fake the hand movement.
+
+Keep the bottom-right chalkboard exactly as it already is: identical position, size, perspective, completely EMPTY black surface, slim pale wood frame, two simple legs. Keep the green background and all scene placement. No platform, plinth, disc or object under the person. Full hair, hands and feet remain in the cell.
+
+CORRECTED CELL7 ARM POSE:
+Keep the SAME writing arm used in cells0..6. Only that writing shoulder/elbow/forearm/wrist articulates naturally upward from cell6's lower-left contact to LEFT-MIDDLE board contact. Preserve cell7's small white chalk TIP touching near local cell coordinates x68,y123 on the blank board. Arm extends naturally toward the left-middle, maintaining normal anatomy, wrist/chalk grip and real arm length. The other arm remains relaxed DOWN beside the body exactly like cell6. There must be EXACTLY TWO ARMS and EXACTLY TWO HANDS total. Only ONE hand holds the chalk. No leftover hand from the old rear-facing pose, no doubled sleeve, no ghosted arm, no mirrored writing arm.
+
+Do not shrink or reposition the existing gesture sequence. The larger outline motion in cells0..6 is accepted. The task is only to prevent the abrupt body turn at the final cell so cell6→cell7→cell0 can form a clockwise writing gesture loop while the hips and feet stay in one orientation.
+
+ALL boards must remain totally blank: no letters, white lines, points, diagrams or chalk marks. Only the white chalk stick in the hand. Preserve the exact approved original woman's realistic material and visible long ribbed knit cardigan, never a short smooth jacket, cartoon bob, squat toy or big-headed figure.
+
+Final check before returning: compare corrected cell7's shoulders, white-tee/cardigan-front visibility, hips, knees and sneakers directly against cell6; they must match orientation. Only the writing arm height/location and a very small natural head response may differ. Keep all other seven cells unchanged.

@@ -1,0 +1,30 @@
+// Fictional campaign content shared by the readable fallback and WebGL textures.
+export const instagramCampaign = {
+  account: 'ongyeol.official',
+  name: '온결',
+  caption: ['바쁜 아침에도, 보습은 빼먹지 않도록.', '오늘의 보습 루틴에 온결을 더해보세요.'],
+  tags: '#온결 #보습크림 #데일리루틴',
+  likes: '좋아요 128개',
+  comments: '댓글 6개 모두 보기',
+  comment: 'daily.zip  아침 루틴에 넣어봐야겠어요!',
+  disclosure: '가상 브랜드 · 반응 수와 댓글은 시안용 예시',
+};
+
+export const blogCampaign = {
+  name: '루움의 리빙노트',
+  category: '침실을 바꾸는 작은 습관',
+  title: ['이불 고를 때', '꼭 확인할 3가지'],
+  meta: '루움 RUUM  ·  2026. 9. 12.',
+  intro: ['사진만 보고 고르기엔 매일 덮는 이불이니까.', '소재부터 관리 방법까지, 구매 전에 살펴보세요.'],
+  sections: [
+    { title: '01  피부에 닿는 소재부터', lines: ['면·리넨 등 겉감의 소재와 혼용률을 확인하세요.', '촉감뿐 아니라 충전재의 종류도 함께 살펴보세요.'] },
+    { title: '02  우리 집 온도에 맞는 두께', lines: ['같은 계절에도 침실 온도와 느끼는 추위는 다릅니다.', '평소 수면 환경에 맞는 두께와 보온감을 고르세요.'] },
+    { title: '03  세탁까지 편해야 좋은 이불', lines: ['구매 전에 제품의 세탁 표시와 건조 방법을 확인하세요.', '세탁기 용량에 맞는지, 충분히 말릴 수 있는지도 중요해요.'] },
+  ],
+  checklist: ['겉감·충전재 확인', '두께·보온감 비교', '세탁·건조 표시 확인'],
+  closing: ['내 생활에 맞는 침구를 찾는 기준.', '루움과 함께 차근차근 골라보세요.'],
+  footer: '공감 24  ·  댓글 3   |   가상 브랜드 콘텐츠 · 반응 수 예시',
+};
+
+export const marketingCanvasText = JSON.stringify({ instagramCampaign, blogCampaign })
+  + '게시물광고더알아보기댓글달기시간전이웃추가글목록구매전CHECKLIST';

@@ -1,0 +1,25 @@
+﻿.site-controls:is([data-section='design'], [data-section='web']) { --nav-color: #090a0f; --nav-active: #343cff; --nav-track: #090a0f40; }
+.site-controls:is([data-section='design'], [data-section='web']) :is(.section-nav-number, .section-nav-label) { -webkit-text-stroke: 3px var(--nav-outline); paint-order: stroke fill; }
+.site-controls[data-section='design'] .section-nav-link[aria-current='location'] { color: #090a0f; }
+.site-controls:is([data-section='design'], [data-section='web']) .chat-launcher { background: #090a0f; color: #ffffff; }
+.site-controls:is([data-section='design'], [data-section='web']) .chat-launcher-icon { color: #090a0f; }
+@media (max-width: 700px) {
+  .site-controls:is([data-section='why'], [data-section='design'], [data-section='web']) .chat-launcher { padding: 4px; gap: 0; }
+  .site-controls:is([data-section='why'], [data-section='design'], [data-section='web']) .chat-launcher-label { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+}
+@media (max-height: 760px) {
+  .section-nav-link { min-height: 52px; padding-top: 8px; padding-bottom: 8px; }
+}
+@media (max-height: 600px) {
+  .section-nav { top: calc(50% - 24px); }
+  .section-nav-link { min-height: 44px; padding-top: 8px; padding-bottom: 8px; }
+}
+/* Seven 44px menu targets remain reachable on short screens. Place chat beside
+   the rail instead of covering its last link. Portrait placement is unchanged. */
+@media (max-height: 600px) and (orientation: landscape) { .site-chat { right: calc(var(--edge) + 146px); } }
+@media (max-height: 600px) and (max-width: 1000px) and (orientation: landscape) { .site-chat { right: 82px; } }
+@media (max-height: 360px) and (orientation: landscape) { .section-nav { top: 50%; } }
+@media (max-height: 600px) and (orientation: landscape) {
+  .site-controls[data-section='design'] .chat-launcher { padding: 4px; gap: 0; }
+  .site-controls[data-section='design'] .chat-launcher-label { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+}

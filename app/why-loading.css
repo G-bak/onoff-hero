@@ -1,0 +1,7 @@
+.why-loading { display: none; position: absolute; z-index: 5; inset: 0; height: min(100svh, 100%); place-content: center; justify-items: center; gap: 18px; background: #03050e; font-size: 16px; font-weight: 500; }
+.why-loading small { font: 700 12px 'Montserrat', sans-serif; letter-spacing: .13em; color: #fff; opacity: .55; }
+.why-loading-ring { display: block; width: 42px; height: 42px; margin-bottom: 10px; border: 1px solid #ffffff25; border-top: 2px solid #d8ff3e; border-radius: 50%; animation: why-loading-spin .85s linear infinite; }
+.why-section:is([data-galaxy='pending'], [data-galaxy='loading']) .why-frame > :not(.why-loading) { visibility: hidden; }
+.why-section:is([data-galaxy='pending'], [data-galaxy='loading']) .why-loading { display: grid; }
+@keyframes why-loading-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .why-loading-ring { animation: none; } }

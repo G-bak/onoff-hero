@@ -1,0 +1,82 @@
+{
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "grid": [
+    4,
+    2
+  ],
+  "cellDimensions": [
+    384,
+    512
+  ],
+  "frameOrder": "row-major, zero-based cells0–7",
+  "selected": [
+    {
+      "id": "strategy",
+      "file": "pose-sheets/strategy.png",
+      "prompt": [
+        "prompts/strategy-prompt.txt",
+        "prompts/strategy-correction-2-prompt.txt",
+        "prompts/strategy-synced-prompt.txt",
+        "prompts/strategy-synced-correction-prompt.txt"
+      ],
+      "sha256": "63CCF15F317051DB913C2066C284742B1C901657A94D8CF10A8288B9AE9C5E77",
+      "source": "strategy-synced-step-turn.png; targeted ImageGen corrections from strategy-step-turn.png",
+      "inspection": "Final edited sheet has both feet down at pose1 and the anatomical left foot lifted at pose2, matching the other four people. Clear side profile at pose3. Full sheet visually inspected and selected; minor silhouette changes from regeneration retained.",
+      "generatedFile": "strategy-synced-step-turn.png"
+    },
+    {
+      "id": "design",
+      "file": "pose-sheets/design.png",
+      "prompt": [
+        "prompts/design-prompt.txt"
+      ],
+      "sha256": "C4B1E17DE7D08DA230F9582D93EE72A7AF2535814D36107F294D573F6E51CCE2",
+      "source": "exec-8ab71b9a-03a8-41cb-a612-4941c4ffb723.png",
+      "inspection": "Clear left-shoe lift in cell2, right-facing side view in cell3, following shoe airborne in cell4. Ponytail, arms and shirt silhouette change. Settled near-back finish with arms low.",
+      "generatedFile": "design-step-turn.png"
+    },
+    {
+      "id": "website",
+      "file": "pose-sheets/website.png",
+      "prompt": [
+        "prompts/website-prompt.txt"
+      ],
+      "sha256": "270257EEE6D91195B5A5A0B96D01264076997F4FCB7528AB65B68338CD05C3FE",
+      "source": "exec-a3ef5402-ae78-4626-8f29-20c0deca30ed.png",
+      "inspection": "Clear anatomical-left lift in cell2 and following-foot lift in cell4; cell3 is a clear side profile. Front torso stays relatively open early; lower-row following foot remains raised for several cells before settling. Identity/glasses preserved.",
+      "generatedFile": "website-step-turn.png"
+    },
+    {
+      "id": "marketing",
+      "file": "pose-sheets/marketing.png",
+      "prompt": [
+        "prompts/marketing-prompt.txt"
+      ],
+      "sha256": "50397EBEE9701A77445DD8620F965D483F8671EE41D65EC218CFB2F1C33655F1",
+      "source": "exec-9ca6595f-5a60-443e-a9f0-8b4f2c662a36.png",
+      "inspection": "Left shoe clearly airborne in cell2 and following shoe in cell4; side profile in cell3, then rear three-quarter. Last head angles a little toward viewer left like supplied near-back reference. Early torso turns less than requested exact degrees.",
+      "generatedFile": "marketing-step-turn.png"
+    },
+    {
+      "id": "operation",
+      "file": "pose-sheets/operation.png",
+      "prompt": [
+        "prompts/operation-prompt.txt"
+      ],
+      "sha256": "73BAF225AE1C231692779E477CB744D84F1DD554EE776333EAE2676041DDA3B5",
+      "source": "exec-bef6e2c5-2557-4689-a6fc-4e4f29936021.png",
+      "inspection": "Clear bent leg/left-shoe lift in cell2; full right-facing side in cell3; rear following-foot lift in cell4. Glasses/facial hair/charcoal blazer preserved. Early torso remains closer to front than requested; arms remain low through finish.",
+      "generatedFile": "operation-step-turn.png"
+    }
+  ],
+  "referencePattern": "C:/Users/usewr/Documents/ChatGPT/follow-art-hero/design/galaxy-crew/v2/frames/<id>/{00,08,15}.png",
+  "generatorDirectory": "C:/Users/usewr/.codex/generated_images/01a09121-cfe3-7273-8174-d1b3453857eb",
+  "unselected": [
+    "strategy-initial.png",
+    "strategy-side-attempt-rejected.png"
+  ],
+  "notes": "Generated source sheets only. Root packs frames 00-07 and preserves v2 frames 08-15 unchanged. No commit, push or deployment."
+}

@@ -1,27 +1,33 @@
 'use client';
 
-import { useEffect, useRef, type ReactNode } from 'react';
-import { getSectionEntry } from '@/lib/section-entry';
+import { useLayoutEffect, useRef, type ReactNode } from 'react';
+import { getSectionEntry, getSectionScrollLength } from '@/lib/section-entry';
+import type { SectionTransition } from '@/lib/site-sections';
 
-export default function SectionEntry({ id, front, children, onCovered, onSectionChange, onProgress }: {
+export default function SectionEntry({ id, front, children, onCovered, onNavigation, scrollRatio = 1 }: {
   id: string;
   front: ReactNode;
   children: ReactNode;
-  onCovered: (covered: boolean) => void;
-  onSectionChange: (section: 'home' | 'why') => void;
-  onProgress: (progress: number) => void;
+  onCovered?: (covered: boolean) => void;
+  onNavigation: (transition: SectionTransition) => void;
+  scrollRatio?: number;
 }) {
   const turnRef = useRef<HTMLDivElement>(null);
   const sheetRef = useRef<HTMLDivElement>(null);
   const backRef = useRef<HTMLDivElement>(null);
+  const anchorRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  // Establish the real section anchors during commit, before the router reads
+  // a destination hash or restores history scroll in its queued microtask.
+  useLayoutEffect(() => {
     const turn = turnRef.current;
     const sheet = sheetRef.current;
     const back = backRef.current;
+    const anchor = anchorRef.current;
     if (!turn || !sheet || !back) return;
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
     let frame: number | null = null;
+    let disposed = false;
     let covered: boolean | undefined;
     let currentSection: 'home' | 'why' | undefined;
     let progress: number | undefined;
@@ -32,31 +38,43 @@ export default function SectionEntry({ id, front, children, onCovered, onSection
       turn.classList.toggle('is-enhanced', !reduced.matches);
       const width = sheet.offsetWidth;
       const height = sheet.offsetHeight;
+      turn.style.setProperty('--page-front-height', `${height}px`);
       // Use the CSS sticky inset so mobile browser chrome cannot change the
       // turn endpoint relative to the stable #why anchor (100svh).
       const stickyTop = sheet.parentElement ? Number.parseFloat(getComputedStyle(sheet.parentElement).top) || 0 : 0;
       const viewportHeight = reduced.matches ? window.innerHeight : height + Math.min(0, stickyTop);
-      const state = getSectionEntry(-turn.getBoundingClientRect().top, viewportHeight, height, width, reduced.matches);
+      const state = getSectionEntry(-turn.getBoundingClientRect().top, viewportHeight, height, width, reduced.matches, scrollRatio);
+      turn.style.setProperty('--page-scroll-height', `${state.scrollLength}px`);
+      // A nested back is sticky before its turn. Keep its anchor at the final
+      // document position instead of allowing the sticky offset to move it.
+      if (anchor && !reduced.matches) {
+        let root = turn;
+        let offset = state.scrollLength;
+        let parent = root.parentElement?.closest<HTMLDivElement>('.page-turn');
+        while (parent) {
+          const parentSheet = parent.querySelector<HTMLElement>(':scope > .page-turn-front-track > .page-turn-front > .page-turn-sheet');
+          const parentHeight = parentSheet?.offsetHeight ?? 0;
+          const parentInset = parentSheet?.parentElement ? Number.parseFloat(getComputedStyle(parentSheet.parentElement).top) || 0 : 0;
+          offset += getSectionScrollLength(parentHeight + Math.min(0, parentInset), parentHeight, Number(parent.dataset.scrollRatio) || 1);
+          root = parent;
+          parent = root.parentElement?.closest<HTMLDivElement>('.page-turn');
+        }
+        anchor.style.top = `${offset + root.getBoundingClientRect().top - turn.getBoundingClientRect().top}px`;
+      } else anchor?.style.removeProperty('top');
       turn.classList.toggle('is-turning', state.turning);
       turn.classList.toggle('is-turned', state.covered);
-      // Replay the heading accents only after a complete return to HOME.
-      // Small reverse scrolls near the turn endpoint must not erase them.
-      if (state.covered) turn.classList.add('is-why-revealed');
-      else if (state.progress === 0) turn.classList.remove('is-why-revealed');
       sheet.style.transform = !reduced.matches && state.progress > 0
         ? `translate3d(${state.x}px, ${state.y}px, 0) rotate(${state.angle}deg)` : '';
       back.inert = !reduced.matches && !state.covered;
-      if (progress !== state.progress) {
+      sheet.inert = state.covered;
+      if (progress !== state.progress || currentSection !== state.currentSection) {
         progress = state.progress;
-        onProgress(progress);
+        currentSection = state.currentSection;
+        onNavigation({ progress, backActive: currentSection === 'why' });
       }
       if (covered !== state.covered) {
         covered = state.covered;
-        onCovered(covered);
-      }
-      if (currentSection !== state.currentSection) {
-        currentSection = state.currentSection;
-        onSectionChange(currentSection);
+        onCovered?.(covered);
       }
     }
 
@@ -92,8 +110,12 @@ export default function SectionEntry({ id, front, children, onCovered, onSection
     document.addEventListener('visibilitychange', visibilityChanged);
     sheet.addEventListener('focusin', revealFocusedControl);
     update();
+    // Child effects run before parent effects. Re-measure once all ancestors
+    // have acquired their sticky layout, still before the router's scroll job.
+    queueMicrotask(() => { if (!disposed) update(); });
 
     return () => {
+      disposed = true;
       if (frame !== null) cancelAnimationFrame(frame);
       observer.disconnect();
       window.removeEventListener('scroll', schedule);
@@ -101,19 +123,23 @@ export default function SectionEntry({ id, front, children, onCovered, onSection
       reduced.removeEventListener('change', schedule);
       document.removeEventListener('visibilitychange', visibilityChanged);
       sheet.removeEventListener('focusin', revealFocusedControl);
-      turn.classList.remove('is-enhanced', 'is-turning', 'is-turned', 'is-why-revealed');
+      turn.classList.remove('is-enhanced', 'is-turning', 'is-turned');
       sheet.style.transform = '';
+      sheet.inert = false;
       back.inert = false;
+      turn.style.removeProperty('--page-front-height');
+      turn.style.removeProperty('--page-scroll-height');
+      anchor?.style.removeProperty('top');
     };
-  }, [onCovered, onSectionChange, onProgress]);
+  }, [onCovered, onNavigation, scrollRatio]);
 
-  return <div className="page-turn" ref={turnRef}>
+  return <div className="page-turn" data-next-section={id} data-scroll-ratio={scrollRatio} ref={turnRef}>
     <div className="page-turn-front-track">
       <div className="page-turn-front">
         <div className="page-turn-sheet" ref={sheetRef}>{front}</div>
       </div>
     </div>
-    <div className="section-entry" id={id} tabIndex={-1}/>
+    <div className="section-entry" id={id} ref={anchorRef} tabIndex={-1}/>
     <div className="page-turn-back-track">
       <div className="section-surface" ref={backRef}>{children}</div>
       <div className="page-turn-runway" aria-hidden="true"/>

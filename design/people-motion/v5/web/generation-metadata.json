@@ -1,0 +1,246 @@
+{
+  "web-writer-v5-source.png": {
+    "width": 1448,
+    "height": 1086,
+    "channels": 3,
+    "hasAlpha": false,
+    "sha256": "6a43ac3fbf12e2a3796510491dd10878b3688e785d18676aa25e9b503a818e39",
+    "alpha": {
+      "min": 255,
+      "max": 255,
+      "transparent": 0
+    }
+  },
+  "web-writer-v5-chroma-source.png": {
+    "width": 1448,
+    "height": 1086,
+    "channels": 3,
+    "hasAlpha": false,
+    "sha256": "1f67670f9592fe278926c2239ad3eb5a36073ee89a6e2a1954b0e505846ae9d8",
+    "alpha": {
+      "min": 255,
+      "max": 255,
+      "transparent": 0
+    },
+    "chroma": {
+      "pureGreen": 0,
+      "greenCount": 948222,
+      "backgroundTopColors": [
+        [
+          "3,249,7",
+          113265
+        ],
+        [
+          "4,249,8",
+          76825
+        ],
+        [
+          "4,250,8",
+          68169
+        ],
+        [
+          "3,249,8",
+          63000
+        ],
+        [
+          "4,249,7",
+          59961
+        ],
+        [
+          "4,250,7",
+          52856
+        ],
+        [
+          "3,250,7",
+          42921
+        ],
+        [
+          "3,249,6",
+          29618
+        ]
+      ]
+    },
+    "cells": [
+      {
+        "frame": 0,
+        "bounds": {
+          "x": 54,
+          "y": 37,
+          "width": 302,
+          "height": 316
+        },
+        "margins": {
+          "left": 54,
+          "top": 37,
+          "right": 6,
+          "bottom": 9
+        }
+      },
+      {
+        "frame": 1,
+        "bounds": {
+          "x": 45,
+          "y": 37,
+          "width": 297,
+          "height": 316
+        },
+        "margins": {
+          "left": 45,
+          "top": 37,
+          "right": 20,
+          "bottom": 9
+        }
+      },
+      {
+        "frame": 2,
+        "bounds": {
+          "x": 38,
+          "y": 35,
+          "width": 297,
+          "height": 318
+        },
+        "margins": {
+          "left": 38,
+          "top": 35,
+          "right": 27,
+          "bottom": 9
+        }
+      },
+      {
+        "frame": 3,
+        "bounds": {
+          "x": 30,
+          "y": 38,
+          "width": 295,
+          "height": 315
+        },
+        "margins": {
+          "left": 30,
+          "top": 38,
+          "right": 37,
+          "bottom": 9
+        }
+      },
+      {
+        "frame": 4,
+        "bounds": {
+          "x": 54,
+          "y": 33,
+          "width": 301,
+          "height": 315
+        },
+        "margins": {
+          "left": 54,
+          "top": 33,
+          "right": 7,
+          "bottom": 14
+        }
+      },
+      {
+        "frame": 5,
+        "bounds": {
+          "x": 45,
+          "y": 46,
+          "width": 306,
+          "height": 300
+        },
+        "margins": {
+          "left": 45,
+          "top": 46,
+          "right": 11,
+          "bottom": 16
+        }
+      },
+      {
+        "frame": 6,
+        "bounds": {
+          "x": 38,
+          "y": 34,
+          "width": 305,
+          "height": 314
+        },
+        "margins": {
+          "left": 38,
+          "top": 34,
+          "right": 19,
+          "bottom": 14
+        }
+      },
+      {
+        "frame": 7,
+        "bounds": {
+          "x": 30,
+          "y": 33,
+          "width": 300,
+          "height": 315
+        },
+        "margins": {
+          "left": 30,
+          "top": 33,
+          "right": 32,
+          "bottom": 14
+        }
+      },
+      {
+        "frame": 8,
+        "bounds": {
+          "x": 54,
+          "y": 33,
+          "width": 308,
+          "height": 308
+        },
+        "margins": {
+          "left": 54,
+          "top": 33,
+          "right": 0,
+          "bottom": 21
+        }
+      },
+      {
+        "frame": 9,
+        "bounds": {
+          "x": 0,
+          "y": 38,
+          "width": 362,
+          "height": 301
+        },
+        "margins": {
+          "left": 0,
+          "top": 38,
+          "right": 0,
+          "bottom": 23
+        }
+      },
+      {
+        "frame": 10,
+        "bounds": {
+          "x": 0,
+          "y": 18,
+          "width": 332,
+          "height": 326
+        },
+        "margins": {
+          "left": 0,
+          "top": 18,
+          "right": 30,
+          "bottom": 18
+        }
+      },
+      {
+        "frame": 11,
+        "bounds": {
+          "x": 30,
+          "y": 28,
+          "width": 300,
+          "height": 311
+        },
+        "margins": {
+          "left": 30,
+          "top": 28,
+          "right": 32,
+          "bottom": 23
+        }
+      }
+    ]
+  }
+}

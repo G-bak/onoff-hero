@@ -173,7 +173,7 @@ export default function CardRibbon({ paused, active = true, direction, enabled, 
       }
       // Start these together; card textures need both the atlas and loaded glyphs.
       const [Three] = await Promise.all([
-        import('three').then(module => { finishLoadingUnit(); return module; }),
+        import('@/lib/card-three').then(module => { finishLoadingUnit(); return module; }),
         loadAtlas(),
         loadCardFonts(document.fonts, team).then(finishLoadingUnit),
       ]);
@@ -248,9 +248,11 @@ export default function CardRibbon({ paused, active = true, direction, enabled, 
         // Draw the full transparent cell, including shoes, props and plinth.
         const portraitHeight = 386;
         const portraitWidth = portraitHeight * sourceWidth / sourceHeight;
-        const portraitLeft = 340;
-        const portraitTop = 364;
-        ctx.drawImage(atlas, sourceX, sourceY, sourceWidth, sourceHeight, portraitLeft, portraitTop, portraitWidth, portraitHeight);
+        // Match .fallback-visual: shrink around the bottom center, keeping the feet grounded.
+        const portraitScale = 0.9;
+        const portraitLeft = 340 + portraitWidth * (1 - portraitScale) / 2;
+        const portraitTop = 364 + portraitHeight * (1 - portraitScale);
+        ctx.drawImage(atlas, sourceX, sourceY, sourceWidth, sourceHeight, portraitLeft, portraitTop, portraitWidth * portraitScale, portraitHeight * portraitScale);
         ctx.strokeStyle = ink;
         ctx.lineWidth = 1.5;
         ctx.beginPath(); ctx.moveTo(586, 746); ctx.lineTo(602, 730); ctx.moveTo(587, 730); ctx.lineTo(602, 730); ctx.lineTo(602, 745); ctx.stroke();
@@ -346,6 +348,9 @@ export default function CardRibbon({ paused, active = true, direction, enabled, 
           const width = container.clientWidth;
           const height = container.clientHeight;
           if (width <= 0 || height <= 0) return;
+          const pixelRatio = Math.min(window.devicePixelRatio, 2);
+          renderer.setPixelRatio(pixelRatio);
+          rearRenderer.setPixelRatio(pixelRatio);
           renderer.setSize(width, height);
           rearRenderer.setSize(width, height);
           camera.aspect = width / height;
@@ -356,7 +361,11 @@ export default function CardRibbon({ paused, active = true, direction, enabled, 
       };
       const observer = new ResizeObserver(resize);
       observer.observe(container);
-      removeListeners.push(() => observer.disconnect());
+      window.addEventListener('resize', resize);
+      removeListeners.push(() => {
+        observer.disconnect();
+        window.removeEventListener('resize', resize);
+      });
       resize();
       if (stopped) return;
 

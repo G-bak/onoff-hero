@@ -1,0 +1,110 @@
+{
+  "date": "2026-09-12",
+  "mode": "built-in image_gen",
+  "call_count": 1,
+  "retries": 0,
+  "prompt": "Use case: background-extraction\nAsset type: Strictly registered black-and-white segmentation matte for an existing eight-frame animation sprite sheet.\nInput image: The attached 960×640 RGBA sprite sheet is the exact segmentation target, not a creative style reference. It has four columns and two rows, eight cells, each 240×320 pixels. Pose order is row-major: 0,1,2,3 in the first row, 4,5,6,7 in the second.\nPrimary request: Convert this exact input into a foreground matte that retains each original person INCLUDING ALL SHOES and excludes the circular pale-pink display plinth under their feet. Output only a matte, never a new character or colored render.\nRegistration invariants: Preserve the exact 960×640 canvas, cell positions, pose contours, head/body/limb/shoe proportions, the full raised and open hands, every gap between limbs and body, and the person-to-person alignment. Do not move, redraw creatively, rotate, rescale, crop, center, straighten, change poses, change gestures or add missing details. Trace the exact input silhouettes in-place. Do not add cell borders or labels.\nMatte values: Fill every pixel belonging to each person from hair down to the bottom of the existing shoe soles with pure white (#FFFFFF), with only minimal edge antialiasing. White is a solid silhouette with no internal shading or facial/clothing details. Fill all original transparent/background regions with pure black (#000000). Crucially, the entire wide round/cylindrical pale-pink plinth in every cell must also be pure black, including its top visible around and between the shoes, front wall, edges and shadow. Shoes themselves must stay white; do not cut off or shorten their soles. The narrow negative gap between the legs and between the two shoes must remain black exactly as in the input.\nOutput: One opaque RGB black-and-white image, same aspect ratio and exact alignment as the input. No text, no watermark, no border, no additional object. The matte will be used only to remove plinth-region alpha from the original pixels; generated person RGB will never be used. Generate exactly one image.",
+  "source_path": "C:/Users/usewr/Documents/ChatGPT/onoff-marketing-channels-review/marketer-source-sheet.png",
+  "output_path": "C:/Users/usewr/Documents/ChatGPT/onoff-marketing-channels-review/marketer-foreground-matte.png",
+  "original_output_path": "C:\\Users\\usewr\\.codex\\generated_images\\01a095b1-7114-7fd3-b4a6-1b6d7d131b22\\exec-e87f380d-6143-465a-a7c6-03545efd6c93.png",
+  "review": "실제 출력 및 신발 확대 오버레이 확인: 검은 배경 위8개 흰 인물 실루엣이며 넓은 플린스 형상은 없다. 그러나 입력960×640과 달리 출력1536×1024이고,960×640 단순 축소 후 몸 IoU는0.714~0.939, 중심은 오른쪽0.69~6.99px·위1.01~1.60px 이동한다. 프레임3·7 등에서 신발 옆 경계가 벗어난다. 엄밀한 정합 마스크로는 부적합하여 그대로 적용하면 신발을 깎거나 받침대 일부를 남길 수 있다. 원본 인물 RGB를 절대 교체하지 말고 추가 정합 및 원본 신발 경계 확인이 필요하다. 이 작업에서는 원본에 마스크를 적용하지 않았고 재시도하지 않았다.",
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "bytes": 654755,
+  "sha256": "6c9bf93f9569fc5aa98abde87c9cc9397f7725f102225286dbc25c53dd5a6858",
+  "registration_review": {
+    "resampling": "Analysis only: sharp resize to 960x640, grayscale, threshold 127. Original mask file preserved unchanged.",
+    "scores": [
+      {
+        "frame": 0,
+        "region": "local y < 272 (body excluding plinth and most shoes)",
+        "iou": 0.9390924532880369,
+        "source_pixels": 11726,
+        "matte_pixels": 12247,
+        "centroid_shift": [
+          0.6943445380553896,
+          -1.0079738206257787
+        ]
+      },
+      {
+        "frame": 1,
+        "region": "local y < 272 (body excluding plinth and most shoes)",
+        "iou": 0.8677952755905511,
+        "source_pixels": 11566,
+        "matte_pixels": 12155,
+        "centroid_shift": [
+          2.662213691344718,
+          -1.2437634016155243
+        ]
+      },
+      {
+        "frame": 2,
+        "region": "local y < 272 (body excluding plinth and most shoes)",
+        "iou": 0.8021052631578948,
+        "source_pixels": 11674,
+        "matte_pixels": 12294,
+        "centroid_shift": [
+          4.412173116645718,
+          -1.2673026637457099
+        ]
+      },
+      {
+        "frame": 3,
+        "region": "local y < 272 (body excluding plinth and most shoes)",
+        "iou": 0.7137735713773571,
+        "source_pixels": 11591,
+        "matte_pixels": 12311,
+        "centroid_shift": [
+          6.994349593022761,
+          -1.4587633677926704
+        ]
+      },
+      {
+        "frame": 4,
+        "region": "local y < 272 (body excluding plinth and most shoes)",
+        "iou": 0.9158696709353218,
+        "source_pixels": 11441,
+        "matte_pixels": 12197,
+        "centroid_shift": [
+          0.7202292189542732,
+          -1.36583323776739
+        ]
+      },
+      {
+        "frame": 5,
+        "region": "local y < 272 (body excluding plinth and most shoes)",
+        "iou": 0.8859128533499921,
+        "source_pixels": 11715,
+        "matte_pixels": 12436,
+        "centroid_shift": [
+          2.198340011314613,
+          -1.5438875845009363
+        ]
+      },
+      {
+        "frame": 6,
+        "region": "local y < 272 (body excluding plinth and most shoes)",
+        "iou": 0.8093793919668615,
+        "source_pixels": 11830,
+        "matte_pixels": 12631,
+        "centroid_shift": [
+          3.9992936912116335,
+          -1.4516903192664472
+        ]
+      },
+      {
+        "frame": 7,
+        "region": "local y < 272 (body excluding plinth and most shoes)",
+        "iou": 0.7271748492678726,
+        "source_pixels": 11677,
+        "matte_pixels": 12386,
+        "centroid_shift": [
+          6.107358598298646,
+          -1.603628728499075
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "tool": "built-in image_gen",
+  "batch_calls": 3,
+  "additional_generations": 0,
+  "root_review": "Root inspected all three originals and accepted left-handed WEB writing. No further generation requested. Root handles chroma extraction, alignment, playback and chalkboard compositing.",
+  "assets": [
+    {
+      "id": "designer-dance",
+      "generated_source": "C:\\Users\\usewr\\.codex\\generated_images\\01a09456-c0bb-7671-87eb-341947cf2183\\exec-027bb632-5029-41b5-a547-d65ce5e4b2d8.png",
+      "saved_path": "C:/Users/usewr/Documents/ChatGPT/onoff-motion-v2-20260912/designer-dance/source.png",
+      "actual_dimensions": [
+        1254,
+        1254
+      ],
+      "requested_dimensions": [
+        2048,
+        2048
+      ],
+      "prompt_path": "C:/Users/usewr/Documents/ChatGPT/onoff-motion-v2-20260912/designer-dance/prompt.txt",
+      "reference_paths": [
+        "C:/Users/usewr/Documents/ChatGPT/follow-art-hero/design/galaxy-crew/v3/frames/design/00.png",
+        "C:/Users/usewr/Documents/ChatGPT/follow-art-hero/outputs/research/2026-09-12/motion/dance-reference.png"
+      ]
+    },
+    {
+      "id": "web-write",
+      "generated_source": "C:\\Users\\usewr\\.codex\\generated_images\\01a09456-c0bb-7671-87eb-341947cf2183\\exec-3d94defb-a6ca-48c1-b34c-85e940bbb50c.png",
+      "saved_path": "C:/Users/usewr/Documents/ChatGPT/onoff-motion-v2-20260912/web-write/source.png",
+      "actual_dimensions": [
+        1254,
+        1254
+      ],
+      "requested_dimensions": [
+        2048,
+        2048
+      ],
+      "prompt_path": "C:/Users/usewr/Documents/ChatGPT/onoff-motion-v2-20260912/web-write/prompt.txt",
+      "reference_paths": [
+        "C:/Users/usewr/Documents/ChatGPT/follow-art-hero/design/galaxy-crew/v3/frames/website/00.png",
+        "C:/Users/usewr/Documents/ChatGPT/follow-art-hero/outputs/research/2026-09-12/motion/writing-reference.png"
+      ]
+    },
+    {
+      "id": "blank-chalkboard",
+      "generated_source": "C:\\Users\\usewr\\.codex\\generated_images\\01a09456-c0bb-7671-87eb-341947cf2183\\exec-cba3a6e7-97e0-4a08-9557-314217c5ca5f.png",
+      "saved_path": "C:/Users/usewr/Documents/ChatGPT/onoff-motion-v2-20260912/blank-chalkboard/source.png",
+      "actual_dimensions": [
+        1254,
+        1254
+      ],
+      "requested_dimensions": [
+        1024,
+        1024
+      ],
+      "prompt_path": "C:/Users/usewr/Documents/ChatGPT/onoff-motion-v2-20260912/blank-chalkboard/prompt.txt",
+      "reference_paths": []
+    }
+  ],
+  "research_url": "https://www.steezy.co/posts/how-to-do-the-billy-bounce"
+}

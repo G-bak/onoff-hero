@@ -1,0 +1,26 @@
+[
+  {
+    "name": "bakery",
+    "width": 720,
+    "height": 900,
+    "bytes": 106922,
+    "sha256": "d6e14f67dae002d0fb882d1911ef9bd8ce2012cb19a7ab841182443767ead15c",
+    "sourceSha256": "242e4843f456a3595555eb4b7222f41b5aa1f7a68eba2c31ddf034ab6049b9f1"
+  },
+  {
+    "name": "beauty",
+    "width": 720,
+    "height": 900,
+    "bytes": 56992,
+    "sha256": "4bcd69f1501e019acde20f75cae60f45bcafdd009f03a19060726fa7109fd744",
+    "sourceSha256": "e0dbeb911f944a48996551e99cd0c284d4771c2d765f0c91dd51186141dacf54"
+  },
+  {
+    "name": "living",
+    "width": 720,
+    "height": 900,
+    "bytes": 103906,
+    "sha256": "37a75649ee6a617c0a0697bce03a6be766d4068f4390ca0fdf4e1d3bd439b439",
+    "sourceSha256": "15d64ba35e11dcea9c4d8219b70d1cf7f1300d80f6f56e4ad2eb23952aff94bf"
+  }
+]

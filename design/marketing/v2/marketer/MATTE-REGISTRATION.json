@@ -1,0 +1,74 @@
+{
+  "original_rgba_resampled": false,
+  "reference_region": "body only, excludes shoe soles and plinth",
+  "dimensions": [
+    960,
+    640
+  ],
+  "registrations": [
+    {
+      "frame": 0,
+      "scale": 0.985,
+      "dx": -1,
+      "dy": 1,
+      "iou": 0.9646902065289806,
+      "method": "mask-only isotropic scale about (120,165), integer translation; exhaustive IoU search on body y55..271 with stride2"
+    },
+    {
+      "frame": 1,
+      "scale": 0.985,
+      "dx": -3,
+      "dy": 1,
+      "iou": 0.9660390047074647,
+      "method": "mask-only isotropic scale about (120,165), integer translation; exhaustive IoU search on body y55..271 with stride2"
+    },
+    {
+      "frame": 2,
+      "scale": 0.985,
+      "dx": -4,
+      "dy": 1,
+      "iou": 0.9618573797678275,
+      "method": "mask-only isotropic scale about (120,165), integer translation; exhaustive IoU search on body y55..271 with stride2"
+    },
+    {
+      "frame": 3,
+      "scale": 0.975,
+      "dx": -7,
+      "dy": 0,
+      "iou": 0.9595858383433534,
+      "method": "mask-only isotropic scale about (120,165), integer translation; exhaustive IoU search on body y55..271 with stride2"
+    },
+    {
+      "frame": 4,
+      "scale": 0.975,
+      "dx": -1,
+      "dy": 1,
+      "iou": 0.9599864360800271,
+      "method": "mask-only isotropic scale about (120,165), integer translation; exhaustive IoU search on body y55..271 with stride2"
+    },
+    {
+      "frame": 5,
+      "scale": 0.985,
+      "dx": -2,
+      "dy": 1,
+      "iou": 0.9605911330049262,
+      "method": "mask-only isotropic scale about (120,165), integer translation; exhaustive IoU search on body y55..271 with stride2"
+    },
+    {
+      "frame": 6,
+      "scale": 0.975,
+      "dx": -4,
+      "dy": 1,
+      "iou": 0.9539967373572594,
+      "method": "mask-only isotropic scale about (120,165), integer translation; exhaustive IoU search on body y55..271 with stride2"
+    },
+    {
+      "frame": 7,
+      "scale": 0.985,
+      "dx": -6,
+      "dy": 1,
+      "iou": 0.954351395730706,
+      "method": "mask-only isotropic scale about (120,165), integer translation; exhaustive IoU search on body y55..271 with stride2"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+﻿Use case: identity-preserve.
+Asset type: eight consecutive key poses for a subtle looping miniature-character animation, as ONE landscape 1536 x 1024 PNG sprite sheet, exactly four columns and two rows.
+
+Input images: image 1 (design/00.png) is the APPROVED same Korean female miniature figurine and front clothing/body identity reference. Image 2 (design/15.png) is the APPROVED rear hair, slender proportions, raised arm and circular plinth reference. Image 3 (pose-sheets/design.png) is additional APPROVED multi-angle identity/material reference ONLY; do not copy its stepping action or view changes. All three depict one identity. Preserve this exact figurine, not an interpretation or redesign.
+
+Scene: plain perfectly uniform pure chroma green #00FF00 background throughout the entire sheet. No floor, no gray wash, no checkerboard, no gradients, no grid lines, no labels or text, no watermark. Only the figurine and her identical small pale circular plinth in each cell. No shadows cast outside the plinth.
+
+Identity and materials: the SAME slender Korean female miniature as the input images. Exact low dark-black ponytail with soft center-parted front hair, unchanged head size and body proportions; definitely not a bob haircut. Keep the ivory button-up blouse with collar, relaxed rolled sleeves, hem and fabric folds; dark charcoal straight wide trousers with the subtle reference texture; the same white/charcoal sneakers. Keep the identical pale warm-white circular low plinth with its subtle faceted marble material. Match the approved refined miniature finish and soft studio light. Do not make her stocky, squat, bulky, shorter-legged, chibi, or a new character.
+
+Locked camera: in ALL EIGHT cells, use exactly the same rear three-quarter view, approximately 150 degrees of body yaw from frontal. Face remains turned away, at most a tiny sliver of cheek; never look at the viewer and never rotate during this animation. Same camera distance, perspective, lighting, figure size, stance width, base shape/size, and cell placement. Each cell is 384 x 512. Plinth is centered horizontally in each cell, at the same vertical position, with no movement or scaling. Entire fingertips, hair, feet and complete plinth visible with at least 20 pixels of pure green clearance from every cell edge. No cropping.
+
+Pose common to ALL eight frames: BOTH ARMS are already raised in a relaxed open V ABOVE her head, elbows comfortably slightly bent and both hands loosely open. All hands stay above forehead height throughout. Arms are relaxed rather than stretched stiffly straight. She quietly enjoys music, feeling happy, with one VERY gentle slow bounce in place. BOTH feet stay planted in the EXACT SAME positions on the plinth in every frame; no heel lift, no step, no kick, no leap, no turn, no lateral sway, no dance choreography. Head and trunk remain upright. Hands and shoulders follow only the small overall vertical rhythm; no independent arm flapping or waving.
+
+Read cells left-to-right along top row (poses 0,1,2,3), then left-to-right along bottom row (poses 4,5,6,7). They are consecutive micro-increments of ONE small bounce cycle:
+Pose 0: comfortable upper stance, both arms already in the relaxed overhead open V.
+Pose 1: knees soften a tiny amount, body lowers imperceptibly.
+Pose 2: slightly lower.
+Pose 3: gently reaches lowest point, only about TWO PERCENT of body height lower than pose 0 (roughly 7 pixels), never a squat.
+Pose 4: almost the same low position as pose 3, slow turnaround.
+Pose 5: rising a little.
+Pose 6: almost the upper stance.
+Pose 7: matches pose 0 exactly for a seamless return.
+Maintain anatomical consistency and near-identical silhouettes between neighboring frames. This should look like a calm subtle rhythm while standing, not eight different dance poses. No exaggerated knee bend, body shape change, shoulder swing, hand gesture change, or foot displacement. The only pose change is this tiny vertical bob produced by soft knee bending. Preserve identity and plinth rigorously.

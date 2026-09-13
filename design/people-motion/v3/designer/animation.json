@@ -1,0 +1,12 @@
+{
+  "width": 256,
+  "height": 384,
+  "columns": 12,
+  "rows": 8,
+  "count": 96,
+  "fps": 24,
+  "durationMs": 4000,
+  "keyPoses": 8,
+  "scale": 0.7843137254901961,
+  "interpolation": "FFmpeg motion-compensated interpolation, not frame crossfade or CSS body rotation"
+}

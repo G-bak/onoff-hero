@@ -1,0 +1,50 @@
+{
+  "date": "2026-09-12",
+  "mode": "built-in image_gen",
+  "batch": "Exactly three new artwork calls in one parallel batch; no variants or retries.",
+  "fictional_concepts": true,
+  "assets": [
+    {
+      "name": "instagram.png",
+      "prompt": "Use case: ads-marketing\nAsset type: Standalone finished Korean Instagram campaign artwork for a fictional moisturizing cream brand. The website will add platform UI separately.\nPrimary request: A premium, photorealistic Korean skincare campaign for ONGYEOL / 온결, making a daily moisturizing cream routine directly understandable.\nCanvas/composition: One portrait 4:5 full-bleed artwork, ideally 1280x1600 or larger. Crisp white and powder-blue field with a bold electric-blue graphic shape. Distinctive product-led composition: a prominent realistic cream jar, matching simple box and believable sculptural white cream texture; clean close product photography with tactile reflections and shadows. The composition itself reaches every edge, with no external setting around the artwork. Large title dominates the upper portion while the product stays prominent.\nColor palette: Powder blue, electric blue, crisp white.\nTypography/text, render these exact strings clearly and correctly in Korean, using confident modern Korean sans-serif:\nLarge headline: \"오늘의 보습 루틴\"\nBrand: \"온결\" and \"ONGYEOL\"\nSmall product name: \"데일리 크림\"\nOnly these words may appear. The jar or box can use the same brand and product name, never additional packaging copy. Strong text hierarchy and legibility when downscaled to 720x900.\nConstraints: Fictional concept design, no real client or performance claims. No efficacy metrics, certifications, testimonial, price, discount or extra text. No browser, device, platform UI, Instagram icons, post controls, surrounding mockup scene, outer border, frame, watermark or QR code. This is the final flat artwork, not a photograph of a poster. Generate exactly one image.",
+      "source_output_path": "C:\\Users\\usewr\\.codex\\generated_images\\01a095b1-7114-7fd3-b4a6-1b6d7d131b22\\exec-5a463007-5d43-4e97-82ce-e0fccc58ae2d.png",
+      "saved_path": "C:/Users/usewr/Documents/ChatGPT/onoff-marketing-channels-review/instagram.png",
+      "review": "실제 출력 이미지 확인: 오늘의 보습 루틴, 온결, ONGYEOL, 데일리 크림이 올바르게 보인다. 제품 용기·상자·크림 질감이 주인공인 파랑/흰색 full bleed 구성이다. 성능·가격·할인·후기 주장 및 플랫폼 UI가 없다.",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "channels": 3,
+      "bytes": 1675012,
+      "sha256": "f0cc7cc7ab3d32ffe186916f71fc6ed7392cd277596d7194ce45da6da79a7eb7"
+    },
+    {
+      "name": "blog.png",
+      "prompt": "Use case: ads-marketing\nAsset type: Standalone finished Korean informational brand-blog cover artwork. The website will add blog UI and framing separately.\nPrimary request: A useful search-led bedding-guide cover for the fictional bedding brand 루움 / RUUM, visually communicating material, season and washing considerations without claiming facts.\nCanvas/composition: One portrait 4:5 full-bleed artwork, ideally 1280x1600 or larger. Calm structured editorial composition: generous warm cream title area, a realistic comfortable bed lifestyle photograph with naturally rumpled layered bedding, and visibly distinct textile close-ups/swatches arranged as a neat editorial strip in the lower region. Each close-up clearly shows different weave, plushness or quilted texture. Sophisticated natural interior light, believable cloth weight and texture. Visually different from a skincare product campaign or a food advertising poster. No browser or article interface, no external mockup setting or margin around the artwork.\nColor palette: Warm cream, olive, terracotta; dark warm typography.\nTypography/text, render these exact strings clearly and correctly in Korean with a large crisp modern Korean sans-serif title:\nLarge two-line headline:\n\"이불 고를 때\"\n\"꼭 확인할 3가지\"\nConcise supporting line: \"소재 · 계절 · 세탁\"\nBrand: \"루움\" and \"RUUM\"\nOnly these words may appear. Clear visual hierarchy, title easily readable at 720x900.\nConstraints: Fictional concept design. No fake review, testimonial, performance claim, certifications, unverified material facts, price, discount, dates or extra copy. Do not label textile samples with invented facts. No browser, device, platform UI, article UI, numbered article body, surrounding mockup scene, outer border, frame, watermark or QR code. This is finished flat cover artwork. Generate exactly one image.",
+      "source_output_path": "C:\\Users\\usewr\\.codex\\generated_images\\01a095b1-7114-7fd3-b4a6-1b6d7d131b22\\exec-3fc0f067-aebc-40e6-b5ad-69c89fd08ca3.png",
+      "saved_path": "C:/Users/usewr/Documents/ChatGPT/onoff-marketing-channels-review/blog.png",
+      "review": "실제 출력 이미지 확인: 이불 고를 때 / 꼭 확인할 3가지, 소재 · 계절 · 세탁, 루움, RUUM이 올바르게 보인다. 침실 사진과 하단3개 직물 근접컷이 구분되며 부드러운 크림·올리브·테라코타 구성이다. 소재 성능을 지어내지 않았고 article UI가 없다.",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "channels": 3,
+      "bytes": 2391121,
+      "sha256": "c5e67a2f5acc3bbcfdc13f76d08daac8cf7c0bcc9a9c773fc93de60677ba7078"
+    },
+    {
+      "name": "poster.png",
+      "prompt": "Use case: ads-marketing\nAsset type: Standalone finished Korean bakery lunch-set advertising poster for a fictional café.\nPrimary request: A concrete, appetizing, directly understandable sandwich and iced Americano lunch poster for 모닝오븐 / MORNING OVEN.\nCanvas/composition: One portrait 4:5 full-bleed artwork, ideally 1280x1600 or larger. Confident yellow/cream field with red brand accents, huge bold red Korean typographic headline and dark supporting text. Clearly photographed fresh sandwich with visible bread, crisp greens and satisfying filling, paired with an unmistakable glass of iced Americano, visible ice and natural condensation. Appetizing tactile food with lively commercial photography, assertive flat graphic composition and strong hierarchy at small scale. Make the food prominent in the lower half and the headline bold in the upper half. Artwork reaches every edge with no surrounding scene. Distinct from a calm bedding editorial or blue skincare product campaign.\nTypography/text, render these exact strings clearly and correctly with bold Korean sans-serif:\nLarge headline: \"점심 고민 끝\"\nReadable supporting line: \"샌드위치 + 아메리카노\"\nBrand: \"모닝오븐\" and \"MORNING OVEN\"\nOnly these words may appear. All lettering should remain crisp when downscaled to 720x900.\nConstraints: This is a fictional concept advertising artwork, no real customer or performance claims. No prices, discounts, dates, invented offer rules, testimonials, certifications, QR code, watermark or extra tiny text. No browser, device, platform UI, mockup borders, outer frame or surrounding scene. This is a flat finished advertising poster, not a photo of a framed poster. Generate exactly one image.",
+      "source_output_path": "C:\\Users\\usewr\\.codex\\generated_images\\01a095b1-7114-7fd3-b4a6-1b6d7d131b22\\exec-fdded0ea-2d39-4ec0-855f-51fd8031f66d.png",
+      "saved_path": "C:/Users/usewr/Documents/ChatGPT/onoff-marketing-channels-review/poster.png",
+      "review": "실제 출력 이미지 확인: 점심 고민 끝, 샌드위치 + 아메리카노, 모닝오븐, MORNING OVEN이 올바르게 보인다. 노랑/빨강의 큰 제목, 샌드위치와 아이스 아메리카노가 명확하다. 가격·기한·할인 조건·QR·추가 문구가 없다.",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "channels": 3,
+      "bytes": 2194302,
+      "sha256": "40816d2880388fdc9e02fc0ac9891d47d6281e1a3129d0fad1e8d99b1e71df1a"
+    }
+  ]
+}
