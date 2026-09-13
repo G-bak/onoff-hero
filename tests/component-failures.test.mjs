@@ -10,6 +10,7 @@ import * as crew from '../lib/galaxy-crew.ts';
 import { createWebFilmPlayback } from '../lib/web-film-playback.ts';
 import * as opening from '../lib/home-opening.ts';
 import * as siteSections from '../lib/site-sections.ts';
+import * as consultation from '../lib/consultation.ts';
 
 // Execute the authored component callbacks with controlled hooks and media/GPU
 // boundaries. These are fault-injection checks, not browser or hydration tests.
@@ -72,7 +73,7 @@ for (const entry of ['initial', 'resume']) {
   await test(`HOME ${entry} card startup failure retains the correct error UI and can retry`, () => {
     const components = ['card-ribbon', 'wordmark', 'news-recruitment-link', 'site-controls', 'scene-loader', 'scene-recovery-notice', 'section-entry', 'why-section', 'card-showcase', 'design-editorial', 'web-section', 'services-section', 'brand-film'];
     const dependencies = Object.fromEntries(components.map(name => [`./components/${name}`, { __esModule: true, default: name }]));
-    Object.assign(dependencies, { '@/lib/site-sections': siteSections, '@/lib/galaxy': galaxy, '@/components/ui/button': { Button: 'Button' }, '@/components/ui/switch': { Switch: 'Switch' } });
+    Object.assign(dependencies, { '@/lib/site-sections': siteSections, '@/lib/galaxy': galaxy, '@/lib/consultation': consultation, '@/components/ui/button': { Button: 'Button' }, '@/components/ui/switch': { Switch: 'Switch' } });
     const harness = componentHarness('../app/page.tsx', dependencies);
     const render = () => nodes(harness.render({}));
     try {

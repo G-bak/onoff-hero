@@ -1,3 +1,5 @@
+import { consultationEmail } from './consultation';
+
 export const services = [
   {
     slug: 'planning', number: '01', name: '기획·전략', english: 'STRATEGY', short: '무엇을, 누구에게, 어떻게 알릴지 정리합니다.',
@@ -53,5 +55,5 @@ export const services = [
 
 export function getService(slug: string) { return services.find(service => service.slug === slug); }
 export function getServiceInquiry(name: string) {
-  return `mailto:onoff3739@naver.com?subject=${encodeURIComponent(`[ON&OFF] ${name} 문의`)}&body=${encodeURIComponent(`안녕하세요. ${name} 서비스를 문의합니다.\n\n회사/브랜드명:\n필요한 작업:\n희망 일정:\n예산 범위(선택):\n연락처:\n`)}`;
+  return `mailto:${consultationEmail}?subject=${encodeURIComponent(`[ON&OFF] ${name} 문의`)}&body=${encodeURIComponent(`안녕하세요. ${name} 서비스를 문의합니다.\n\n회사/브랜드명:\n필요한 작업:\n희망 일정:\n예산 범위(선택):\n연락처:\n`)}`;
 }

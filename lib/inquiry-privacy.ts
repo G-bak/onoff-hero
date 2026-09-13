@@ -1,4 +1,4 @@
-import { consultationEmail } from './consultation';
+import { consultationEmail, consultationPhone } from './consultation';
 
 // Public inquiry policy. Keep this version aligned with the server setting and
 // require fresh consent when the policy changes. No credentials belong here.
@@ -11,7 +11,7 @@ export const inquiryPrivacyNotice = `개인정보 처리자: 온앤오프
 보유 기간: 접수일로부터 최대 90일. 상담·견적 안내가 끝나 개인정보가 더 필요하지 않으면 기간 전이라도 지체 없이 삭제합니다. 계약이 체결되면 계약 이행에 필요한 정보는 별도 계약과 관련 법령에 따라 관리합니다.
 파기 방법: 보유 기간이 끝나거나 삭제 요청이 확인되면 담당자가 문의 메시지와 업무용 사본을 삭제합니다.
 처리위탁: Slack Technologies Limited는 문의 메시지 전달·보관을, Cloudflare, Inc.는 운영 웹사이트와 문의 요청의 서버 처리·전달을 담당합니다. 국외 처리에 관한 내용은 아래 별도 안내에서 확인할 수 있습니다.
-권리 및 문의: 열람·정정·삭제·처리 정지·동의 철회를 요청할 수 있습니다. 온앤오프 프로젝트 문의 담당 / ${consultationEmail}
+권리 및 문의: 열람·정정·삭제·처리 정지·동의 철회를 요청할 수 있습니다. 온앤오프 프로젝트 문의 담당 / ${consultationEmail} / ${consultationPhone}
 동의를 거부할 수 있으며, 거부하면 온라인 문의 접수가 제한됩니다. 이메일로 별도 문의하실 수 있습니다. 주민등록번호 등 민감하거나 불필요한 개인정보는 적지 마세요.`;
 
 export const inquiryOverseasNotice = `이전 목적: 온라인 문의의 서버 처리와 담당자에게 메시지 전달·보관

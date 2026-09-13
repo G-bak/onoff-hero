@@ -3,6 +3,7 @@ import { ServiceArrow } from '@/app/components/service-arrow';
 import ServiceDetailMotion from '@/app/components/service-detail-motion';
 import { DetailHeroVisual, ServiceExamples } from '@/app/components/service-detail-visuals';
 import { services } from '@/lib/services';
+import { consultationEmail } from '@/lib/consultation';
 import { serviceDetails, type ProfessionalService } from '@/lib/service-details';
 
 export default function ProfessionalServiceDetail({ service }: { service: ProfessionalService }) {
@@ -33,7 +34,7 @@ export default function ProfessionalServiceDetail({ service }: { service: Profes
 
         <section className="service-inquiry guide-inquiry" aria-labelledby="guide-inquiry-title"><div data-service-reveal><p>LET’S WORK TOGETHER</p><h2 id="guide-inquiry-title">{detail.inquiry}</h2><span>{detail.preparation}</span></div><Link href={inquiryHref} prefetch={false}>{service.name} 문의 <ServiceArrow/></Link></section>
       </main>
-      <footer className="guide-footer"><div className="guide-footer-main"><Link className="guide-footer-brand" href="/#home" prefetch={false} aria-label="ON&OFF 홈">ON&OFF<span>ALL-IN-ONE AGENCY</span></Link><div><p>기획부터 제작·운영까지, 온앤오프</p><a href="mailto:onoff3739@naver.com">onoff3739@naver.com ↗</a><Link className="guide-footer-back" href="/#services" prefetch={false}>← 전체 서비스 보기</Link></div></div><nav className="guide-footer-services" aria-label="다른 서비스">{services.filter(item => item.slug !== service.slug).map(item => <Link href={`/services/${item.slug}`} key={item.slug} prefetch={false}>{item.name}<ServiceArrow/></Link>)}</nav><div className="guide-footer-bottom"><span>© 2026 ON&OFF</span><span>PLAN · DESIGN · WEB · MARKETING · CARE</span><a href="#service-main">맨 위로 ↑</a></div></footer>
+      <footer className="guide-footer"><div className="guide-footer-main"><Link className="guide-footer-brand" href="/#home" prefetch={false} aria-label="ON&OFF 홈">ON&OFF<span>ALL-IN-ONE AGENCY</span></Link><div><p>기획부터 제작·운영까지, 온앤오프</p><a href={`mailto:${consultationEmail}`}>{consultationEmail} ↗</a><Link className="guide-footer-back" href="/#services" prefetch={false}>← 전체 서비스 보기</Link></div></div><nav className="guide-footer-services" aria-label="다른 서비스">{services.filter(item => item.slug !== service.slug).map(item => <Link href={`/services/${item.slug}`} key={item.slug} prefetch={false}>{item.name}<ServiceArrow/></Link>)}</nav><div className="guide-footer-bottom"><span>© 2026 ON&OFF</span><span>PLAN · DESIGN · WEB · MARKETING · CARE</span><a href="#service-main">맨 위로 ↑</a></div></footer>
     </div>
   </ServiceDetailMotion>;
 }
