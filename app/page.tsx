@@ -22,9 +22,9 @@ import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 
 const contact = 'mailto:onoff3739@naver.com';
-const temporaryCompany = {
-  representative: '홍길동',
-  address: '서울특별시 ○○구 ○○로 123, 3층',
+const companyInfo = {
+  representative: '조은준',
+  address: '경기도 평택시 산단로16번길 26 엠에스원타워 407호',
   phone: '02-0000-0000',
 };
 
@@ -36,9 +36,9 @@ function CompanyDetails() {
   return (
     <div className="company-details">
       <dl className="company-facts">
-        <div><dt>대표자</dt><dd>{temporaryCompany.representative}</dd></div>
-        <div><dt>전화</dt><dd>{temporaryCompany.phone}</dd></div>
-        <div className="company-address"><dt>주소</dt><dd>{temporaryCompany.address}</dd></div>
+        <div><dt>대표자</dt><dd>{companyInfo.representative}</dd></div>
+        <div><dt>전화</dt><dd>{companyInfo.phone}</dd></div>
+        <div className="company-address"><dt>주소</dt><dd>{companyInfo.address}</dd></div>
         <div><dt>이메일</dt><dd><a className="header-email" href={contact}>onoff3739@naver.com</a></dd></div>
       </dl>
     </div>
