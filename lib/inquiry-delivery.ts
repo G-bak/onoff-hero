@@ -135,22 +135,78 @@ function parseSubmission(value: unknown): { draft: InquiryDraft; requestId: stri
   return { draft, requestId: input.requestId.toLowerCase() };
 }
 
-export function createInquirySlackMessage(draft: InquiryDraft, requestId: string) {
-  const section = (text: string) => ({ type: 'section', text: { type: 'plain_text', text, emoji: false } });
-  const selectedNames = inquiryServiceOptions.filter(option => draft.services.includes(option.value)).map(option => option.label);
+type SlackInline = { type: 'text'; text: string; style?: { bold: boolean } } | { type: 'link'; url: string; text: string };
+const receiptTimeFormatter = new Intl.DateTimeFormat('en-CA', {
+  timeZone: 'Asia/Seoul', year: 'numeric', month: '2-digit', day: '2-digit',
+  hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23',
+});
+
+function inquiryReferenceLink(reference: string): SlackInline {
+  // Only an entire, unambiguous web URL becomes a link. Notes, multiple links,
+  // credentials and other schemes remain literal customer text.
+  if (/^https?:\/\/[^\s<>"`|\\]+$/i.test(reference)) {
+    try {
+      const url = new URL(reference);
+      if (url.hostname && !url.username && !url.password) return { type: 'link', url: url.href, text: reference };
+    } catch { /* Preserve the original text below. */ }
+  }
+  return { type: 'text', text: reference };
+}
+
+export function createInquirySlackMessage(draft: InquiryDraft, requestId: string, receivedAt = new Date()) {
+  const plain = (text: string) => ({ type: 'plain_text' as const, text, emoji: false });
+  const section = (text: string) => ({ type: 'section' as const, text: plain(text) });
+  const context = (text: string) => ({ type: 'context' as const, elements: [plain(text)] });
+  const richText = (elements: SlackInline[]) => ({ type: 'rich_text' as const, elements: [{ type: 'rich_text_section' as const, elements }] });
+  const label = (text: string): SlackInline => ({ type: 'text', text, style: { bold: true } });
+  const literal = (text: string): SlackInline => ({ type: 'text', text });
+  const selectedNames = inquiryServiceOptions.filter(option => draft.services.includes(option.value)).map(option => option.label).join(' · ');
+  const parts = Object.fromEntries(receiptTimeFormatter.formatToParts(receivedAt).map(part => [part.type, part.value]));
+  const receipt = `${parts.year}.${parts.month}.${parts.day} ${parts.hour}:${parts.minute}:${parts.second} (한국시간)`;
+  const budget = `${draft.budget}${draft.budget === inquiryBudgets[0] ? '' : `\n${draft.budgetBasis}`}`;
+  const phone = draft.phone || '미기재 · 이메일로 회신';
+  const consent = `개인정보 수집·이용 동의 완료 · 국외 처리위탁 동의 완료\n안내 버전 ${inquiryPrivacyVersion}`;
+  const retention = '보관: 접수일로부터 최대 90일 · 목적 달성·삭제 요청 시 조기 삭제';
+  let email: SlackInline = literal(draft.email);
+  if (/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i.test(draft.email)) {
+    const [mailbox, domain] = draft.email.split('@');
+    email = { type: 'link', url: `mailto:${encodeURIComponent(mailbox)}@${domain}`, text: draft.email };
+  }
+  // Include the content for screen readers as well as blocks. Escape Slack's
+  // control syntax independently of the disabled automatic/Markdown parsing.
+  const fallback = [
+    'ON&OFF | 신규 프로젝트 문의', `홈페이지 접수 · ${receipt}`,
+    `회사·브랜드: ${draft.company}`, `문의자: ${draft.name}`, `이메일: ${draft.email}`, `연락처: ${phone}`,
+    `희망 서비스: ${selectedNames}`, `희망 예산: ${budget}`, `희망 일정: ${draft.schedule}`,
+    `문의 내용\n${draft.description}`, ...(draft.reference ? [`참고 자료\n${draft.reference}`] : []),
+    consent, retention, `접수 ID: ${requestId}`,
+  ].join('\n\n').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   return {
-    text: 'ON&OFF 새 프로젝트 문의가 도착했습니다.',
-    unfurl_links: false,
-    unfurl_media: false,
+    text: fallback, mrkdwn: false, parse: 'none',
+    unfurl_links: false, unfurl_media: false,
     blocks: [
-      { type: 'header', text: { type: 'plain_text', text: 'ON&OFF 프로젝트 문의', emoji: false } },
-      section(`필요한 서비스\n${selectedNames.join(' · ')}`),
-      section(`담당자\n${draft.company} · ${draft.name}\n${draft.email}\n${draft.phone || '연락처 미입력'}`),
-      section(`예산 · 일정\n${draft.budget}${draft.budget === inquiryBudgets[0] ? '' : ` (${draft.budgetBasis})`}\n${draft.schedule}`),
-      section('프로젝트 소개'),
+      { type: 'header', text: plain('ON&OFF | 신규 프로젝트 문의') },
+      context(`홈페이지 접수 · ${receipt}`),
+      { type: 'divider' },
+      richText([
+        label('회사·브랜드  '), literal(`${draft.company}\n`),
+        label('문의자  '), literal(`${draft.name}\n`),
+        label('이메일  '), email, literal('\n'),
+        label('연락처  '), literal(phone),
+      ]),
+      richText([label('희망 서비스\n'), literal(selectedNames)]),
+      // These values come only from the server-validated enums, not free text.
+      { type: 'section', fields: [
+        { type: 'mrkdwn', text: `*희망 예산*\n${budget}`, verbatim: true },
+        { type: 'mrkdwn', text: `*희망 일정*\n${draft.schedule}`, verbatim: true },
+      ] },
+      { type: 'divider' },
+      richText([label('문의 내용')]),
       section(draft.description),
-      ...(draft.reference ? [section(`참고 링크\n${draft.reference}`)] : []),
-      section(`접수 기록\n${new Date().toISOString()} · ${requestId}\n개인정보 수집·이용 및 국외 처리위탁 동의 완료 · 안내 버전 ${inquiryPrivacyVersion}\n보관: 접수일로부터 90일, 문의 처리 완료 시 조기 삭제`),
+      ...(draft.reference ? [richText([label('참고 자료\n'), inquiryReferenceLink(draft.reference)])] : []),
+      { type: 'divider' },
+      context(`${consent}\n${retention}`),
+      context(`접수 ID: ${requestId}`),
     ],
   };
 }
