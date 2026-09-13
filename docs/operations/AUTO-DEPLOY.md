@@ -2,7 +2,11 @@
 
 기존 Cloudflare Worker `onoff-hero-preview`를 GitHub의 `G-bak/onoff-hero` 저장소에 연결한다. `main`에 push하면 검사·빌드가 성공한 버전만 현재 사이트에 배포하는 구성이다.
 
-## 2026-09-10 확인한 연결 상태
+## 2026-09-13 재확인한 연결 상태
+
+최신 배포 요청으로 기존 Worker와 GitHub 저장소·main 전용 트리거, 검사·배포 명령을 재조회했다. 전체 변경의 main push가 Cloudflare 검사를 통과하고 실제 사이트에 반영됨을 확인했다. [최신 배포 결과](DEPLOYMENT-NOTES.md). 기존 연결을 재생성하거나 GitHub Actions를 추가하지 않았다.
+
+## 2026-09-10 최초 연결 기록
 
 2026-09-10에 GitHub 앱의 `onoff-hero` 접근 권한을 추가한 뒤 기존 Worker에 연결했다. 당시 `main` push를 받는 운영 트리거가 활성화돼 있었다. 2026-09-13 로컬 점검에서는 원격 상태를 재조회하지 않았으며 다음 배포 요청 때 실제 상태를 다시 확인한다. 빌드 명령은 `npm run ci:build`, 배포 명령은 `npx wrangler deploy --config dist/server/wrangler.json`이다. 비운영 브랜치 미리보기 빌드는 비활성화했다.
 

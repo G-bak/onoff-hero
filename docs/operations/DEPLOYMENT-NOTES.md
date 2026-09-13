@@ -2,14 +2,17 @@
 
 > 날짜별 배포 이력이다. 현재 운영 버전은 실제 Worker 배포와 GitHub 커밋을 함께 확인한다. 2026-09-13 초기 점검은 로컬이었으며, 최신 사용자가 실제 Slack 테스트 후 전체 GitHub 반영·배포를 승인했다.
 
-## 2026-09-13 — 전체 개선과 Slack 문의 배포 준비
+## 2026-09-13 — 전체 개선과 Slack 문의 배포 완료
 
 - HOME 오프닝·일곱 섹션·서비스 상세·문의 화면과 전체 감사 후속 개선을 반영한다. 기존 Cloudflare Worker와 `G-bak/onoff-hero`의 main 자동 배포 연결을 재확인했다.
 - Slack 실제 테스트 문의 1건을 브라우저에서 제출해 앱 HTTP200/delivered와 Slack HTTP200/ok 성공 경로를 확인했다. 가상 정보만 사용했으며 채널 화면을 직접 열람하지는 않았다.
 - 최대 90일 보관, 담당 업무명/기존 이메일, 수집·이용과 국외 처리위탁 동의, 서버 정책 버전 검증을 적용했다. 웹훅과 정책 버전은 기존 Worker의 secret으로 설정했다. 비밀 값은 Git과 빌드에 넣지 않았다.
 - 전체 검사 137개·린트·타입·운영 빌드·CSS/자산 검사를 통과했다. 실제 웹훅 문자열이 빌드 377파일에 없는지 확인했다. 기존 대형 Three.js 청크 경고는 오류와 구분한다.
 - outputs 2,946파일 이동·원본 해시 일치를 확인했다. 로컬 서버 PID14112와 현재 로그는 유지한다. [정리 기준](OUTPUTS.md).
-- 검증 로그는 `outputs/deploy/2026-09-13/release/`, 실제 접수 캡처는 `outputs/maintenance-2026-09-13/inquiry-slack-live-success.png`다. GitHub push 이후의 실제 빌드·운영 확인 결과를 이 항목에 추가한다.
+- 소스 커밋 `71afb146e64a8765ee55fea47bbfc03a4d20f9a9`를 main에 push했다. Cloudflare Build `b8aaf327-9a86-47fa-b67d-4ea216489761`가 success로 종료했고 2026-09-13 19:55 KST에 Worker 버전 `8839fa3b-66b4-4766-8d28-0c52d885f7c0`을 100% 배포했다. 이 뒤의 결과 기록 커밋은 동일 앱 소스의 문서 갱신이다.
+- 운영 주소: https://onoff-hero-preview.ajdhfbx1836203.workers.dev . `/api/inquiry`는 HTTP200·enabled=true·현재 안내 버전을 반환하고 두 secret이 유지됐다. 동의가 없는 실제 Worker POST는 HTTP400으로 거절되며 Slack 메시지를 보내지 않았다.
+- 운영 브라우저 1440×900·375×812에서 오프닝 종료, 7섹션 이동과 HOME 복귀 16상태, 활성 메뉴 단일 표시, 가로 넘침 0, 실행 오류 0, 홈에서 문의 페이지 연결·접수 활성 표시를 확인했다. 서비스 상세 5개와 문의 HTTP200, 잘못된 서비스 주소의 실제404도 확인했다. 실제 Slack 테스트는 앞서 수행한 1건이며 운영 확인에서는 추가 발송하지 않았다.
+- 검증 로그·운영 화면·JSON은 `outputs/deploy/2026-09-13/release/`, 실제 접수 캡처는 `outputs/maintenance-2026-09-13/inquiry-slack-live-success.png`다. 로그·비밀·검증 산출물은 Git 제외, 소스·원본·프로젝트 문서는 GitHub에 반영했다. 로컬 5187은 HTTP200이며 계속 실행한다.
 
 ## 2026-09-10 — GitHub 자동 배포 연결
 
