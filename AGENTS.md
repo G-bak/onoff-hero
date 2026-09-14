@@ -1,5 +1,9 @@
 # ON&OFF 프로젝트 작업 지침
 
+## 2026-09-14 WEB·TOGETHER 영상 조작부 제거·배포 승인
+
+최신 사용자 요청은4페이지 WEB의 재생·음량 조작, 시간·진행바, 장면 목차를 제거하고7페이지 TOGETHER도 하단 조작·재생 상태 라벨·진행바 없이 무음 자동 반복 재생하는 것이다. 영상 밖 제목·본문·인물·문의 안내는 유지한다. 기존 `createWebFilmPlayback`으로 보이는 동안 재생하고 화면 밖·가려짐·숨김 탭·MOTION OFF 정지는 유지한다. 자동재생 차단·로드 실패·움직임 감소에서만 최소 재생/재시도 버튼을 제공하며 평상시에는 표시하지 않는다. JS 미사용은 조작 없는 포스터·본문을 제공한다. WEB은 제거한 조작부의 높이·가로 목차 공간도 해제한다. [PAGE4-NOTES.md](docs/pages/PAGE4-NOTES.md), [PAGE7-NOTES.md](docs/pages/PAGE7-NOTES.md)가 기준이다. 로컬 검수 후 사용자가 현재 변경 전체의 GitHub 반영·운영 배포를 승인했다. 기존 `main` → Cloudflare Workers Builds 자동 배포를 사용하며 결과는 [배포 기록](docs/operations/DEPLOYMENT-NOTES.md)에 남긴다. 이전 로컬 전용 지시는 이번 승인 전의 이력이다.
+
 ## 2026-09-14 GitHub 반영·운영 배포 승인
 
 사용자가 회사 정보·6.8초 인트로와 선명도 개선·SYSTEM 고화질·안개25%·은하1.2배를 확인한 뒤 현재 변경 전체의 GitHub 반영과 운영 배포를 승인했다. 기존 `G-bak/onoff-hero`의 `main` → Cloudflare Workers Builds 자동 배포를 사용한다. 아래 로컬 전용 문장은 각 변경을 확인하던 시점의 이력이며 이번 배포 승인이 우선한다. 캡처·로그·환경변수는 Git 제외 상태를 유지하고 실제 배포 결과는 [배포 기록](docs/operations/DEPLOYMENT-NOTES.md)과 Git 제외 `outputs/deploy/2026-09-14/release/`에 남긴다.
