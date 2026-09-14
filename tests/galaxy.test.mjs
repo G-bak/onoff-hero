@@ -128,14 +128,18 @@ await test('the fleet has five distinct silhouettes and different orbit planes a
   assert.equal(new Set(galaxyFleet.map(f=>f.tilt)).size,5);
   assert.ok(galaxyFleet.some(f=>f.speed<0)&&galaxyFleet.some(f=>f.speed>0));
 });
-await test('portrait camera fits the disk and render budgets cap dense displays', () => {
-  for (const [w, h, dpr] of [[320,1280,3],[390,1280,3],[768,1240,2],[1440,900,2],[2048,1020,2],[3840,2160,3]]) {
+await test('portrait camera fits the disk and sharper rendering stays within bounded buffers', () => {
+  for (const [w, h, dpr] of [[320,1280,3],[390,1280,3],[768,1240,1],[768,1240,2],[1100,1240,2],[1101,900,2],[1440,900,1],[1440,900,2],[1920,1080,1],[2048,1020,2],[3840,2160,3]]) {
     const q = getGalaxyQuality(w, h, dpr);
-    assert.ok(w * h * q.dpr ** 2 <= (q.compact ? 950000 : 1650000) + 1);
-    assert.ok(q.dpr > 0 && q.dpr <= dpr);
+    assert.ok(w * h * q.dpr ** 2 <= (q.compact ? 4500000 : 8294400) + 1);
+    assert.ok(q.dpr > 0 && q.dpr <= Math.min(3, Math.max(q.compact ? 1 : 2, dpr)));
     assert.equal(q.bloom, !q.compact);
+    assert.deepEqual([q.stars, q.clouds, q.dust], q.compact ? [14000,1800,600] : [32000,3600,1200], 'Density and composition remain unchanged');
     if (q.compact) assert.ok(2 * Math.tan(Math.PI / 9) * getGalaxyDistance(w, h) * w / h >= 14.8 - 1e-10);
   }
+  assert.equal(getGalaxyQuality(1920, 1080, 1).dpr, 2, 'A 1080p desktop renders a complete 3840×2160 frame');
+  assert.equal(getGalaxyQuality(3840, 2160, 2).dpr, 1, 'A 4K display retains native detail without an unbounded 8K buffer');
+  assert.equal(getGalaxyQuality(390, 1280, 3).dpr, 3, 'Portrait phones retain their native three render pixels per CSS pixel');
 });
 await test('star seed values are reproducible unsigned fractions', () => {
   const samples = Array.from({length: 1000}, (_, i) => galaxyRandom(i));

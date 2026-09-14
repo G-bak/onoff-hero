@@ -103,9 +103,12 @@ export function getGalaxyFlight(time: number, index: number, still = false) {
 
 export function getGalaxyQuality(width: number, height: number, pixelRatio: number) {
   const compact = width <= 1100;
+  // Quality-first: a 1080p desktop renders at 4K, while portrait phones can
+  // use their native 3x density. Keep a finite budget for MSAA/bloom buffers.
+  const desiredDpr = Math.max(compact ? 1 : 2, pixelRatio);
   return {
     compact,
-    dpr: Math.min(Math.max(1, pixelRatio), compact ? 1.25 : 1.5, Math.sqrt((compact ? 950_000 : 1_650_000) / Math.max(1, width * height))),
+    dpr: Math.min(desiredDpr, 3, Math.sqrt((compact ? 4_500_000 : 8_294_400) / Math.max(1, width * height))),
     stars: compact ? 14_000 : 32_000,
     clouds: compact ? 1800 : 3600,
     dust: compact ? 600 : 1200,

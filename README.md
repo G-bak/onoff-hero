@@ -24,7 +24,7 @@ npm run dev -- --host 127.0.0.1 --port 5187 --strictPort
 
 ## 현재 동작과 콘텐츠
 
-- 새 홈페이지 로드에서 글자별 네 번의 탄성 도약 → `&` 낙하·정렬 → 기존 워드마크 안착 → 카드·문구 등장으로 이어지는 약 5.8초(기존 대비 1.5배속) 3D 오프닝을 제공한다. 도킹과 카드 하강은 Ease Out이며 건너뛰기·움직임 감소·직접 섹션 주소·뒤로가기를 처리한다. [구현·참고·검증](docs/pages/HOME-OPENING-NOTES.md).
+- 새 홈페이지 로드에서 글자별 네 번의 탄성 도약 → `&` 낙하·정렬 → 기존 워드마크 안착 → 카드·문구 등장으로 이어지는 약 6.8초 3D 오프닝을 제공한다. 도킹과 카드 하강은 Ease Out이며 건너뛰기·움직임 감소·직접 섹션 주소·뒤로가기를 처리한다. [구현·참고·검증](docs/pages/HOME-OPENING-NOTES.md).
 - TOGETHER가 보이고 화면 준비가 끝난 뒤 2.2초 후 구체적인 서비스 안내 말풍선과 프로젝트 문의 버튼 강조를 표시한다. 닫기·모션 중지·문의 페이지 연결을 제공한다. [문구·PC·모바일 검증](docs/reviews/OPENING-AND-INQUIRY-2026-09-13.md).
 - 첫 화면 3D 카드, SYSTEM 은하, DESIGN 편집 지면, WEB 영상, MARKETING 광고 카드, SERVICES 목록, TOGETHER 브랜드 영상. 움직임 감소·MOTION OFF·화면 밖 정지·오류 대체 화면을 유지한다.
 - 고정 링크는 **프로젝트 문의**로 이동한다. 상담톡은 `lib/consultation.ts`의 `consultationChatEnabled=false`로 숨기며 컴포넌트와 스타일은 보존한다.

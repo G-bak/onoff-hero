@@ -25,7 +25,8 @@ import { consultationEmail, consultationPhone } from '@/lib/consultation';
 const contact = `mailto:${consultationEmail}`;
 const companyInfo = {
   representative: '조은준',
-  address: '경기도 평택시 산단로16번길 26 엠에스원타워 407호',
+  businessNumber: '879-88-03852',
+  address: '경기도 평택시 모곡동 447-3 엠에스원타워 407호 (주)온앤오프',
   phone: consultationPhone,
 };
 
@@ -37,10 +38,11 @@ function CompanyDetails() {
   return (
     <div className="company-details">
       <dl className="company-facts">
-        <div><dt>대표자</dt><dd>{companyInfo.representative}</dd></div>
-        <div><dt>전화</dt><dd><a href={`tel:${companyInfo.phone.replaceAll('-', '')}`}>{companyInfo.phone}</a></dd></div>
-        <div className="company-address"><dt>주소</dt><dd>{companyInfo.address}</dd></div>
+        <div><dt>대표이사</dt><dd>{companyInfo.representative}</dd></div>
+        <div><dt>사업자번호</dt><dd>{companyInfo.businessNumber}</dd></div>
+        <div><dt>회사번호</dt><dd><a href={`tel:${companyInfo.phone.replaceAll('-', '')}`}>{companyInfo.phone}</a></dd></div>
         <div><dt>이메일</dt><dd><a className="header-email" href={contact}>{consultationEmail}</a></dd></div>
+        <div className="company-address"><dt>주소</dt><dd>{companyInfo.address}</dd></div>
       </dl>
     </div>
   );

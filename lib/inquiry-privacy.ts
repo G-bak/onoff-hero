@@ -3,7 +3,7 @@ import { consultationEmail, consultationPhone } from './consultation';
 // Public inquiry policy. Keep this version aligned with the server setting and
 // require fresh consent when the policy changes. No credentials belong here.
 export const inquiryPrivacyVersion = '2026-09-13';
-export const inquiryPrivacyNotice = `개인정보 처리자: 온앤오프
+export const inquiryPrivacyNotice = `개인정보 처리자: (주)온앤오프
 이용 목적: 프로젝트 문의 확인, 상담·견적 안내, 중복 접수 방지 및 동의 내역 확인
 필수 항목: 필요한 서비스, 문의 내용, 회사·브랜드명, 담당자 성함, 이메일, 접수 시각·요청 번호·동의 내역
 자동 처리 항목: 과다 접수 방지를 위한 접속 IP 주소. 사이트에서는 원문을 저장하지 않고 해시로 바꿔 1분 동안 제한 판단에 사용하며 Slack으로 보내지 않습니다.

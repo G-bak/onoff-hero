@@ -1,6 +1,13 @@
 export const openingLetters = ['O', 'N', '&', 'O', 'F', 'F'] as const;
-// Keep the authored choreography in scene seconds and speed up its shared clock.
-export const openingPlaybackRate = 1.5;
+export const openingCurveSegments = 36;
+export function getOpeningPixelRatio(width: number, height: number, pixelRatio: number) {
+  const compact = width <= 700;
+  // Preserve sharp glyph edges on 1x desktops and native 3x phone displays.
+  return Math.min(Math.max(compact ? 1 : 2, pixelRatio), 3,
+    Math.sqrt((compact ? 4_500_000 : 8_294_400) / Math.max(1, width * height)));
+}
+// Keep the authored choreography in scene seconds; the shared clock now runs it in 6.8 seconds.
+export const openingPlaybackRate = 8.7 / 6.8;
 export const openingTiming = { ampDrop: 3.6, impact: 4.32, align: 5.34, dockStart: 5.66, dockEnd: 7.16, canvasEnd: 7.28, cards: 6.42, cardsEnd: 8.4, unlock: 8.42, duration: 8.7 };
 // The innermost letters lead each side so the following letters do not overtake.
 export const openingLetterStarts = [.44, 0, openingTiming.ampDrop, .16, .72, 1.28];

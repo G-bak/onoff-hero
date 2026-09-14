@@ -26,6 +26,8 @@ export function createGalaxyScene(host: HTMLElement) {
   const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(40, 1, .1, 1800);
   const system = new THREE.Group(), station = new THREE.Group(), disk = new THREE.Group();
   disk.name = 'galactic-disk'; station.name = 'orbital-station';
+  // Enlarge only the galaxy field; fleet and service anchors stay in system space.
+  disk.scale.setScalar(1.2);
   system.rotation.z = -.13;
   scene.add(system);
   system.add(station, disk);

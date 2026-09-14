@@ -11,7 +11,8 @@ type Resources = {
 // A small irregular gas sprite, not a picture of the galaxy. Thousands of
 // separately positioned volumes form the arms, dust lanes and central bulge.
 function cloudTexture() {
-  const size = 128, data = new Uint8Array(size * size * 4);
+  // Sample the same gas pattern more finely without changing its shape or noise.
+  const size = 512, data = new Uint8Array(size * size * 4);
   const noise = (x: number, y: number) => {
     const ix = Math.floor(x), iy = Math.floor(y), fx = x-ix, fy = y-iy;
     const sx = fx*fx*(3-2*fx), sy = fy*fy*(3-2*fy);
@@ -62,7 +63,7 @@ export function createGalaxyField(parent: THREE.Group, r: Resources) {
         if(!core&&!disk&&random(base+11)>.87) color.copy(pink);
         color.multiplyScalar(core?.8:disk?.38:.52);
         sizes[i]=core?.38+random(base+13)*.6:.28+random(base+13)*.62;
-        opacity[i]=(core?.065:disk?.025:.085*Math.min(1,radius/1.4))*edge;
+        opacity[i]=(core?.065:disk?.025:.085*Math.min(1,radius/1.4))*edge*.25;
       } else {
         color.setRGB(.003,.0035,.006);
         sizes[i]=.16+random(base+13)*.48;

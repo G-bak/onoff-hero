@@ -4,9 +4,19 @@ import fs from 'node:fs';
 import { createHash } from 'node:crypto';
 import { parse } from 'opentype.js/dist/opentype.mjs';
 import { ShapePath, ExtrudeGeometry } from 'three';
-import { openingLetters, openingTiming, openingHops, openingLetterStarts, shouldPlayHomeOpening, getOpeningLetterPose, getOpeningPresentation, getOpeningCardTravel } from '../lib/home-opening.ts';
+import { openingLetters, openingTiming, openingHops, openingLetterStarts, openingCurveSegments, getOpeningPixelRatio, shouldPlayHomeOpening, getOpeningLetterPose, getOpeningPresentation, getOpeningCardTravel } from '../lib/home-opening.ts';
 
 const fresh = { claimed: false, initialPath: '/', navigationType: 'navigate', hash: '', scrollY: 0, reduced: false };
+await test('opening renders a sharp 4K desktop and native-density phone within finite pixel budgets', () => {
+  for (const [width, height, density] of [[320,568,3],[390,844,3],[700,1000,3],[701,1000,2],[1440,900,1],[1920,1080,1],[3840,2160,2],[7680,4320,3]]) {
+    const ratio = getOpeningPixelRatio(width, height, density);
+    assert.ok(Number.isFinite(ratio) && ratio > 0 && ratio <= 3);
+    assert.ok(width * height * ratio ** 2 <= (width <= 700 ? 4500000 : 8294400) + 1);
+  }
+  assert.equal(getOpeningPixelRatio(1920, 1080, 1), 2);
+  assert.equal(getOpeningPixelRatio(390, 844, 3), 3);
+  assert.equal(getOpeningPixelRatio(3840, 2160, 2), 1);
+});
 await test('opening plays on fresh HOME and reload, while restored/navigation destinations remain accessible', () => {
   assert.equal(shouldPlayHomeOpening(fresh), true);
   assert.equal(shouldPlayHomeOpening({ ...fresh, navigationType: 'reload', hash: '#home' }), true);
@@ -97,7 +107,7 @@ await test('runtime Montserrat outlines match the licensed source, preserve hole
     }
     const shapes = path.toShapes();
     assert.equal(shapes.length, 1); assert.equal(shapes[0].holes.length, char === 'O' ? 1 : char === '&' ? 2 : 0);
-    const geometry = new ExtrudeGeometry(shapes, { depth: .16, bevelEnabled: false, curveSegments: 18 });
+    const geometry = new ExtrudeGeometry(shapes, { depth: .16, bevelEnabled: false, curveSegments: openingCurveSegments });
     geometry.translate(0, 0, -.16); geometry.computeBoundingBox();
     const bounds = geometry.boundingBox;
     for (const axis of ['x', 'y']) {

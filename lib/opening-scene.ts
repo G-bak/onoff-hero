@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import fontData from '@/app/assets/opening/montserrat-bold.json';
-import { getOpeningLetterPose, getOpeningPresentation, openingLetters, openingTiming } from './home-opening';
+import { getOpeningLetterPose, getOpeningPresentation, getOpeningPixelRatio, openingCurveSegments, openingLetters, openingTiming } from './home-opening';
 
 type Command = { type: string; x?: number; y?: number; x1?: number; y1?: number; x2?: number; y2?: number };
 type Glyph = { bounds: { x1: number; x2: number; y1: number; y2: number }; commands: Command[] };
@@ -33,14 +33,16 @@ export function createOpeningScene(host: HTMLDivElement, wordmark: HTMLElement) 
     scene.add(fill);
     const key = new THREE.DirectionalLight(0xffffff, 2.6);
     key.castShadow = true;
-    key.shadow.mapSize.set(1024, 1024); key.shadow.bias = -.00025; key.shadow.normalBias = .6; key.shadow.radius = 5;
+    key.shadow.mapSize.set(2048, 2048); key.shadow.bias = -.00025; key.shadow.normalBias = .6; key.shadow.radius = 5;
     scene.add(key, key.target);
     resources.push({ dispose: () => key.shadow.dispose() });
     const rim = new THREE.DirectionalLight(0xadb8ff, 1.8);
     scene.add(rim);
     const ink = new THREE.Color('#333333'), blue = new THREE.Color('#343CFF');
-    const front = new THREE.MeshStandardMaterial({ color: ink, metalness: .28, roughness: .22 });
-    const ampFront = new THREE.MeshStandardMaterial({ color: blue, metalness: .22, roughness: .19 });
+    // Keep the brand face colors independent of white light/specular washout.
+    // Lit metallic sides and cast shadows still describe the real extrusion.
+    const front = new THREE.MeshBasicMaterial({ color: ink, toneMapped: false });
+    const ampFront = new THREE.MeshBasicMaterial({ color: blue, toneMapped: false });
     const side = new THREE.MeshStandardMaterial({ color: '#929ca6', metalness: .74, roughness: .23 });
     const ampSide = new THREE.MeshStandardMaterial({ color: '#292b92', metalness: .6, roughness: .2 });
     resources.push(front, ampFront, side, ampSide);
@@ -55,7 +57,7 @@ export function createOpeningScene(host: HTMLDivElement, wordmark: HTMLElement) 
         else if (c.type === 'Z') path.currentPath?.closePath();
       }
       const { x1, x2, y1, y2 } = glyph.bounds;
-      const geometry = new THREE.ExtrudeGeometry(path.toShapes(), { depth: .16, bevelEnabled: false, curveSegments: 18, steps: 1 });
+      const geometry = new THREE.ExtrudeGeometry(path.toShapes(), { depth: .16, bevelEnabled: false, curveSegments: openingCurveSegments, steps: 1 });
       geometry.translate(-(x1 + x2) / (2 * em), -(y1 + y2) / (2 * em), -.16);
       geometries.set(char, geometry); resources.push(geometry);
     }
@@ -72,7 +74,7 @@ export function createOpeningScene(host: HTMLDivElement, wordmark: HTMLElement) 
     function resize() {
       width = host.clientWidth; height = host.clientHeight;
       if (width <= 0 || height <= 0) throw new Error('Opening viewport has no layout size.');
-      renderer!.setPixelRatio(Math.min(devicePixelRatio, 1.75, Math.sqrt(1650000 / (width * height))));
+      renderer!.setPixelRatio(getOpeningPixelRatio(width, height, devicePixelRatio));
       renderer!.setSize(width, height);
       camera.left = -width / 2; camera.right = width / 2; camera.top = height / 2; camera.bottom = -height / 2;
       camera.updateProjectionMatrix();
@@ -116,8 +118,6 @@ export function createOpeningScene(host: HTMLDivElement, wordmark: HTMLElement) 
         mesh.rotation.set(pose.rx, pose.ry, pose.rz);
         mesh.scale.set(scale * pose.sx, scale * pose.sy, scale * Math.max(.001, 1 - state.flatten));
       });
-      front.color.copy(ink).multiplyScalar(1 - state.flatten); front.emissive.copy(ink).multiplyScalar(state.flatten);
-      ampFront.color.copy(blue).multiplyScalar(1 - state.flatten); ampFront.emissive.copy(blue).multiplyScalar(state.flatten);
       scene.environmentIntensity = .65 * (1 - state.flatten);
       fill.intensity = 2 * (1 - state.flatten); key.intensity = 2.6 * (1 - state.flatten); rim.intensity = 1.8 * (1 - state.flatten);
       shadowMaterial.opacity = .15 * (1 - state.flatten);
