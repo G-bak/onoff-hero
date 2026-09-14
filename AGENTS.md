@@ -4,6 +4,8 @@
 
 사용자가 회사 정보·6.8초 인트로와 선명도 개선·SYSTEM 고화질·안개25%·은하1.2배를 확인한 뒤 현재 변경 전체의 GitHub 반영과 운영 배포를 승인했다. 기존 `G-bak/onoff-hero`의 `main` → Cloudflare Workers Builds 자동 배포를 사용한다. 아래 로컬 전용 문장은 각 변경을 확인하던 시점의 이력이며 이번 배포 승인이 우선한다. 캡처·로그·환경변수는 Git 제외 상태를 유지하고 실제 배포 결과는 [배포 기록](docs/operations/DEPLOYMENT-NOTES.md)과 Git 제외 `outputs/deploy/2026-09-14/release/`에 남긴다.
 
+소스 커밋 `42ac432fabec775c7cdceccf629dafe9fd85aca7`의 Cloudflare Build `fadbcdff-f8c9-4e6e-b479-eb082a927d7d`가 성공했고 2026-09-14 14:52 KST에 Worker 버전 `73915978-c33d-46cf-b676-a6f7e1c19a52`가100% 배포됐다. 운영7개 경로의 새 연락처·주요4개 JS의 로컬 빌드 해시 일치, 실제 브라우저의 HOME 오프닝·SYSTEM 확대·320px 회사 정보 배치를 확인했다. 뒤따르는 결과 기록 커밋은 같은 앱 소스를 유지한다.
+
 ## 2026-09-14 SYSTEM 안개 25%·은하 확대
 
 최신 사용자 요청으로 밝은 성운 불투명도를 원래의0.25배로 낮추고 은하 영역만 정적1.2배로 확대했다. `lib/galaxy-field.ts`가 농도, `lib/galaxy-scene.ts`의 `disk.scale`이 별·구름·먼지 분포의 확대를 담당한다. 카메라와 상위 `system`은 유지해 글자·서비스 앵커·정거장과 다섯 비행체의 크기·좌표·궤도는 바꾸지 않는다. 등장 시간표·고화질 설정·bloom도 유지한다. 아래50%는 이전 기록이다. [PAGE2-NOTES.md](docs/pages/PAGE2-NOTES.md)가 현재 기준이며 로컬만 반영한다.
