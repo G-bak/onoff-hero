@@ -4,6 +4,8 @@
 
 ## 2026-09-15 운영 도메인
 
+SEO 최적화 이후 대표 주소는 `https://on-onf.com`으로 통일한다. HTTPS www는 경로·쿼리를 보존해308 이동한다. 배포 후 `npm run check:seo -- https://on-onf.com`으로 공개7개 경로·메타데이터·robots·sitemap·404·www 이동을 확인한다. [SEO 운영 기준](../seo/IMPLEMENTATION.md), [검색 도구 등록](../seo/README.md).
+
 현재 운영 안내 주소는 **https://on-onf.com**이며 `www.on-onf.com`도 같은 Worker의 production Custom Domain이다. 두 호스트의 HTTP는 HTTPS로 이동한다. 이후 사용자 요청으로 기존 workers.dev·버전별 Preview URL은 비활성화했으며 `vite.config.ts`의 `workers_dev:false`, `preview_urls:false`를 유지한다. main 자동 배포와 Custom Domain 연결은 그대로 사용한다. 연결·검증 결과는 [배포 기록](DEPLOYMENT-NOTES.md)을 따른다. 앞으로 배포할 때는 정식 도메인의 정상 응답과 임시 주소 비활성 상태를 확인한다.
 
 ## 2026-09-13 재확인한 연결 상태

@@ -75,7 +75,7 @@ for (const entry of ['initial', 'resume']) {
     const components = ['card-ribbon', 'wordmark', 'news-recruitment-link', 'site-controls', 'scene-loader', 'scene-recovery-notice', 'section-entry', 'why-section', 'card-showcase', 'design-editorial', 'web-section', 'services-section', 'brand-film'];
     const dependencies = Object.fromEntries(components.map(name => [`./components/${name}`, { __esModule: true, default: name }]));
     Object.assign(dependencies, { '@/lib/site-sections': siteSections, '@/lib/galaxy': galaxy, '@/lib/consultation': consultation, '@/components/ui/button': { Button: 'Button' }, '@/components/ui/switch': { Switch: 'Switch' } });
-    const harness = componentHarness('../app/page.tsx', dependencies);
+  const harness = componentHarness('../app/home-content.tsx', dependencies);
     const render = () => nodes(harness.render({}));
     try {
       let tree = render();

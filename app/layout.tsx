@@ -1,5 +1,6 @@
 ﻿import type { Metadata } from 'next';
 import '@fontsource/inter/latin-400.css';
+import { siteName, siteOrigin, verificationMetadata } from '@/lib/seo';
 import ScrollNavigation from './components/scroll-navigation';
 import '@fontsource/inter/latin-500.css';
 import '@fontsource/inter/latin-600.css';
@@ -22,20 +23,23 @@ import './brand-film.css';
 import './project-inquiry.css';
 import './home-opening.css';
 import './inquiry-nudge.css';
-
-
-export const metadata: Metadata = {
-  title: 'ON&OFF — 가능성을 켜고, 경험을 연결합니다',
-  description: '전략부터 제작, 광고 운영까지. ON&OFF가 브랜드의 가능성을 하나의 흐름으로 연결합니다.',
-  robots: { index: false, follow: false },
-  icons: {
-    icon: [
-      { url: '/favicon-onoff-32.png?v=transparent', type: 'image/png', sizes: '32x32' },
-      { url: '/favicon-onoff-64.png?v=transparent', type: 'image/png', sizes: '64x64' },
-    ],
-    shortcut: '/favicon-onoff-32.png?v=transparent',
-  },
-};
+export function generateMetadata(): Metadata {
+  return {
+    metadataBase: new URL(siteOrigin),
+    title: '온앤오프 ON&OFF',
+    applicationName: siteName,
+    publisher: '(주)온앤오프',
+    robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1, 'max-video-preview': -1 } },
+    verification: verificationMetadata({ google: process.env.GOOGLE_SITE_VERIFICATION, naver: process.env.NAVER_SITE_VERIFICATION }),
+    icons: {
+      icon: [
+        { url: '/favicon-onoff-32.png?v=transparent', type: 'image/png', sizes: '32x32' },
+        { url: '/favicon-onoff-64.png?v=transparent', type: 'image/png', sizes: '64x64' },
+      ],
+      shortcut: '/favicon-onoff-32.png?v=transparent',
+    },
+  };
+}
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return <html lang="ko" data-scroll-behavior="smooth"><body>{children}<ScrollNavigation/></body></html>;

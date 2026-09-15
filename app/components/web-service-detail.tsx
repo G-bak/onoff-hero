@@ -20,7 +20,7 @@ export default function WebServiceDetail({ service }: { service: WebService }) {
       <header className="service-detail-header"><Link className="service-detail-brand" href="/#home" prefetch={false} aria-label="ON&OFF 홈">ON&OFF<span>ALL-IN-ONE AGENCY</span></Link><Link className="service-back" href="/#services" prefetch={false}>서비스 목록 <ServiceArrow/></Link></header>
       <main id="service-main">
         <section className="web-detail-hero" aria-labelledby="service-title">
-          <div className="web-hero-meta"><div className="service-breadcrumb"><Link href="/#services" prefetch={false}>SERVICES</Link><span>/</span><span>웹사이트 제작</span></div><span>YOUR BUSINESS, ONLINE.</span></div>
+          <div className="web-hero-meta"><nav className="service-breadcrumb" aria-label="현재 위치"><Link href="/#services" prefetch={false}>SERVICES</Link><span aria-hidden="true">/</span><span aria-current="page">웹사이트 제작</span></nav><span>YOUR BUSINESS, ONLINE.</span></div>
           <div className="web-hero-word" aria-hidden="true">WEB</div>
           <div className="service-hero-layout web-hero-layout">
             <div className="web-hero-copy"><p className="service-detail-kicker">WEBSITE / 기획 · 디자인 · 개발</p><h1 id="service-title">{service.headline.map(line => <span className="service-headline-line" key={line}><span>{line}</span></span>)}</h1><p className="service-detail-summary" data-service-reveal>{service.intro}</p><div className="web-hero-actions"><a className="web-button" href="#pricing">제작 유형·비용 보기 <ServiceArrow/></a><a className="web-text-link" href="#why-service">왜 필요할까요? ↓</a></div></div>

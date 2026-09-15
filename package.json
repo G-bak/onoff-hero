@@ -9,7 +9,7 @@
     "predev": "npm run prepare:assets",
     "dev": "vinext dev",
     "preview:node": "npm run prepare:assets && node scripts/preview-node.mjs",
-    "check": "npm run check:repository && npm run lint && tsc --noEmit && npm run test:loading && npm run test:render && npm run test:fonts && npm run test:ui-state && npm run test:recovery && npm run test:sections",
+    "check": "npm run check:repository && npm run lint && tsc --noEmit && npm run test:loading && npm run test:render && npm run test:fonts && npm run test:ui-state && npm run test:recovery && npm run test:sections && npm run test:seo",
     "check:repository": "node --test tests/markdown-links.test.mjs && node scripts/check-repository.mjs",
     "check:links": "node scripts/check-external-links.mjs",
     "ci:build": "npm run check && npm run build",
@@ -28,6 +28,8 @@
     "test:ui-state": "node --experimental-strip-types --test tests/ui-state.test.mjs tests/inquiry-delivery.test.mjs",
     "test:recovery": "node --experimental-strip-types --test tests/scene-recovery.test.mjs tests/component-failures.test.mjs tests/marketing-scene-controller.test.mjs",
     "test:sections": "node --experimental-strip-types --test tests/section-entry.test.mjs tests/scroll-navigation.test.mjs tests/card-showcase.test.mjs tests/galaxy.test.mjs tests/galaxy-crew.test.mjs tests/web-film-playback.test.mjs tests/person-motion.test.mjs",
+    "test:seo": "node --experimental-strip-types --test tests/seo.test.mjs",
+    "check:seo": "node --experimental-strip-types scripts/check-seo.mjs",
     "format": "oxfmt"
   },
   "dependencies": {

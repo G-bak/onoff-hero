@@ -1,5 +1,11 @@
 # ON&OFF 프로젝트 작업 지침
 
+## 2026-09-15 SEO 최적화·등록 안내·운영 배포 승인
+
+사용자가 Google·네이버 공식 SEO 조사·문서화·사이트 코드 최적화·GitHub 반영·운영 배포와 두 검색 도구의 등록 안내를 요청했다. [SEO 문서 모음](docs/seo/README.md), [조사 근거](docs/seo/RESEARCH.md), [구현·검증](docs/seo/IMPLEMENTATION.md)이 기준이다. 대표 주소는 `https://on-onf.com`이며 HTTPS www는 경로·쿼리를 보존해308 이동한다. 공개7개 페이지의 noindex 상속을 해제하고 `lib/seo.ts`에서 고유 제목·설명·canonical·사이트맵·구조화 데이터를 관리한다. robots는 공개 문서·렌더링 자산을 허용하고 API만 제한한다. API는 X-Robots-Tag, 실제404는 noindex를 유지한다.
+
+HOME 화면 원본은 `app/home-content.tsx`, 서버 메타데이터·JSON-LD 진입점은 `app/page.tsx`다. `htmlLimitedBots: /.*/`로 모든 요청의 head를 먼저 완성하며 메타데이터는 외부 요청 없이 로컬 데이터·환경값만 읽는다. 회사 정보는 기존 `companyInfo`를 공유한다. Google·네이버 계정 인증값은 각각 `GOOGLE_SITE_VERIFICATION`·`NAVER_SITE_VERIFICATION`으로 선택 제공하며 미입력 시 태그를 만들지 않는다. Google 도메인 인증용 TXT는 현재 권한 DNS인 Cloudflare에 추가한다. 실제 계정 소유 확인·사이트맵 제출은 안내만 준비했으며 완료로 설명하지 않는다. 기존 디자인·6.8초 오프닝·고화질·해시 없는 이동·임시 주소 비활성·문의·자동 배포를 유지한다. 검증은 회귀·빌드·HTTP/SSR이며 실제 브라우저 검수·검색 순위·실사용 성능 측정과 구분한다. PageSpeed API는429로 측정하지 못했다. 배포 결과는 [배포 기록](docs/operations/DEPLOYMENT-NOTES.md)에 남긴다.
+
 ## 2026-09-15 임시 workers.dev 주소 비활성화
 
 사용자가 정식 도메인 운영에 맞춰 임시 주소 종료를 요청했다. 기존 `onoff-hero-preview` Worker의 workers.dev·버전별 Preview URL을 비활성화하고 `vite.config.ts`에 `workers_dev:false`, `preview_urls:false`를 명시해 다음 자동 배포에도 유지한다. `on-onf.com`·`www.on-onf.com` Custom Domain과 HTTPS 이동, 기존 main 자동 배포·문의 설정은 보존한다. 이번 요청은 설정을 GitHub에 반영하고 기존 자동 배포로 지속 적용하는 작업까지 포함한다. 아래 임시 주소 유지 문장은 연결 당시의 이력이다. 실제 검증과 결과는 [배포 기록](docs/operations/DEPLOYMENT-NOTES.md), Git 제외 `outputs/deploy/2026-09-15/disable-workers-dev/`를 따른다.
@@ -226,7 +232,7 @@ npm run dev -- --host 127.0.0.1 --port 5187 --strictPort
 
 | 파일 | 역할 |
 | --- | --- |
-| `app/page.tsx` | 첫 화면 구성, 문구, 모션 제어 |
+| `app/page.tsx`, `app/home-content.tsx` | HOME 서버 SEO 진입점과 첫 화면 구성·문구·모션 제어 |
 | `app/globals.css` | 색상, 글꼴, 배치, 반응형, 대체 카드 |
 | `app/layout.tsx` | 메타데이터, 글꼴 로딩 |
 | `app/components/wordmark.tsx` | 큰 ON&OFF 워드마크 |

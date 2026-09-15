@@ -11,6 +11,8 @@
 | `npm run check:repository` | 링크 parser 회귀 검사, Markdown 로컬 경로·제목 앵커·로컬 전용 경로 금지·공개 파일 목록 검사 |
 | `npm run check:links` | 명시적인 외부 HTTP 링크 응답 검사. 401/403/429·네트워크 실패는 미확인, GET 확인404/410만 실패 |
 | `npm run check` | 저장소 검사·린트·타입·전체 회귀 검사 |
+| `npm run test:seo` | 페이지 URL·구조화 데이터·인증값·www 주소 이동 회귀 검사 |
+| `npm run check:seo -- https://on-onf.com` | 운영 HTTP·SSR 메타데이터·사이트맵·robots·404·www 이동 검사. 인수를 생략하면 로컬5187 |
 | `npm run build` | 자산 준비·Vinext 빌드·`check-production-css.mjs`·`check-production-assets.mjs` |
 
 팀 생성물은 `app/assets/generated/`에 두고 Git에서 제외한다. 그 외 승인된 실행 자산은 저장소에 보관한다. public에 공개 파일을 추가할 때는 실제 서비스 용도인지 확인하고 `public-assets.config.json`도 갱신한다. 프롬프트·검토 출력·비교 GIF는 `design/` 또는 `outputs/`에 둔다.

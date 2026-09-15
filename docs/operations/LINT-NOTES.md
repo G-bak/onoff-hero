@@ -26,7 +26,7 @@
 | `components/ui/spinner.tsx` | 같은 규칙 | SVG 아이콘에 로딩 상태 역할·접근 가능한 이름을 제공하는 API를 유지한다. |
 | `app/components/card-ribbon.tsx` | 같은 규칙, `no-noninteractive-element-interactions`, `no-noninteractive-tabindex` | 3D 조작 영역 전체가 포커스를 받아 방향키·스페이스·드래그를 처리한다. 단일 버튼이나 폼 그룹으로 바꾸지 않는다. `tabIndex`, 접근 가능한 이름, 키보드 조작을 함께 유지한다. |
 | `components/ui/input-group.tsx` | `click-events-have-key-events`, `no-noninteractive-element-interactions` | 부가 영역 클릭은 입력에 포커스를 옮기는 편의 기능이다. 키보드는 실제 입력에 Tab으로 접근한다. 부가 영역에 중복 Tab 정지점이나 가짜 버튼 역할을 추가하지 않는다. |
-| `app/page.tsx`, `app/components/scene-loader.tsx` | `nextjs/no-img-element` | 두 곳의 로고는 사전에 크기를 조정한 로컬 PNG이며 명시적 크기와 우선 로딩을 사용한다. 이 권고를 없애기 위해 현재 Vinext 로고를 별도 이미지 처리 서비스로 바꾸지 않는다. |
+| `app/home-content.tsx`, `app/components/scene-loader.tsx` | `nextjs/no-img-element` | 두 곳의 로고는 사전에 크기를 조정한 로컬 PNG이며 명시적 크기와 우선 로딩을 사용한다. HOME 내용은 SEO 서버 진입점에서 분리했으며 기존 이미지 정책을 유지한다. |
 
 이것은 접근성 전체를 검증했다는 의미가 아니다. 다른 접근성 규칙, React 규칙, 타입 관련 규칙은 계속 실행한다. 새 기능이나 파일 때문에 예외가 필요하면 실제 구현을 검토하고 이 표에 이유와 범위를 기록한다.
 

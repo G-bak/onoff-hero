@@ -62,7 +62,7 @@
       }
     },
     {
-      "files": ["app/page.tsx", "app/components/scene-loader.tsx"],
+      "files": ["app/home-content.tsx", "app/components/scene-loader.tsx"],
       "rules": {
         "nextjs/no-img-element": "off"
       }

@@ -18,7 +18,7 @@ export default function ProfessionalServiceDetail({ service }: { service: Profes
       <header className="service-detail-header"><Link className="service-detail-brand" href="/#home" prefetch={false} aria-label="ON&OFF 홈">ON&OFF<span>ALL-IN-ONE AGENCY</span></Link><Link className="service-back" href="/#services" prefetch={false}>서비스 목록 <ServiceArrow/></Link></header>
       <main id="service-main">
         <section className="guide-hero" aria-labelledby="service-title">
-          <div className="guide-hero-meta"><div className="service-breadcrumb"><Link href="/#services" prefetch={false}>SERVICES</Link><span>/</span><span>{service.name}</span></div><span>SERVICE GUIDE / {service.number}</span></div>
+          <div className="guide-hero-meta"><nav className="service-breadcrumb" aria-label="현재 위치"><Link href="/#services" prefetch={false}>SERVICES</Link><span aria-hidden="true">/</span><span aria-current="page">{service.name}</span></nav><span>SERVICE GUIDE / {service.number}</span></div>
           <div className="guide-hero-word" aria-hidden="true">{detail.word}</div>
           <div className="service-hero-layout guide-hero-layout"><div className="guide-hero-copy"><p className="service-detail-kicker">{detail.kicker}</p><h1 id="service-title">{service.headline.map(line => <span className="service-headline-line" key={line}><span>{line}</span></span>)}</h1><p className="service-detail-summary" data-service-reveal>{service.intro}</p><a className="guide-button" href={heroAction.href}>{heroAction.label} <ServiceArrow/></a></div><DetailHeroVisual slug={service.slug}/></div>
           <div className="guide-hero-bottom"><ul>{detail.heroTags.map(tag => <li key={tag}>{tag}</li>)}</ul><a href="#why-service">서비스 자세히 보기 ↓</a></div>

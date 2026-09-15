@@ -2,11 +2,9 @@ import type { Metadata } from 'next';
 import ProjectInquiry from '@/app/components/project-inquiry';
 import { getService } from '@/lib/services';
 import { resolveSiteSection } from '@/lib/site-sections';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: '프로젝트 문의 — ON&OFF',
-  description: '기획·디자인·웹사이트·마케팅·운영. 필요한 서비스와 프로젝트 내용을 온앤오프와 함께 정리해 보세요.',
-};
+export const metadata: Metadata = pageMetadata('/inquiry');
 
 export default async function InquiryPage({ searchParams }: { searchParams: Promise<{ service?: string; from?: string }> }) {
   const params = await searchParams;
