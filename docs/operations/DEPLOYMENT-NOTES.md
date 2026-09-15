@@ -2,6 +2,20 @@
 
 > 날짜별 배포 이력이다. 현재 운영 버전은 실제 Worker 배포와 GitHub 커밋을 함께 확인한다. 2026-09-13 초기 점검은 로컬이었으며, 최신 사용자가 실제 Slack 테스트 후 전체 GitHub 반영·배포를 승인했다.
 
+## 2026-09-15 — Google·네이버 SEO 최적화 배포 완료
+
+- 사용자가 공식 자료 조사·문서화·SEO 코드 수정·GitHub 반영·운영 배포와 검색 도구 등록 안내를 요청했다. [SEO 문서 모음](../seo/README.md)에 조사·적용·검증·Google Search Console·네이버 서치어드바이저 등록 안내5개를 작성했다.
+- 최종 앱 소스 커밋은 `3e271634b6377bea9e477105e608f57af4847c48`이다. Cloudflare Build `aaec3f02-9113-4a30-bae6-3f537704bd62`가 해당 커밋의 `stopped/success`이며 기존 `npm run ci:build` → `npx wrangler deploy --config dist/server/wrangler.json`을 사용했다.
+- 2026-09-15 **15:19:40 KST**에 Worker 버전 `c588f169-1e77-4a8f-83bb-a34dc1c9d28e`가100% 배포됐다. 배포 ID는 `e11b3fed-3e81-400c-a9c6-736ecc487aac`이며 빌드 로그의 버전과 일치한다. 뒤따르는 결과 기록 커밋은 동일 앱 소스를 유지한다.
+- 최초 SEO 커밋 `230a57c2f0223f790cca0a2502c55aefd39620aa`도 배포됐으나 운영 검사에서 설정형 www redirect의 쿼리 누락을 발견했다. 최종 소스는 URL의 호스트·프로토콜만 바꾸는 middleware를 사용한다. 문의 선택값·광고 추적값·인코딩·반복 쿼리의 회귀 검사를 보강하고 운영의 문의·광고 쿼리 보존까지 확인했다.
+- 로컬 전체161개 검사(SEO8개 포함)·린트·타입·프로덕션 빌드·CSS/자산 검사와 원격 자동 빌드를 통과했다. SEO 문서 외부 링크35개 중34개 정상·깨진 링크0개이며 Cloudflare 로그인 대시보드1개는403으로 자동 확인 불가다.
+- 운영 홈·서비스 상세5개·문의의7개 경로는 HTTP200이며 고유한 한국어 제목·설명, head 안의 정식 canonical·Open Graph·index/follow가 일치한다. HOME 회사·사이트 JSON-LD와 상세 서비스·경로 JSON-LD를 파싱하고 SSR 서비스 링크·이미지 alt·페이지별 h1 한 개를 확인했다.
+- `/robots.txt`는200 텍스트, `/sitemap.xml`은200 XML로 정확한 정식7개 URL을 제공한다. Cloudflare 관리 설명과 함께 실제 수집 규칙·사이트맵 안내가 나온다. 없는 일반·서비스 경로는 실제404·noindex이며 HOME canonical을 상속하지 않는다. Googlebot·Yeti User-Agent로 대표 HTML·robots·sitemap200도 확인했다.
+- HTTPS www의 홈·상세·문의·robots·sitemap5개 요청은308이며 경로·문의 선택값·광고 쿼리가 보존된다. HTTP 두 호스트의 HTTPS301, 두 Custom Domain 활성, workers.dev·버전 Preview 비활성도 유지된다. 임시 주소의 홈·상세·API3개 요청은404다.
+- HTML의 직접 참조 이미지·CSS·JS와 로고·파비콘 등19개 자산이200이다. 문의 API GET은200·enabled=true·기존 개인정보 버전이며 `no-store`와 `X-Robots-Tag:noindex,nofollow`를 확인했다. 문의·Slack 메시지를 실제 전송하지 않았다.
+- 이번 검증은 회귀·빌드·HTTP/SSR이다. 실제 브라우저 검수, Google·네이버 계정 소유 확인·사이트맵 제출·색인·검색 순위 확인은 포함하지 않는다. PageSpeed 모바일 API는429로 측정하지 못했다. 상세 범위와 운영 후속은 [SEO 구현 기록](../seo/IMPLEMENTATION.md)을 따른다.
+- 로그·상태·검증 JSON은 Git 제외 `outputs/deploy/2026-09-15/seo/`, 조사·로컬 검증은 Git 제외 `outputs/qa/2026-09-15/seo/`에 보관한다. 운영 주소는 [on-onf.com](https://on-onf.com)이다.
+
 ## 2026-09-15 — 임시 workers.dev 주소 비활성화
 
 - 정식 도메인 운영에 맞춰 임시 주소를 끄자는 사용자 요청을 적용했다. 기존 `onoff-hero-preview`의 Worker subdomain API에 `enabled:false`, `previews_enabled:false`를 적용하고 성공 응답을 확인했다.

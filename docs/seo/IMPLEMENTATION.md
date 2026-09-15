@@ -86,7 +86,7 @@ npm.cmd run check:seo -- https://on-onf.com
 - SEO 문서 외부 링크35개를 검사해34개 정상 응답·깨진 링크0개를 확인했다. Cloudflare 로그인 대시보드1개는403으로 자동 HTTP 확인 불가이며 인증 후 접근하는 관리 화면이다.
 - 루트·서비스 메타데이터가 본문 뒤로 내려오던 스트리밍 상태를 재현하고, 설정 반영 후 head 안 출력까지 확인했다.
 - 첫 운영 검증에서 설정형 www redirect가 쿼리를 누락하는 문제를 발견했다. URL의 호스트·프로토콜만 바꾸는 middleware로 수정하고 문의 선택값·광고 추적값·인코딩·반복 쿼리의 보존을 검사에 포함했다.
-- 배포 전 전체 검사와 실제 운영 검증 결과는 [배포 기록](../operations/DEPLOYMENT-NOTES.md)의 이번 SEO 항목을 따른다.
+- 2026-09-15 15:19 KST의 최종 소스 배포 후 `check:seo` 운영 검사를 통과했다. HTTPS www의5개 경로308·쿼리 보존,7개 공개 페이지·robots·sitemap·404·API·검색로봇 User-Agent 검사가 포함된다. 추가로 직접 참조 자산19개200, 문의 활성 상태, HTTP→HTTPS301과 임시 주소404를 확인했다. 정확한 소스·버전·검증 범위는 [배포 기록](../operations/DEPLOYMENT-NOTES.md)을 따른다.
 - 비교 HTML·로컬 HTTP 결과·PageSpeed 응답은 Git 제외 `outputs/qa/2026-09-15/seo/`에 보관한다. 원격 배포·운영 HTTP 결과는 Git 제외 `outputs/deploy/2026-09-15/seo/`에 남긴다.
 
 ## 측정하지 않은 항목
