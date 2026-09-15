@@ -1,5 +1,23 @@
 # ON&OFF 프로젝트 작업 지침
 
+## 2026-09-15 새 Cloudflare 계정으로 홈페이지 이전 진행
+
+사용자가 새 계정 연결 확인 후 도메인 재등록·홈페이지 이전·문의 설정·GitHub 자동 배포 이전을 진행하고 결과를 보고하도록 승인했다. 새 계정은 `f446e31d575c7e7135b7486ada7c35c4` / `onoff3738@naver.com`이다. 새 Free zone `76e8a080d3391f997a0106e5f4d3c8e5`를 만들었고 사용자가 가비아 네임서버를 `aida.ns.cloudflare.com`, `keanu.ns.cloudflare.com`으로 변경했다. 15:57 KST에 zone active를 확인했다. Wrangler도 새 계정으로 재인증했으며 `vite.config.ts`의 배포 계정 ID를 새 계정으로 변경했다. 로컬 전체 검사·빌드를 통과하고 새 `onoff-hero-preview`에 홈페이지와 기존 문의 비밀 설정2개를 배포했다. 루트·www Custom Domain과 HTTPS 강제 이동을 구성했고 workers.dev·Preview 비활성을 유지한다.
+
+현재 자동 배포의 새 GitHub 연결은 API 오류8000008로 미완료이며 대시보드에서 GitHub 계정 재연결이 필요하다. 기존 Worker·환경변수·기타 자원은 삭제하지 않았다. 이전 계정의 Builds 조회는 Wrangler 권한으로403이어서 기존 트리거 중단·변경을 수행하지 않았다. 새 계정 ID를 명시한 소스가 배포 원본이며 이전 계정으로 수동 배포하지 않는다. 정식 HTTPS 검증·자동 배포의 최종 완료 여부는 [배포 기록](docs/operations/DEPLOYMENT-NOTES.md)의 후속 기록을 따른다. 홈페이지 공개 이메일 `onoff3739@naver.com`은 유지한다.
+
+## 2026-09-15 Cloudflare 새 계정 연결 확인
+
+사용자의 재확인 요청으로 2026-09-15 15:49 KST에 실제 MCP `/user`·`/accounts`를 다시 조회해 사용자 이메일 **onoff3738@naver.com**, 계정 **f446e31d575c7e7135b7486ada7c35c4** (`Onoff3738@naver.com's Account`)를 HTTP200·success=true로 확인했다. 아래 기존 계정만 반환한다는 내용은 재연결 전 이력이다. 새 계정의 `on-onf.com` zone·Worker 목록·해당 도메인의 Worker 연결은 모두0개다. 이번 요청에서는 조회와 로컬 기록만 수행했고 도메인 생성·설정 변경·배포·Git push는 하지 않았다. `vite.config.ts`와 기존 자동 배포는 아직 이전 계정 대상이므로 후속 이전 작업에서 새 계정에 맞춘 뒤 배포해야 한다. 홈페이지 공개 이메일은 `onoff3739@naver.com`을 유지한다. [배포 기록](docs/operations/DEPLOYMENT-NOTES.md)을 따른다.
+
+## 2026-09-15 Cloudflare 계정 변경을 위한 도메인 등록 삭제
+
+새 Cloudflare 계정의 사용자 확인 이메일은 **onoff3738@naver.com**이다. 홈페이지 공개 이메일 `onoff3739@naver.com`과 다르므로 회사 정보는 바꾸지 않는다. `codex mcp logout cloudflare_api` 후 새 OAuth 로그인을 완료했고 사용자가 새 계정 인증 완료를 알렸으나, 현재 대화의 MCP `/accounts` 응답은 여전히 기존 계정만 반환한다. 저장된 CLI 인증 완료와 실제 MCP 계정 전환 확인을 구분한다. 연결을 새로 시작한 뒤 계정 ID를 다시 확인해야 하며, 새 계정 확인 전에는 도메인 생성·설정 변경·배포를 진행하지 않는다.
+
+최신 사용자가 다른 계정으로 재로그인·MCP 연결 후 재등록하기 위해 **다른 것은 삭제하지 않고 기존 계정의 on-onf.com만 전부 삭제**하도록 명시했다. 2026-09-15 15:37 KST에 기존 계정 `4c692f878ebb293ad79ef0d8c9c7cfcc`에서 `on-onf.com`·`www.on-onf.com`의 Worker Custom Domain 연결과 zone `0674bbf17783acacb5ee2220a00e260a`를 삭제했다. 재조회한 해당 zone·도메인 연결 목록은 모두0개다. 가비아 도메인 등록·기존 Worker `onoff-hero-preview`·환경변수2개·GitHub 저장소·자동 배포 연결·다른 자원은 유지했다. DNS 설정과 삭제 결과는 Git 제외 `outputs/deploy/2026-09-15/account-migration/`에 보관한다.
+
+아래 on-onf.com 운영 성공 기록은 삭제 전의 이력이다. 새 계정으로 MCP를 재연결한 뒤 실제 계정 ID를 확인하고 배포 설정·도메인·자동 배포를 맞춰야 한다. 현재 `vite.config.ts`는 여전히 기존 계정을 가리키며, 새 계정 연결 전에 기존 계정으로 추가 push·배포하지 않는다. 이번 삭제 기록은 로컬 문서에만 남긴다. [배포 기록](docs/operations/DEPLOYMENT-NOTES.md)을 따른다.
+
 ## 2026-09-15 SEO 최적화·등록 안내·운영 배포 승인
 
 사용자가 Google·네이버 공식 SEO 조사·문서화·사이트 코드 최적화·GitHub 반영·운영 배포와 두 검색 도구의 등록 안내를 요청했다. [SEO 문서 모음](docs/seo/README.md), [조사 근거](docs/seo/RESEARCH.md), [구현·검증](docs/seo/IMPLEMENTATION.md)이 기준이다. 대표 주소는 `https://on-onf.com`이며 HTTPS www는 경로·쿼리를 보존해308 이동한다. 공개7개 페이지의 noindex 상속을 해제하고 `lib/seo.ts`에서 고유 제목·설명·canonical·사이트맵·구조화 데이터를 관리한다. robots는 공개 문서·렌더링 자산을 허용하고 API만 제한한다. API는 X-Robots-Tag, 실제404는 noindex를 유지한다.

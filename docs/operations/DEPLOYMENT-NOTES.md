@@ -2,6 +2,33 @@
 
 > 날짜별 배포 이력이다. 현재 운영 버전은 실제 Worker 배포와 GitHub 커밋을 함께 확인한다. 2026-09-13 초기 점검은 로컬이었으며, 최신 사용자가 실제 Slack 테스트 후 전체 GitHub 반영·배포를 승인했다.
 
+## 2026-09-15 — 새 Cloudflare 계정으로 홈페이지 이전
+
+- 사용자 승인 범위는 새 계정의 도메인 재등록·홈페이지 배포·문의 설정·GitHub 자동 배포 이전 및 결과 보고다. MCP와 Wrangler 모두 사용자 이메일 `onoff3738@naver.com`, 계정 `f446e31d575c7e7135b7486ada7c35c4`를 실제 API로 확인했다.
+- Free Website zone `76e8a080d3391f997a0106e5f4d3c8e5`에 `on-onf.com`을 등록했다. 사용자가 가비아에서 `aida.ns.cloudflare.com`, `keanu.ns.cloudflare.com`으로 변경했고 Google 공개 DNS의 NS 일치와 15:57:00 KST의 zone active를 확인했다.
+- `vite.config.ts`의 계정 ID만 새 계정으로 변경했다. 전체161개 테스트·린트·타입·프로덕션 빌드·CSS/자산 검사를 통과했다. 앱 화면·회사 정보·SEO·문의 정책과 `workers_dev:false`, `preview_urls:false`는 유지한다.
+- 15:57:44 KST에 새 Worker `onoff-hero-preview`에 초기 버전 `f0d242bf-9b80-4d1c-9f32-1cefba4eec39`를 배포했다. Git 제외 `.env.local`의 기존 `INQUIRY_PRIVACY_VERSION`·`SLACK_INQUIRY_WEBHOOK_URL`을 새 Worker의 secret으로 옮긴 뒤 15:57:59 KST에 버전 `a6f33774-aafe-44e6-a777-cc09283a1408`의100% 배포를 확인했다. 비밀값은 출력·문서·Git·빌드 로그에 기록하지 않았다.
+- 새 Worker tag는 `c9634ec0232345d49a758453ec8b24ff`다. `on-onf.com`·`www.on-onf.com` Custom Domain을 연결하고 `always_use_https=on`을 적용했다. 두 연결의 enabled=true, previews_enabled=false와 Worker의 workers.dev·Preview 비활성을 확인했다. 인증서 발급·정식 HTTPS의 최종 검증은 후속 기록으로 구분한다.
+- GitHub 저장소 `G-bak/onoff-hero`(repository ID `1362249366`, owner ID `166082000`)를 새 계정에 연결하는 API는8000008, Git 계정 연결 끊김 오류를 반환했다. 새 계정의 build token도0개이며, 현재 자동 배포 이전은 미완료다. 대시보드에서 GitHub 재연결과 Builds 배포 토큰 생성이 필요하다. [Cloudflare GitHub 연결 안내](https://developers.cloudflare.com/workers/ci-cd/builds/git-integration/github-integration/), [Builds 설정](https://developers.cloudflare.com/workers/ci-cd/builds/configuration/).
+- 기존 계정의 Worker·비밀 설정·GitHub 저장소·기타 자원은 삭제하지 않았다. 기존 Wrangler 인증으로 Builds 조회를 시도했지만403이어서 이전 트리거의 중단·수정을 수행하지 않았다. 이후 push의 소스는 새 계정 ID를 명시하므로 이전 계정으로 수동 배포하지 않는다.
+- 로그·검증 도구·안전한 API 결과는 Git 제외 `outputs/deploy/2026-09-15/account-migration/`에 보관한다. 실제 문의·Slack 메시지는 이번 이전 과정에서 전송하지 않았다. 자동 배포와 공개 HTTP/SEO 검증의 최종 상태는 후속 항목에 기록한다.
+
+## 2026-09-15 — 새 Cloudflare 계정 MCP 연결 확인
+
+- 사용자의 재확인 요청으로 15:49 KST에 현재 MCP 연결에서 `/user`·`/accounts`를 조회했다. 두 요청 모두 HTTP200·success=true이며 사용자 이메일 `onoff3738@naver.com`, 계정 `f446e31d575c7e7135b7486ada7c35c4` (`Onoff3738@naver.com's Account`)를 확인했다. `/accounts`는 이 새 계정1개만 반환했다. 아래 기존 계정만 반환한다는 내용은 재연결 전의 이력이다.
+- 같은 새 계정 ID로 `on-onf.com` zone, Worker 목록, 해당 zone 이름의 Worker Custom Domain 목록을 조회했고 모두 HTTP200·success=true·0개였다. 새 계정으로의 실제 연결은 확인됐으며 도메인 재등록과 앱 이전은 아직 수행하지 않았다.
+- 이번 작업은 읽기 전용 API 확인과 로컬 문서 기록이다. 도메인 생성·Cloudflare 설정 변경·앱 배포·커밋·push는 하지 않았다. `vite.config.ts`와 기존 GitHub 자동 배포는 아직 이전 계정 대상이므로 후속 이전 때 새 계정에 맞춰야 한다. 홈페이지 공개 이메일 `onoff3739@naver.com`은 유지한다.
+
+## 2026-09-15 — 계정 이전 준비: 기존 on-onf.com 등록 삭제
+
+- 재인증 후속: 사용자가 새 Cloudflare 계정 이메일을 **onoff3738@naver.com**으로 확인했다. `cloudflare_api` MCP의 저장된 인증을 로그아웃하고 OAuth 로그인을 다시 완료했다. 사용자는 새 계정으로 인증했다고 답했지만 현재 대화의 MCP `/accounts` 조회는 여전히 기존 계정 ID만 반환한다. 새 연결에서 실제 계정 ID를 확인할 때까지 신규 도메인 등록·배포를 보류한다. 홈페이지 공개 연락처 `onoff3739@naver.com`은 유지한다. 다른 Cloudflare OAuth 서버6개의 저장된 인증은 로그아웃 상태이며, 기본 API 인증은 CLI에서 `o_auth`로 확인했다.
+- 사용자가 Cloudflare 계정 변경을 알리고 다른 자원은 그대로 둔 채 기존 계정의 `on-onf.com` 관련 등록만 전부 삭제하도록 명시했다. 새 계정에 재등록할 계획이며 실제 새 계정 MCP 연결은 아직 확인하지 않았다.
+- 2026-09-15 15:37 KST에 기존 계정 `4c692f878ebb293ad79ef0d8c9c7cfcc`의 www·루트 Custom Domain 연결2개를 먼저 해제한 뒤 zone `0674bbf17783acacb5ee2220a00e260a`를 삭제했다. 각 DELETE는 HTTP200·success=true다. 후속 조회의 해당 zone 목록과 `on-onf.com`·하위 도메인 Worker 연결 목록은 모두0개다.
+- 가비아의 도메인 소유권·네임서버 설정, 기존 Worker `onoff-hero-preview`, 문의 환경변수 `INQUIRY_PRIVACY_VERSION`·`SLACK_INQUIRY_WEBHOOK_URL`, GitHub 저장소·기존 자동 배포와 다른 자원은 변경하지 않았다. Worker 설정 GET200과 두 환경변수 이름을 확인했다. workers.dev·버전 Preview는 계속 비활성이다.
+- DNS 기록·Worker 설정과 환경변수 이름은 삭제 전에 Git 제외 `outputs/deploy/2026-09-15/account-migration/source-inventory.json`에 보관했다. 비밀값을 기록·출력하지 않았다. 삭제 및 후속 조회는 같은 폴더의 `domain-removal.json`에 보관한다.
+- 정식 도메인은 새 계정에 재등록·연결하기 전까지 기존 홈페이지에 연결되지 않는다. 앱 소스의 대표 도메인·SEO 설정은 새 계정에서도 같은 주소를 사용할 예정이므로 유지했다. 새 MCP 연결 후 실제 계정 ID·배포 대상·DNS·인증서·자동 배포·문의 설정을 확인해야 한다. [Cloudflare 공식 계정 이전 안내](https://developers.cloudflare.com/fundamentals/manage-domains/move-domain/).
+- 이번 변경은 Cloudflare 도메인 삭제와 로컬 운영 기록이며 앱 커밋·push·재배포는 하지 않았다. 아래 배포 성공 기록은 도메인 삭제 전 상태다.
+
 ## 2026-09-15 — Google·네이버 SEO 최적화 배포 완료
 
 - 사용자가 공식 자료 조사·문서화·SEO 코드 수정·GitHub 반영·운영 배포와 검색 도구 등록 안내를 요청했다. [SEO 문서 모음](../seo/README.md)에 조사·적용·검증·Google Search Console·네이버 서치어드바이저 등록 안내5개를 작성했다.

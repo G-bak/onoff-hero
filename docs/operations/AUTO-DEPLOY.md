@@ -2,6 +2,12 @@
 
 기존 Cloudflare Worker `onoff-hero-preview`를 GitHub의 `G-bak/onoff-hero` 저장소에 연결한다. `main`에 push하면 검사·빌드가 성공한 버전만 현재 사이트에 배포하는 구성이다.
 
+## 2026-09-15 새 계정 이전
+
+현재 배포 대상은 `onoff3738@naver.com`의 계정 `f446e31d575c7e7135b7486ada7c35c4`, Worker `onoff-hero-preview`다. `vite.config.ts`는 새 계정 ID를 사용한다. 도메인·홈페이지·문의 비밀 설정은 새 계정으로 구성했으며 이전 계정의 Worker는 보존했다.
+
+새 계정의 GitHub 연결은 API 오류8000008로 아직 미완료다. 대시보드의 새 Worker → Settings → Builds → Connect에서 GitHub `G-bak/onoff-hero`를 연결한다. 아래 표의 `main`, 루트 `/`, 빌드 `npm run ci:build`, 배포 `npx wrangler deploy --config dist/server/wrangler.json`, 비운영 브랜치 비활성, Cloudflare가 관리하는 새 배포 토큰을 사용한다. 기존 문의 secret을 build 변수에 복사하지 않는다. 연결 후 실제 GitHub 커밋과 새 계정의 빌드 성공·운영 배포를 확인해야 자동 배포 완료다. [최종 상태](DEPLOYMENT-NOTES.md).
+
 ## 2026-09-15 운영 도메인
 
 SEO 최적화 이후 대표 주소는 `https://on-onf.com`으로 통일한다. HTTPS www는 경로·쿼리를 보존해308 이동한다. 배포 후 `npm run check:seo -- https://on-onf.com`으로 공개7개 경로·메타데이터·robots·sitemap·404·www 이동을 확인한다. [SEO 운영 기준](../seo/IMPLEMENTATION.md), [검색 도구 등록](../seo/README.md).
