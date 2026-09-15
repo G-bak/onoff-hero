@@ -95,8 +95,8 @@ for (const agent of ['Googlebot', 'Yeti']) {
 }
 
 // Vite rejects foreign Host headers. Check the actual public host after deployment;
-// tests/seo.test.mjs also exercises the installed redirect matcher locally.
-for (const path of remote ? ['/', '/services/web?utm_source=seo-audit', '/robots.txt', '/sitemap.xml'] : []) {
+// tests/seo.test.mjs also exercises the authored middleware locally.
+for (const path of remote ? ['/', '/services/web?utm_source=seo-audit', '/inquiry?service=web&from=web', '/robots.txt', '/sitemap.xml'] : []) {
   const target = new URL(path, 'https://www.on-onf.com');
   const response = await fetch(target, { redirect: 'manual', signal: AbortSignal.timeout(30000) });
   assert.equal(response.status, 308, `www: ${path}`);

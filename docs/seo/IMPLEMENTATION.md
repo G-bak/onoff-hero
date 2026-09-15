@@ -28,7 +28,8 @@
 | [app/services/[slug]/page.tsx](../../app/services/%5Bslug%5D/page.tsx) | 서비스별 메타데이터·JSON-LD, 없는 서비스404 |
 | [app/inquiry/page.tsx](../../app/inquiry/page.tsx) | 문의 페이지 제목·설명·쿼리 없는 canonical |
 | [app/robots.ts](../../app/robots.ts), [app/sitemap.ts](../../app/sitemap.ts) | 프레임워크의 텍스트·XML 메타데이터 경로 |
-| [next.config.ts](../../next.config.ts) | 메타데이터 스트리밍 해제, www 영구 이동, API X-Robots-Tag |
+| [next.config.ts](../../next.config.ts) | 메타데이터 스트리밍 해제, API X-Robots-Tag |
+| [middleware.ts](../../middleware.ts) | 요청의 경로·쿼리를 그대로 보존하는 www 영구 이동 |
 | [lib/consultation.ts](../../lib/consultation.ts) | 화면과 JSON-LD가 공유하는 확정 회사 정보 |
 
 추가 서비스 페이지를 만들면 서비스 콘텐츠와 함께 `seoPages`도 갱신한다. 제목·설명은 본문과 같아야 한다. canonical의 경로, 서비스 구조화 데이터, 사이트맵 URL을 따로 복제 관리하지 않는다. 존재하지 않는 페이지에 HOME canonical을 기본 상속하지 않는다.
@@ -62,7 +63,7 @@ npm.cmd run check:seo -- https://on-onf.com
 - 확정 회사 연락처와 JSON-LD 일치, 서비스·회사·경로 연결
 - JSON-LD의 `</script>` 삽입 방지와 원문 보존
 - 계정값 없이 인증 태그가 생성되지 않는지
-- 설치된 Vinext의 실제 주소 매처로 www만 영구 이동하고 다른 호스트를 유지하는지
+- 실제 middleware 응답으로 www만 영구 이동하고 경로·문의 선택·인코딩·반복 쿼리와 다른 호스트를 유지하는지
 
 ### HTTP/SSR 검사 범위
 
@@ -77,13 +78,14 @@ npm.cmd run check:seo -- https://on-onf.com
 - Googlebot·Yeti User-Agent의 대표 HTML·robots·sitemap 응답
 - 운영에서는 HTTPS www의 홈·상세·robots·sitemap308 및 상세 쿼리 보존
 
-위 하이픈 항목은 검사 범위 설명이다. 실제 통과 여부는 아래 기록과 배포 로그를 기준으로 한다. User-Agent를 바꾼 요청은 네이버·Google 서버의 실제 크롤링이나 색인 완료를 증명하지 않는다. 로컬 Vite는 외부 Host 요청을 차단하므로 www HTTP 이동은 운영에서 확인하고 로컬에서는 주소 매처 회귀 검사를 사용한다.
+실제 통과 여부는 아래 기록과 배포 로그를 기준으로 한다. User-Agent를 바꾼 요청은 네이버·Google 서버의 실제 크롤링이나 색인 완료를 증명하지 않는다. 로컬 Vite는 외부 Host 요청을 차단하므로 www HTTP 이동은 운영에서 확인하고 로컬에서는 middleware 응답 회귀 검사를 사용한다.
 
 ## 현재 검증 기록
 
 - 2026-09-15 로컬 `npm run ci:build`의 전체161개 검사(SEO 회귀8개 포함), 문서 링크·린트·TypeScript·프로덕션 빌드·CSS/자산 검사에 통과했다. HTTP/SSR 검사도 통과했다.
 - SEO 문서 외부 링크35개를 검사해34개 정상 응답·깨진 링크0개를 확인했다. Cloudflare 로그인 대시보드1개는403으로 자동 HTTP 확인 불가이며 인증 후 접근하는 관리 화면이다.
 - 루트·서비스 메타데이터가 본문 뒤로 내려오던 스트리밍 상태를 재현하고, 설정 반영 후 head 안 출력까지 확인했다.
+- 첫 운영 검증에서 설정형 www redirect가 쿼리를 누락하는 문제를 발견했다. URL의 호스트·프로토콜만 바꾸는 middleware로 수정하고 문의 선택값·광고 추적값·인코딩·반복 쿼리의 보존을 검사에 포함했다.
 - 배포 전 전체 검사와 실제 운영 검증 결과는 [배포 기록](../operations/DEPLOYMENT-NOTES.md)의 이번 SEO 항목을 따른다.
 - 비교 HTML·로컬 HTTP 결과·PageSpeed 응답은 Git 제외 `outputs/qa/2026-09-15/seo/`에 보관한다. 원격 배포·운영 HTTP 결과는 Git 제외 `outputs/deploy/2026-09-15/seo/`에 남긴다.
 

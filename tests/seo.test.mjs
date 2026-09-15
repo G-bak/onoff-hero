@@ -1,7 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import nextConfig from '../next.config.ts';
-import { matchRedirect, requestContextFromRequest } from '../node_modules/vinext/dist/config/config-matchers.js';
+import { middleware } from '../middleware.ts';
 import { companyInfo } from '../lib/consultation.ts';
 import { homeStructuredData, pageMetadata, robotsRules, seoPages, serializeStructuredData, serviceStructuredData, sitemapEntries, siteOrigin, verificationMetadata } from '../lib/seo.ts';
 
@@ -83,14 +82,18 @@ await test('ownership tags are absent without supplied account values and indepe
   assert.deepEqual(verificationMetadata({ google: 'google-test-token', naver: 'naver-test-token' }), { google: 'google-test-token', other: { 'naver-site-verification': 'naver-test-token' } });
 });
 
-await test('the installed router redirects only the www host and preserves the destination path', async () => {
-  const rules = await nextConfig.redirects();
-  for (const path of ['/', '/services/web', '/robots.txt', '/sitemap.xml']) {
+await test('the redirect preserves path, encoded and repeated query values, method semantics and the exact canonical host', () => {
+  for (const path of ['/', '/services/web?utm_source=seo-audit', '/inquiry?service=web&from=web', '/inquiry?ref=a%2Fb&tag=one&tag=two', '/robots.txt', '/sitemap.xml']) {
     const request = new Request('https://www.on-onf.com' + path);
-    assert.deepEqual(matchRedirect(path, rules, requestContextFromRequest(request)), { destination: siteOrigin + path, permanent: true });
+    const response = middleware(request);
+    assert.equal(response.status, 308);
+    assert.equal(response.headers.get('location'), siteOrigin + path);
   }
+  const post = middleware(new Request('https://www.on-onf.com/api/inquiry', { method: 'POST', body: 'test-only' }));
+  assert.equal(post.status, 308); // The HTTP redirect status preserves the method.
+  assert.equal(post.headers.get('location'), siteOrigin + '/api/inquiry');
   for (const host of ['on-onf.com', 'localhost:5187', 'wwwXon-onfXcom', 'www.on-onf.com.evil.example']) {
     const request = new Request('https://' + host + '/services/web');
-    assert.equal(matchRedirect('/services/web', rules, requestContextFromRequest(request)), null);
+    assert.equal(middleware(request), undefined);
   }
 });
