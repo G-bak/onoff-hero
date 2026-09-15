@@ -15,7 +15,8 @@ const isCodexSeatbeltSandbox = process.env.CODEX_SANDBOX === 'seatbelt';
 const localBindingConfig = {
   name: 'onoff-hero-preview',
   account_id: '4c692f878ebb293ad79ef0d8c9c7cfcc',
-  workers_dev: true,
+  workers_dev: false,
+  preview_urls: false,
   compatibility_date: '2026-05-15',
   main: 'vinext/server/fetch-handler',
   compatibility_flags: ['nodejs_compat'],

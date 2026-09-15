@@ -1,5 +1,13 @@
 # ON&OFF 프로젝트 작업 지침
 
+## 2026-09-15 임시 workers.dev 주소 비활성화
+
+사용자가 정식 도메인 운영에 맞춰 임시 주소 종료를 요청했다. 기존 `onoff-hero-preview` Worker의 workers.dev·버전별 Preview URL을 비활성화하고 `vite.config.ts`에 `workers_dev:false`, `preview_urls:false`를 명시해 다음 자동 배포에도 유지한다. `on-onf.com`·`www.on-onf.com` Custom Domain과 HTTPS 이동, 기존 main 자동 배포·문의 설정은 보존한다. 이번 요청은 설정을 GitHub에 반영하고 기존 자동 배포로 지속 적용하는 작업까지 포함한다. 아래 임시 주소 유지 문장은 연결 당시의 이력이다. 실제 검증과 결과는 [배포 기록](docs/operations/DEPLOYMENT-NOTES.md), Git 제외 `outputs/deploy/2026-09-15/disable-workers-dev/`를 따른다.
+
+## 2026-09-15 가비아 도메인 연결
+
+사용자가 구매한 `on-onf.com`의 Cloudflare 등록·홈페이지 연결을 요청하고 가비아 네임서버 변경을 완료했다. `ashley.ns.cloudflare.com`, `trevor.ns.cloudflare.com`을 사용하는 Free zone은 active이며, `on-onf.com`과 `www.on-onf.com`을 기존 `onoff-hero-preview`의 production Custom Domain으로 연결했다. 운영 안내 주소는 **https://on-onf.com**이다. 두 주소는 HTTPS로 같은 홈페이지를 제공하며 HTTP 요청은 경로·쿼리를 보존해 같은 호스트의 HTTPS로301 이동한다. 2026-09-15 14:30~14:31 KST에 새 도메인의7개 경로·36개 자산과 문의 설정, 기존 배포와 JS/CSS25개 해시 일치를 확인했다. 앱 소스와 기존 GitHub 자동 배포는 유지하며 별도 앱 배포는 하지 않았다. [배포 기록](docs/operations/DEPLOYMENT-NOTES.md)에 연결 정보·검증 범위를 남겼다.
+
 ## 2026-09-15 상세 개선 전체 GitHub 반영·운영 배포 승인
 
 사용자가 상세 작업 범위·푸터·화살표 정리·해시 없는 스크롤 이동까지 현재 변경 전체의 GitHub 반영과 운영 배포를 승인했다. 기존 `G-bak/onoff-hero`의 `main` → Cloudflare Workers Builds 자동 배포를 사용한다. 아래 로컬 전용 표기는 각 변경 검토 시점의 이력이며 이번 승인이 우선한다. 최종 앱 소스의 로컬 테스트153개·린트·타입·빌드·CSS/자산 검사를 통과했다. 검증 도구·로그·환경변수는 Git에서 제외하고 실제 배포 결과는 [배포 기록](docs/operations/DEPLOYMENT-NOTES.md)과 Git 제외 `outputs/deploy/2026-09-15/service-improvements/`에 남긴다.

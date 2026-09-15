@@ -2,6 +2,10 @@
 
 기존 Cloudflare Worker `onoff-hero-preview`를 GitHub의 `G-bak/onoff-hero` 저장소에 연결한다. `main`에 push하면 검사·빌드가 성공한 버전만 현재 사이트에 배포하는 구성이다.
 
+## 2026-09-15 운영 도메인
+
+현재 운영 안내 주소는 **https://on-onf.com**이며 `www.on-onf.com`도 같은 Worker의 production Custom Domain이다. 두 호스트의 HTTP는 HTTPS로 이동한다. 이후 사용자 요청으로 기존 workers.dev·버전별 Preview URL은 비활성화했으며 `vite.config.ts`의 `workers_dev:false`, `preview_urls:false`를 유지한다. main 자동 배포와 Custom Domain 연결은 그대로 사용한다. 연결·검증 결과는 [배포 기록](DEPLOYMENT-NOTES.md)을 따른다. 앞으로 배포할 때는 정식 도메인의 정상 응답과 임시 주소 비활성 상태를 확인한다.
+
 ## 2026-09-13 재확인한 연결 상태
 
 최신 배포 요청으로 기존 Worker와 GitHub 저장소·main 전용 트리거, 검사·배포 명령을 재조회했다. 전체 변경의 main push가 Cloudflare 검사를 통과하고 실제 사이트에 반영됨을 확인했다. [최신 배포 결과](DEPLOYMENT-NOTES.md). 기존 연결을 재생성하거나 GitHub Actions를 추가하지 않았다.
@@ -42,7 +46,7 @@ Cloudflare의 기본 의존성 설치와 저장소의 `package-lock.json`을 사
 
 - 첫 빌드를 실행하거나 `main`에 변경을 push한다.
 - Cloudflare Builds에서 GitHub의 최신 커밋 SHA와 빌드 성공을 확인한다.
-- 배포가 기존 주소 `https://onoff-hero-preview.ajdhfbx1836203.workers.dev`에 반영됐는지 확인한다.
+- 배포가 정식 주소 `https://on-onf.com`에 반영됐는지 확인한다. workers.dev·버전별 Preview URL의 비활성 상태도 유지돼야 한다.
 - 이후에는 변경을 커밋하고 `main`에 push한다. 로컬 검사 구성 반영 후에는 린트·타입·테스트·빌드·CSS/자산 검사 중 하나라도 실패하면 배포 단계가 실행되지 않는다.
 
 배포 인증 정보는 Cloudflare에 보관하며 저장소에 기록하지 않는다. GitHub Actions의 별도 배포 워크플로는 만들지 않아 중복 배포를 방지한다.

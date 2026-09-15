@@ -2,6 +2,25 @@
 
 > 날짜별 배포 이력이다. 현재 운영 버전은 실제 Worker 배포와 GitHub 커밋을 함께 확인한다. 2026-09-13 초기 점검은 로컬이었으며, 최신 사용자가 실제 Slack 테스트 후 전체 GitHub 반영·배포를 승인했다.
 
+## 2026-09-15 — 임시 workers.dev 주소 비활성화
+
+- 정식 도메인 운영에 맞춰 임시 주소를 끄자는 사용자 요청을 적용했다. 기존 `onoff-hero-preview`의 Worker subdomain API에 `enabled:false`, `previews_enabled:false`를 적용하고 성공 응답을 확인했다.
+- `vite.config.ts`의 `workers_dev:false`, `preview_urls:false`가 이후 배포의 원본이다. 대시보드만 끄고 다음 배포에서 되살아나는 일을 방지한다. 이 설정은 기존 main → Workers Builds로 반영한다. Custom Domain 연결·Worker 이름·앱 화면·문의 API·비공개 설정은 유지한다.
+- 정식 주소는 [on-onf.com](https://on-onf.com)이며 [www.on-onf.com](https://www.on-onf.com)도 같은 홈페이지를 제공한다. 아래 도메인 연결 시점의 workers.dev 유지 기록은 이번 요청 전의 이력이다.
+- 로컬 `npm run ci:build`의153개 테스트·린트·타입·빌드·CSS/자산 검사를 통과했다. 생성된 `dist/server/wrangler.json`에서도 두 임시 주소 설정이 false임을 확인했다.
+- 2026-09-15 14:40:40 KST에 정식 도메인7개 경로·자산36개가200이고 자산 해시가 도메인 연결 직후와 동일함을 확인했다. www 상세200, 두 호스트의 HTTP→HTTPS301과 경로·쿼리 보존, 문의 GET200·enabled=true도 유지된다. 임시 주소의 홈·상세·문의 API·정적 자산4개 요청은 모두404이며 홈페이지 본문을 제공하지 않는다. Worker subdomain API도 두 값이 false다.
+- 검증·자동 배포 결과와 Cloudflare 상태는 Git 제외 `outputs/deploy/2026-09-15/disable-workers-dev/`에 보관한다. 실제 문의 전송·브라우저 시각 검수는 이번 설정 변경의 검증 범위에 포함하지 않는다.
+
+## 2026-09-15 — on-onf.com 도메인 연결 완료
+
+- 사용자가 가비아에서 구매한 `on-onf.com`의 Cloudflare 추가를 요청하고 네임서버 변경 완료를 알렸다. Free Website 요금제로 등록한 zone `0674bbf17783acacb5ee2220a00e260a`가 active이며 Google 공개 DNS에서도 `ashley.ns.cloudflare.com`, `trevor.ns.cloudflare.com`을 확인했다.
+- 운영 안내 주소는 [ON&OFF](https://on-onf.com)다. `on-onf.com`과 `www.on-onf.com` 모두 기존 `onoff-hero-preview`의 production Custom Domain에 연결했다. 연결 ID는 각각 `678533c05ac5ff63c5d3ca6a1248a5453a811f74`, `3bf61e0b5c8e952a5fb49ca31c6063c2bad936a5`이며 두 항목 모두 enabled다. Worker가 관리하는 proxied DNS 레코드는 자동 생성됐다.
+- `always_use_https=on`을 적용했다. 두 호스트의 HTTP 문의 주소는 경로와 `from`·`service` 쿼리를 보존해 동일 호스트의 HTTPS로301 이동한다. www와 기본 도메인 사이의 강제 이동은 설정하지 않았다.
+- 2026-09-15 14:30:42~14:31:00 KST에 인증서 검증을 우회하지 않은 Node fetch와 Windows curl로 HTTPS 접속을 확인했다. `on-onf.com` 및 `*.on-onf.com` 인증서 `d10bfcf8-57b5-42d2-b7c4-4ee1e6c3b3a5`가 active여서 두 공개 호스트를 포괄한다. 별도 www 인증서와 Universal 인증서는 이 시점의 API에서 아직 발급·배포 대기였으며, 두 호스트의 실제 HTTPS 응답은200이다.
+- 새 기본 도메인의 HOME·상세5개·문의7개 경로가 모두 HTTP200이며 상세의 공통 푸터가 유지된다. 참조 JS·CSS·WebP36개가 HTTP200이고, 그중 JS/CSS25개의 SHA-256이 기존 workers.dev 배포와 일치한다. `/api/inquiry` GET은200·enabled=true·개인정보 버전 `2026-09-13`이다. 실제 문의 전송과 브라우저 시각·클릭 검수는 하지 않았다.
+- 앱 소스는 기존 배포 기록 커밋 `4605e8db443c59a0d6452cbea3a4111dddf90676` 상태이며 이번에는 Cloudflare 도메인 설정만 적용했다. 기존 workers.dev 주소·문의 비공개 설정·main 자동 배포를 유지한다. 현재 `vite.config.ts`는 routes를 지정하지 않으며 설치된 Wrangler4.130.0은 Custom Domain 목록이 있을 때만 해당 배포 API를 호출한다. 추후 routes를 명시해 관리할 때는 현재 두 도메인을 포함한다.
+- 연결 기록은 로컬 문서에 남겼으며 Git push나 앱 재배포는 하지 않았다. 상세 검증·Cloudflare 상태는 Git 제외 `outputs/deploy/2026-09-15/custom-domain/`에 보관한다.
+
 ## 2026-09-15 — 상세 개선·공통 푸터·스크롤 이동 배포 완료
 
 - 사용자가 현재 변경 전체의 GitHub 반영과 운영 배포를 승인했다. 운영 상세의 선택형 작업 안내·완료 체크, 상세 효과와 전체 장식 대각선 화살표 제거, 주소 해시 없는 섹션 이동, 상세5개 회사 정보 공통 푸터를 함께 반영했다.
