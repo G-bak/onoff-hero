@@ -4,7 +4,7 @@
 
 사용자가 새 계정 연결 확인 후 도메인 재등록·홈페이지 이전·문의 설정·GitHub 자동 배포 이전을 진행하고 결과를 보고하도록 승인했다. 새 계정은 `f446e31d575c7e7135b7486ada7c35c4` / `onoff3738@naver.com`이다. 새 Free zone `76e8a080d3391f997a0106e5f4d3c8e5`를 만들었고 사용자가 가비아 네임서버를 `aida.ns.cloudflare.com`, `keanu.ns.cloudflare.com`으로 변경했다. 15:57 KST에 zone active를 확인했다. Wrangler도 새 계정으로 재인증했으며 `vite.config.ts`의 배포 계정 ID를 새 계정으로 변경했다. 로컬 전체 검사·빌드를 통과하고 새 `onoff-hero-preview`에 홈페이지와 기존 문의 비밀 설정2개를 배포했다. 루트·www Custom Domain과 HTTPS 강제 이동을 구성했고 workers.dev·Preview 비활성을 유지한다.
 
-현재 자동 배포의 새 GitHub 연결은 API 오류8000008로 미완료이며 대시보드에서 GitHub 계정 재연결이 필요하다. 기존 Worker·환경변수·기타 자원은 삭제하지 않았다. 이전 계정의 Builds 조회는 Wrangler 권한으로403이어서 기존 트리거 중단·변경을 수행하지 않았다. 새 계정 ID를 명시한 소스가 배포 원본이며 이전 계정으로 수동 배포하지 않는다. 정식 HTTPS 검증·자동 배포의 최종 완료 여부는 [배포 기록](docs/operations/DEPLOYMENT-NOTES.md)의 후속 기록을 따른다. 홈페이지 공개 이메일 `onoff3739@naver.com`은 유지한다.
+16:04 KST에 사용자가 새 Worker의 GitHub 연결을 완료했고 API에서 `G-bak/onoff-hero` 연결을 확인했다. 운영 트리거는 `main` 전용이며 `npm run ci:build` → `npx wrangler deploy --config dist/server/wrangler.json`으로 맞췄다. 연결 시 자동 생성된 비운영 브랜치 트리거는 제거했다. 정식 HTTPS의7개 경로·SEO·www308/HTTP301·직접 참조 자산과 영상21개·문의 접수 활성 상태를 확인했다. 실제 문의 전송·브라우저 시각 검수는 수행하지 않았다. 기존 계정의 Worker·환경변수·기타 자원은 삭제하지 않았으며 이전 Builds 조회는 Wrangler 권한으로403이어서 기존 트리거 중단·변경을 수행하지 않았다. 새 계정 ID를 명시한 소스가 배포 원본이며 이전 계정으로 수동 배포하지 않는다. 자동 배포의 최종 결과는 [배포 기록](docs/operations/DEPLOYMENT-NOTES.md)을 따른다. 홈페이지 공개 이메일 `onoff3739@naver.com`은 유지한다.
 
 ## 2026-09-15 Cloudflare 새 계정 연결 확인
 

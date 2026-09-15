@@ -4,6 +4,10 @@
 
 ## 2026-09-15 — 새 Cloudflare 계정으로 홈페이지 이전
 
+- **16:05~16:06 KST 자동 배포 연결 후속:** 사용자가 새 Worker의 등록을 완료했고, 16:05 KST 재조회에서 GitHub 연결 `691a4b91-954d-4a7e-beed-aae1fdad1428`과 새 build token `4769e459-139d-433e-acf6-6b693ef1d026`을 확인했다. 운영 트리거 `5eb2192a-102e-4e3b-ab0a-3547335d22dd`를 `main`·루트 `/`·`npm run ci:build`·`npx wrangler deploy --config dist/server/wrangler.json`으로 맞췄다. 새 연결에서 자동 생성된 비운영 브랜치 트리거는 제거했다. 아래 Git 연결 오류·목록0개는 연결 전 이력이다. 인증서3개는 모두 active로 전환됐다. 이어지는 GitHub push로 실제 새 계정 자동 배포를 검증한다.
+- **16:02~16:04 KST 운영 확인:** 새 계정의 홈페이지는 운영 중이다. Google·Cloudflare 공개 DNS를 사용하고 호스트·SNI·TLS 인증서 검증을 유지한 HTTPS 요청으로 HOME·서비스 상세5개·문의7개 경로의200, 제목·설명·canonical·구조화 데이터·robots·sitemap·실제404·Googlebot/Yeti 응답을 확인했다. HTTPS www의5개 요청은 경로·쿼리를 보존해308, HTTP 두 호스트는 HTTPS301이다. 직접 참조 자산19개와 영상2개의 총21개가 HTTP200이고 로컬 빌드와 SHA-256이 모두 일치한다. 문의 GET은200·enabled=true·기존 개인정보 버전이다. 실제 문의/Slack 전송과 브라우저 시각 검수는 수행하지 않았다.
+- Universal 인증서 `bc70a9df-3855-460f-9eb4-ebb100b2d282`가 active로 루트·와일드카드를 포괄한다. Worker Custom Domain이 만든 추가 인증서2개는 당시 검증 대기였으며 실제 HTTPS 성공과 구분한다. 이 컴퓨터의 기본 DNS 조회에는 당시 ENOTFOUND가 남아 있어 모든 회선의 전파 완료로 설명하지 않는다.
+- 새 계정 설정과 이전 기록은 커밋 `7a7f45e`로 GitHub main에 반영했다. 16:04 KST의 실제 MCP 조회에서 새 계정의 `onoff-hero-preview`, 두 Custom Domain, 문의 secret 반영 버전의100% 배포를 다시 확인했다. 사용자가 자동 배포 연결 완료를 알렸으나 해당 Worker의 트리거·build token은0개이고 GitHub 연결 API는8000008이어서 **자동 배포 이전은 아직 미완료**다. 사용자가 Worker가 안 보인다고 해 계정 ID가 들어간 Workers & Pages 목록으로 안내했으며 대시보드 표시 상태를 확인 중이다.
 - 사용자 승인 범위는 새 계정의 도메인 재등록·홈페이지 배포·문의 설정·GitHub 자동 배포 이전 및 결과 보고다. MCP와 Wrangler 모두 사용자 이메일 `onoff3738@naver.com`, 계정 `f446e31d575c7e7135b7486ada7c35c4`를 실제 API로 확인했다.
 - Free Website zone `76e8a080d3391f997a0106e5f4d3c8e5`에 `on-onf.com`을 등록했다. 사용자가 가비아에서 `aida.ns.cloudflare.com`, `keanu.ns.cloudflare.com`으로 변경했고 Google 공개 DNS의 NS 일치와 15:57:00 KST의 zone active를 확인했다.
 - `vite.config.ts`의 계정 ID만 새 계정으로 변경했다. 전체161개 테스트·린트·타입·프로덕션 빌드·CSS/자산 검사를 통과했다. 앱 화면·회사 정보·SEO·문의 정책과 `workers_dev:false`, `preview_urls:false`는 유지한다.
