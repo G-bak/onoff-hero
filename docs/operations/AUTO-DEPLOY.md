@@ -4,6 +4,8 @@
 
 ## 2026-09-15 새 계정 이전
 
+16:09 KST에 GitHub main 커밋 `4a5f55e16112073da4ac5408f98da07056fffc7c`의 push로 새 계정 자동 빌드·검사·배포 성공을 확인했다. 운영7개 경로·SEO·자산·문의 활성 상태도 재확인했다. 계정 이전과 자동 배포 연결은 완료됐으며 아래 설정을 현재 기준으로 사용한다.
+
 현재 배포 대상은 `onoff3738@naver.com`의 계정 `f446e31d575c7e7135b7486ada7c35c4`, Worker `onoff-hero-preview`다. `vite.config.ts`는 새 계정 ID를 사용한다. 도메인·홈페이지·문의 비밀 설정은 새 계정으로 구성했으며 이전 계정의 Worker는 보존했다.
 
 16:04 KST에 대시보드 연결 후 API에서 GitHub `G-bak/onoff-hero`와 새 배포 토큰을 확인했다. 연결 ID는 `691a4b91-954d-4a7e-beed-aae1fdad1428`, 운영 트리거는 `5eb2192a-102e-4e3b-ab0a-3547335d22dd`다. `main`, 루트 `/`, 빌드 `npm run ci:build`, 배포 `npx wrangler deploy --config dist/server/wrangler.json`을 사용하며 연결 시 생성된 비운영 브랜치 트리거는 제거했다. 기존 문의 secret은 runtime에만 유지한다. 실제 GitHub 커밋과 새 계정의 빌드 성공·운영 배포 검증은 [최종 상태](DEPLOYMENT-NOTES.md)를 따른다.

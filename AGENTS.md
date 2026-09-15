@@ -1,5 +1,11 @@
 # ON&OFF 프로젝트 작업 지침
 
+## 2026-09-15 새 계정 이전·자동 배포 완료
+
+새 계정 `f446e31d575c7e7135b7486ada7c35c4` / `onoff3738@naver.com`의 `onoff-hero-preview`가 운영 대상이다. `on-onf.com`·`www.on-onf.com`, 새 zone `76e8a080d3391f997a0106e5f4d3c8e5`, 가비아 네임서버 `aida.ns.cloudflare.com`·`keanu.ns.cloudflare.com`이 연결됐고 인증서3개가 active다. GitHub main 커밋 `4a5f55e16112073da4ac5408f98da07056fffc7c`를 감지한 새 계정 Build `df65ab04-f0f0-4ab3-8f56-848cd47968a9`가 성공해 16:09 KST 버전 `23673416-3ba7-4168-81f7-4360166f6695`를100% 배포했다. 이후 완료 기록 커밋은 같은 앱 소스다.
+
+배포 후 공개7개 경로·SEO·www308·HTTP301·자산/영상21개·문의 GET200/enabled=true를 확인했다. 문의 secret2개·공개 연락처·디자인·SEO·workers.dev/Preview 비활성을 유지한다. 실제 문의/Slack 메시지 전송·브라우저 시각 검수는 이번 범위에 포함하지 않는다. 일부 기본 DNS 조회에는 당시 ENOTFOUND가 남았으며 Google/Cloudflare 공개 DNS를 사용한 HTTPS 검증은 통과했다. 아래 연결 미완료 항목은 이전 이력이다. [배포 기록](docs/operations/DEPLOYMENT-NOTES.md), [자동 배포 설정](docs/operations/AUTO-DEPLOY.md)을 따른다.
+
 ## 2026-09-15 새 Cloudflare 계정으로 홈페이지 이전 진행
 
 사용자가 새 계정 연결 확인 후 도메인 재등록·홈페이지 이전·문의 설정·GitHub 자동 배포 이전을 진행하고 결과를 보고하도록 승인했다. 새 계정은 `f446e31d575c7e7135b7486ada7c35c4` / `onoff3738@naver.com`이다. 새 Free zone `76e8a080d3391f997a0106e5f4d3c8e5`를 만들었고 사용자가 가비아 네임서버를 `aida.ns.cloudflare.com`, `keanu.ns.cloudflare.com`으로 변경했다. 15:57 KST에 zone active를 확인했다. Wrangler도 새 계정으로 재인증했으며 `vite.config.ts`의 배포 계정 ID를 새 계정으로 변경했다. 로컬 전체 검사·빌드를 통과하고 새 `onoff-hero-preview`에 홈페이지와 기존 문의 비밀 설정2개를 배포했다. 루트·www Custom Domain과 HTTPS 강제 이동을 구성했고 workers.dev·Preview 비활성을 유지한다.
