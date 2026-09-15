@@ -248,7 +248,7 @@ export default function DesignEditorial({
               <p className="design-eyebrow">DESIGN THAT SELLS</p>
               <h2 id="design-editorial-heading" aria-label="DESIGN">
                 <span className="design-title-line" aria-hidden="true">
-                  DE<span className="design-type-arrow">↗</span>
+                  DE
                 </span>
                 <span className="design-title-line" aria-hidden="true">
                   SIGN

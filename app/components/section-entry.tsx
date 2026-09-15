@@ -134,19 +134,6 @@ export default function SectionEntry({ id, legacyId, front, children, onCovered,
     };
   }, [onCovered, onNavigation, scrollRatio]);
 
-  useLayoutEffect(() => {
-    if (!legacyId) return;
-    function normalizeHash() {
-      if (window.location.hash !== `#${legacyId}`) return;
-      // Keep the router's history state and saved scroll; the colocated alias
-      // handles native fragment scrolling, including without JavaScript.
-      window.history.replaceState(window.history.state, '', `${window.location.pathname}${window.location.search}#${id}`);
-    }
-    normalizeHash();
-    window.addEventListener('hashchange', normalizeHash);
-    return () => window.removeEventListener('hashchange', normalizeHash);
-  }, [id, legacyId]);
-
   return <div className="page-turn" data-next-section={id} data-scroll-ratio={scrollRatio} ref={turnRef}>
     <div className="page-turn-front-track">
       <div className="page-turn-front">

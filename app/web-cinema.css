@@ -3,7 +3,6 @@
 .web-masthead > span:first-child { display: flex; align-items: center; gap: 12px; }.web-live-dot { width: 7px; height: 7px; background: #d8ff3e; border-radius: 50%; }
 .web-heading-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 30px; padding: 25px 0 26px; }
 .web-heading-row h2 { margin: 0 0 0 -.045em; font: 700 clamp(100px, 11.7cqw, 205px)/.77 'Montserrat', sans-serif; letter-spacing: -.085em; }
-.web-heading-arrow { display: inline-block; margin-left: .17em; color: #fff; font: 400 .65em/.8 'Inter',sans-serif; vertical-align: 8%; }
 .web-heading-copy { margin: 0 0 0 auto; font: 600 clamp(24px, 2.25cqw, 38px)/1.15 'Pretendard Variable',sans-serif; letter-spacing: -.045em; word-break: keep-all; }
 .web-heading-copy span { display: block; }.web-heading-copy span:last-child { padding-left: 1.6em; }
 .web-screen-layout { container: web-screen-area / size; display: grid; grid-template-columns: minmax(0, 1fr) 145px; gap: 28px; min-height: 0; }
@@ -42,14 +41,14 @@
 @media (max-width: 700px) {
   .web-cinema { padding: 23px 60px 24px 22px; }
   .web-masthead { font-size: 12px; gap: 12px; }.web-masthead > span:first-child { max-width: 160px; align-items: flex-start; gap: 8px; }.web-live-dot { flex: none; margin-top: 5px; }.web-masthead > span:last-child { white-space: nowrap; }
-  .web-heading-row { display: block; padding: clamp(15px, 3svh, 30px) 0 20px; }.web-heading-row h2 { font-size: min(28cqw, 10svh); }.web-heading-arrow { margin-left: .1em; }.web-heading-copy { font-size: 25px; margin: 18px 0 0; }.web-heading-copy span:last-child { padding-left: 0; }
+  .web-heading-row { display: block; padding: clamp(15px, 3svh, 30px) 0 20px; }.web-heading-row h2 { font-size: min(28cqw, 10svh); }.web-heading-copy { font-size: 25px; margin: 18px 0 0; }.web-heading-copy span:last-child { padding-left: 0; }
   .web-screen-layout { container-type: normal; grid-template-columns: minmax(0,1fr); grid-template-rows: auto minmax(0,1fr); gap: 16px; }.web-player { width: 100%; }.web-video-frame { margin-right: 0; }.web-control-button { padding: 0 4px; min-width: 34px; }
 
   .web-side-note { min-height: 0; padding-top: 14px; padding-right: 105px; }.web-film-index b { font-size: 30px; display: inline; padding-left: 10px; }.web-side-note > p:nth-child(2) { margin-top: 10px; font-size: 14px; }.web-person { position: absolute; right: 12px; bottom: 0; margin: 0; width: 104px; }.web-side-caption { margin-top: 10px; }.web-side-caption > span { display: none; }
   .web-footer { margin-top: 18px; padding-top: 14px; padding-right: 18px; gap: 12px; align-items: flex-start; }.web-footer p { max-width: 150px; }.web-footer > a { white-space: normal; padding-top: 0; text-align: right; font-size: 12px; }.web-footer > a span { padding-left: 5px; font-size: 16px; }
 }
 @media (max-width: 360px) {
-  .web-heading-copy { font-size: 24px; }.web-heading-arrow { display: none; }.web-heading-row h2 { font-size: 30cqw; }.web-masthead > span:first-child { max-width: 150px; }.web-masthead > span:last-child { max-width: 40px; white-space: normal; text-align: right; }
+  .web-heading-copy { font-size: 24px; }.web-heading-row h2 { font-size: 30cqw; }.web-masthead > span:first-child { max-width: 150px; }.web-masthead > span:last-child { max-width: 40px; white-space: normal; text-align: right; }
   .web-side-note { padding-right: 83px; }.web-person { width: 96px; right: 8px; }.web-film-index { font-size: 12px; }.web-film-index b { padding-left: 5px; font-size: 29px; }
 }
 @media (max-height: 600px) and (min-width: 560px) {
@@ -58,7 +57,6 @@
 @media (max-width: 700px) and (max-height: 760px) {
   .web-heading-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 0; }
   .web-heading-row h2 { font-size: clamp(39px, 18cqw, 54px); }
-  .web-heading-arrow { display: none; }
   .web-heading-copy { font-size: 18px; margin: 0; }
   .web-side-note { padding-top: 10px; }
   .web-person { width: 92px; }

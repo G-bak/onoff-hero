@@ -133,7 +133,6 @@ a:focus-visible, button:focus-visible, .ribbon-stage:focus-visible { outline: 2p
 .fallback-edition { position: absolute; top: 25.575448%; left: 4.6875%; color: #657581; font-size: 1.875cqw; }
 .fallback-backdrop { position: absolute; top: 32.736573%; left: 33.4375%; width: 57.1875%; height: 53.196931%; border-radius: 4.0625cqw; background: #c5cbd1; }
 .fallback-visual { position: absolute; top: 46.547315%; left: 53.125%; width: 40.208333%; height: 49.360614%; background-size: 300% 200%; background-repeat: no-repeat; transform: scale(.9); transform-origin: center bottom; }
-.fallback-arrow { position: absolute; right: 5.46875%; bottom: 3.964194%; font-size: 3.4375cqw; }
 .scene-track { position: absolute; z-index: 0; width: 56%; height: 16%; left: 22%; top: 62%; border: 1px solid #33333316; border-radius: 50%; transform: translateY(calc(-1 * var(--card-lift))) rotate(10deg); }
 .scene-index { display: flex; flex-direction: column; gap: 13px; font-size: 12px; line-height: 1.6; letter-spacing: .12em; color: var(--muted); }
 .scene-index > span:first-child { font-size: 14px; letter-spacing: -.05em; color: var(--blue); }

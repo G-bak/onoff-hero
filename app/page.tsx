@@ -20,15 +20,9 @@ import { galaxyRevealProgress } from '@/lib/galaxy';
 import type { SceneRecoveryStatus, SceneRuntimeStatus } from '@/lib/scene-recovery';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
-import { consultationEmail, consultationPhone } from '@/lib/consultation';
+import { companyInfo, consultationEmail } from '@/lib/consultation';
 
 const contact = `mailto:${consultationEmail}`;
-const companyInfo = {
-  representative: '조은준',
-  businessNumber: '879-88-03852',
-  address: '경기도 평택시 모곡동 447-3 엠에스원타워 407호 (주)온앤오프',
-  phone: consultationPhone,
-};
 
 function Arrow({ diagonal = false }: { diagonal?: boolean }) {
   return <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d={diagonal ? 'M6 18L18 6M6 6H18V18' : 'M4 12H20M13 5L20 12L13 19'} stroke="currentColor" strokeWidth="1.5"/></svg>;

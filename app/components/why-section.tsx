@@ -22,7 +22,7 @@ export default function WhySection({ active = false, revealed = false, paused = 
       </ol>
       <div className="galaxy-crew">
         <GalaxyCrew active={active} spriteUrl={crewSpriteUrl}/>
-        <p><span>분야별 전문가</span><strong>한 팀에서 끝까지</strong><span aria-hidden="true">↗</span></p>
+        <p><span>분야별 전문가</span><strong>한 팀에서 끝까지</strong></p>
       </div>
       <div className="galaxy-folio"><span>ON&amp;OFF / ONE TEAM</span><span className="galaxy-folio-line" aria-hidden="true"/><span>TOGETHER, IN ORBIT</span></div>
     </div>

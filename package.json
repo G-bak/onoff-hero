@@ -27,7 +27,7 @@
     "test:fonts": "node --experimental-strip-types --test tests/scene-fonts.test.mjs",
     "test:ui-state": "node --experimental-strip-types --test tests/ui-state.test.mjs tests/inquiry-delivery.test.mjs",
     "test:recovery": "node --experimental-strip-types --test tests/scene-recovery.test.mjs tests/component-failures.test.mjs tests/marketing-scene-controller.test.mjs",
-    "test:sections": "node --experimental-strip-types --test tests/section-entry.test.mjs tests/card-showcase.test.mjs tests/galaxy.test.mjs tests/galaxy-crew.test.mjs tests/web-film-playback.test.mjs tests/person-motion.test.mjs",
+    "test:sections": "node --experimental-strip-types --test tests/section-entry.test.mjs tests/scroll-navigation.test.mjs tests/card-showcase.test.mjs tests/galaxy.test.mjs tests/galaxy-crew.test.mjs tests/web-film-playback.test.mjs tests/person-motion.test.mjs",
     "format": "oxfmt"
   },
   "dependencies": {

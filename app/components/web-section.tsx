@@ -63,7 +63,7 @@ export default function WebSection({ active, paused, covered }: {
         <span>04 / WEB</span>
       </header>
       <div className="web-heading-row">
-        <h2 id="web-heading">WEB<span className="web-heading-arrow" aria-hidden="true">↗</span></h2>
+        <h2 id="web-heading">WEB</h2>
         <p className="web-heading-copy"><span>고객 문의로 이어지는</span><span>우리 회사 홈페이지</span></p>
       </div>
       <div className="web-screen-layout">

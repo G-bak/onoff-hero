@@ -3,7 +3,7 @@ import Link from '@/app/components/page-link';
 import { ServiceArrow } from '@/app/components/service-arrow';
 import ServiceDetailMotion from '@/app/components/service-detail-motion';
 import { services } from '@/lib/services';
-import { consultationEmail } from '@/lib/consultation';
+import ServiceFooter from './service-footer';
 import { webFaqs, webPackages, webProcess, webSources } from '@/lib/web-service';
 import devices from '@/app/assets/web-service/website-devices.webp?url';
 import planning from '@/app/assets/web-service/website-planning.webp?url';
@@ -21,7 +21,7 @@ export default function WebServiceDetail({ service }: { service: WebService }) {
       <main id="service-main">
         <section className="web-detail-hero" aria-labelledby="service-title">
           <div className="web-hero-meta"><div className="service-breadcrumb"><Link href="/#services" prefetch={false}>SERVICES</Link><span>/</span><span>웹사이트 제작</span></div><span>YOUR BUSINESS, ONLINE.</span></div>
-          <div className="web-hero-word" aria-hidden="true">WEB<span><ServiceArrow/></span></div>
+          <div className="web-hero-word" aria-hidden="true">WEB</div>
           <div className="service-hero-layout web-hero-layout">
             <div className="web-hero-copy"><p className="service-detail-kicker">WEBSITE / 기획 · 디자인 · 개발</p><h1 id="service-title">{service.headline.map(line => <span className="service-headline-line" key={line}><span>{line}</span></span>)}</h1><p className="service-detail-summary" data-service-reveal>{service.intro}</p><div className="web-hero-actions"><a className="web-button" href="#pricing">제작 유형·비용 보기 <ServiceArrow/></a><a className="web-text-link" href="#why-service">왜 필요할까요? ↓</a></div></div>
             <figure className="service-hero-art web-device-photo"><div className="web-photo-mat"><Image src={devices} width={1440} height={1152} alt="노트북과 휴대폰에 화면 크기에 맞춰 표시된 웹사이트" unoptimized loading="eager" fetchPriority="high"/><span className="web-photo-label">PC부터 모바일까지</span></div><figcaption>외부 참고 이미지 · Azwedo L.LC / Unsplash</figcaption></figure>
@@ -67,12 +67,9 @@ export default function WebServiceDetail({ service }: { service: WebService }) {
 
         <section className="service-inquiry web-inquiry" aria-labelledby="web-inquiry-title"><div data-service-reveal><p>LET’S BUILD YOUR WEBSITE</p><h2 id="web-inquiry-title">어떤 사업을 하고 계세요?</h2><span>업종과 필요한 홈페이지, 희망 예산·일정을 알려주세요.<br/>소개할 내용과 제작 범위부터 함께 정리하겠습니다.</span></div><Link href="/inquiry?service=web&from=services" prefetch={false}>웹사이트 제작 문의 <ServiceArrow/></Link></section>
       </main>
-      <footer className="web-detail-footer">
-        <div className="web-footer-main"><Link className="web-footer-logo" href="/#home" prefetch={false} aria-label="ON&OFF 홈">ON&OFF<span>ALL-IN-ONE AGENCY</span></Link><div><p>기획부터 제작·운영까지, 온앤오프</p><a className="web-footer-email" href={`mailto:${consultationEmail}`}>{consultationEmail} ↗</a><Link className="web-footer-back" href="/#services" prefetch={false}>← 전체 서비스 보기</Link></div></div>
-        <div className="web-footer-services" aria-label="다른 서비스">{services.filter(item => item.slug !== 'web').map(item => <Link href={`/services/${item.slug}`} key={item.slug} prefetch={false}>{item.name}<ServiceArrow/></Link>)}</div>
-        <details className="web-source-credits"><summary>참고 자료·이미지 출처 <span aria-hidden="true">+</span></summary><div><p>안내 자료: <SourceLink href={webSources.naver}>네이버 서치어드바이저</SourceLink> · <SourceLink href={webSources.google}>Google 검색 기본 가이드</SourceLink> · <SourceLink href={webSources.responsive}>Google web.dev 반응형 웹 안내</SourceLink></p><p>사진: <SourceLink href={webSources.devices}>Azwedo L.LC</SourceLink> · <SourceLink href={webSources.planning}>Hal Gatewood</SourceLink> / Unsplash. <SourceLink href={webSources.license}>Unsplash License</SourceLink>에 따라 사용했으며 크기 조정·WebP 변환을 적용했습니다. 사진 속 웹사이트는 외부 참고 사례입니다.</p></div></details>
-        <div className="web-footer-bottom"><span>© 2026 ON&OFF</span><span>WEBSITE PLANNING · DESIGN · DEVELOPMENT</span><a href="#service-main">맨 위로 ↑</a></div>
-      </footer>
+      <ServiceFooter currentService="web">
+        <details className="service-footer-disclosure"><summary>참고 자료·이미지 출처 <span aria-hidden="true">+</span></summary><div><p>안내 자료: <SourceLink href={webSources.naver}>네이버 서치어드바이저</SourceLink> · <SourceLink href={webSources.google}>Google 검색 기본 가이드</SourceLink> · <SourceLink href={webSources.responsive}>Google web.dev 반응형 웹 안내</SourceLink></p><p>사진: <SourceLink href={webSources.devices}>Azwedo L.LC</SourceLink> · <SourceLink href={webSources.planning}>Hal Gatewood</SourceLink> / Unsplash. <SourceLink href={webSources.license}>Unsplash License</SourceLink>에 따라 사용했으며 크기 조정·WebP 변환을 적용했습니다. 사진 속 웹사이트는 외부 참고 사례입니다.</p></div></details>
+      </ServiceFooter>
     </div>
   </ServiceDetailMotion>;
 }

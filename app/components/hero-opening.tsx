@@ -5,6 +5,7 @@ import { ArrowUpRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { createSceneFrameLoop } from '@/lib/scene-frame-loop';
 import { getOpeningPresentation, openingTiming, openingPlaybackRate } from '@/lib/home-opening';
+import { sectionNavigationEvent } from '@/lib/scroll-navigation';
 import type { createOpeningScene } from '@/lib/opening-scene';
 
 export type OpeningResult = 'complete' | 'skipped' | 'unavailable';
@@ -63,11 +64,13 @@ export default function HeroOpening({ ready, onStart, onReveal, onComplete }: {
     function resize() { needsSize = true; if (started) loop.invalidate(); }
     function reduce() { if (reduced.matches) finish('skipped'); }
     function hashChange() { if (location.hash && location.hash !== '#home') finish('skipped'); }
+    function sectionChange(event: Event) { if ((event as CustomEvent<string>).detail !== 'home') finish('skipped'); }
     function keyboard(event: KeyboardEvent) { if (started && event.key === 'Escape') { event.preventDefault(); finish('skipped'); } }
     const dimensions = new ResizeObserver(resize);
     dimensions.observe(host); dimensions.observe(wordmark);
     document.addEventListener('visibilitychange', visibility); reduced.addEventListener('change', reduce);
     window.addEventListener('hashchange', hashChange); window.addEventListener('keydown', keyboard);
+    window.addEventListener(sectionNavigationEvent, sectionChange);
     resumeRef.current = resume; skipRef.current = () => finish('skipped');
     const timeout = window.setTimeout(() => { if (!engine && !started) finish('unavailable'); }, 8000);
     void Promise.all([document.fonts.load('700 100px Montserrat', 'ON&OFF'), import('@/lib/opening-scene')]).then(([fonts, module]) => {
@@ -81,6 +84,7 @@ export default function HeroOpening({ ready, onStart, onReveal, onComplete }: {
       disposed = true; clearTimeout(timeout); loop.dispose(); releaseEngine(); clearPresentation(); dimensions.disconnect();
       document.removeEventListener('visibilitychange', visibility); reduced.removeEventListener('change', reduce);
       window.removeEventListener('hashchange', hashChange); window.removeEventListener('keydown', keyboard);
+      window.removeEventListener(sectionNavigationEvent, sectionChange);
       resumeRef.current = () => {}; skipRef.current = () => {};
     };
   }, [onStart, onReveal, onComplete]);

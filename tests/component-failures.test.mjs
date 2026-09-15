@@ -10,6 +10,7 @@ import * as crew from '../lib/galaxy-crew.ts';
 import { createWebFilmPlayback } from '../lib/web-film-playback.ts';
 import * as opening from '../lib/home-opening.ts';
 import * as siteSections from '../lib/site-sections.ts';
+import * as scrollNavigation from '../lib/scroll-navigation.ts';
 import * as consultation from '../lib/consultation.ts';
 
 // Execute the authored component callbacks with controlled hooks and media/GPU
@@ -142,7 +143,7 @@ await test('TOGETHER prompt waits for visible ready content, ends attention and 
   }
 });
 
-for (const scenario of ['complete', 'skip', 'context-lost', 'reduced', 'font-failed']) {
+for (const scenario of ['complete', 'skip', 'section', 'context-lost', 'reduced', 'font-failed']) {
   await test(`HOME opening ${scenario}: actual component releases presentation and GPU, while preserving page controls`, async () => {
     const names = ['document', 'window', 'location', 'matchMedia', 'ResizeObserver'];
     const originals = names.map(name => [name, Object.getOwnPropertyDescriptor(globalThis, name)]);
@@ -164,6 +165,7 @@ for (const scenario of ['complete', 'skip', 'context-lost', 'reduced', 'font-fai
       'lucide-react': { ArrowUpRight: 'ArrowUpRight' }, '@/components/ui/button': { Button: 'Button' },
       '@/lib/scene-frame-loop': { createSceneFrameLoop: (draw, options) => frameLoop.createSceneFrameLoop(draw, { ...options, clock }) },
       '@/lib/home-opening': opening,
+      '@/lib/scroll-navigation': scrollNavigation,
       '@/lib/opening-scene': { createOpeningScene: () => ({ canvas, resize() {}, draw: time => draws.push(time), dispose: () => disposed++ }) },
     });
     const callbacks = { onStart: () => start++, onReveal: () => reveal++, onComplete: result => results.push(result) };
@@ -185,6 +187,11 @@ for (const scenario of ['complete', 'skip', 'context-lost', 'reduced', 'font-fai
         const held = draws.length; advance(2); assert.equal(draws.length, held); assert.equal(frames.size, 0);
         doc.hidden = false; doc.dispatchEvent(new Event('visibilitychange'));
         if (scenario === 'skip') nodes(tree).find(node => node.type === 'Button').props.onClick();
+        else if (scenario === 'section') {
+          win.dispatchEvent(new CustomEvent(scrollNavigation.sectionNavigationEvent, { detail: 'home' }));
+          assert.deepEqual(results, [], 'Choosing HOME does not interrupt its opening');
+          win.dispatchEvent(new CustomEvent(scrollNavigation.sectionNavigationEvent, { detail: 'services' }));
+        }
         else if (scenario === 'context-lost') canvas.dispatchEvent(new Event('webglcontextlost', { cancelable: true }));
         else if (scenario === 'reduced') { media.matches = true; media.dispatchEvent(new Event('change')); }
         else {

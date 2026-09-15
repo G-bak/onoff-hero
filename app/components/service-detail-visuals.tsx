@@ -1,4 +1,5 @@
 import ServiceExampleImage from './service-example-image';
+import OperationsServiceScope from './operations-service-scope';
 import type { ProfessionalServiceSlug } from '@/lib/service-details';
 import { blogCampaign, instagramCampaign } from '@/lib/marketing-content';
 
@@ -18,7 +19,7 @@ function BlogPreview() {
 
 export function DetailHeroVisual({ slug }: { slug: ProfessionalServiceSlug }) {
   if (slug === 'planning') return <figure className="service-hero-art guide-hero-visual guide-brief">
-    <div className="guide-brief-sheet"><div className="guide-sheet-meta"><span>ON&OFF / STRATEGY</span><span>BRIEF 01</span></div><p className="guide-brief-title">누구에게,<br/>무엇을,<br/><span>어떻게.</span></p><div className="guide-brief-fields"><span>TARGET<strong>우리의 핵심 고객</strong></span><span>MESSAGE<strong>선택해야 할 이유</strong></span><span>ACTION<strong>채널과 실행 순서</strong></span></div><span className="guide-brief-stamp" aria-hidden="true">PLAN<br/>TO DO ↗</span></div>
+    <div className="guide-brief-sheet"><div className="guide-sheet-meta"><span>ON&OFF / STRATEGY</span><span>BRIEF 01</span></div><p className="guide-brief-title">누구에게,<br/>무엇을,<br/><span>어떻게.</span></p><div className="guide-brief-fields"><span>TARGET<strong>우리의 핵심 고객</strong></span><span>MESSAGE<strong>선택해야 할 이유</strong></span><span>ACTION<strong>채널과 실행 순서</strong></span></div><span className="guide-brief-stamp" aria-hidden="true">PLAN<br/>TO DO</span></div>
     <figcaption>기획서 구성 예시 / PROJECT BRIEF</figcaption>
   </figure>;
   if (slug === 'design') return <figure className="service-hero-art guide-hero-visual guide-design-cover">
@@ -49,5 +50,5 @@ export function ServiceExamples({ slug }: { slug: ProfessionalServiceSlug }) {
     <div className="guide-channel-grid"><article data-service-reveal><div className="guide-channel-heading"><span>01 / INSTAGRAM</span><h3>짧게 보고 관심 갖게</h3></div><div className="guide-channel-image guide-channel-instagram"><InstagramPreview/></div><p>사진·카드뉴스와 짧은 본문으로 소식과 상품의 특징을 전합니다.</p><span className="guide-channel-check">확인할 반응 / 도달·저장·프로필 방문</span></article><article data-service-reveal><div className="guide-channel-heading"><span>02 / BLOG</span><h3>궁금한 내용을 자세하게</h3></div><div className="guide-channel-image guide-channel-blog"><BlogPreview/></div><p>검색하는 질문에 맞춰 사진과 설명을 연결하고 선택에 필요한 정보를 담습니다.</p><span className="guide-channel-check">확인할 반응 / 조회·유입 경로·콘텐츠 반응</span></article><article data-service-reveal><div className="guide-channel-heading"><span>03 / IN-STORE</span><h3>방문한 자리에서 알게</h3></div><div className="guide-channel-image guide-channel-poster"><ServiceExampleImage image="poster" width={848} height={1060} alt="매장 앞 입간판에 적용한 모닝오븐 점심 세트 광고 포스터 시안" unoptimized loading="lazy" decoding="async"/></div><p>매장 앞과 내부에 놓이는 위치를 고려해 행사·메뉴 정보를 크게 전달합니다.</p><span className="guide-channel-check">확인할 내용 / 설치 위치·가독성·행사 안내</span></article></div>
     <div className="guide-report" data-service-reveal><div><span className="guide-eyebrow">REVIEW & NEXT</span><h3>게시한 다음도<br/>함께 봅니다.</h3></div><dl><div><dt>무엇을 했는지</dt><dd>게시물·소재와 실제 운영 내역</dd></div><div><dt>어떤 반응이 있었는지</dt><dd>채널별 확인 가능한 지표와 광고 지출</dd></div><div><dt>다음에 무엇을 바꿀지</dt><dd>주제·표현·매체 운영의 개선안</dd></div></dl><p>채널·계정·측정 설정에 따라 확인 가능한 데이터가 다릅니다. 문의·구매 전환은 측정 환경을 확인한 후 보고 범위를 정합니다.</p></div>
   </div>;
-  return <div className="guide-care-scope" data-service-reveal><div className="guide-example-intro"><span className="guide-eyebrow">CLEAR SCOPE, BETTER CARE</span><h3>같은 ‘수정’이라도<br/>작업 범위는 다릅니다.</h3><p>작업을 시작하기 전에 월 관리에 포함되는지, 추가 제작이 필요한지 먼저 확인합니다.</p></div><div className="guide-care-comparison"><article><span>UPDATE / 기존 화면 안에서</span><h4>문구·사진·배너 변경</h4><ul><li>기존 상품 설명 문구 수정</li><li>정해진 위치의 이미지 교체</li><li>현재 화면의 링크 주소 변경</li></ul><p>계약한 월 작업량 또는 건별 지원으로 협의</p></article><article><span>BUILD / 새로운 제작이 필요할 때</span><h4>페이지·기능·구조 추가</h4><ul><li>새 서비스 소개 페이지 제작</li><li>새로운 기능 개발·연동</li><li>메뉴·레이아웃의 큰 구조 변경</li></ul><p>제작 범위와 비용을 별도 안내</p></article></div></div>;
+  return <OperationsServiceScope/>;
 }

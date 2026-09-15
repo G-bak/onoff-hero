@@ -253,9 +253,6 @@ export default function CardRibbon({ paused, active = true, direction, enabled, 
         const portraitLeft = 340 + portraitWidth * (1 - portraitScale) / 2;
         const portraitTop = 364 + portraitHeight * (1 - portraitScale);
         ctx.drawImage(atlas, sourceX, sourceY, sourceWidth, sourceHeight, portraitLeft, portraitTop, portraitWidth * portraitScale, portraitHeight * portraitScale);
-        ctx.strokeStyle = ink;
-        ctx.lineWidth = 1.5;
-        ctx.beginPath(); ctx.moveTo(586, 746); ctx.lineTo(602, 730); ctx.moveTo(587, 730); ctx.lineTo(602, 730); ctx.lineTo(602, 745); ctx.stroke();
         const texture = new Three.CanvasTexture(canvas);
         texture.colorSpace = Three.SRGBColorSpace;
         texture.anisotropy = Math.min(renderer!.capabilities.getMaxAnisotropy(), 8);
@@ -454,7 +451,6 @@ export default function CardRibbon({ paused, active = true, direction, enabled, 
             <span className="fallback-edition">CHARACTER EDITION</span>
             <span className="fallback-backdrop"/>
             <span className="fallback-visual" style={{ backgroundImage: `url("${teamAtlasUrl}")`, backgroundPosition: `${member.visual % 3 * 50}% ${Math.floor(member.visual / 3) * 100}%` }}/>
-            <span className="fallback-arrow">↗</span>
           </div>
         ))}
       </div>

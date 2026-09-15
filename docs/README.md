@@ -18,10 +18,14 @@
 
 서비스 요약·메타데이터는 `lib/services.ts`, 기획·디자인·마케팅·운영 상세는 `lib/service-details.ts`, 웹 상세는 `lib/web-service.ts`가 담당한다. [네 서비스 상세](pages/SERVICE-DETAILS-NOTES.md)와 [웹 상세](pages/WEB-SERVICE-NOTES.md)가 초기 PAGE6 상세 시안보다 우선한다. 견적·계약 조건은 상담 후 확인한다.
 
+상세5개의 [공통 푸터](pages/SERVICE-FOOTER-NOTES.md)는 회사 정보·문의·서비스 메뉴·기존 개인정보 안내를 제공하며, 회사 정보는 HOME 상단과 같은 원본을 사용한다.
+
 [프로젝트 문의](pages/PROJECT-INQUIRY-NOTES.md)는 [Slack 메시지 접수](operations/SLACK-INQUIRY.md)를 구현하고 실제 운영 전송까지 확인했다. 최신 알림은 한국시간·문의자·의뢰 조건·본문·동의 기록을 구분한다. 입력·참고 링크를 전달하며 파일 업로드는 없다. [개인정보 운영 기준](operations/INQUIRY-PRIVACY-DRAFT.md)은 최대 90일·담당 업무명과 이메일이며, 두 동의와 서버 정책 버전을 검증한다. 상담톡 숨김과 기존 이메일을 유지한다.
 
 ## 운영과 검토
 
+- [2026-09-15 주소 해시 없는 섹션 이동](reviews/SCROLL-NAVIGATION-2026-09-15.md): 메뉴·목차 스크롤, 기존 주소와 홈 복귀, 방문 기록 보존.
+- [2026-09-15 장식 대각선 화살표 제거](reviews/DECORATIVE-ARROWS-2026-09-15.md): 홈·상세의 비동작 장식 제거와 실제 링크·버튼 유지 기준.
 - [2026-09-13 최종 전체 검사](reviews/FINAL-AUDIT-2026-09-13.md): 마지막 코드·문서·자산·운영 브라우저 점검, 문의 전송 호환성 수정과 남은 운영 기준.
 - [자동 배포](operations/AUTO-DEPLOY.md): 사용자 배포 요청 때의 절차. `main` push는 실제 배포다.
 - [outputs 정리 기준](operations/OUTPUTS.md): 검증·조사·자산·배포·도구·현재 서버 로그의 폴더 구분과 이동 검증.
