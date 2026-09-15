@@ -9,6 +9,9 @@ import { serviceDetails, type ProfessionalService } from '@/lib/service-details'
 export default function ProfessionalServiceDetail({ service }: { service: ProfessionalService }) {
   const detail = serviceDetails[service.slug];
   const inquiryHref = `/inquiry?service=${service.slug}&from=services`;
+  const heroAction = service.slug === 'design'
+    ? { href: '#service-scope', label: '디자인 서비스 안내' }
+    : { href: '#pricing', label: '작업 유형·비용 보기' };
   return <ServiceDetailMotion key={service.slug} slug={service.slug}>
     <div className="service-guide" data-guide={service.slug}>
       <a className="service-skip" href="#service-main">본문으로 이동</a>
@@ -17,7 +20,7 @@ export default function ProfessionalServiceDetail({ service }: { service: Profes
         <section className="guide-hero" aria-labelledby="service-title">
           <div className="guide-hero-meta"><div className="service-breadcrumb"><Link href="/#services" prefetch={false}>SERVICES</Link><span>/</span><span>{service.name}</span></div><span>SERVICE GUIDE / {service.number}</span></div>
           <div className="guide-hero-word" aria-hidden="true">{detail.word}<span><ServiceArrow/></span></div>
-          <div className="service-hero-layout guide-hero-layout"><div className="guide-hero-copy"><p className="service-detail-kicker">{detail.kicker}</p><h1 id="service-title">{service.headline.map(line => <span className="service-headline-line" key={line}><span>{line}</span></span>)}</h1><p className="service-detail-summary" data-service-reveal>{service.intro}</p><a className="guide-button" href="#pricing">작업 유형·비용 보기 <ServiceArrow/></a></div><DetailHeroVisual slug={service.slug}/></div>
+          <div className="service-hero-layout guide-hero-layout"><div className="guide-hero-copy"><p className="service-detail-kicker">{detail.kicker}</p><h1 id="service-title">{service.headline.map(line => <span className="service-headline-line" key={line}><span>{line}</span></span>)}</h1><p className="service-detail-summary" data-service-reveal>{service.intro}</p><a className="guide-button" href={heroAction.href}>{heroAction.label} <ServiceArrow/></a></div><DetailHeroVisual slug={service.slug}/></div>
           <div className="guide-hero-bottom"><ul>{detail.heroTags.map(tag => <li key={tag}>{tag}</li>)}</ul><a href="#why-service">서비스 자세히 보기 ↓</a></div>
         </section>
         <nav className="service-detail-nav guide-nav" aria-label="상세 안내"><a href="#why-service">필요한 이유</a><a href="#service-scope">작업 범위</a><a href="#service-process">진행 과정</a><a href="#pricing">가격 정책</a><a href="#service-faq">FAQ</a></nav>

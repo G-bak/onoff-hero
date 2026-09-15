@@ -56,8 +56,8 @@ export const serviceDetails = {
     preparation: '사업 소개와 현재 고민, 준비 중인 상품·서비스를 알려주세요.\n기획에서 결정할 일부터 함께 정리하겠습니다.',
   },
   design: {
-    word: 'DESIGN', kicker: '브랜드 아이덴티티 · 상품 디자인 · 홍보물',
-    heroTags: ['로고·브랜드', '상세페이지·SNS', '패키지·인쇄물'],
+    word: 'DESIGN', kicker: '로고 · 브랜드 | 상세페이지 | 홍보 · 인쇄물',
+    heroTags: ['로고 · 브랜드', '상세페이지', '홍보 · 인쇄물'],
     scopeTitle: ['고객이 보는 곳마다', '같은 브랜드로 보이도록'],
     scopeIntro: '로고 하나로 끝나지 않습니다. 상품을 설명하는 화면, 매장에서 만나는 포장과 홍보물까지 실제 사용처를 기준으로 디자인합니다.',
     deliverables: [
