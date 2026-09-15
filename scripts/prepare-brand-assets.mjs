@@ -33,13 +33,35 @@ const crop = {
 };
 const cropped = await sharp(source).extract(crop).png().toBuffer();
 await sharp(cropped).resize({ width: 420 }).png().toFile(path.join(root, 'public/images/onoff-logo.png'));
-for (const size of [32, 64]) {
-  const inset = size === 32 ? 1 : 2;
+const faviconFrames = [];
+for (const size of [16, 32, 48, 64]) {
+  const inset = Math.max(1, Math.round(size / 32));
   const transparent = { r: 0, g: 0, b: 0, alpha: 0 };
-  await sharp(cropped)
+  const fitted = await sharp(cropped)
     .resize(size - inset * 2, size - inset * 2, { fit: 'contain', background: transparent })
     .extend({ top: inset, bottom: inset, left: inset, right: inset, background: transparent })
     .png()
-    .toFile(path.join(root, `public/favicon-onoff-${size}.png`));
+    .toBuffer();
+  // Flatten after extending so the entire square, including padding, is white.
+  const png = await sharp(fitted).flatten({ background: '#ffffff' }).png().toBuffer();
+  faviconFrames.push({ size, png });
+  if (size === 32 || size === 64) await fs.writeFile(path.join(root, `public/favicon-onoff-${size}.png`), png);
 }
-console.log('Prepared header logo and transparent 32px / 64px favicons; original file preserved.');
+
+// ICO supports PNG frames; keep the conventional /favicon.ico in sync too.
+const directory = Buffer.alloc(6 + 16 * faviconFrames.length);
+directory.writeUInt16LE(1, 2);
+directory.writeUInt16LE(faviconFrames.length, 4);
+let offset = directory.length;
+for (const [index, { size, png }] of faviconFrames.entries()) {
+  const entry = 6 + index * 16;
+  directory[entry] = size;
+  directory[entry + 1] = size;
+  directory.writeUInt16LE(1, entry + 4);
+  directory.writeUInt16LE(24, entry + 6);
+  directory.writeUInt32LE(png.length, entry + 8);
+  directory.writeUInt32LE(offset, entry + 12);
+  offset += png.length;
+}
+await fs.writeFile(path.join(root, 'public/favicon.ico'), Buffer.concat([directory, ...faviconFrames.map(frame => frame.png)]));
+console.log('Prepared header logo, white 32px / 64px PNG favicons, and a white multi-size ICO; original file preserved.');

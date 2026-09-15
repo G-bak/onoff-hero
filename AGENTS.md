@@ -1,5 +1,11 @@
 # ON&OFF 프로젝트 작업 지침
 
+## 2026-09-15 운영 전체 점검·흰 배경 파비콘
+
+사용자가 사이트 접속과 광고 테스트 성공을 알리고 전체 점검 및 다크모드에서 보이는 흰 배경 파비콘을 요청했다. 파비콘은 기존 ONF 로고·배치·크기를 유지하고 정사각형 전체를 불투명 흰색으로 만든다. `scripts/prepare-brand-assets.mjs`에서32·64px PNG와16·32·48·64px ICO를 함께 생성한다. 리사이즈·여백 적용 후 별도 단계에서 흰색으로 합성해 여백의 투명도가 다시 생기지 않게 한다. `app/layout.tsx`의 모든 아이콘 주소는 `v=white-20260915`로 갱신한다. 헤더 로고·회사 원본은 변경하지 않는다. 기존 새 Cloudflare 계정의 main 자동 배포를 사용한다.
+
+전체 점검의 기준은 [운영 검토](docs/reviews/PRODUCTION-REVIEW-2026-09-15.md)다. 사용자 확인 광고 테스트와 실제 Google Ads 계정의 전환 집계·Search Console 수집 완료·네이버 등록 완료를 구분한다. 문의의 실제 Slack 전송은 이번 점검에서 수행하지 않는다. Google Ads 문의 완료 전환 라벨과 네이버 인증값은 아직 제공되지 않았으며 임의로 만들지 않는다.
+
 ## 2026-09-15 Google Ads 공통 태그
 
 사용자가 제공한 Google 태그 ID는 `AW-18383031274`다. `app/layout.tsx`의 공통 head에 비동기 `gtag.js`와 사용자 제공 `dataLayer`·`gtag('js')`·`gtag('config')` 초기화를 넣어 HOME·서비스 상세·문의 화면에 적용한다. 기존 Google 태그는 없었으며 태그를 중복 설치하지 않는다. 이번 범위는 제공된 기본 태그 설치다. 별도 전환 이벤트·전환 라벨·고객 입력값 전송·Google Ads 계정 설정을 추가하지 않는다. 기존 SEO·화면·문의 처리·새 Cloudflare 계정의 main 자동 배포를 유지하고 검증 및 배포 결과는 [배포 기록](docs/operations/DEPLOYMENT-NOTES.md)을 따른다.

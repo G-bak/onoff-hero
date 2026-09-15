@@ -8,7 +8,7 @@
 - `on-onf.com`이 있는 Cloudflare 계정의 DNS 수정 권한
 - Google이 해당 계정에 발급하는 소유 확인값
 
-도메인은 가비아에서 샀지만 현재 네임서버는 `ashley.ns.cloudflare.com`, `trevor.ns.cloudflare.com`이다. **인증 TXT는 Cloudflare에 추가한다.** 현재 연결된 웹사이트 DNS나 네임서버를 바꿀 필요는 없다.
+도메인은 가비아에서 샀지만 현재 네임서버는 `aida.ns.cloudflare.com`, `keanu.ns.cloudflare.com`이다. **인증 TXT는 새 Cloudflare 계정의 on-onf.com에 추가한다.** 현재 연결된 웹사이트 DNS나 네임서버를 바꿀 필요는 없다.
 
 ## 1. 도메인 속성 만들기
 
@@ -92,13 +92,15 @@ DNS 권한을 사용할 수 없다면 **URL 접두어** 속성에 `https://on-on
 | --- | --- |
 | DNS 인증값을 못 찾음 | 가비아가 아니라 Cloudflare에 추가했는지, Name이 루트인지, 값 전체를 복사했는지, 전파 중인지 확인 |
 | 태그 인증 실패 | URL 접두어 속성인지, 변수 이름과 content 값이 맞는지, 저장 후 Deploy했는지, 처음 받는 HTML head에 있는지 확인 |
-| 사이트맵을 가져올 수 없음 | 사이트맵 주소를 직접 열어200 XML인지 확인하고 잠시 후 재확인 |
+| 사이트맵을 가져올 수 없음 | 제출한 정확한 주소의 실제 URL 테스트에서 크롤링 허용·페이지 가져오기 성공 여부를 확인한다. 사이트맵 HTTP200 XML·robots 허용·DNS·HTTPS를 확인하고 접근 문제가 해결되면 같은 주소를 다시 제출한다. 마지막 읽은 날짜와 실제 재검사 결과를 구분한다. |
 | `noindex`로 제외됨 | 마지막 수집 시각이 SEO 배포 전인지 확인하고 실제 URL 테스트 후 재수집 요청 |
 | 중복·대체 페이지 | www·쿼리 URL이 정식 주소로 통합된 결과라면 정상일 수 있음. 정식 URL 자체의 색인을 따로 확인 |
 | URL이 Google에 없음 | 신규 사이트는 수집·판단 시간이 필요함. 사이트맵 처리와 페이지 접근을 먼저 확인 |
 | 구조화 데이터가 있어도 특수 결과가 없음 | 지원되는 검색 유형·품질·검색 상황에 따라 표시 여부가 달라짐 |
 
 ## 등록 후 관리
+
+2026-09-15 16:28~16:30 KST 접속 장애 조사에서는 기본 DNS가 이전 네임서버 정보를 반환하고 HOME·사이트맵 요청이 ENOTFOUND로 실패했다. Google·Cloudflare·Quad9 공개 DNS를 각각 사용한 HTTPS 요청은 모두200이었고, 실제 브라우저에서도 HOME 화면과7개 URL의 사이트맵 XML이 열렸다. 새 계정의 zone·Custom Domain·HTTPS는 활성이다. 계정 이전 후 일부 DNS에 남은 실패 응답을 확인했으며 전체 회선 복구나 Google의 실제 수집 성공을 확인한 것은 아니다. 로컬 DNS 캐시 초기화만으로 상위 DNS 캐시는 지워지지 않는다. [Cloudflare DNS 캐시 설명](https://developers.cloudflare.com/dns/troubleshooting/dns-issues/), [Google 사이트맵 오류 진단](https://support.google.com/webmasters/answer/7451001?hl=ko). 검사 근거는 [배포 기록](../operations/DEPLOYMENT-NOTES.md)을 따른다.
 
 등록 직후에는 **페이지 색인 생성**, **사이트맵**, **보안 문제·직접 조치**를 확인한다. 데이터가 쌓이면 **검색 실적**에서 브랜드명과 서비스 검색어의 노출·클릭·CTR을 페이지별로 살핀다. **Core Web Vitals**에 데이터가 없다는 표시는 성능 합격이 아니라 표본 부족일 수 있다.
 

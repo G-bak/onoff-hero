@@ -27,7 +27,7 @@
 | `node --experimental-strip-types scripts/prepare-designer-v4.mjs` | [DESIGN 춤 v4](../design/people-motion/v4/README.md) |
 | `node --experimental-strip-types scripts/prepare-web-person-v5.mjs` | [WEB 쓰기 v5](../design/people-motion/v5/README.md) |
 | `npm run prepare:marketing` | 현재 채널 사진·포스터와 마케터 받침대 제거; [v3](../design/marketing/v3/README.md), [v2 입력](../design/marketing/v2/README.md) |
-| `node scripts/prepare-brand-assets.mjs` | 회사 로고 원본에서 헤더·PNG 파비콘 생성 |
+| `node scripts/prepare-brand-assets.mjs` | 회사 로고 원본에서 헤더·흰 배경32/64px PNG·16/32/48/64px ICO 파비콘 생성 |
 | `prepare-web-film.mjs`, `prepare-brand-film.mjs` | 사용자 원본과 외부 FFmpeg 경로 필요. [WEB 영상](../design/web-showcase/README.md), [마무리 영상](../design/brand-film/README.md) |
 
 비교 GIF는 `design/archive/public/images/`에, 페이지가 사용하는 WebP는 기존 `app/assets/`에 출력한다. 마케터 v2는 이전 `marketer-sprite.webp`와 보관 마스크를 입력으로 사용한다. 이 원재료를 만드는 `prepare-marketing-assets.mjs`는 과거 자산도 함께 쓰므로 일상 빌드에서 실행하지 않는다.

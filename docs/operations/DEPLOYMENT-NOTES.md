@@ -2,8 +2,26 @@
 
 > 날짜별 배포 이력이다. 현재 운영 버전은 실제 Worker 배포와 GitHub 커밋을 함께 확인한다. 2026-09-13 초기 점검은 로컬이었으며, 최신 사용자가 실제 Slack 테스트 후 전체 GitHub 반영·배포를 승인했다.
 
+## 2026-09-15 — 흰 배경 파비콘·운영 전체 점검
+
+- 사용자가 사이트 접속과 광고 테스트 성공을 확인했고 전체 운영 점검 및 다크모드 파비콘 개선을 요청했다. 기존 로고 픽셀을 유지하면서 정사각형 전체가 흰색인32·64px PNG와16·32·48·64px ICO를 생성했다. 공통 아이콘 주소는 `v=white-20260915`다. 원본·홈페이지 헤더 로고는 유지한다.
+- 기존161개 검사·린트·타입·최종 빌드·CSS·자산·문서 검사를 통과했다. PNG의 배경 외 픽셀 일치와 ICO4개 프레임의 흰색·불투명을 확인했다. 운영7개 경로·SEO·robots·sitemap·404·리다이렉트, 내부 직접 참조 자원16개·외부 참고 링크6개의200을 확인했다. npm audit 전체 및 운영 의존성 취약점은0건이다.
+- 실제 Chromium PC·모바일14개 경로 조건과 운영 탭·문의 선택/입력 검증/미리보기·두 동의 전 전송 잠금·해시 없는 이동을 검증했다. 브라우저 실행 오류·내부 HTTP 오류0건, 실제 문의 POST·Slack 메시지0건이다. 검수용 화면에 로컬 파비콘을 밝고 어두운 배경으로 표시해 가독성을 확인했다.
+- 새 계정의 zone·인증서3개·문의 secret2개·main 전용 자동 배포·임시 URL 비활성을 확인했다. 검색 도구 계정의 처리 성공, 네이버 인증, Google Ads 문의 완료 전환 라벨은 [운영 검토](../reviews/PRODUCTION-REVIEW-2026-09-15.md)의 남은 확인 항목이다. 이번 점검·수정과 기존 진단 문서를 함께 main 자동 배포로 반영한다.
+- 검증 출력은 Git 제외 `outputs/qa/2026-09-15/production-review/`에 보관한다. 실제 배포 후 아이콘 응답·메타데이터·해시와 배포 버전을 후속 기록한다.
+
+## 2026-09-15 — 사이트 접속·사이트맵 가져오기 실패 조사
+
+- 사용자가 Search Console의 `가져올 수 없음`과 사이트 접속 장애를 알렸다. 16:28 KST 이 PC의 기본 DNS(공유기 192.168.0.1)로 HOME·sitemap.xml 요청이 ENOTFOUND로 실패하는 것을 재현했다. NS 조회는 이전 ashley·trevor를 반환했고 A/AAAA는 주소 없이 이전 zone의 SOA를 반환했다. Windows DNS 캐시를 초기화해도 실패가 남았으며 상위 DNS 응답의 이전 SOA·실패 캐시 TTL 갱신도 관찰했다.
+- 같은 시각 Google 8.8.8.8·Cloudflare 1.1.1.1·Quad9 9.9.9.9는 모두 새 aida·keanu NS와 유효한 A/AAAA를 반환했다. 각각의 DNS를 사용한 HOME·sitemap·robots HTTPS 요청18건은 모두200이다. 원래 호스트·SNI·인증서 검증을 유지했다. sitemap은 application/xml,506바이트이며 실제 XML 파서로 표준 namespace와 정식7개 URL을 확인했다. robots는 전체 허용·API 제한·정확한 sitemap URL을 제공한다. Googlebot·Google-InspectionTool User-Agent 요청도200이며 Google의 실제 크롤러 요청 검증과 구분한다.
+- 16:29 KST 실제 Playwright 브라우저에서 https://on-onf.com/을 열어 회사 정보·HOME 워드마크·카드·메뉴가 표시된 화면을 캡처했다. 이어 sitemap.xml을 직접 열어 네트워크 HTTP200과 브라우저의7개 URL XML 트리를 확인했다. 이 브라우저의 성공과 PC 기본 DNS의 실패가 공존하므로 전체 회선 정상으로 설명하지 않는다.
+- 실제 새 계정 API에서 zone active·paused=false, 두 Custom Domain enabled=true, SSL active, DNSSEC disabled, 사용자 firewall rule 없음, Bot Fight Mode off를 확인했다. Google 공개 DNS의 DS 조회에 DS 레코드가 없었다. 운영 버전은 기존 fb6b805f-104f-49d1-933d-96c8f2b9c7fd의100% 배포를 유지한다. 사이트 코드·Cloudflare 설정·가비아 네임서버·PC의 DNS 서버 설정은 변경하지 않았다.
+- 확인된 장애는 계정 이전 후 일부 DNS에 남은 이전 정보/실패 응답이다. Search Console 실패도 이 영향일 가능성이 있으나 실제 Google 가져오기 상세는 확인하지 않아 원인을 확정하지 않는다. 상위 캐시가 갱신된 뒤 실제 URL 테스트와 사이트맵 재제출로 확인한다. [Cloudflare 설명](https://developers.cloudflare.com/dns/troubleshooting/dns-issues/), [Google 진단 절차](https://support.google.com/webmasters/answer/7451001?hl=ko).
+- 로그·XML·브라우저 캡처는 Git 제외 outputs/qa/2026-09-15/sitemap-fetch/에 보관한다. 등록 안내의 이전 네임서버를 새 값으로 정정했고 이번 진단 문서는 로컬만 저장한다.
+
 ## 2026-09-15 — Google Ads 공통 태그 설치
 
+- **16:21~16:22 KST 배포 완료:** 소스 커밋 `d3f313ab6bebe613d8576b6fcdbe508fe33509fb`를 GitHub main에 반영했고 새 계정 Build `6c51391d-158d-4fd7-9809-9c0ee19bb676`가 stopped/success로 종료됐다. 16:21:36 KST에 Worker 버전 `fb6b805f-104f-49d1-933d-96c8f2b9c7fd`가100% 배포됐다. 운영7개 경로가 HTTP200이며 각각 head 안에 정확한 ID의 async 로더1개·초기화1개를 확인했다. 이 결과 기록은 로컬 문서와 Git 제외 `deployment.json`·`production-verification.json`에 남긴다. Google Ads 계정 진단·실제 데이터 수신·전환 집계는 확인하지 않았다.
 - 사용자가 전달한 Google 태그 `AW-18383031274`를 공통 `app/layout.tsx`의 head에 설치했다. `https://www.googletagmanager.com/gtag/js?id=AW-18383031274`를 async로 로드하고, 제공된 dataLayer 초기화와 js/config 호출을 그대로 사용한다. 기존 Google 태그는 없었다.
 - 루트 레이아웃을 사용하는 HOME·상세5개·문의 화면에 같은 기본 태그가 적용된다. 화면·모션·SEO·문의 처리와 새 Cloudflare 계정의 기존 main 자동 배포를 유지한다. 전환 이벤트·전환 라벨·고객 입력 데이터·향상된 전환 설정은 제공되지 않아 추가하지 않았다.
 - `next/script`의 `beforeInteractive`로 초기 HTML head에 제공하고 고유 ID로 로더·초기화를 구분한다. 로컬 전체161개 검사·린트·타입·빌드·CSS/자산 검사를 통과했으며7개 페이지의 head에서 async 로더1개·초기화1개·정확한 ID와 순서를 확인했다. 분리된 JavaScript 실행 환경에서 js/config 두 큐 항목도 확인했다. Google 스크립트를 실제 브라우저에서 실행한 검증과 구분한다.

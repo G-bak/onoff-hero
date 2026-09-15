@@ -34,10 +34,11 @@ export function generateMetadata(): Metadata {
     verification: verificationMetadata({ google: process.env.GOOGLE_SITE_VERIFICATION, naver: process.env.NAVER_SITE_VERIFICATION }),
     icons: {
       icon: [
-        { url: '/favicon-onoff-32.png?v=transparent', type: 'image/png', sizes: '32x32' },
-        { url: '/favicon-onoff-64.png?v=transparent', type: 'image/png', sizes: '64x64' },
+        { url: '/favicon.ico?v=white-20260915', type: 'image/x-icon', sizes: '16x16 32x32 48x48 64x64' },
+        { url: '/favicon-onoff-32.png?v=white-20260915', type: 'image/png', sizes: '32x32' },
+        { url: '/favicon-onoff-64.png?v=white-20260915', type: 'image/png', sizes: '64x64' },
       ],
-      shortcut: '/favicon-onoff-32.png?v=transparent',
+      shortcut: '/favicon.ico?v=white-20260915',
     },
   };
 }
