@@ -1,5 +1,9 @@
 # ON&OFF 프로젝트 작업 지침
 
+## 2026-09-15 Google Ads 공통 태그
+
+사용자가 제공한 Google 태그 ID는 `AW-18383031274`다. `app/layout.tsx`의 공통 head에 비동기 `gtag.js`와 사용자 제공 `dataLayer`·`gtag('js')`·`gtag('config')` 초기화를 넣어 HOME·서비스 상세·문의 화면에 적용한다. 기존 Google 태그는 없었으며 태그를 중복 설치하지 않는다. 이번 범위는 제공된 기본 태그 설치다. 별도 전환 이벤트·전환 라벨·고객 입력값 전송·Google Ads 계정 설정을 추가하지 않는다. 기존 SEO·화면·문의 처리·새 Cloudflare 계정의 main 자동 배포를 유지하고 검증 및 배포 결과는 [배포 기록](docs/operations/DEPLOYMENT-NOTES.md)을 따른다.
+
 ## 2026-09-15 새 계정 이전·자동 배포 완료
 
 새 계정 `f446e31d575c7e7135b7486ada7c35c4` / `onoff3738@naver.com`의 `onoff-hero-preview`가 운영 대상이다. `on-onf.com`·`www.on-onf.com`, 새 zone `76e8a080d3391f997a0106e5f4d3c8e5`, 가비아 네임서버 `aida.ns.cloudflare.com`·`keanu.ns.cloudflare.com`이 연결됐고 인증서3개가 active다. GitHub main 커밋 `4a5f55e16112073da4ac5408f98da07056fffc7c`를 감지한 새 계정 Build `df65ab04-f0f0-4ab3-8f56-848cd47968a9`가 성공해 16:09 KST 버전 `23673416-3ba7-4168-81f7-4360166f6695`를100% 배포했다. 이후 완료 기록 커밋은 같은 앱 소스다.

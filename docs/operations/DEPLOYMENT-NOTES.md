@@ -2,6 +2,14 @@
 
 > 날짜별 배포 이력이다. 현재 운영 버전은 실제 Worker 배포와 GitHub 커밋을 함께 확인한다. 2026-09-13 초기 점검은 로컬이었으며, 최신 사용자가 실제 Slack 테스트 후 전체 GitHub 반영·배포를 승인했다.
 
+## 2026-09-15 — Google Ads 공통 태그 설치
+
+- 사용자가 전달한 Google 태그 `AW-18383031274`를 공통 `app/layout.tsx`의 head에 설치했다. `https://www.googletagmanager.com/gtag/js?id=AW-18383031274`를 async로 로드하고, 제공된 dataLayer 초기화와 js/config 호출을 그대로 사용한다. 기존 Google 태그는 없었다.
+- 루트 레이아웃을 사용하는 HOME·상세5개·문의 화면에 같은 기본 태그가 적용된다. 화면·모션·SEO·문의 처리와 새 Cloudflare 계정의 기존 main 자동 배포를 유지한다. 전환 이벤트·전환 라벨·고객 입력 데이터·향상된 전환 설정은 제공되지 않아 추가하지 않았다.
+- `next/script`의 `beforeInteractive`로 초기 HTML head에 제공하고 고유 ID로 로더·초기화를 구분한다. 로컬 전체161개 검사·린트·타입·빌드·CSS/자산 검사를 통과했으며7개 페이지의 head에서 async 로더1개·초기화1개·정확한 ID와 순서를 확인했다. 분리된 JavaScript 실행 환경에서 js/config 두 큐 항목도 확인했다. Google 스크립트를 실제 브라우저에서 실행한 검증과 구분한다.
+- [Google 공식 설치 안내](https://developers.google.com/tag-platform/gtagjs), [Google Ads 수동 설치](https://support.google.com/google-ads/answer/12985952?hl=en)를 기준으로 공통 head 적용과 중복 여부를 확인한다. 빌드·실제 HTML 설치 확인은 Google Ads 계정의 태그 진단·데이터 수신·전환 집계 확인과 구분한다.
+- 로컬 검사·운영 검증 결과는 Git 제외 `outputs/deploy/2026-09-15/google-tag/`에 보관하며, 최종 자동 배포 결과는 후속 기록을 따른다.
+
 ## 2026-09-15 — 새 Cloudflare 계정으로 홈페이지 이전
 
 - **16:09~16:10 KST 완료:** GitHub main 커밋 `4a5f55e16112073da4ac5408f98da07056fffc7c`의 push_event로 새 계정 Build `df65ab04-f0f0-4ab3-8f56-848cd47968a9`가 실행돼 stopped/success로 종료됐다. 전체161개 검사·린트·타입·빌드·CSS/자산 검사 후 새 계정에 배포됐으며 16:09:04 KST의 Worker 버전 `23673416-3ba7-4168-81f7-4360166f6695`가100%다. 배포 ID는 `34fb49c8-9831-465f-afad-8f633ac33c5b`, 배포자 이메일은 `onoff3738@naver.com`이며 원격 빌드 로그와 실제 배포 버전이 일치한다. 뒤따르는 완료 기록 커밋은 동일한 앱 소스를 유지한다.

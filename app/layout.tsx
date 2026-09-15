@@ -1,5 +1,6 @@
 ﻿import type { Metadata } from 'next';
 import '@fontsource/inter/latin-400.css';
+import Script from 'next/script';
 import { siteName, siteOrigin, verificationMetadata } from '@/lib/seo';
 import ScrollNavigation from './components/scroll-navigation';
 import '@fontsource/inter/latin-500.css';
@@ -42,5 +43,16 @@ export function generateMetadata(): Metadata {
 }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="ko" data-scroll-behavior="smooth"><body>{children}<ScrollNavigation/></body></html>;
+  return <html lang="ko" data-scroll-behavior="smooth">
+    <head>
+      <Script id="google-ads-loader" strategy="beforeInteractive" async src="https://www.googletagmanager.com/gtag/js?id=AW-18383031274" />
+      <Script id="google-ads-tag" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: `
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'AW-18383031274');
+      ` }} />
+    </head>
+    <body>{children}<ScrollNavigation/></body>
+  </html>;
 }
