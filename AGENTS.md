@@ -1,5 +1,43 @@
 # ON&OFF 프로젝트 작업 지침
 
+## 2026-09-15 DNS 진단 문서 GitHub 반영 승인
+
+사용자가 네임서버 이전의 반영 지연 설명을 받은 뒤 현재 올릴 변경을 GitHub에 반영하도록 요청했다. 현재 변경은 이 지침과 운영 문서5개이며 앱 소스·DNS·배포 설정 변경은 없다. 아래 로컬 전용·commit/push 금지는 해당 기록 작성 시점의 이력이고 이번 문서 반영 승인이 우선한다. 원본 진단 로그·설정 백업·관리자 복구 스크립트·환경변수는 Git 제외 상태를 유지한다. 기존 `G-bak/onoff-hero` main에 반영하고 연결된 자동 배포 설정은 유지한다. GitHub 반영이나 같은 앱 소스의 자동 배포를 DNS 장애 복구 완료로 설명하지 않는다. 일반 접속 복구는 계속 미확인이며 현재 DNS를 재등록하거나 PC 설정을 변경하지 않는다.
+
+## 2026-09-15 17:28 KST 일반 접속 실패 확인·DNS 재등록 보류
+
+사용자가 모바일 데이터에서도 실패한다고 알렸고 PC DNS 변경 방향을 지적했다. 최신 요청은 검색 색인 조사를 보류하고 일반 접속과 DNS 이전 문제의 근본 복구에 집중하는 것이다. PC·공유기 DNS 변경이나 통신사 질문을 반복하지 않는다. 17:24 기본 DNS 접속은 ENOTFOUND이며, 정상 resolver를 별도 지정한 56개 페이지 응답200·30개 정상 리다이렉트는 일반 방문자 복구가 아니다. 실제 Cloudflare 중복 route·사용자 firewall rule 없음, Access 미사용, 봇/크롤러 차단 비활성, 조회한 보안 이벤트0개를 확인했다. 현재 확인된 직접 실패는 구 NS 경로의 주소 없음 응답이며 휴대폰 실패 원인은 별도 미확인이다.
+
+새 zone 해제·재등록은 구 NS·외부 캐시를 지우지 않고 새 NS를 추가 배정하므로 수행하지 않는다. 구 삭제 zone의 DNS 복원·즉시 authoritative purge는 공개 API에서 지원 경로를 찾지 못했다. Cloudflare 내부 조기 정리 가능성은 조사 요청 대상으로만 설명하고 보장하지 않는다. [현재 복구 기록](docs/operations/DNS-RECOVERY-2026-09-15.md)과 [Cloudflare 요청 초안](docs/operations/CLOUDFLARE-DNS-INCIDENT-2026-09-15.md)을 남겼다. 외부 요청은 미전송, 운영/PC 설정 변경·commit·push·배포 없음, 전체 복구 미완료다.
+
+## 2026-09-15 17:19 KST 회사 계정 확인·DNS 복구 조치와 남은 장애
+
+사용자가 가능한 최선의 홈페이지 접속 복구를 요청했다. 17:11:28 KST 실제 MCP `/user`·`/accounts`에서 회사 계정 `onoff3738@naver.com` / `f446e31d575c7e7135b7486ada7c35c4`를 확인했다. 새 zone active·aida/keanu·루트/www Custom Domain·인증서·현재 배포는 정상이다. 17:11~17:17 KST 공유기192.168.0.1뿐 아니라 KT168.126.63.1 직접 UDP/TCP에서도 이전 ashley/trevor·루트 주소 없음·www NXDOMAIN을 반복 확인했다. KT168.126.63.2도 정상/이전 응답이 혼재한다. Google·Cloudflare·Quad9·SKB·LG의 검사 경로는 정상이며, 7페이지·23자산·문의 GET 활성 상태·TLS·리다이렉트 검증을 통과했다. 모든 KT 방문자의 상태나 복구 시간을 단정하지 않는다.
+
+Cloudflare1.1.1.1의 루트 NS 및 루트/www A·AAAA 캐시 갱신5건은 HTTP200·queued로 접수했고 이후 새 정보 응답을 확인했다. KT 캐시는 별개이며 17:17 재조회에서도 장애가 남았다. 새 zone·위임·배포를 재생성하거나 변경하지 않았다. PC 이더넷16의 IPv4 DNS는 DHCP192.168.0.1로 백업했다. 비관리자 변경 시도는 Windows CIM 접근 거부로 실패해 설정은 그대로였다. Git 제외 `outputs/qa/2026-09-15/dns-recovery/repair-pc-dns.ps1`에 정상 DNS1.1.1.1·8.8.8.8 적용·HTTPS 검증·실패 시 자동 원복·`-Rollback`을 준비하고 Windows 관리자 권한 요청을 띄웠으나 `The operation was canceled by the user`로 종료돼 관리자 프로세스는 시작하지 못했다. **PC DNS는192.168.0.1 그대로이며 PC·전체 방문자 복구 완료가 아니다. 관리자 권한 요청을 새 지시 없이 반복하지 않는다.** 후속에서는 실제 DNS와 `windows-dns-final.json`을 먼저 확인한다. 상세는 [복구 기록](docs/operations/DNS-RECOVERY-2026-09-15.md), 원본 근거는 위 Git 제외 디렉터리에 보관한다. KT 캐시 갱신 요청문은 준비만 했고 전송하지 않았다. 이번 기록은 로컬만 저장하며 commit·push·배포하지 않는다.
+
+## 2026-09-15 17:08 KST 사용자 요청 재로그인 완료·실제 연결 재확인 필요
+
+사용자가 현재 Cloudflare MCP 로그아웃 후 재로그인 링크를 요청했고 인증 완료를 알렸다. `codex mcp logout cloudflare_api`와 새 OAuth 로그인을 수행했으며 CLI는 `Successfully logged in to MCP server 'cloudflare_api'.`로 종료됐다. 다만17:08:09 KST 현재 열린 MCP `/user`·`/accounts`는 초기 계정 `ajdhfbx1836203@naver.com` / `4c692f878ebb293ad79ef0d8c9c7cfcc`를 반환한다. 저장된 인증 성공과 현재 세션의 계정 응답을 구분한다. 새 세션에서는 실제 계정을 먼저 조회하고 확인 없이 재로그인을 반복하지 않는다. 이번 요청에서 사용자가 로그인한 이메일을 직접 명시하지는 않았으므로 새 운영 계정 전환을 완료로 설명하지 않는다. Wrangler·운영 배포·DNS 설정은 변경하지 않았다.
+
+## 2026-09-15 16:57 KST 초기 계정 조회 완료·DNS 장애 확인
+
+재시작 후16:54 KST MCP `/user`·`/accounts`에서 초기 계정 `ajdhfbx1836203@naver.com` / `4c692f878ebb293ad79ef0d8c9c7cfcc`를 실제 확인했다. 재로그인은 필요 없다. 초기 `on-onf.com` zone·루트/www Custom Domain은0개다. 초기 `onoff-hero-preview`도 없으며 감사 로그에16:48:23 KST 삭제가 기록돼 있다. 해당 tag의 Builds 설정 없음·트리거0개도 확인했다. 남은 `onoff-redesign-temp-20260909`는 정식 도메인/route/binding/Builds 연결이 없고 자체 workers.dev만 활성이다. 이번 세션은 삭제하지 않았다.
+
+16:55~16:57 KST 기본 DNS192.168.0.1에서 HTTPS 해석 실패를 재현했고, 같은 시각 새 권한 NS·공개 DNS3곳·com parent·등록 위임은 정상이다. 공유기 경로는 이전/새 NS가 혼재하고 www가 NXDOMAIN→정상A→NXDOMAIN으로 바뀐다. 확인된 실패는 DNS 경로이며 공유기 내부와 통신사 상위 캐시의 위치는 미확정이다. Deleted zone의 구 NS 응답은 Cloudflare 공식 동작과 양립하므로 삭제 실패로 단정하지 않는다. 전체 방문자 복구는 아직 확인되지 않았다. 후속은 [진단·복구 방안](docs/operations/DNS-RECURRENCE-2026-09-15.md)을 먼저 읽는다. PC/공유기 DNS·가비아 위임·새 운영 계정·Wrangler·앱 소스는 변경하지 않았다. 기록은 로컬만 보관하고 commit·push·배포하지 않는다.
+
+## 2026-09-15 16:50 KST 재시작 인수인계 — 여기부터 재개
+
+사용자가 초기 Cloudflare 계정 재로그인·인증 성공을 알렸고 Codex 재시작 후 이어서 작업하도록 메모를 요청했다. CLI도 `Successfully logged in to MCP server 'cloudflare_api'.`로 종료됐다. **현재 대화의16:50:47 KST MCP `/user`·`/accounts` 응답은 여전히 새 운영 계정 onoff3738@naver.com / f446e31d575c7e7135b7486ada7c35c4다. 저장된 OAuth 인증 성공과 열린 MCP 세션의 전환을 혼동하지 않는다.** 재시작한 다음 세션에서 먼저 실제 `/user`·`/accounts`를 조회하고 초기 계정 ajdhfbx1836203@naver.com / 4c692f878ebb293ad79ef0d8c9c7cfcc인지 확인한다. 이미 성공한 로그인을 확인 없이 다시 시작하지 않는다.
+
+**최우선 미완료 작업은 접속 장애 재발 원인 및 초기 계정 잔존 자원 조회**다. 파비콘은 이미 흰 배경으로 운영 배포·검증까지 완료했다. 상세 상태·계정/자원 ID·읽기 조회 순서·검증 근거는 [다음 세션 인수인계](docs/operations/HANDOFF-2026-09-15-MCP-RECONNECT.md)를 먼저 읽는다. 이번 메모와 후속 배포 기록은 로컬에만 저장한다. 메모 작성만을 위해 commit·push·추가 배포하지 않는다.
+
+## 2026-09-15 접속 재발·초기 계정 MCP 재연결 요청
+
+사용자가 접속 장애 재발을 알리고 초기 계정에 남은 자원을 의심해 Cloudflare MCP를 초기 계정으로 다시 연결하도록 요청했다.16:47 KST registry RDAP는 새 aida·keanu만 등록했고 새 네임서버2개와 Google/Cloudflare/Quad9 DNS는 정상 A/AAAA를 제공했다. 반면 공유기192.168.0.1과 이전 ashley·trevor 네임서버 직접 조회는 이전 NS/SOA 및 A/AAAA 없음으로 응답했다. 조회 시점의 PC 양성 캐시로 HTTPS200이 잠시 가능해도 상위 DNS 정상화와 구분한다. 기존 계정 자원 존재 여부와 이 응답의 관계는 직접 재조회 전 확정하지 않는다.
+
+`codex mcp logout cloudflare_api`를 완료하고 `codex mcp login cloudflare_api`로 초기 이메일 `ajdhfbx1836203@naver.com`의 사용자 인증을 요청했다. 인증 성공 로그와 현재 대화 MCP의 실제 `/user`·`/accounts` 응답을 구분한다. 초기 계정 ID `4c692f878ebb293ad79ef0d8c9c7cfcc` 확인 후 도메인·DNS·Worker Custom Domain·route를 읽기 조회한다. 이번 요청은 연결·조회이며 기존 자원의 삭제나 네임서버 변경 지시는 아니다. 새 계정 운영 배포와 Wrangler 인증·vite.config.ts는 유지한다. 진단은 Git 제외 outputs/qa/2026-09-15/sitemap-fetch/dns-recurrence.json에 보관한다.
+
 ## 2026-09-15 운영 전체 점검·흰 배경 파비콘
 
 사용자가 사이트 접속과 광고 테스트 성공을 알리고 전체 점검 및 다크모드에서 보이는 흰 배경 파비콘을 요청했다. 파비콘은 기존 ONF 로고·배치·크기를 유지하고 정사각형 전체를 불투명 흰색으로 만든다. `scripts/prepare-brand-assets.mjs`에서32·64px PNG와16·32·48·64px ICO를 함께 생성한다. 리사이즈·여백 적용 후 별도 단계에서 흰색으로 합성해 여백의 투명도가 다시 생기지 않게 한다. `app/layout.tsx`의 모든 아이콘 주소는 `v=white-20260915`로 갱신한다. 헤더 로고·회사 원본은 변경하지 않는다. 기존 새 Cloudflare 계정의 main 자동 배포를 사용한다.
