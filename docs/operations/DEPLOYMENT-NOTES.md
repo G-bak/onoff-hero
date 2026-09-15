@@ -2,6 +2,17 @@
 
 > 날짜별 배포 이력이다. 현재 운영 버전은 실제 Worker 배포와 GitHub 커밋을 함께 확인한다. 2026-09-13 초기 점검은 로컬이었으며, 최신 사용자가 실제 Slack 테스트 후 전체 GitHub 반영·배포를 승인했다.
 
+## 2026-09-15 — 상세 개선·공통 푸터·스크롤 이동 배포 완료
+
+- 사용자가 현재 변경 전체의 GitHub 반영과 운영 배포를 승인했다. 운영 상세의 선택형 작업 안내·완료 체크, 상세 효과와 전체 장식 대각선 화살표 제거, 주소 해시 없는 섹션 이동, 상세5개 회사 정보 공통 푸터를 함께 반영했다.
+- 소스 커밋 `1c9c96d1ba15123e9ea35091a710aac099b5f69c`을 기존 `G-bak/onoff-hero`의 `main`에 push했다. Cloudflare Build `da40e7c2-5136-4148-8563-ddb42d0f2265`의 정확한 커밋 일치와 `stopped/success`를 확인했다. 빌드 명령은 `npm run ci:build`, 배포 명령은 기존 `npx wrangler deploy --config dist/server/wrangler.json`이다.
+- 2026-09-15 13:35:58 KST(04:35:58 UTC), Worker 버전 `4382bf71-7967-4c5c-a238-9aab7292ac6e`가100% 반영됐다. 배포 ID는 `5691849d-76fb-4cae-9429-ca06ae185209`이며 빌드 로그의 버전도 일치한다. 뒤따르는 결과 기록 커밋은 동일 앱 소스의 문서 갱신이다.
+- 로컬 최종 테스트153개·린트·타입·빌드·CSS/자산 검사와 원격 자동 빌드를 통과했다. 커밋 전 원격 `main`과 동기화 상태, 문서 링크와 diff를 확인했으며 환경변수·빌드·로그·검증 도구는 Git에서 제외했다.
+- 운영 HOME·서비스 상세5개·문의7개 경로 모두 HTTP200이다. 상세마다 새 푸터1개·확정 회사 정보6항목·전화/이메일/서비스별 문의 링크·서비스 메뉴·개인정보 안내를 확인했고, 웹의 자료·사진 출처도 유지된다. HOME에는 상세용 푸터가 추가되지 않았다.
+- 운영 상세는 작업 선택 탭2개·기본 활성 패널1개·JS 미사용 안내·완료 체크를 확인했다. 제거한 장식 클래스와 이전 운영 비교 구성은 없으며, 운영 페이지가 참조하는 JS·CSS·WebP36개가 HTTP200이다. 운영 CSS의 SHA-256은 로컬에서 검증한 빌드와 같다.
+- 운영 `/api/inquiry` GET은 HTTP200·`enabled=true`이며 기존 개인정보 버전을 유지한다. 이번 검수는 HTTP·서버 HTML·참조 자산 확인이다. 실제 브라우저의 탭 클릭·스크롤·뒤로가기·모바일 시각 검수나 문의 전송은 수행하지 않았다.
+- 운영 주소: [홈페이지](https://onoff-hero-preview.ajdhfbx1836203.workers.dev), [운영 상세](https://onoff-hero-preview.ajdhfbx1836203.workers.dev/services/operations), [디자인 상세](https://onoff-hero-preview.ajdhfbx1836203.workers.dev/services/design). 로그·검증 결과는 Git 제외 `outputs/deploy/2026-09-15/service-improvements/`에 보관한다. 로컬 미리보기도 유지한다.
+
 ## 2026-09-15 — 디자인 상세 첫 화면 문구 배포 완료
 
 - 사용자 제공 수정 이미지에 따라 `/services/design`의 제목·소개·서비스 분류·하단 태그를 변경하고 **디자인 서비스 안내** 버튼을 기존 작업 범위 `#service-scope`로 연결했다. 로컬 검증 후 사용자가 커밋·운영 배포를 승인했다.
