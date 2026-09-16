@@ -8,6 +8,9 @@ import { serviceDetails, type ProfessionalService } from '@/lib/service-details'
 
 export default function ProfessionalServiceDetail({ service }: { service: ProfessionalService }) {
   const detail = serviceDetails[service.slug];
+  const whyTitle = 'whyTitle' in detail
+    ? detail.whyTitle
+    : ['이런 고민이 있다면,', `${service.name}이 필요합니다`];
   const inquiryHref = `/inquiry?service=${service.slug}&from=services`;
   const heroAction = service.slug === 'design'
     ? { href: '#service-scope', label: '디자인 서비스 안내' }
@@ -25,7 +28,7 @@ export default function ProfessionalServiceDetail({ service }: { service: Profes
         </section>
         <nav className="service-detail-nav guide-nav" aria-label="상세 안내"><a href="#why-service">필요한 이유</a><a href="#service-scope">작업 범위</a><a href="#service-process">진행 과정</a><a href="#pricing">가격 정책</a><a href="#service-faq">FAQ</a></nav>
 
-        <section className="service-content-section guide-chapter guide-why" id="why-service" aria-labelledby="guide-why-title"><div className="guide-chapter-heading" data-service-reveal><span className="guide-eyebrow">01 / YOUR BUSINESS</span><h2 id="guide-why-title">이런 고민이 있다면,<br/>{service.name}이 필요합니다</h2><p>{service.importance}</p></div><div className="guide-situation-list">{service.situations.map((situation, index) => <article key={situation} data-service-reveal><span>0{index + 1}</span><h3>{situation}</h3></article>)}</div><div className="guide-effects" id="service-effects">{service.effects.map(effect => <article key={effect.title} data-service-reveal><h3>{effect.title}</h3><p>{effect.text}</p></article>)}</div></section>
+        <section className="service-content-section guide-chapter guide-why" id="why-service" aria-labelledby="guide-why-title"><div className="guide-chapter-heading" data-service-reveal><span className="guide-eyebrow">01 / YOUR BUSINESS</span><h2 id="guide-why-title">{whyTitle[0]}<br/>{whyTitle[1]}</h2><p>{service.importance}</p></div><div className="guide-situation-list">{service.situations.map((situation, index) => <article key={situation} data-service-reveal><span>0{index + 1}</span><h3>{situation}</h3></article>)}</div><div className="guide-effects" id="service-effects">{service.effects.map(effect => <article key={effect.title} data-service-reveal><h3>{effect.title}</h3><p>{effect.text}</p></article>)}</div></section>
 
         <section className="service-content-section guide-chapter guide-scope" id="service-scope" aria-labelledby="guide-scope-title"><div className="guide-chapter-heading" data-service-reveal><span className="guide-eyebrow">02 / WHAT WE DO</span><h2 id="guide-scope-title">{detail.scopeTitle[0]}<br/>{detail.scopeTitle[1]}</h2><p>{detail.scopeIntro}</p></div><ServiceExamples slug={service.slug}/>{detail.deliverables.length > 0 && <><div className="guide-deliverables">{detail.deliverables.map((item, index) => <article key={item.title} data-service-reveal><span className="guide-deliverable-number">0{index + 1}</span><div><h3>{item.title}</h3><p>{item.text}</p></div><ul aria-label={`${item.title} 작업 항목`}>{item.items.map(text => <li key={text}>{text}</li>)}</ul></article>)}</div><p className="guide-note">필요한 작업을 선택해 진행합니다. 안내된 모든 항목이 하나의 기본 상품에 포함되는 것은 아닙니다.</p></>}</section>
 

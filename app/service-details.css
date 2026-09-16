@@ -49,6 +49,7 @@
 [data-guide='marketing'] .guide-hero .service-detail-kicker::before { background: #fff; }
 [data-guide='marketing'] .guide-button { background: #d8ff3e; border-color: #d8ff3e; color: #090a0f; }
 [data-guide='marketing'] .guide-hero-bottom { border-color: #ffffff60; }
+[data-guide='marketing'] :is(.service-detail-summary, .guide-why .guide-chapter-heading > p, .guide-situation-list h3) { white-space: pre-line; }
 .guide-media-cover-images { position: relative; height: clamp(315px, 31vw, 470px); margin: 0 30px 20px; }
 .guide-media-cover-images > img { position: absolute; object-fit: contain; height: auto; box-shadow: 0 20px 30px #090a0f40; width: 66%; left: 0; top: 7%; rotate: -9deg; }
 .guide-media-feed { position: absolute; width: 49%; right: 0; bottom: 0; rotate: 7deg; box-shadow: 0 20px 30px #090a0f30; }

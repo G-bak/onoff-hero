@@ -7,6 +7,7 @@ type ServiceGuide = {
   word: string;
   kicker: string;
   heroTags: readonly string[];
+  whyTitle?: readonly [string, string];
   scopeTitle: readonly [string, string];
   scopeIntro: string;
   deliverables: readonly { title: string; text: string; items: readonly string[] }[];
@@ -90,8 +91,9 @@ export const serviceDetails = {
     preparation: '업종과 상품, 필요한 제작물과 사용처를 알려주세요.\n브랜드에 맞는 방향과 제작 범위를 제안하겠습니다.',
   },
   marketing: {
-    word: 'MARKETING', kicker: '인스타그램 · 블로그 · 광고 콘텐츠·운영',
-    heroTags: ['콘텐츠 기획·제작', '채널 운영', '광고·결과 점검'],
+    word: 'MARKETING', kicker: 'SNS · 블로그 · 광고 콘텐츠 · 운영',
+    heroTags: ['콘텐츠 기획·제작', '채널 운영', '광고 운영·개선'],
+    whyTitle: ['이런 고민이라면,', '마케팅의 방향부터 다시 봐야 합니다.'],
     scopeTitle: ['같은 상품도', '채널에 맞게 알립니다'],
     scopeIntro: '피드에서 관심을 갖고, 블로그에서 자세히 확인하고, 매장에서 행사 내용을 알아볼 수 있도록. 고객이 정보를 만나는 상황에 맞춰 내용을 구성합니다.',
     deliverables: [
