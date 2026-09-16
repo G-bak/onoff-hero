@@ -138,8 +138,8 @@
 .service-detail[data-ready='true']:not([data-still='true']) .service-hero-art > .service-artwork { animation: services-print-in 1.1s cubic-bezier(.16,1,.3,1) both; }
 .service-detail[data-ready='true']:not([data-still='true']) .service-hero-art .service-art-ticket { animation: services-ticket-in 1.2s cubic-bezier(.16,1,.3,1) both; }
 @keyframes service-headline-in { from { transform: translateY(115%) rotate(5deg); } 70% { transform: translateY(-2%) rotate(-.5deg); } to { transform: none; } }
-.service-detail-nav { position: sticky; top: 78px; z-index: 9; display: flex; gap: 42px; padding: 0 5%; background: #f0f0e9; border-block: 1px solid #090a0f; font-size: 14px; font-weight: 700; }
-.service-detail-nav a { position: relative; padding-block: 21px; }
+.service-detail-nav { position: sticky; top: 78px; z-index: 9; display: flex; gap: 42px; padding: 0 5%; overflow-x: auto; scrollbar-width: thin; background: #f0f0e9; border-block: 1px solid #090a0f; font-size: 14px; font-weight: 700; }
+.service-detail-nav a { position: relative; flex-shrink: 0; padding-block: 21px; white-space: nowrap; }
 .service-detail-nav a::after { content: ''; position: absolute; bottom: 0; height: 4px; left: 0; right: 0; background: #343cff; transform: scaleX(0); transform-origin: left; transition: transform .35s cubic-bezier(.16,1,.3,1); }
 .service-detail-nav a:is(:hover,[aria-current='location'])::after { transform: scaleX(1); }
 .service-content-section { display: grid; grid-template-columns: .65fr 1.35fr; gap: 7%; padding: 90px max(5%, calc((100vw - 1440px) / 2)); border-bottom: 1px solid #090a0f30; scroll-margin-top: 145px; }

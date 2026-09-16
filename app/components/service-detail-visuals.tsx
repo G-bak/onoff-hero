@@ -43,7 +43,7 @@ export function ServiceExamples({ slug }: { slug: ProfessionalServiceSlug }) {
   </div>;
   if (slug === 'design') return <div className="guide-portfolio">
     <div className="guide-example-top" data-service-reveal><span className="guide-eyebrow">DESIGNED FOR REAL USE</span><p>가상 브랜드 제작 예시 / 실제 고객 실적이 아닙니다</p></div>
-    <div className="guide-portfolio-grid">{workExamples.map((item, index) => <figure key={item.name} data-service-reveal><div className="guide-portfolio-image"><ServiceExampleImage image={item.image} width={720} height={900} alt={`${item.name} ${item.type} 디자인 시안`} unoptimized loading="lazy" decoding="async"/><span>0{index + 1}</span></div><figcaption><span>{item.type}</span><h3>{item.name}</h3><p>{item.text}</p></figcaption></figure>)}</div>
+    <div className="guide-portfolio-grid">{workExamples.map((item, index) => <figure key={item.name} data-service-reveal><div className="guide-portfolio-image"><ServiceExampleImage image={item.image} width={720} height={900} alt={`${item.name} ${item.type} 디자인 시안`} unoptimized loading="lazy" decoding="async"/><span>0{index + 1}</span></div><figcaption><div className="guide-portfolio-caption-heading"><h3>{item.name}</h3><span>{item.type}</span></div><p>{item.text}</p></figcaption></figure>)}</div>
   </div>;
   if (slug === 'marketing') return <div className="guide-channel-examples">
     <div className="guide-example-top" data-service-reveal><span className="guide-eyebrow">ONE BRAND, EACH CHANNEL</span><p>가상 브랜드·콘텐츠 시안 / 게시물 반응 수치도 예시입니다</p></div>

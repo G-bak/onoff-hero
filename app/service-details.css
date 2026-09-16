@@ -74,6 +74,8 @@
 .guide-chapter h2 { font-size: clamp(30px, 3.4vw, 56px); font-weight: 750; line-height: 1.18; margin-bottom: 24px; }
 .guide-chapter-heading { max-width: 760px; margin-bottom: 50px; }
 .guide-chapter-heading > p { font-size: 17px; max-width: 690px; margin-bottom: 0; }
+[data-guide='design'] .guide-why .guide-chapter-heading { max-width: 900px; }
+[data-guide='design'] .guide-why .guide-chapter-heading > p { max-width: none; font-size: 20px; white-space: pre-line; }
 .guide-situation-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-block: 1px solid #090a0f; }
 .guide-situation-list article { display: flex; gap: 20px; padding: 30px 28px; border-right: 1px solid #090a0f30; }
 .guide-situation-list article:first-child { padding-left: 0; }
@@ -83,8 +85,23 @@
 .guide-effects { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 36px; padding-top: 40px; scroll-margin-top: 155px; }
 .guide-effects h3 { font-size: 21px; margin-bottom: 12px; }
 .guide-effects p { font-size: 15px; margin-bottom: 0; max-width: 390px; }
+.design-concerns { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: auto auto; border-top: 1px solid #090a0f80; scroll-margin-top: 155px; }
+.design-concern { display: grid; grid-template-rows: subgrid; grid-row: span 2; min-width: 0; padding-inline: 22px; border-right: 1px solid #090a0f20; }
+.design-concern:first-child { padding-left: 0; }
+.design-concern:last-child { padding-right: 0; border-right: 0; }
+.design-concern-top { padding-block: 32px 48px; }
+.design-concern-number { display: block; margin-bottom: 18px; font: 700 12px/1.5 'Montserrat', sans-serif; }
+.design-concern-copy { padding-left: 32px; }
+.design-concern-copy h3 { font-size: 26px; font-weight: 650; line-height: 1.45; margin: 0; white-space: pre-line; }
+.design-concern-copy p { margin: 28px 0 0; font-size: 20px; line-height: 1.65; white-space: pre-line; word-break: keep-all; overflow-wrap: anywhere; }
+.design-concern-effect { position: relative; border-top: 1px solid #090a0f80; padding: 48px 0 36px 32px; }
+.design-concern-arrow { position: absolute; top: 18px; right: 16px; width: 20px; height: 20px; }
+.design-concern-effect h4 { font-size: 22px; font-weight: 600; line-height: 1.4; margin: 0 0 18px; }
+.design-concern-effect p { font-size: 17px; line-height: 1.7; margin: 0; word-break: keep-all; overflow-wrap: anywhere; }
 .guide-scope { background: #e6e8e7; }
 [data-guide='design'] .guide-scope { background: #f4d2d8; }
+[data-guide='design'] .guide-scope .guide-chapter-heading { max-width: 1000px; }
+[data-guide='design'] .guide-scope .guide-chapter-heading > p { max-width: none; white-space: pre-line; }
 [data-guide='marketing'] .guide-scope { background: #e9edef; }
 .guide-example-intro h3 { font-size: clamp(26px, 2.6vw, 42px); line-height: 1.2; margin-bottom: 24px; }
 .guide-example-intro p { font-size: 16px; max-width: 410px; }
@@ -98,15 +115,18 @@
 .guide-example-top { display: flex; gap: 20px; justify-content: space-between; align-items: baseline; margin-bottom: 24px; }
 .guide-example-top .guide-eyebrow { margin: 0; }
 .guide-example-top p { font-size: 12px; margin: 0; }
+.guide-portfolio .guide-example-top::after { content: ''; flex: 1; order: 1; align-self: center; height: 1px; background: #090a0f60; }
+.guide-portfolio .guide-example-top > p { order: 2; }
 .guide-portfolio-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; align-items: start; }
 .guide-portfolio-grid figure:nth-child(2) { margin-top: 55px; }
 .guide-portfolio-grid figure:nth-child(3) { margin-top: 110px; }
-.guide-portfolio-image { position: relative; overflow: hidden; }
+.guide-portfolio-image { position: relative; overflow: hidden; box-shadow: 0 20px 32px #090a0f26; }
 .guide-portfolio-image img { display: block; width: 100%; height: auto; }
 .guide-portfolio-image > span { position: absolute; top: 12px; left: 12px; border-radius: 50%; background: #f8f8f2; width: 33px; height: 33px; display: grid; place-content: center; font: 700 12px 'Montserrat', sans-serif; }
-.guide-portfolio-grid figcaption { padding-top: 20px; }
-.guide-portfolio-grid figcaption > span { font-size: 12px; font-weight: 600; }
-.guide-portfolio-grid h3 { margin: 10px 0 14px; font-size: 29px; }
+.guide-portfolio-grid figcaption { padding-top: 52px; }
+.guide-portfolio-caption-heading { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 16px; padding-bottom: 12px; margin-bottom: 10px; border-bottom: 1px solid #090a0f70; }
+.guide-portfolio-caption-heading > span { margin-left: auto; font-size: 12px; font-weight: 600; text-align: right; }
+.guide-portfolio-grid h3 { margin: 0; font-size: 29px; }
 .guide-portfolio-grid p { margin: 0; font-size: 15px; }
 .guide-channel-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; align-items: start; }
 .guide-channel-heading { border-top: 1px solid #090a0f; padding-top: 20px; }
@@ -184,6 +204,12 @@
 .guide-deliverables h3 { font-size: 28px; line-height: 1.2; margin-bottom: 14px; }
 .guide-deliverables p { margin: 0; font-size: 16px; max-width: 570px; }
 .guide-deliverables li { padding: 6px 0; font-size: 14px; font-weight: 600; border-bottom: 1px solid #090a0f25; }
+[data-guide='design'] .guide-deliverables { margin-top: 140px; }
+[data-guide='design'] :is(.guide-deliverable-number, .guide-deliverable-label) { font: 700 28px/1.3 'Montserrat', sans-serif; }
+[data-guide='design'] .guide-deliverable-label { display: block; }
+[data-guide='design'] .guide-deliverables h3 { font-weight: 500; line-height: 1.4; margin: 12px 0 16px; }
+[data-guide='design'] .guide-deliverables p { font-size: 18px; max-width: none; white-space: pre-line; }
+[data-guide='design'] .guide-deliverables li { font-size: 16px; }
 .guide-note { margin: 22px 0 0; font-size: 13px; }
 .guide-process { background: #090a0f; color: #fff; }
 .guide-process-list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; }
@@ -195,6 +221,9 @@
 .guide-process-list h3 { font-size: 24px; line-height: 1.3; margin-bottom: 20px; }
 .guide-process-list p { font-size: 15px; margin-bottom: 30px; }
 .guide-checkpoint { display: block; margin-top: auto; padding-top: 18px; border-top: 1px solid #ffffff50; font-size: 12px; line-height: 1.7; }
+[data-guide='design'] .guide-process .guide-chapter-heading > p { font-size: 20px; white-space: pre-line; }
+[data-guide='design'] .guide-process-list p { white-space: pre-line; }
+[data-guide='design'] .guide-checkpoint { font-size: 14px; }
 .guide-pricing { background: #d8ff3e; }
 .guide-price-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
 .guide-price-grid[data-count='2'] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -202,6 +231,8 @@
 .guide-price-meta { display: flex; justify-content: space-between; gap: 15px; font: 700 12px/1.5 'Montserrat', sans-serif; margin-bottom: 30px; }
 .guide-price-grid h3 { font-size: clamp(23px, 2.1vw, 32px); line-height: 1.25; margin-bottom: 15px; }
 .guide-price-purpose { font-size: 15px; margin-bottom: 25px; min-height: 3.5em; }
+[data-guide='design'] .guide-pricing .guide-chapter-heading > p { white-space: pre-line; }
+[data-guide='design'] .guide-price-purpose { font-size: 17px; }
 .guide-price-amount { border-block: 1px solid #090a0f40; padding: 20px 0; }
 .guide-price-amount strong { display: block; font-size: 28px; line-height: 1.3; letter-spacing: -.04em; }
 .guide-price-amount span { display: block; margin-top: 6px; font-size: 12px; }
@@ -234,6 +265,21 @@
 .guide-inquiry a { font-size: 16px; min-width: 280px; flex-shrink: 0; }
 @media (min-width: 1921px) { .guide-hero, .guide-inquiry { padding-inline: max(5%, calc((100vw - 1700px)/2)); } }
 @media (max-width: 1100px) {
+  [data-guide='design'] .guide-why .guide-chapter-heading > p { font-size: 18px; white-space: normal; }
+  [data-guide='design'] .guide-process .guide-chapter-heading > p { font-size: 18px; white-space: normal; }
+  [data-guide='design'] .guide-process-list p { white-space: normal; }
+  [data-guide='design'] .guide-scope .guide-chapter-heading > p { white-space: normal; }
+  [data-guide='design'] .guide-deliverables { margin-top: 100px; }
+  [data-guide='design'] .guide-deliverables p { white-space: normal; }
+  [data-guide='design'] .guide-pricing .guide-chapter-heading > p { white-space: normal; }
+  .design-concerns { grid-template-columns: 1fr; grid-template-rows: none; }
+  .design-concern { grid-template-rows: auto auto; grid-row: auto; padding-inline: 0; border-right: 0; border-bottom: 1px solid #090a0f80; }
+  .design-concern:last-child { border-bottom: 0; }
+  .design-concern-top { padding-block: 30px 32px; }
+  .design-concern-copy h3 { font-size: 24px; white-space: normal; }
+  .design-concern-copy p { font-size: 18px; margin-top: 20px; white-space: normal; }
+  .design-concern-effect { padding-block: 44px 36px; }
+  .design-concern-effect h4 { font-size: 21px; }
   .guide-hero-layout { gap: 4%; }
   .service-guide h1 { font-size: 3.65vw; }
   .guide-brief-sheet { padding: 24px; margin-inline: 12px; }
@@ -283,6 +329,8 @@
   .guide-chapter h2 { font-size: clamp(29px, 5.9vw, 41px); }
   .guide-chapter-heading { margin-bottom: 35px; }
   .guide-chapter-heading > p { font-size: 16px; }
+  [data-guide='design'] .guide-why .guide-chapter-heading > p { font-size: 16px; }
+  [data-guide='design'] .guide-process .guide-chapter-heading > p { font-size: 16px; }
   .guide-eyebrow { margin-bottom: 20px; }
   .guide-situation-list { grid-template-columns: 1fr; }
   .guide-situation-list article { padding: 23px 0; border-right: 0; border-bottom: 1px solid #090a0f30; }
@@ -291,11 +339,22 @@
   .guide-effects { grid-template-columns: 1fr; gap: 25px; padding-top: 30px; scroll-margin-top: 135px; }
   .guide-effects h3 { margin-bottom: 10px; }
   .guide-effects p { max-width: none; }
+  .design-concerns { scroll-margin-top: 135px; }
+  .design-concern-top { padding-block: 26px 28px; }
+  .design-concern-number { margin-bottom: 14px; }
+  .design-concern-copy { padding-left: 20px; }
+  .design-concern-copy h3 { font-size: 22px; }
+  .design-concern-copy p { font-size: 16px; margin-top: 18px; }
+  .design-concern-effect { padding: 42px 0 28px 20px; }
+  .design-concern-arrow { top: 14px; right: 4px; width: 18px; height: 18px; }
+  .design-concern-effect h4 { font-size: 20px; margin-bottom: 14px; }
+  .design-concern-effect p { font-size: 16px; }
   .guide-strategy-example { padding: 26px; }
   .guide-strategy-map { gap: 12px; }
   .guide-strategy-map li { padding: 20px; }
   .guide-strategy-map h4 { font-size: 21px; }
   .guide-example-top { flex-direction: column; gap: 12px; }
+  .guide-portfolio .guide-example-top::after { display: none; }
   .guide-portfolio-grid { gap: 28px; grid-template-columns: 1fr; }
   .guide-portfolio-grid figure { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center; }
   .guide-portfolio-grid figure:nth-child(n) { margin-top: 0; }
@@ -326,6 +385,11 @@
   .guide-deliverables h3 { font-size: 25px; }
   .guide-deliverables p { font-size: 15px; }
   .guide-deliverables ul { grid-column: 2; }
+  [data-guide='design'] .guide-deliverables { margin-top: 72px; }
+  [data-guide='design'] :is(.guide-deliverable-number, .guide-deliverable-label) { font-size: 24px; }
+  [data-guide='design'] .guide-deliverables h3 { font-size: 23px; margin-top: 10px; }
+  [data-guide='design'] .guide-deliverables p { font-size: 16px; }
+  [data-guide='design'] .guide-deliverables li { font-size: 15px; }
   .guide-process-list { gap: 32px 24px; }
   .guide-process-list h3 { font-size: 22px; }
   .guide-process-list p { font-size: 14px; }
@@ -334,6 +398,7 @@
   .guide-price-grid > article { padding: 28px; }
   .guide-price-grid h3 { font-size: 27px; }
   .guide-price-purpose { min-height: 0; }
+  [data-guide='design'] .guide-price-purpose { font-size: 16px; }
   .guide-price-meta { margin-bottom: 24px; }
   .guide-price-grid ul { margin-block: 22px; }
   .guide-estimate { grid-template-columns: 1fr; gap: 35px; margin-top: 35px; padding-top: 32px; }

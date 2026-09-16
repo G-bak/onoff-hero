@@ -29,7 +29,7 @@ export default function WebServiceDetail({ service }: { service: WebService }) {
           <div className="web-hero-bottom"><span>회사 소개 · 서비스 안내 · 고객 문의</span><a href="#why-service" aria-label="홈페이지가 필요한 이유 읽기">SCROLL TO EXPLORE ↓</a></div>
         </section>
 
-        <nav className="service-detail-nav" aria-label="상세 안내"><a href="#why-service">필요한 이유</a><a href="#service-effects">기대 효과</a><a href="#service-scope">제작 과정</a><a href="#pricing">가격 정책</a><a href="#web-faq">자주 묻는 질문</a></nav>
+        <nav className="service-detail-nav" aria-label="상세 안내"><a href="#why-service">웹사이트가 필요한 순간</a><a href="#service-effects">우리가 만드는 웹사이트</a><a href="#service-scope">진행 과정</a><a href="#pricing">서비스 안내</a><a href="#web-faq">FAQ</a></nav>
 
         <section className="service-content-section web-detail-chapter web-why" id="why-service" aria-labelledby="web-why-title">
           <div className="web-chapter-heading" data-service-reveal><span className="web-eyebrow">01 / WHY A WEBSITE</span><h2 id="web-why-title">검색한 고객이<br/>우리 회사를 알 수 있도록</h2><p>홈페이지는 회사 소개, 서비스, 실적과 연락처를 한 주소에 모은 온라인 안내 공간입니다. 고객이 궁금한 내용을 확인하고 문의할 수 있게 만듭니다.</p></div>

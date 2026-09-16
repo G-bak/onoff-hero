@@ -7,12 +7,19 @@ type ServiceGuide = {
   word: string;
   kicker: string;
   heroTags: readonly string[];
+  navLabels: { why: string; scope: string };
+  whyLabel?: string;
   whyTitle?: readonly [string, string];
   scopeTitle: readonly [string, string];
   scopeIntro: string;
-  deliverables: readonly { title: string; text: string; items: readonly string[] }[];
+  scopeNote?: string;
+  deliverables: readonly { label?: string; title: string; text: string; items: readonly string[] }[];
+  processTitle?: readonly [string, string];
+  processIntro?: string;
   process: readonly { title: string; text: string; checkpoint: string }[];
-  priceOptions: readonly { name: string; purpose: string; items: readonly string[] }[];
+  pricingTitle?: readonly [string, string];
+  pricingIntro?: string;
+  priceOptions: readonly { label?: string; name: string; purpose: string; items: readonly string[] }[];
   extraCosts: readonly { title: string; text: string }[];
   faqs: readonly { question: string; answer: string }[];
   inquiry: string;
@@ -24,6 +31,7 @@ type ServiceGuide = {
 export const serviceDetails = {
   planning: {
     word: 'STRATEGY', kicker: '브랜드 진단 · 고객 분석 · 실행 계획',
+    navLabels: { why: '기획이 필요한 순간', scope: '우리가 하는 기획' },
     heroTags: ['브랜드 방향 정리', '신제품·서비스 출시', '캠페인 기획'],
     scopeTitle: ['막연한 아이디어를', '실행할 수 있는 기획서로'],
     scopeIntro: '무엇을 조사하고, 무엇을 결정할지부터 합의합니다. 조사 내용이 제작 담당자에게 전달될 수 있도록 핵심 메시지와 실행 순서까지 문서로 정리합니다.',
@@ -58,24 +66,32 @@ export const serviceDetails = {
   },
   design: {
     word: 'DESIGN', kicker: '로고 · 브랜드 | 상세페이지 | 홍보 · 인쇄물',
+    navLabels: { why: '디자인이 필요한 순간', scope: '우리가 하는 디자인' },
     heroTags: ['로고 · 브랜드', '상세페이지', '홍보 · 인쇄물'],
-    scopeTitle: ['고객이 보는 곳마다', '같은 브랜드로 보이도록'],
-    scopeIntro: '로고 하나로 끝나지 않습니다. 상품을 설명하는 화면, 매장에서 만나는 포장과 홍보물까지 실제 사용처를 기준으로 디자인합니다.',
+    whyLabel: '01 / WHY DESIGN',
+    whyTitle: ['이런 고민이 있다면,', '디자인이 필요합니다'],
+    scopeTitle: ['사업의 첫 이미지부터,', '고객을 만나는 디자인까지'],
+    scopeIntro: '로고에서 시작한 디자인은, 실제 필요한 곳까지 이어집니다.\n상품을 설명하는 상세페이지부터 고객에게 알리는 홍보·인쇄물까지 목적에 맞게 디자인합니다.',
+    scopeNote: '필요한 디자인만 선택해 진행할 수 있으며, 작업 범위에 따라 구성과 비용이 달라집니다.',
     deliverables: [
-      { title: '브랜드의 기본 만들기', text: '고객과 업종, 브랜드 방향에 맞춰 로고·색상·글꼴을 정하고 같은 인상을 유지할 사용 기준을 만듭니다.', items: ['로고·응용형', '컬러·서체 기준', '활용 가이드'] },
-      { title: '상품과 서비스 알리기', text: '고객이 궁금해할 내용부터 배치합니다. 상세페이지, SNS, 배너 등 게시되는 화면의 규격과 읽는 순서에 맞춥니다.', items: ['상세페이지', 'SNS·광고 소재', '배너·홍보 이미지'] },
-      { title: '매장과 제품에 적용하기', text: '패키지와 인쇄물의 크기, 재질, 제작 방식을 확인하고 실제 제작에 필요한 규격으로 디자인합니다.', items: ['패키지·라벨', '포스터·안내물', '인쇄용 데이터'] },
+      { label: 'LOGO & BRAND', title: '사업을 알아보는 첫 이미지를 만듭니다', text: '사업의 특징과 방향을 담아 한눈에 알아볼 수 있는 로고를 만듭니다.\n처음 보는 고객에게 우리 사업을 인식시키는 첫 이미지를 디자인합니다.', items: ['로고·응용형', '컬러·서체 기준', '활용 가이드'] },
+      { label: 'DETAIL PAGE', title: '상품의 강점을 제대로 보여줍니다', text: '상품의 특징과 고객이 궁금해하는 정보를 정리해\n강점이 쉽고 명확하게 전달되는 상세페이지를 만듭니다.', items: ['상세페이지', 'SNS·광고 소재', '배너·홍보 이미지'] },
+      { label: 'PROMOTION & PRINT', title: '고객을 만나는 곳까지 이어갑니다', text: '명함, 리플렛, 포스터, 배너 등 고객을 만나는 다양한 곳에서\n필요한 홍보·인쇄물을 목적과 환경에 맞게 디자인합니다.', items: ['패키지·라벨', '포스터·안내물', '인쇄용 데이터'] },
     ],
+    processTitle: ['방향을 먼저 맞추고,', '단계별로 만들어갑니다.'],
+    processIntro: '작업 전 필요한 내용과 방향을 충분히 확인하고,\n각 단계에서 내용을 공유하며 디자인을 완성합니다.',
     process: [
-      { title: '용도·자료 확인', text: '어디에 쓰는 디자인인지, 고객과 상품의 특징은 무엇인지 확인합니다. 원고·사진·규격도 함께 점검합니다.', checkpoint: '확인할 것 / 사용처·제작 목록' },
-      { title: '디자인 방향 합의', text: '브랜드에 맞는 색상, 글꼴, 이미지 방향을 제안합니다. 참고 이미지에서 원하는 점도 구체적으로 맞춥니다.', checkpoint: '결정할 것 / 표현 방향·구성' },
-      { title: '시안 제작·수정', text: '합의한 방향으로 시안을 만들고, 취합한 의견을 반영합니다. 화면뿐 아니라 실제 사용 크기도 고려합니다.', checkpoint: '함께 볼 것 / 시안·수정 사항' },
-      { title: '최종 검수·파일 전달', text: '문구와 규격을 확인한 뒤 게시·인쇄용 파일을 전달합니다. 편집 원본과 활용 가이드는 계약한 범위에 맞춰 제공합니다.', checkpoint: '받으실 것 / 용도별 최종 파일' },
+      { title: '내용 확인 · 방향 설정', text: '작업에 필요한 자료와 요청사항을 확인하고,\n사업과 상품의 특징을 바탕으로 디자인 방향을 정리합니다.', checkpoint: '자료 확인 / 요청사항 / 작업 방향' },
+      { title: '기획 · 디자인 방향 제안', text: '전달해야 할 내용과 우선순위를 정리하고,\n작업 목적에 맞는 디자인 방향을 구체화합니다.', checkpoint: '내용 구성 / 컨셉 / 디자인 방향' },
+      { title: '디자인 제작 · 수정', text: '정해진 방향을 바탕으로 디자인을 제작하고,\n피드백을 반영해 필요한 부분을 수정합니다.', checkpoint: '시안 제작 / 피드백 / 수정' },
+      { title: '최종 확인 · 파일 전달', text: '완성된 디자인을 최종 확인한 뒤,\n작업 항목과 사용 목적에 맞는 최종 파일을 전달합니다.', checkpoint: '최종 검수 / 결과물 / 파일 전달' },
     ],
+    pricingTitle: ['어떤 디자인이', '필요하신가요?'],
+    pricingIntro: '로고부터 상세페이지, 홍보·인쇄물까지.\n필요한 서비스를 확인하고, 작업 범위에 따라 견적을 안내합니다.',
     priceOptions: [
-      { name: '브랜드 기본 디자인', purpose: '신규 브랜드를 시작하거나 인상을 정리할 때', items: ['로고·컬러·서체', '응용 디자인 선택', '사용 가이드 범위 협의'] },
-      { name: '판매·홍보 디자인', purpose: '상품 설명과 채널별 홍보물이 필요할 때', items: ['상세페이지·SNS·배너', '분량·규격·수량별 산정', '원고·촬영 필요 여부 확인'] },
-      { name: '패키지·인쇄 디자인', purpose: '실물 제품과 매장에 디자인을 적용할 때', items: ['패키지·라벨·홍보물', '규격·종류별 산정', '인쇄용 파일 준비'] },
+      { label: 'LOGO & BRAND', name: '로고 · 브랜드 디자인', purpose: '브랜드를 새로 시작하거나 기존 이미지를 정리하고 싶을 때', items: ['로고·컬러·서체', '응용 디자인 선택', '사용 가이드 범위 협의'] },
+      { label: 'DETAIL PAGE', name: '상세페이지 디자인', purpose: '제품과 서비스의 강점을 고객에게 제대로 전달하고 싶을 때', items: ['상세페이지·SNS·배너', '분량·규격·수량별 산정', '원고·촬영 필요 여부 확인'] },
+      { label: 'PROMOTION & PRINT', name: '홍보 · 인쇄물 디자인', purpose: '명함, 리플렛 등 실제 사용할 홍보물이 필요할 때', items: ['패키지·라벨·홍보물', '규격·종류별 산정', '인쇄용 파일 준비'] },
     ],
     extraCosts: [
       { title: '원고·사진·유료 자산', text: '원고 작성, 제품 촬영, 유료 이미지·서체 구입이 필요한지 확인합니다. 별도 제작이나 이용 권한이 필요한 항목은 견적에 구분합니다.' },
@@ -92,6 +108,7 @@ export const serviceDetails = {
   },
   marketing: {
     word: 'MARKETING', kicker: 'SNS · 블로그 · 광고 콘텐츠 · 운영',
+    navLabels: { why: '마케팅이 필요한 순간', scope: '우리가 하는 마케팅' },
     heroTags: ['콘텐츠 기획·제작', '채널 운영', '광고 운영·개선'],
     whyTitle: ['이런 고민이라면,', '마케팅의 방향부터 다시 봐야 합니다.'],
     scopeTitle: ['같은 상품도', '채널에 맞게 알립니다'],
@@ -127,6 +144,7 @@ export const serviceDetails = {
   },
   operations: {
     word: 'CARE', kicker: '콘텐츠 수정 · 사이트 점검 · 운영 지원',
+    navLabels: { why: '운영·관리가 필요한 순간', scope: '우리가 하는 운영·관리' },
     heroTags: ['필요할 때 건별 지원', '꾸준한 월 관리', '변경·검수 내역 정리'],
     scopeTitle: ['어떤 작업이', '필요하세요?'],
     scopeIntro: '문구·사진을 바꾸는 일부터 새 페이지 제작까지. 작업별 예시와 진행 방식을 확인해 보세요.',
