@@ -101,7 +101,7 @@ const crewAtlases = files.filter(file => /^crew-sprite[.-][\w-]+\.webp$/.test(pa
 assert.equal(crewAtlases.length, 1, 'Five synchronized people must share one hashed motion atlas.');
 assert.equal(digest(fs.readFileSync(crewAtlases[0])), digest(crewSprite), 'Built crew poses differ from the reviewed atlas.');
 
-for (const name of ['instagram-ongyeol.webp', 'blog-ruum.webp', 'poster-installed.webp', 'marketer-no-plinth-v2.webp']) {
+for (const name of ['instagram-ongyeol.webp', 'blog-ruum.webp', 'poster-installed.webp', 'marketer-no-plinth-v2.webp', 'detail-blog-ruum-v1.webp', 'detail-campaign-morning-oven-v1.webp']) {
   const extension = path.extname(name), stem = path.basename(name, extension);
   const emitted = files.filter(file => [`.`, `-`].some(separator => path.basename(file).startsWith(`${stem}${separator}`)) && file.endsWith(extension));
   assert.equal(emitted.length, 1, `Expected one hashed marketing asset: ${name}`);

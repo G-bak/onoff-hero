@@ -54,6 +54,17 @@ export default function ProfessionalServiceDetail({ service }: { service: Profes
                 <h4>{service.effects[index].title}</h4><p>{service.effects[index].text}</p>
               </div>
             </article>)}
+          </div> : service.slug === 'marketing' ? <div className="marketing-concerns" id="service-effects">
+            {service.situations.map((situation, index) => <article className="marketing-concern" key={situation} data-service-reveal>
+              <div className="marketing-concern-top">
+                <span className="marketing-concern-number">0{index + 1}</span>
+                <h3>{situation}</h3>
+              </div>
+              <div className="marketing-concern-effect">
+                <ArrowDownLeft className="marketing-concern-arrow" strokeWidth={2.5} aria-hidden="true"/>
+                <h4>{service.effects[index].title}</h4><p>{service.effects[index].text}</p>
+              </div>
+            </article>)}
           </div> : <>
             <div className="guide-situation-list">{service.situations.map((situation, index) => <article key={situation} data-service-reveal><span>0{index + 1}</span><h3>{situation}</h3></article>)}</div>
             <div className="guide-effects" id="service-effects">{service.effects.map(effect => <article key={effect.title} data-service-reveal><h3>{effect.title}</h3><p>{effect.text}</p></article>)}</div>

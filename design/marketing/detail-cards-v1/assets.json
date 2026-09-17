@@ -1,0 +1,24 @@
+[
+  {
+    "name": "blog-ruum",
+    "filename": "detail-blog-ruum-v1.webp",
+    "width": 720,
+    "height": 1440,
+    "bytes": 177264,
+    "sourceWidth": 887,
+    "sourceHeight": 1774,
+    "sourceSha256": "3c6105c1bf52989a5d3a1680eddd4d40c429d246653fc7482151b50bf06cb82d",
+    "sha256": "783be14c3b541f57aa82b48378f5da754a7b11b54f442b86b6fa79d9e974f4c2"
+  },
+  {
+    "name": "poster-morning-oven",
+    "filename": "detail-campaign-morning-oven-v1.webp",
+    "width": 720,
+    "height": 1440,
+    "bytes": 321748,
+    "sourceWidth": 887,
+    "sourceHeight": 1774,
+    "sourceSha256": "1056c54668433e374a9ac12832715935622cb57f8ef343f665fa322ff993cdfb",
+    "sha256": "6226255c790cd2d47bdc89e0fe3581e5e17ac8157a296523d6babbfce738c155"
+  }
+]

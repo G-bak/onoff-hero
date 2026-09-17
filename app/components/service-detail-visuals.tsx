@@ -1,7 +1,7 @@
 import ServiceExampleImage from './service-example-image';
 import OperationsServiceScope from './operations-service-scope';
 import type { ProfessionalServiceSlug } from '@/lib/service-details';
-import { blogCampaign, instagramCampaign } from '@/lib/marketing-content';
+import { instagramCampaign } from '@/lib/marketing-content';
 
 const workExamples = [
   { image: 'bakery', name: '모닝오븐', type: 'F&B / 매장·패키지', text: '매장 포스터부터 컵과 포장까지, 같은 로고와 컬러로 매장을 기억하게 합니다.' },
@@ -11,10 +11,6 @@ const workExamples = [
 
 function InstagramPreview({ hero = false }: { hero?: boolean }) {
   return <div className="guide-feed-preview"><div className="guide-feed-account"><span aria-hidden="true">온</span><div><strong>{instagramCampaign.account}</strong><small>광고 · 제작 예시</small></div><span aria-hidden="true">···</span></div><ServiceExampleImage image="instagram" width={720} height={900} alt="온결 보습크림 인스타그램 광고 소재 시안" unoptimized loading={hero ? 'eager' : 'lazy'} fetchPriority={hero ? 'high' : 'auto'}/><div className="guide-feed-body"><div className="guide-feed-icons" aria-hidden="true"><svg viewBox="0 0 90 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 21C-9 9 3-2 12 5C21-2 33 9 12 21ZM37 5Q50-2 54 9Q57 20 43 20L36 23L38 16Q31 9 37 5ZM66 3H86L74 22L72 10ZM72 10L86 3"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M5 3H19V22L12 17L5 22Z"/></svg></div><strong>{instagramCampaign.likes}</strong><p>{instagramCampaign.caption.join(' ')}</p><span>{instagramCampaign.tags}</span><small>{instagramCampaign.comments}</small></div></div>;
-}
-
-function BlogPreview() {
-  return <div className="guide-blog-preview"><div className="guide-blog-masthead"><strong>blog</strong><span>콘텐츠 제작 예시</span></div><div className="guide-blog-body"><span className="guide-blog-name">{blogCampaign.name}</span><h4>{blogCampaign.title.join(' ')}</h4><small>{blogCampaign.meta}</small><ServiceExampleImage image="blog" width={720} height={900} alt="침실 사진과 소재를 함께 보여주는 루움 침구 콘텐츠 시안" unoptimized loading="lazy" decoding="async"/><p>{blogCampaign.intro.join(' ')}</p>{blogCampaign.sections.map(section => <div className="guide-blog-part" key={section.title}><strong>{section.title}</strong><p>{section.lines[0]}</p></div>)}<div className="guide-blog-closing">{blogCampaign.closing.join(' ')}</div></div></div>;
 }
 
 export function DetailHeroVisual({ slug }: { slug: ProfessionalServiceSlug }) {
@@ -46,9 +42,28 @@ export function ServiceExamples({ slug }: { slug: ProfessionalServiceSlug }) {
     <div className="guide-portfolio-grid">{workExamples.map((item, index) => <figure key={item.name} data-service-reveal><div className="guide-portfolio-image"><ServiceExampleImage image={item.image} width={720} height={900} alt={`${item.name} ${item.type} 디자인 시안`} unoptimized loading="lazy" decoding="async"/><span>0{index + 1}</span></div><figcaption><div className="guide-portfolio-caption-heading"><h3>{item.name}</h3><span>{item.type}</span></div><p>{item.text}</p></figcaption></figure>)}</div>
   </div>;
   if (slug === 'marketing') return <div className="guide-channel-examples">
-    <div className="guide-example-top" data-service-reveal><span className="guide-eyebrow">ONE BRAND, EACH CHANNEL</span><p>가상 브랜드·콘텐츠 시안 / 게시물 반응 수치도 예시입니다</p></div>
-    <div className="guide-channel-grid"><article data-service-reveal><div className="guide-channel-heading"><span>01 / INSTAGRAM</span><h3>짧게 보고 관심 갖게</h3></div><div className="guide-channel-image guide-channel-instagram"><InstagramPreview/></div><p>사진·카드뉴스와 짧은 본문으로 소식과 상품의 특징을 전합니다.</p><span className="guide-channel-check">확인할 반응 / 도달·저장·프로필 방문</span></article><article data-service-reveal><div className="guide-channel-heading"><span>02 / BLOG</span><h3>궁금한 내용을 자세하게</h3></div><div className="guide-channel-image guide-channel-blog"><BlogPreview/></div><p>검색하는 질문에 맞춰 사진과 설명을 연결하고 선택에 필요한 정보를 담습니다.</p><span className="guide-channel-check">확인할 반응 / 조회·유입 경로·콘텐츠 반응</span></article><article data-service-reveal><div className="guide-channel-heading"><span>03 / IN-STORE</span><h3>방문한 자리에서 알게</h3></div><div className="guide-channel-image guide-channel-poster"><ServiceExampleImage image="poster" width={848} height={1060} alt="매장 앞 입간판에 적용한 모닝오븐 점심 세트 광고 포스터 시안" unoptimized loading="lazy" decoding="async"/></div><p>매장 앞과 내부에 놓이는 위치를 고려해 행사·메뉴 정보를 크게 전달합니다.</p><span className="guide-channel-check">확인할 내용 / 설치 위치·가독성·행사 안내</span></article></div>
-    <div className="guide-report" data-service-reveal><div><span className="guide-eyebrow">REVIEW & NEXT</span><h3>게시한 다음도<br/>함께 봅니다.</h3></div><dl><div><dt>무엇을 했는지</dt><dd>게시물·소재와 실제 운영 내역</dd></div><div><dt>어떤 반응이 있었는지</dt><dd>채널별 확인 가능한 지표와 광고 지출</dd></div><div><dt>다음에 무엇을 바꿀지</dt><dd>주제·표현·매체 운영의 개선안</dd></div></dl><p>채널·계정·측정 설정에 따라 확인 가능한 데이터가 다릅니다. 문의·구매 전환은 측정 환경을 확인한 후 보고 범위를 정합니다.</p></div>
+    <div className="guide-example-top" data-service-reveal><span className="guide-eyebrow">ONE BRAND, ONE DIRECTION</span><p>가상 브랜드·콘텐츠 시안 / 게시물 반응 수치도 예시입니다</p></div>
+    <div className="guide-channel-grid">
+      <article data-service-reveal>
+        <div className="guide-channel-heading"><span>01 / SNS CONTENT</span><h3>멈춰 보게 하고, 기억하게</h3></div>
+        <div className="guide-channel-image guide-channel-instagram"><div className="guide-channel-frame"><div className="guide-channel-native"><InstagramPreview/></div></div></div>
+        <div className="guide-channel-caption"><span>BEAUTY / SNS CONTENT</span><p>{'인스타그램과 SNS 환경에 맞춰 이미지, 카드뉴스, 숏폼 등\n짧은 시간 안에 메시지가 전달되는 콘텐츠를 만듭니다.'}</p></div>
+        <span className="guide-channel-check">확인할 반응 / 도달·저장·프로필 방문</span>
+      </article>
+      <article data-service-reveal>
+        <div className="guide-channel-heading"><span>02 / BLOG &amp; SEARCH</span><h3>궁금한 순간, 더 자세히 알 수 있게</h3></div>
+        <div className="guide-channel-image guide-channel-blog"><div className="guide-channel-frame"><div className="guide-channel-native"><ServiceExampleImage image="blogDetail" width={720} height={1440} alt="루움 침구 블로그 시안. 이불 고를 때 꼭 확인할 3가지: 피부에 닿는 소재, 우리 집 온도에 맞는 두께, 세탁·건조 방법." unoptimized loading="lazy" decoding="async"/></div></div></div>
+        <div className="guide-channel-caption"><span>LIVING / BLOG</span><p>{'단순히 글을 많이 만드는 것보다\n검색한 고객이 읽을 이유가 있는 콘텐츠를 만듭니다.'}</p></div>
+        <span className="guide-channel-check">확인할 반응 / 조회·유입 경로·콘텐츠 반응</span>
+      </article>
+      <article data-service-reveal>
+        <div className="guide-channel-heading"><span>03 / CAMPAIGN</span><h3>필요한 타이밍에, 필요한 메시지를</h3></div>
+        <div className="guide-channel-image guide-channel-poster"><div className="guide-channel-frame"><div className="guide-channel-native"><ServiceExampleImage image="campaignDetail" width={720} height={1440} alt="모닝오븐 매장 앞 세로형 입간판 광고 시안. 점심 고민 끝, 샌드위치와 아메리카노." unoptimized loading="lazy" decoding="async"/></div></div></div>
+        <div className="guide-channel-caption"><span>F&amp;B / CAMPAIGN</span><p>{'소재 제작부터 광고 집행, 반응 확인까지 연결해\n한 번의 캠페인이 다음 방향으로 이어지게 합니다.'}</p></div>
+        <span className="guide-channel-check">확인할 내용 / 설치 위치·가독성·행사 안내</span>
+      </article>
+    </div>
+    <div className="guide-report" data-service-reveal><div><span className="guide-eyebrow">REVIEW & NEXT</span><h3>게시한 다음도<br/>함께 봅니다.</h3></div><dl><div><dt>무엇을 했는지</dt><dd>게시물 · 콘텐츠 · 광고 운영 내역</dd></div><div><dt>어떤 반응이 있었는지</dt><dd>채널별 확인 가능한 반응과 지표</dd></div><div><dt>다음에 무엇을 바꿀지</dt><dd>콘텐츠 · 표현 · 운영 방식의 개선점</dd></div></dl><p>채널·계정·측정 설정에 따라 확인 가능한 데이터가 다릅니다. 문의·구매 전환은 측정 환경을 확인한 후 보고 범위를 정합니다.</p></div>
   </div>;
   return <OperationsServiceScope/>;
 }

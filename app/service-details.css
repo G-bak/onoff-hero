@@ -49,7 +49,7 @@
 [data-guide='marketing'] .guide-hero .service-detail-kicker::before { background: #fff; }
 [data-guide='marketing'] .guide-button { background: #d8ff3e; border-color: #d8ff3e; color: #090a0f; }
 [data-guide='marketing'] .guide-hero-bottom { border-color: #ffffff60; }
-[data-guide='marketing'] :is(.service-detail-summary, .guide-why .guide-chapter-heading > p, .guide-situation-list h3) { white-space: pre-line; }
+[data-guide='marketing'] .service-detail-summary { white-space: pre-line; }
 .guide-media-cover-images { position: relative; height: clamp(315px, 31vw, 470px); margin: 0 30px 20px; }
 .guide-media-cover-images > img { position: absolute; object-fit: contain; height: auto; box-shadow: 0 20px 30px #090a0f40; width: 66%; left: 0; top: 7%; rotate: -9deg; }
 .guide-media-feed { position: absolute; width: 49%; right: 0; bottom: 0; rotate: 7deg; box-shadow: 0 20px 30px #090a0f30; }
@@ -76,6 +76,8 @@
 .guide-chapter-heading > p { font-size: 17px; max-width: 690px; margin-bottom: 0; }
 [data-guide='design'] .guide-why .guide-chapter-heading { max-width: 900px; }
 [data-guide='design'] .guide-why .guide-chapter-heading > p { max-width: none; font-size: 20px; white-space: pre-line; }
+[data-guide='marketing'] .guide-why .guide-chapter-heading { max-width: 1000px; }
+[data-guide='marketing'] .guide-why .guide-chapter-heading > p { max-width: none; font-size: 20px; white-space: pre-line; word-break: keep-all; overflow-wrap: anywhere; }
 .guide-situation-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-block: 1px solid #090a0f; }
 .guide-situation-list article { display: flex; gap: 20px; padding: 30px 28px; border-right: 1px solid #090a0f30; }
 .guide-situation-list article:first-child { padding-left: 0; }
@@ -98,11 +100,24 @@
 .design-concern-arrow { position: absolute; top: 18px; right: 16px; width: 20px; height: 20px; }
 .design-concern-effect h4 { font-size: 22px; font-weight: 600; line-height: 1.4; margin: 0 0 18px; }
 .design-concern-effect p { font-size: 17px; line-height: 1.7; margin: 0; word-break: keep-all; overflow-wrap: anywhere; }
+.marketing-concerns { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: auto auto; border-top: 1px solid #090a0f80; scroll-margin-top: 155px; }
+.marketing-concern { display: grid; grid-template-rows: subgrid; grid-row: span 2; min-width: 0; padding-inline: 22px; border-right: 1px solid #090a0f20; }
+.marketing-concern:first-child { padding-left: 0; }
+.marketing-concern:last-child { padding-right: 0; border-right: 0; }
+.marketing-concern-top { padding-block: 32px 48px; }
+.marketing-concern-number { display: block; margin-bottom: 18px; font: 700 12px/1.5 'Montserrat', sans-serif; }
+.marketing-concern-top h3 { padding-left: 32px; font-size: clamp(22px, 1.7vw, 28px); font-weight: 650; line-height: 1.45; margin: 0; white-space: pre-line; overflow-wrap: anywhere; }
+.marketing-concern-effect { position: relative; border-top: 1px solid #090a0f80; padding: 48px 0 30px 32px; }
+.marketing-concern-arrow { position: absolute; top: 18px; right: 16px; width: 20px; height: 20px; }
+.marketing-concern-effect h4 { font-size: 22px; font-weight: 400; line-height: 1.4; margin: 0 0 18px; }
+.marketing-concern-effect p { font-size: 17px; line-height: 1.7; margin: 0; word-break: keep-all; overflow-wrap: anywhere; }
 .guide-scope { background: #e6e8e7; }
 [data-guide='design'] .guide-scope { background: #f4d2d8; }
 [data-guide='design'] .guide-scope .guide-chapter-heading { max-width: 1000px; }
 [data-guide='design'] .guide-scope .guide-chapter-heading > p { max-width: none; white-space: pre-line; }
 [data-guide='marketing'] .guide-scope { background: #e9edef; }
+[data-guide='marketing'] .guide-scope .guide-chapter-heading { max-width: 1000px; }
+[data-guide='marketing'] .guide-scope .guide-chapter-heading > p { max-width: none; font-size: 20px; white-space: pre-line; word-break: keep-all; overflow-wrap: anywhere; }
 .guide-example-intro h3 { font-size: clamp(26px, 2.6vw, 42px); line-height: 1.2; margin-bottom: 24px; }
 .guide-example-intro p { font-size: 16px; max-width: 410px; }
 .guide-example-note { display: block; font-size: 12px; line-height: 1.6; }
@@ -128,15 +143,17 @@
 .guide-portfolio-caption-heading > span { margin-left: auto; font-size: 12px; font-weight: 600; text-align: right; }
 .guide-portfolio-grid h3 { margin: 0; font-size: 29px; }
 .guide-portfolio-grid p { margin: 0; font-size: 15px; }
-.guide-channel-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; align-items: start; }
+.guide-channel-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: auto auto auto auto; column-gap: 32px; }
+.guide-channel-grid > article { display: grid; grid-template-rows: subgrid; grid-row: span 4; min-width: 0; }
 .guide-channel-heading { border-top: 1px solid #090a0f; padding-top: 20px; }
 .guide-channel-heading > span { font: 700 12px/1.5 'Montserrat', sans-serif; }
 .guide-channel-heading h3 { font-size: clamp(22px, 2vw, 30px); margin: 12px 0 24px; }
-.guide-channel-image { padding: 24px; background: #d9dddd; display: flex; align-items: flex-start; justify-content: center; }
+.guide-channel-image { min-width: 0; padding: 24px; background: #d9dddd; display: grid; place-items: center; }
 .guide-channel-image img { display: block; width: 100%; height: auto; box-shadow: 0 12px 25px #090a0f15; }
-.guide-channel-instagram img { max-width: 260px; }
-.guide-channel-blog img { max-width: 260px; }
-.guide-feed-preview, .guide-blog-preview { width: 100%; max-width: 330px; background: #fff; color: #090a0f; box-shadow: 0 12px 25px #090a0f15; }
+.guide-channel-frame { position: relative; width: 100%; max-width: 330px; aspect-ratio: var(--channel-card-ratio, 330 / 656); overflow: hidden; background: #fff; box-shadow: 0 12px 25px #090a0f15; }
+.guide-channel-native { position: absolute; width: 330px; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(var(--channel-preview-scale, 1)); transform-origin: center; }
+.guide-channel-native :is(.guide-feed-preview, img) { box-shadow: none; }
+.guide-feed-preview { width: 100%; max-width: 330px; background: #fff; color: #090a0f; box-shadow: 0 12px 25px #090a0f15; }
 .guide-feed-account { display: flex; align-items: center; gap: 9px; padding: 12px; }
 .guide-feed-account > span:first-child { display: grid; place-content: center; flex-shrink: 0; width: 27px; height: 27px; background: #343cff; color: #fff; font-size: 13px; border-radius: 50%; }
 .guide-feed-account > div { min-width: 0; flex: 1; }
@@ -151,21 +168,9 @@
 .guide-feed-body p { margin: 7px 0; font-size: 12px; }
 .guide-feed-body > span { display: block; font-size: 12px; overflow-wrap: anywhere; }
 .guide-feed-body small { display: block; margin-top: 7px; font-size: 12px; }
-.guide-blog-masthead { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; background: #d8ff3e; }
-.guide-blog-masthead strong { font: 700 20px/1 'Montserrat', sans-serif; }
-.guide-blog-masthead span { font-size: 12px; }
-.guide-blog-body { padding: 18px; }
-.guide-blog-name { display: block; border-bottom: 1px solid #090a0f30; padding-bottom: 14px; font-size: 12px; font-weight: 650; }
-.guide-blog-body h4 { margin: 20px 0 12px; font-size: 25px; font-weight: 750; line-height: 1.25; }
-.guide-blog-body > small { font-size: 12px; display: block; margin-bottom: 18px; }
-.guide-blog-body img { max-width: none; box-shadow: none; }
-.guide-blog-body p { font-size: 12px; margin: 18px 0; }
-.guide-blog-part { border-top: 1px solid #090a0f25; padding-top: 15px; }
-.guide-blog-part strong { font-size: 14px; line-height: 1.5; display: block; }
-.guide-blog-part p { margin: 10px 0 15px; }
-.guide-blog-closing { background: #f0f0e9; padding: 15px; font-size: 12px; line-height: 1.7; }
-.guide-channel-poster { padding: 0; margin-top: 65px; }
-.guide-channel-grid article > p { font-size: 16px; margin: 20px 0 14px; }
+.guide-channel-caption { min-width: 0; padding-top: 24px; }
+.guide-channel-caption > span { display: block; border-bottom: 1px solid #090a0f30; padding-bottom: 14px; text-align: right; font: 600 14px/1.5 'Montserrat', sans-serif; }
+.guide-channel-caption > p { font-size: 18px; margin: 24px 0; white-space: pre-line; word-break: keep-all; overflow-wrap: anywhere; }
 .guide-channel-check { display: block; font-size: 12px; padding-top: 14px; border-top: 1px solid #090a0f30; line-height: 1.6; }
 .guide-report { display: grid; grid-template-columns: .8fr 1.2fr; gap: 20px 8%; padding: 35px 40px; background: #090a0f; color: #fff; margin-top: 55px; }
 .guide-report h3 { font-size: clamp(27px, 2.6vw, 40px); line-height: 1.2; margin: 0; }
@@ -174,6 +179,7 @@
 .guide-report dt { font-weight: 650; }
 .guide-report dd { margin: 0; }
 .guide-report > p { grid-column: 2; font-size: 12px; margin: 0; }
+[data-guide='marketing'] .guide-report dl > div { grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); font-size: 18px; line-height: 1.75; word-break: keep-all; overflow-wrap: anywhere; }
 .guide-care-scope { min-width: 0; }
 .guide-care-scope .guide-care-tabs { display: block; }
 .guide-care-scope .guide-care-tab-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; width: 100%; height: auto; padding: 0; margin-bottom: 16px; border-radius: 0; background: transparent; }
@@ -210,6 +216,11 @@
 [data-guide='design'] .guide-deliverables h3 { font-weight: 500; line-height: 1.4; margin: 12px 0 16px; }
 [data-guide='design'] .guide-deliverables p { font-size: 18px; max-width: none; white-space: pre-line; }
 [data-guide='design'] .guide-deliverables li { font-size: 16px; }
+[data-guide='marketing'] .guide-deliverables article > * { min-width: 0; }
+[data-guide='marketing'] .guide-deliverable-label { display: block; font-size: 24px; font-weight: 800; line-height: 1.4; letter-spacing: -.045em; }
+[data-guide='marketing'] .guide-deliverables h3 { font-weight: 400; line-height: 1.4; margin: 12px 0 16px; }
+[data-guide='marketing'] .guide-deliverables p { font-size: 16px; max-width: none; white-space: pre-line; }
+[data-guide='marketing'] .guide-deliverables li { font-size: 16px; }
 .guide-note { margin: 22px 0 0; font-size: 13px; }
 .guide-process { background: #090a0f; color: #fff; }
 .guide-process-list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; }
@@ -224,6 +235,10 @@
 [data-guide='design'] .guide-process .guide-chapter-heading > p { font-size: 20px; white-space: pre-line; }
 [data-guide='design'] .guide-process-list p { white-space: pre-line; }
 [data-guide='design'] .guide-checkpoint { font-size: 14px; }
+[data-guide='marketing'] .guide-process .guide-chapter-heading { max-width: 1000px; }
+[data-guide='marketing'] .guide-process .guide-chapter-heading > p { max-width: none; font-size: 20px; white-space: pre-line; word-break: keep-all; overflow-wrap: anywhere; }
+[data-guide='marketing'] .guide-process-list p { white-space: pre-line; }
+[data-guide='marketing'] .guide-checkpoint { font-size: 14px; word-break: keep-all; overflow-wrap: anywhere; }
 .guide-pricing { background: #d8ff3e; }
 .guide-price-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
 .guide-price-grid[data-count='2'] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -265,6 +280,17 @@
 .guide-inquiry a { font-size: 16px; min-width: 280px; flex-shrink: 0; }
 @media (min-width: 1921px) { .guide-hero, .guide-inquiry { padding-inline: max(5%, calc((100vw - 1700px)/2)); } }
 @media (max-width: 1100px) {
+  [data-guide='marketing'] .guide-scope .guide-chapter-heading > p { font-size: 18px; white-space: normal; }
+  [data-guide='marketing'] .guide-why .guide-chapter-heading > p { font-size: 18px; white-space: normal; }
+  [data-guide='marketing'] .guide-process .guide-chapter-heading > p { font-size: 18px; white-space: normal; }
+  [data-guide='marketing'] .guide-process-list p { white-space: normal; }
+  .marketing-concerns { grid-template-columns: 1fr; grid-template-rows: none; }
+  .marketing-concern { grid-template-rows: auto auto; grid-row: auto; padding-inline: 0; border-right: 0; border-bottom: 1px solid #090a0f80; }
+  .marketing-concern:last-child { border-bottom: 0; }
+  .marketing-concern-top { padding-block: 30px 32px; }
+  .marketing-concern-top h3 { font-size: 24px; white-space: normal; }
+  .marketing-concern-effect { padding-block: 44px 32px; }
+  .marketing-concern-effect h4 { font-size: 21px; }
   [data-guide='design'] .guide-why .guide-chapter-heading > p { font-size: 18px; white-space: normal; }
   [data-guide='design'] .guide-process .guide-chapter-heading > p { font-size: 18px; white-space: normal; }
   [data-guide='design'] .guide-process-list p { white-space: normal; }
@@ -292,9 +318,14 @@
   .guide-process-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px; }
   .guide-process-number { margin-bottom: 25px; }
   .guide-price-grid > article { padding: 24px 20px; }
-  .guide-portfolio-grid, .guide-channel-grid { gap: 20px; }
+  .guide-portfolio-grid { gap: 20px; }
+  .guide-channel-grid { column-gap: 20px; }
   .guide-channel-image { padding: 15px; }
-  .guide-channel-poster { padding: 0; }
+  .guide-channel-caption > p { font-size: 17px; white-space: normal; }
+  [data-guide='marketing'] .guide-report { grid-template-columns: 1fr; }
+  [data-guide='marketing'] .guide-report > p { grid-column: 1; }
+  [data-guide='marketing'] .guide-report dl > div { font-size: 17px; }
+  [data-guide='marketing'] .guide-deliverables p { white-space: normal; }
   .guide-inquiry { align-items: start; flex-direction: column; }
 }
 @media (max-width: 760px) {
@@ -330,6 +361,9 @@
   .guide-chapter-heading { margin-bottom: 35px; }
   .guide-chapter-heading > p { font-size: 16px; }
   [data-guide='design'] .guide-why .guide-chapter-heading > p { font-size: 16px; }
+  [data-guide='marketing'] .guide-why .guide-chapter-heading > p { font-size: 16px; }
+  [data-guide='marketing'] .guide-scope .guide-chapter-heading > p { font-size: 16px; }
+  [data-guide='marketing'] .guide-process .guide-chapter-heading > p { font-size: 16px; }
   [data-guide='design'] .guide-process .guide-chapter-heading > p { font-size: 16px; }
   .guide-eyebrow { margin-bottom: 20px; }
   .guide-situation-list { grid-template-columns: 1fr; }
@@ -349,6 +383,14 @@
   .design-concern-arrow { top: 14px; right: 4px; width: 18px; height: 18px; }
   .design-concern-effect h4 { font-size: 20px; margin-bottom: 14px; }
   .design-concern-effect p { font-size: 16px; }
+  .marketing-concerns { scroll-margin-top: 135px; }
+  .marketing-concern-top { padding-block: 26px 28px; }
+  .marketing-concern-number { margin-bottom: 14px; }
+  .marketing-concern-top h3 { padding-left: 20px; font-size: 22px; }
+  .marketing-concern-effect { padding: 42px 0 28px 20px; }
+  .marketing-concern-arrow { top: 14px; right: 4px; width: 18px; height: 18px; }
+  .marketing-concern-effect h4 { font-size: 20px; margin-bottom: 14px; }
+  .marketing-concern-effect p { font-size: 16px; }
   .guide-strategy-example { padding: 26px; }
   .guide-strategy-map { gap: 12px; }
   .guide-strategy-map li { padding: 20px; }
@@ -362,18 +404,19 @@
   .guide-portfolio-grid figcaption { padding: 0; }
   .guide-portfolio-grid h3 { font-size: 27px; }
   .guide-portfolio-grid p { font-size: 14px; }
-  .guide-channel-grid { grid-template-columns: 1fr; gap: 40px; }
-  .guide-channel-grid article { display: grid; grid-template-columns: 1.3fr 1fr; align-items: start; gap: 0 24px; }
-  .guide-channel-heading { grid-column: 1/-1; }
+  .guide-channel-grid { grid-template-columns: 1fr; grid-template-rows: none; gap: 40px; }
+  .guide-channel-grid > article { grid-template-rows: auto; grid-row: auto; }
   .guide-channel-heading h3 { font-size: 26px; }
-  .guide-channel-image { grid-row: 2/4; padding: 12px; }
-  .guide-channel-poster { margin: 0; padding: 0; }
-  .guide-channel-grid article > p { margin: 0 0 20px; }
-  .guide-channel-check { grid-column: 2; }
+  .guide-channel-image { padding: 20px; }
+  .guide-channel-caption { padding-top: 20px; }
+  .guide-channel-caption > p { font-size: 16px; margin-block: 20px; }
   .guide-report { grid-template-columns: 1fr; padding: 30px; gap: 20px; margin-top: 35px; }
   .guide-report > p { grid-column: 1; }
   .guide-report h3 { font-size: 30px; }
   .guide-report dl > div { grid-template-columns: 1fr; gap: 7px; }
+  [data-guide='marketing'] .guide-report dl > div { grid-template-columns: 1fr; font-size: 16px; }
+  [data-guide='marketing'] .guide-deliverable-label { font-size: 22px; }
+  [data-guide='marketing'] .guide-deliverables li { font-size: 15px; }
   .guide-care-scope .guide-care-tab { padding: 20px; }
   .guide-care-examples { grid-template-columns: 1fr; padding: 0; margin-block: 24px; }
   .guide-care-examples article, .guide-care-examples article + article { padding: 24px 0; border-left: 0; }
@@ -448,11 +491,7 @@
   .guide-portfolio-grid figure { display: block; }
   .guide-portfolio-grid figcaption { padding-top: 20px; }
   .guide-portfolio-grid p { font-size: 15px; }
-  .guide-channel-grid article { display: block; }
-  .guide-channel-grid article > p { margin-top: 20px; }
-  .guide-channel-grid article > p { font-size: 15px; }
-  .guide-channel-image { padding: 8px; }
-  .guide-channel-poster { padding: 0; }
+  .guide-channel-image { padding: 16px; }
   .guide-process-list { grid-template-columns: 1fr; }
   .guide-process-list li { display: grid; grid-template-columns: 53px 1fr; gap: 0 20px; }
   .guide-process-number { grid-row: 1/4; font-size: 38px; }

@@ -27,6 +27,7 @@
 | `node --experimental-strip-types scripts/prepare-designer-v4.mjs` | [DESIGN 춤 v4](../design/people-motion/v4/README.md) |
 | `node --experimental-strip-types scripts/prepare-web-person-v5.mjs` | [WEB 쓰기 v5](../design/people-motion/v5/README.md) |
 | `npm run prepare:marketing` | 현재 채널 사진·포스터와 마케터 받침대 제거; [v3](../design/marketing/v3/README.md), [v2 입력](../design/marketing/v2/README.md) |
+| `node scripts/prepare-marketing-detail-cards.mjs` | [상세 전용 세로 카드](../design/marketing/detail-cards-v1/README.md)의 생성 원본2개를720×1440 WebP로 변환; HOME·HERO 원본은 유지 |
 | `node scripts/prepare-brand-assets.mjs` | 회사 로고 원본에서 헤더·흰 배경32/64px PNG·16/32/48/64px ICO 파비콘 생성 |
 | `prepare-web-film.mjs`, `prepare-brand-film.mjs` | 사용자 원본과 외부 FFmpeg 경로 필요. [WEB 영상](../design/web-showcase/README.md), [마무리 영상](../design/brand-film/README.md) |
 

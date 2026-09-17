@@ -1,0 +1,18 @@
+Use case: ads-marketing.
+Asset type: a finished raster editorial blog card for a fictional Korean bedding brand, for placement directly into a website portrait slot.
+Input image: reference image of RUUM bedding, used only for matching subject, warm mood, material textures and palette. Recreate and recompose as a new complete finished blog card.
+Canvas: EXACT 1:2 portrait aspect ratio, target 1024 pixels wide × 2048 pixels high. Single card edge-to-edge filling the canvas. White article surface, lime green masthead, dark readable Korean typography. The outer image bounds ARE the blog card bounds. No outer border, no surrounding background, no external padding, no device mockup.
+Composition: compact restrained Korean editorial design with a full-width lime masthead at the very top, 'blog' clearly rendered; a small label '루움의 리빙노트'; a prominent two-line headline '이불 고를 때' then '꼭 확인할 3가지'; deck '소재 · 계절 · 세탁'. A large editorial photograph beneath the headline occupies a generous part of the card: a realistically photographed warm sunlit bed with ivory bedding, a moss-green throw and terracotta cushion, with beautiful tactile cotton and linen details, same restful atmosphere as reference. Keep the photograph free of words. Below the photograph, three compact numbered editorial rows in dark charcoal, with clear hierarchy between bold row titles and readable descriptions. The page should feel like a polished compact Korean blog article, all content fitted harmoniously into the tall card. Do not use tiny filler text.
+Text, verbatim, with accurate clear Korean glyphs:
+Masthead: 'blog'
+Small label: '루움의 리빙노트'
+Main headline on two lines: '이불 고를 때\n꼭 확인할 3가지'
+Deck: '소재 · 계절 · 세탁'
+Row 1 title: '01 피부에 닿는 소재부터'
+Row 1 body: '면·리넨 등 겉감의 소재와 혼용률을 확인하세요.'
+Row 2 title: '02 우리 집 온도에 맞는 두께'
+Row 2 body: '침실 온도와 수면 환경에 맞는 두께를 고르세요.'
+Row 3 title: '03 세탁까지 편해야 좋은 이불'
+Row 3 body: '제품의 세탁 표시와 건조 방법을 확인하세요.'
+Bottom: '내 생활에 맞는 침구를 찾는 기준, 루움'
+Constraints: exactly one finished blog card, no additional words, no fabricated metrics, no review counts, no external logos, no watermark, no repeating headline inside the photograph, no collage of cards. All rows and footer must be complete and within the canvas. Brand is fictional. Make this precisely a tall 1:2 card, not a square or conventional 2:3 poster.

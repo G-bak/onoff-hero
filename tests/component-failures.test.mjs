@@ -70,6 +70,69 @@ function nodes(tree) {
   return [tree, ...nodes(tree.props?.children), ...nodes(tree.props?.front)];
 }
 
+await test('service preview fitting follows the Instagram size, contains content, and cancels late resize/font work', async () => {
+  const names = ['window', 'document', 'matchMedia', 'IntersectionObserver', 'ResizeObserver', 'requestAnimationFrame', 'cancelAnimationFrame', 'scrollY', 'innerHeight'];
+  const originals = names.map(name => [name, Object.getOwnPropertyDescriptor(globalThis, name)]);
+  const frames = new Map(), timers = new Map(), observers = [];
+  const fonts = Promise.withResolvers();
+  let next = 0;
+  const style = () => ({ values: {}, setProperty(name, value) { this.values[name] = value; } });
+  const previews = [656, 984, 413].map(height => ({ offsetWidth: 330, offsetHeight: height, parentElement: { clientWidth: 330 }, style: style() }));
+  const grid = { style: style(), querySelector: () => previews[0], querySelectorAll: () => previews };
+  const root = { dataset: {}, style: style(), scrollHeight: 1200, querySelector: () => grid, querySelectorAll: () => [] };
+  Object.assign(globalThis, {
+    window: Object.assign(new EventTarget(), { setTimeout(callback) { timers.set(++next, callback); return next; }, clearTimeout: id => timers.delete(id) }),
+    document: Object.assign(new EventTarget(), { hidden: false, fonts: { ready: fonts.promise } }),
+    matchMedia: () => Object.assign(new EventTarget(), { matches: false }),
+    IntersectionObserver: class { observe() {} unobserve() {} disconnect() {} },
+    ResizeObserver: class {
+      constructor(callback) { this.callback = callback; this.targets = []; this.disconnected = false; observers.push(this); }
+      observe(target) { this.targets.push(target); }
+      disconnect() { this.disconnected = true; }
+    },
+    requestAnimationFrame(callback) { frames.set(++next, callback); return next; },
+    cancelAnimationFrame: id => frames.delete(id), scrollY: 0, innerHeight: 800,
+  });
+  const harness = componentHarness('../app/components/service-detail-motion.tsx', {});
+  const flush = () => { const callbacks = [...frames.values()]; frames.clear(); callbacks.forEach(callback => callback()); };
+  try {
+    const tree = harness.render({ slug: 'marketing', children: null });
+    tree.props.ref.current = root;
+    harness.effects(); flush();
+    assert.equal(observers[0].targets.length, 6, 'Observe the source sizes and available frames');
+    assert.equal(grid.style.values['--channel-card-ratio'], '330 / 656');
+    assert.equal(previews[0].style.values['--channel-preview-scale'], '1');
+    assert.equal(Number(previews[1].style.values['--channel-preview-scale']), 2 / 3);
+    assert.equal(previews[2].style.values['--channel-preview-scale'], '1');
+
+    // A narrower viewport and a changed font height must fit every whole card,
+    // using layout dimensions rather than already-scaled bounding rectangles.
+    previews.forEach(preview => { preview.parentElement.clientWidth = 240; });
+    previews[0].offsetHeight = 720;
+    observers[0].callback(); observers[0].callback();
+    assert.equal(frames.size, 1, 'Resize notifications share a single pending frame');
+    flush();
+    assert.equal(grid.style.values['--channel-card-ratio'], '330 / 720');
+    for (const preview of previews) {
+      const scale = Number(preview.style.values['--channel-preview-scale']);
+      assert.ok(scale > 0 && Number.isFinite(scale));
+      assert.ok(preview.offsetWidth * scale <= 240 + 1e-8);
+      assert.ok(preview.offsetHeight * scale <= 240 * 720 / 330 + 1e-8);
+    }
+    previews[0].offsetHeight = 0;
+    observers[0].callback(); flush();
+    assert.equal(grid.style.values['--channel-card-ratio'], '330 / 720', 'A temporarily hidden source cannot replace the valid ratio');
+    observers[0].callback(); harness.dispose();
+    fonts.resolve(); await new Promise(resolve => setImmediate(resolve));
+    assert.ok(observers[0].disconnected);
+    assert.equal(frames.size, 0);
+    assert.equal(timers.size, 0);
+  } finally {
+    harness.dispose();
+    for (const [name, previous] of originals) { if (previous) Object.defineProperty(globalThis, name, previous); else delete globalThis[name]; }
+  }
+});
+
 for (const entry of ['initial', 'resume']) {
   await test(`HOME ${entry} card startup failure retains the correct error UI and can retry`, () => {
     const components = ['card-ribbon', 'wordmark', 'news-recruitment-link', 'site-controls', 'scene-loader', 'scene-recovery-notice', 'section-entry', 'why-section', 'card-showcase', 'design-editorial', 'web-section', 'services-section', 'brand-film'];
