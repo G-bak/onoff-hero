@@ -1,5 +1,15 @@
 # ON&OFF 프로젝트 작업 지침
+## 2026-09-18 평택 검색 메타데이터·운영 배포
+
+사용자가 HOME·마케팅·웹·디자인의 title/description을 제공하고 운영 배포를 요청했다. `lib/seo.ts`에 지정 문구를 그대로 반영하고 공통 메타데이터 함수로 Open Graph·Twitter·WebPage 구조화 데이터의 제목/설명을 연결한다. 기획·운영·문의의 기존 고유 메타데이터, 각 실제 URL canonical, 네이버 소유 확인 runtime secret, robots·sitemap 설정은 유지한다. 디자인·애니메이션·UI·HERO와 본문 제목은 변경하지 않는다. 선택 요청에 따라 마케팅/디자인의 기존 작업 안내와 웹 FAQ 설명에 **평택 광고대행사 / 평택 로고디자인 / 평택 홈페이지 제작**을 각 페이지 본문1회만 자연스럽게 추가한다. 별도 keywords 태그나 반복 문구를 추가하지 않는다. 기존 회사 계정 main 자동 배포를 사용하고 검증·실제 완료는 [SEO 기록](docs/seo/IMPLEMENTATION.md)과 [배포 기록](docs/operations/DEPLOYMENT-NOTES.md)에 남긴다. 로컬 서버·DNS·PC 설정을 유지하고 검증 로그·환경변수는 Git에서 제외한다.
+
+## 2026-09-17 네이버 소유 확인 태그 운영 적용
+
+사용자가 네이버 HTML 소유 확인 태그 제공과 운영 배포를 요청했다. 기존 `app/layout.tsx`·`verificationMetadata`가 읽는 회사 Worker의 `NAVER_SITE_VERIFICATION` 실행 환경 secret에 사용자 제공 content 값만 추가했다.17:17:28 KST secret 변경 배포 `0dd3a4e6-5a91-46ad-af40-6159cff91a8e`가 버전 `714e1e5d-eef5-4225-89ec-23e6db3c644a`를100% 반영했다. 앱 소스는 `95db768c47e55efa47d30293ee90aa793ba76c69` 그대로이며 기존 문의 secret2개·자동 배포·workers.dev/Preview 비활성을 유지한다.17:18:44 KST 기본 DNS로 공개7페이지200·각 head에 정확한 인증 태그1개·Yeti 헤더 홈페이지200·기존 canonical/광고 태그·문의 GET 활성·로컬200을 확인했다. 네이버 화면의 소유 확인 버튼·사이트맵 제출·색인은 사용자의 후속 단계이며 완료로 설명하지 않는다. [배포 기록](docs/operations/DEPLOYMENT-NOTES.md)과 [네이버 안내](docs/seo/NAVER-SEARCH-ADVISOR.md)에 남긴다. 환경값은 Git에 넣지 않으며 이 완료 기록은 로컬만 보관한다.
+
 ## 2026-09-17 마케팅 상세 개선 운영 배포 승인
+
+소스 커밋 `95db768c47e55efa47d30293ee90aa793ba76c69`의 GitHub Workers Builds 체크와 Build `43c9e75b-7149-4de0-82fc-de94198e4fda`가 success이며10:06 KST Worker 버전 `9333083e-8720-4308-8910-3e05cfdcb0e9`가100% 배포됐다. 공개 DNS를 검증 프로세스에만 지정해 운영7개 경로·마케팅5개 본문 문구·자산41개·새 이미지2개/빌드 CSS 해시·SEO·문의 GET 활성 상태를 확인했다. 기본 DNS는10:04 루트 EAI_AGAIN이었고10:07:40 마케팅200·www308을 확인했으므로 전체 회선의 안정화 완료로 단정하지 않는다. 로컬 서버는200이며 DNS·PC 설정은 변경하지 않았다. 완료 기록은 로컬에만 남기고 기록만을 위한 추가 배포는 하지 않는다.
 
 사용자가 현재 마케팅 수정 전체의 배포를 요청했다. 첫 본문·고민과 효과 배치, 작업 범위 제목·채널 카드 문구·같은 크기 프레임·블로그/광고 새 이미지, 보고·작업 범위 문구, 진행 과정 전체를 GitHub main에 반영하고 기존 회사 계정 Cloudflare Workers Builds 자동 배포로 공개한다. 아래 변경별 로컬 전용 표기는 검토 당시의 이력이며 이번 배포 승인이 우선한다. 최종 앱 소스는 `npm run ci:build`의162개 검사·린트·타입·빌드·CSS/자산 검사를 통과했다. 실제 배포와 운영 검증은 [배포 기록](docs/operations/DEPLOYMENT-NOTES.md)에 남긴다. DNS·PC 설정을 변경하지 않고 로컬 서버를 유지한다. 로그·검증 스크립트·환경변수는 Git에서 제외하며 완료 기록만을 위한 추가 배포는 하지 않는다.
 

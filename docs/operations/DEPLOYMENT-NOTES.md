@@ -2,12 +2,29 @@
 
 > 날짜별 배포 이력이다. 현재 운영 버전은 실제 Worker 배포와 GitHub 커밋을 함께 확인한다. 2026-09-13 초기 점검은 로컬이었으며, 최신 사용자가 실제 Slack 테스트 후 전체 GitHub 반영·배포를 승인했다.
 
+## 2026-09-18 — 평택 검색 메타데이터
+
+- 사용자 요청으로 HOME·마케팅·웹·디자인의 title/description을 지정 문구로 바꾸며 Open Graph·Twitter·WebPage 구조화 데이터도 같은 원본으로 맞춘다. 기획·운영·문의는 기존 고유 메타데이터를 유지한다. canonical·네이버 인증 태그·robots/sitemap·디자인·애니메이션·메인 카피는 보존한다.
+- 마케팅/디자인 작업 안내와 웹의 자료 준비 FAQ 설명에 각 페이지 지역 키워드를1회씩만 넣는다. 변경은 데이터3개와 기존 검증 도구에 한정하며 UI 컴포넌트·CSS·모션·자산은 수정하지 않는다.
+- 로컬 `npm run ci:build`의162개 검사·린트·타입·빌드·CSS/자산 검사를 통과했다.7개 페이지의 실제 title/description·Open Graph/Twitter·canonical·제목 고유성과 기존3페이지 메타데이터를 확인했다. 변경 전 HTML 대비 승인된 설명3곳 외 본문 마크업·모든 제목·robots/sitemap 응답 보존도 확인했다. 기존 회사 계정과 네이버 인증 secret을 포함한 기존3개 secret·main 배포 트리거를 읽기 조회했다.
+- 기존 GitHub main → 회사 계정 Cloudflare Workers Builds 자동 배포를 사용한다. 로컬 검사와 실제 배포·공개 응답 검증은 완료 후 기록한다. 검증 원본은 Git 제외 `outputs/deploy/2026-09-18/local-seo/`에 보관한다. DNS·PC 설정·로컬 서버를 유지하고 실제 문의 전송은 하지 않는다.
+
+## 2026-09-17 — 네이버 소유 확인 태그
+
+- **17:17 KST 운영 적용 완료:** 사용자 제공 HTML 인증 태그의 content 값을 기존 회사 Worker `onoff-hero-preview`의 `NAVER_SITE_VERIFICATION` 실행 환경 secret으로 추가했다. 기존 메타데이터 출력 기능을 사용하며 앱 소스 커밋 `95db768c47e55efa47d30293ee90aa793ba76c69`는 변경하지 않았다. 회사 MCP `/user`·`/accounts`로 계정 확인 후 secret API201·success=true를 확인했다.
+- secret 변경에 따른17:17:28 KST 배포 `0dd3a4e6-5a91-46ad-af40-6159cff91a8e`가 Worker 버전 `714e1e5d-eef5-4225-89ec-23e6db3c644a`를100% 반영했다. 기존 `INQUIRY_PRIVACY_VERSION`·`SLACK_INQUIRY_WEBHOOK_URL`과 새 인증값까지 secret3개가 있으며 workers.dev·Preview 비활성, 기존 main 자동 배포를 유지한다. Git push·앱 재빌드·인증값의 코드 하드코딩은 필요하지 않았다.
+- 17:18:44 KST 기본 DNS에서 공개7개 경로 HTTP200, 각 페이지 head에 사용자 제공 값과 정확히 일치하는 `naver-site-verification` 태그1개를 확인했다. canonical·기존 Google Ads 태그·마케팅 새 이미지 참조를 보존한다. Yeti 헤더의 홈페이지200·태그, 문의 GET200/enabled=true, 로컬 서버200도 확인했다. 실제 네이버 서버의 소유 확인·사이트맵 제출·색인 완료는 미확인이며 실제 문의 전송은 하지 않았다.
+- 검증 근거는 Git 제외 `outputs/deploy/2026-09-17/naver-verification/deployment.json`·`production-verification.json`에 보관한다. DNS·PC 설정·로컬 서버·앱 소스는 변경하지 않았으며 완료 기록만을 위한 commit·push·재배포는 하지 않는다.
+
 ## 2026-09-17 — 마케팅 상세 개선·새 채널 이미지
 
+- **10:06 KST 배포 완료:** 소스 커밋 `95db768c47e55efa47d30293ee90aa793ba76c69`을 GitHub main에 반영했다. 해당 SHA의 `Workers Builds: onoff-hero-preview` 체크가 completed/success이며 Cloudflare Build `43c9e75b-7149-4de0-82fc-de94198e4fda`도 stopped/success다. 체크의 Worker 버전 `9333083e-8720-4308-8910-3e05cfdcb0e9`와 실제10:06:22 KST 배포 `9185dbf3-bec1-4047-99cc-10e41e7c386f`의100% 버전이 일치한다. workers.dev·Preview 비활성을 유지한다.
+- 10:07 KST 공개 DNS1.1.1.1을 검증 프로세스에만 지정한 HTTPS 요청에서 공개7개 경로200·상세5개 목차·마케팅5개 본문 섹션의 로컬 문구 일치·참조 자산41개200·새 이미지2개와 빌드 CSS의 로컬 SHA-256 일치·문의 GET200/enabled=true를 확인했다. SEO·robots·sitemap·404·www308 검사도 통과했다. 실제 브라우저 시각 검수와 문의 전송은 수행하지 않았다.
+- 기본 DNS는10:04:43 루트 EAI_AGAIN·www308이었고 마지막10:07:40 마케팅 상세200·www 상세308이었다. 이번 기본 접속 성공을 전체 회선·상위 DNS의 안정화 완료로 단정하지 않는다. DNS·PC 설정은 변경하지 않았고 기존 로컬 마케팅 상세도200이다. 완료 기록은 로컬에만 보관하고 문서만을 위한 추가 push·배포는 하지 않는다. 근거는 Git 제외 `outputs/deploy/2026-09-17/marketing-details/`에 있다. 이전 Wrangler OAuth를 사용한 읽기 검증은401이어서 추가 로그인 없이 회사 MCP로 실제 배포·설정을 확인했다.
 - 사용자가 현재 마케팅 수정 전체의 GitHub 반영·운영 배포를 요청했다. 첫 본문·고민과 효과, 작업 범위 소개·채널 카드 문구·동일 크기 프레임, 새 블로그/광고 이미지2개, 보고·작업 범위·진행 과정 전체를 포함한다. 디자인·다른 서비스와 HOME·HERO 미디어는 보존한다.
 - 최종 앱 소스는 `npm run ci:build`의162개 검사·린트·타입·빌드·CSS/자산 검사를 통과했다. 이미지2개의 생성 원본·정확한 프롬프트·실행 WebP와 변환 스크립트, 크기 맞춤 동작의 회귀 검사를 함께 반영한다. 마지막 로컬 HTTP/SSR·반응형 CSS 검사와 빌드 로그는 Git 제외 `outputs/qa/2026-09-17/marketing-process/`·`outputs/logs/marketing-process-ci-20260917.log`에 있다.
 - 실제 MCP `/user`·`/accounts`에서 회사 계정 `onoff3738@naver.com` / `f446e31d575c7e7135b7486ada7c35c4`를 확인했다. 기존 `G-bak/onoff-hero` main 전용 트리거·검사/배포 명령, workers.dev·Preview 비활성을 재확인했고 설정은 변경하지 않는다. 이번 승인으로 아래 각 변경의 로컬 전용 제한을 해제하며 기존 자동 배포를 사용한다.
-- 실제 배포 결과와 공개 HTTP/문구/자산 검증은 완료 후 기록한다. 로컬 서버·DNS·PC 설정은 유지하며 실제 문의 전송은 수행하지 않는다. 원본 로그·검증 스크립트·환경변수는 Git에서 제외하고 완료 기록만을 위한 재배포는 하지 않는다.
+- 실제 배포 결과와 공개 HTTP/문구/자산 검증은 위 완료 기록을 따른다. 로컬 서버·DNS·PC 설정은 유지하며 실제 문의 전송은 수행하지 않는다. 원본 로그·검증 스크립트·환경변수는 Git에서 제외하고 완료 기록만을 위한 재배포는 하지 않는다.
 
 ## 2026-09-16 — 디자인 상세 개선·공통 목차
 

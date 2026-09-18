@@ -23,6 +23,8 @@ for (const page of seoPages) {
   const titles = [...head.matchAll(/<title>(.*?)<\/title>/gs)].map(match => decode(match[1]));
   assert.deepEqual(titles, [page.title], `${page.path}: title`);
   assert.deepEqual(meta(head, 'description'), [page.description]);
+  assert.deepEqual(meta(head, 'og:title'), [page.title]);
+  assert.deepEqual(meta(head, 'og:description'), [page.description]);
   assert.deepEqual(canonical(head), [siteOrigin + page.path]);
   assert.deepEqual(meta(head, 'og:url').map(url => new URL(url).href), [siteOrigin + page.path]);
   assert.ok(meta(head, 'robots').some(value => /\bindex\b/.test(value)));

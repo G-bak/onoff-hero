@@ -17,7 +17,7 @@ await test('every advertised page has one distinct title and description and a c
     assert.equal(url.search + url.hash, '');
     assert.equal(metadata.alternates.canonical, url.href);
     assert.equal(metadata.openGraph.url, url.href);
-    assert.match(metadata.title, /온앤오프/);
+    assert.match(metadata.title, /ON&OFF/);
     assert.equal(entries[index].lastModified, undefined);
   }
 });

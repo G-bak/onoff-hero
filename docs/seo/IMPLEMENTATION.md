@@ -2,6 +2,23 @@
 
 기준일: **2026-09-15**. 사용자가 공식 SEO 자료 조사·문서 작성·코드 개선·GitHub 반영·운영 배포를 요청했다. 대표 사이트는 **https://on-onf.com/** 이며 기존 `main` → Cloudflare Workers Builds를 사용한다.
 
+## 2026-09-18 지역 검색 메타데이터
+
+사용자 제공 title/description을 HOME·마케팅·웹·디자인에 그대로 반영한다. title은 아래와 같으며 description의 단일 원본은 `lib/seo.ts`다.
+
+| 페이지 | title |
+| --- | --- |
+| `/` | ON&OFF \| 광고·웹디자인·브랜딩 에이전시 |
+| `/services/marketing` | 평택 광고대행사 \| SNS·콘텐츠·광고 운영 - ON&OFF |
+| `/services/web` | 평택 웹디자인·홈페이지 제작 \| ON&OFF |
+| `/services/design` | 평택 로고디자인·브랜딩 디자인 \| ON&OFF |
+
+기획·운영·문의의 고유 title/description은 유지한다. 공통 `pageMetadata`를 통해 Open Graph·Twitter 제목/설명이 페이지 메타데이터와 일치하며 WebPage 구조화 데이터도 같은 원본을 따른다. canonical은 각 실제 URL을 사용한다. 기존 네이버 인증값은 운영 runtime secret에 유지하며 robots/sitemap 설정과 공개 경로7개는 변경하지 않는다.
+
+디자인·애니메이션·UI 코드와 화면의 메인 카피·제목은 유지한다. 사용자 선택 요청에 따라 마케팅/디자인 작업 안내에 **평택 광고대행사 / 평택 로고디자인**, 웹의 자료 준비 FAQ 답변에 **평택 홈페이지 제작**을 각각 본문1회만 넣는다. 기존 설명의 의미와 안내 조건을 보존하고 별도 keywords 태그는 추가하지 않는다. 기존 SEO 회귀 검사의 브랜드 표기를 ON&OFF에 맞추며 HTTP 검사에 실제 `og:title`·`og:description` 일치 검증을 포함한다. 실제 배포 결과는 [배포 기록](../operations/DEPLOYMENT-NOTES.md)을 따른다.
+
+로컬 검증: `npm run ci:build`의162개 검사·린트·타입·프로덕션 빌드·CSS/자산 검사를 통과했다.7개 페이지 HTTP/SSR 검사에서 사용자 지정 문구·고유 제목/설명·Open Graph/Twitter 일치·canonical을 확인했다. 변경 전 HTML과 비교해 본문은 지정한 설명3곳만 바뀌고 모든 제목·나머지 main 마크업, robots/sitemap 응답은 그대로임을 확인했다. 실제 브라우저 시각 검수는 수행하지 않았다. 근거는 Git 제외 `outputs/deploy/2026-09-18/local-seo/local-verification.json`, `outputs/logs/local-seo-ci-20260918.log`·`local-seo-http-20260918.log`에 있다.
+
 ## 발견한 문제와 변경
 
 | 우선순위 | 변경 전 확인 | 적용 내용 |
@@ -37,6 +54,8 @@
 공유용 제목·설명은 Open Graph·Twitter 텍스트 메타데이터로도 제공한다. 새 공유 이미지를 생성하거나 추가하지 않았다. 페이지별 실제 수정일을 관리하지 않는 상태에서 배포 시각을 `lastmod`로 쓰지 않는다.
 
 ## 선택형 소유 확인값
+
+2026-09-17 사용자 제공 네이버 인증값을 운영 `NAVER_SITE_VERIFICATION`에 추가하고 배포했다. 기본 DNS로 공개7페이지의 head에 정확한 태그1개와 Yeti 헤더의 홈페이지 응답을 확인했다. 기존 출력 기능을 사용해 앱 소스·자동 배포 설정은 변경하지 않았다. 네이버 계정에서 소유 확인을 누르는 단계와 실제 색인은 별개다. [배포 기록](../operations/DEPLOYMENT-NOTES.md)을 따른다.
 
 | 실행 환경 이름 | 출력되는 태그 |
 | --- | --- |
