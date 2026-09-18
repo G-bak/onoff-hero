@@ -35,10 +35,10 @@ export default function SiteControls({ currentSection, paused, filmReady }: { cu
         <ol className="section-nav-list">
           {sections.map(section => (
             <li key={section.id}>
-              <a className="section-nav-link" href={`#${section.id}`} aria-current={currentSection === section.id ? 'location' : undefined} aria-label={section.description}>
+              <Link className="section-nav-link" href="/" data-scroll-target={section.id} aria-current={currentSection === section.id ? 'location' : undefined} aria-label={section.description} prefetch={false}>
                 <span className="section-nav-number" aria-hidden="true">{section.number}</span>
                 <span className="section-nav-label">{section.label}</span>
-              </a>
+              </Link>
             </li>
           ))}
         </ol>

@@ -4,7 +4,7 @@ export const siteOrigin = 'https://on-onf.com';
 export const siteName = '온앤오프';
 export const socialPreviewImage = {
   url: `${siteOrigin}/og.png`, width: 1200, height: 630, type: 'image/png',
-  alt: '온앤오프 ON&OFF | 당신은 사업만 ON, 복잡한 마케팅은 OFF',
+  alt: '온앤오프 ON&OFF | 고객님은 사업만 ON, 복잡한 마케팅은 OFF',
 };
 
 // Canonical URLs describe public pages, never navigation or campaign parameters.

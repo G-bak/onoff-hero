@@ -24,22 +24,23 @@ export default function ProfessionalServiceDetail({ service }: { service: Profes
   const pricingIntro = 'pricingIntro' in detail
     ? detail.pricingIntro
     : <>{service.pricing.summary}<br/>아래 유형을 참고해 필요한 범위를 알려주세요.</>;
+  const servicePath = `/services/${service.slug}`;
   const inquiryHref = `/inquiry?service=${service.slug}&from=services`;
   const heroAction = service.slug === 'design'
-    ? { href: '#service-scope', label: '디자인 서비스 안내' }
-    : { href: '#pricing', label: '작업 유형·비용 보기' };
+    ? { target: 'service-scope', label: '디자인 서비스 안내' }
+    : { target: 'pricing', label: '작업 유형·비용 보기' };
   return <ServiceDetailMotion key={service.slug} slug={service.slug}>
     <div className="service-guide" data-guide={service.slug}>
-      <a className="service-skip" href="#service-main">본문으로 이동</a>
-      <header className="service-detail-header"><Link className="service-detail-brand" href="/#home" prefetch={false} aria-label="ON&OFF 홈">ON&OFF<span>ALL-IN-ONE AGENCY</span></Link><Link className="service-back" href="/#services" prefetch={false}>서비스 목록 <ServiceArrow/></Link></header>
+      <Link className="service-skip" href={servicePath} data-scroll-target="service-main" prefetch={false}>본문으로 이동</Link>
+      <header className="service-detail-header"><Link className="service-detail-brand" href="/" data-scroll-target="home" prefetch={false} aria-label="ON&OFF 홈">ON&OFF<span>ALL-IN-ONE AGENCY</span></Link><Link className="service-back" href="/" data-scroll-target="services" prefetch={false}>서비스 목록 <ServiceArrow/></Link></header>
       <main id="service-main">
         <section className="guide-hero" aria-labelledby="service-title">
-          <div className="guide-hero-meta"><nav className="service-breadcrumb" aria-label="현재 위치"><Link href="/#services" prefetch={false}>SERVICES</Link><span aria-hidden="true">/</span><span aria-current="page">{service.name}</span></nav><span>SERVICE GUIDE / {service.number}</span></div>
+          <div className="guide-hero-meta"><nav className="service-breadcrumb" aria-label="현재 위치"><Link href="/" data-scroll-target="services" prefetch={false}>SERVICES</Link><span aria-hidden="true">/</span><span aria-current="page">{service.name}</span></nav><span>SERVICE GUIDE / {service.number}</span></div>
           <div className="guide-hero-word" aria-hidden="true">{detail.word}</div>
-          <div className="service-hero-layout guide-hero-layout"><div className="guide-hero-copy"><p className="service-detail-kicker">{detail.kicker}</p><h1 id="service-title">{service.headline.map(line => <span className="service-headline-line" key={line}><span>{line}</span></span>)}</h1><p className="service-detail-summary" data-service-reveal>{service.intro}</p><a className="guide-button" href={heroAction.href}>{heroAction.label} <ServiceArrow/></a></div><DetailHeroVisual slug={service.slug}/></div>
-          <div className="guide-hero-bottom"><ul>{detail.heroTags.map(tag => <li key={tag}>{tag}</li>)}</ul><a href="#why-service">서비스 자세히 보기 ↓</a></div>
+          <div className="service-hero-layout guide-hero-layout"><div className="guide-hero-copy"><p className="service-detail-kicker">{detail.kicker}</p><h1 id="service-title">{service.headline.map(line => <span className="service-headline-line" key={line}><span>{line}</span></span>)}</h1><p className="service-detail-summary" data-service-reveal>{service.intro}</p><Link className="guide-button" href={servicePath} data-scroll-target={heroAction.target} prefetch={false}>{heroAction.label} <ServiceArrow/></Link></div><DetailHeroVisual slug={service.slug}/></div>
+          <div className="guide-hero-bottom"><ul>{detail.heroTags.map(tag => <li key={tag}>{tag}</li>)}</ul><Link href={servicePath} data-scroll-target="why-service" prefetch={false}>서비스 자세히 보기 ↓</Link></div>
         </section>
-        <nav className="service-detail-nav guide-nav" aria-label="상세 안내"><a href="#why-service">{detail.navLabels.why}</a><a href="#service-scope">{detail.navLabels.scope}</a><a href="#service-process">진행 과정</a><a href="#pricing">서비스 안내</a><a href="#service-faq">FAQ</a></nav>
+        <nav className="service-detail-nav guide-nav" aria-label="상세 안내"><Link href={servicePath} data-scroll-target="why-service" prefetch={false}>{detail.navLabels.why}</Link><Link href={servicePath} data-scroll-target="service-scope" prefetch={false}>{detail.navLabels.scope}</Link><Link href={servicePath} data-scroll-target="service-process" prefetch={false}>진행 과정</Link><Link href={servicePath} data-scroll-target="pricing" prefetch={false}>서비스 안내</Link><Link href={servicePath} data-scroll-target="service-faq" prefetch={false}>FAQ</Link></nav>
 
         <section className="service-content-section guide-chapter guide-why" id="why-service" aria-labelledby="guide-why-title">
           <div className="guide-chapter-heading" data-service-reveal><span className="guide-eyebrow">{whyLabel}</span><h2 id="guide-why-title">{whyTitle[0]}<br/>{whyTitle[1]}</h2><p>{service.importance}</p></div>

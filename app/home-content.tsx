@@ -1,5 +1,7 @@
 'use client';
 
+import Link from './components/page-link';
+
 import { useCallback, useRef, useState } from 'react';
 import CardRibbon from './components/card-ribbon';
 import Wordmark from './components/wordmark';
@@ -163,9 +165,9 @@ export default function Home() {
     <SectionEntry id="why" onCovered={setHeroCovered} onNavigation={handleWhyNavigation} front={
     <section className={`hero${paused ? ' is-paused' : ''}`} aria-label="ON&OFF 소개" aria-busy={sceneStatus === 'loading'} inert={heroCovered}>
       <header className="site-header">
-        <a className="brand" href="#home" aria-label="ON&OFF home">
+        <Link className="brand" href="/" data-scroll-target="home" aria-label="ON&OFF home" prefetch={false}>
           <img className="brand-logo" src="/images/onoff-logo.png" alt="ON&OFF" width={96} height={48} fetchPriority="high"/>
-        </a>
+        </Link>
         <div className="header-colophon" aria-label="회사 정보">
           <div className="colophon-meta">
             <p className="header-copyright">
@@ -184,7 +186,7 @@ export default function Home() {
 
       <div className="scene-track" aria-hidden="true"/>
       <div className="hero-copy">
-        <p className="hero-caption">당신은 사업만 <span className="hero-caption-emphasis">ON</span><br/>복잡한 마케팅은 <span className="hero-caption-emphasis">OFF</span></p>
+        <p className="hero-caption">고객님은 사업만 <span className="hero-caption-emphasis">ON</span><br/>복잡한 마케팅은 <span className="hero-caption-emphasis">OFF</span></p>
       </div>
       <CardRibbon key={sceneAttempt} paused={paused || openingHold} active={!heroCovered} direction={direction} enabled={sceneStatus !== 'fallback' && sceneRuntime !== 'fallback'} onTogglePause={() => setPaused(value => !value)} onSettled={handleSceneReady} onProgress={setSceneProgress} onElapsed={setSceneElapsed} onError={handleSceneError} onRecoveryChange={handleRecoveryChange}/>
       <footer className="hero-footer">

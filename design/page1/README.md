@@ -1,6 +1,6 @@
 # 1페이지 문구 타이포그래피 — 2026-09-11
 
-사용자 가이드: `caption-typography-reference.png`. `당신은 사업만 ON` / `복잡한 마케팅은 OFF`의 데스크톱 기준은 Pretendard / 98pt / SemiBold이며, 반응형 조정은 구현에 맡겼다.
+사용자 가이드: `caption-typography-reference.png`. 현재 문구는 2026-09-18 사용자 요청에 따라 `고객님은 사업만 ON` / `복잡한 마케팅은 OFF`다. 기존 가이드의 데스크톱 기준은 Pretendard / 98pt / SemiBold이며, 반응형 조정은 구현에 맡겼다. 보관된 참고 이미지는 과거 문구이고 현재 문자열은 `app/home-content.tsx`를 따른다.
 
 - 한글은 기존 로컬 Pretendard Variable의 600 굵기를 사용한다. 별도 글꼴 다운로드나 외부 CDN은 추가하지 않는다.
 - 두 줄을 문구 영역 안에서 가운데 정렬하고, 자간은 -0.03em·행간은 1.35로 맞춘다. 기존 ON/OFF의 파란색과 Inter 600, 마침표 없는 문구를 유지한다.

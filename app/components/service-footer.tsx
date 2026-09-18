@@ -11,7 +11,7 @@ export default function ServiceFooter({ currentService, children }: {
 }) {
   return <footer className="service-footer" aria-label="온앤오프 회사 정보와 이용 안내">
     <div className="service-footer-head">
-      <Link className="service-footer-brand" href="/#home" prefetch={false} aria-label="ON&OFF 홈">
+      <Link className="service-footer-brand" href="/" data-scroll-target="home" prefetch={false} aria-label="ON&OFF 홈">
         ON&OFF<span>ALL-IN-ONE AGENCY</span>
       </Link>
       <p>기획부터 제작·운영까지,<br/>한 팀에서 이어갑니다.</p>
@@ -56,7 +56,7 @@ export default function ServiceFooter({ currentService, children }: {
     </div>
     <div className="service-footer-bottom">
       <small>© 2026 ON&OFF. All rights reserved.</small>
-      <nav aria-label="푸터 바로가기"><Link href="/#services" prefetch={false}>전체 서비스</Link><a href="#service-main">맨 위로 ↑</a></nav>
+      <nav aria-label="푸터 바로가기"><Link href="/" data-scroll-target="services" prefetch={false}>전체 서비스</Link><Link href={`/services/${currentService}`} data-scroll-target="service-main" prefetch={false}>맨 위로 ↑</Link></nav>
     </div>
   </footer>;
 }

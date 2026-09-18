@@ -9,6 +9,7 @@ import { getLoadingOrbitPoints, sceneOrbit } from '@/lib/scene-orbit';
 import { formatSceneWait, getInitialSceneTiming, sceneLoadingTiming, type SceneIssue, type SceneStatus } from '@/lib/scene-loading';
 import { resolveSiteSection } from '@/lib/site-sections';
 import { shouldPlayHomeOpening } from '@/lib/home-opening';
+import { getNavigationHash } from '@/lib/scroll-navigation';
 import HeroOpening, { type OpeningResult } from './hero-opening';
 
 // A new document gets an opening. Router returns within that document do not.
@@ -70,9 +71,10 @@ export default function SceneLoader({ status, progress, elapsed, issue, onContin
       const initialPath = new URL(navigation?.name || window.location.href).pathname;
       const claimed = visitedDocuments.has(document);
       const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const options = { claimed, initialPath, navigationType: navigation?.type || 'navigate', hash: location.hash, scrollY: window.scrollY, reduced };
+      const hash = getNavigationHash(window);
+      const options = { claimed, initialPath, navigationType: navigation?.type || 'navigate', hash, scrollY: window.scrollY, reduced };
       const nextMode = shouldPlayHomeOpening(options) ? 'opening' : claimed || initialPath !== '/' || navigation?.type === 'back_forward' ? 'resume' : 'standard';
-      entry.current = { mode: nextMode, hash: location.hash, reduced };
+      entry.current = { mode: nextMode, hash, reduced };
       visitedDocuments.add(document);
     }
     const decision = entry.current;
@@ -127,9 +129,10 @@ export default function SceneLoader({ status, progress, elapsed, issue, onContin
       if (page) page.inert = previousInert;
       // Initial fragment navigation may run before the loader releases the
       // scroll lock. Use the untransformed section anchor once it is released.
-      const section = resolveSiteSection(window.location.hash.slice(1));
+      const hash = getNavigationHash(window);
+      const section = resolveSiteSection(hash.slice(1));
       if (section) document.getElementById(section)?.scrollIntoView({ behavior: 'instant', block: 'start' });
-      if (focusAfterSkip.current && (!location.hash || location.hash === '#home')) page?.focus({ preventScroll: true });
+      if (focusAfterSkip.current && (!hash || hash === '#home')) page?.focus({ preventScroll: true });
     };
   }, [visible]);
 

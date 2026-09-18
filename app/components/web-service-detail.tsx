@@ -16,20 +16,20 @@ function SourceLink({ href, children }: { href: string; children: React.ReactNod
 export default function WebServiceDetail({ service }: { service: WebService }) {
   return <ServiceDetailMotion slug="web">
     <div className="web-service">
-      <a className="service-skip" href="#service-main">본문으로 이동</a>
-      <header className="service-detail-header"><Link className="service-detail-brand" href="/#home" prefetch={false} aria-label="ON&OFF 홈">ON&OFF<span>ALL-IN-ONE AGENCY</span></Link><Link className="service-back" href="/#services" prefetch={false}>서비스 목록 <ServiceArrow/></Link></header>
+      <Link className="service-skip" href="/services/web" data-scroll-target="service-main" prefetch={false}>본문으로 이동</Link>
+      <header className="service-detail-header"><Link className="service-detail-brand" href="/" data-scroll-target="home" prefetch={false} aria-label="ON&OFF 홈">ON&OFF<span>ALL-IN-ONE AGENCY</span></Link><Link className="service-back" href="/" data-scroll-target="services" prefetch={false}>서비스 목록 <ServiceArrow/></Link></header>
       <main id="service-main">
         <section className="web-detail-hero" aria-labelledby="service-title">
-          <div className="web-hero-meta"><nav className="service-breadcrumb" aria-label="현재 위치"><Link href="/#services" prefetch={false}>SERVICES</Link><span aria-hidden="true">/</span><span aria-current="page">웹사이트 제작</span></nav><span>YOUR BUSINESS, ONLINE.</span></div>
+          <div className="web-hero-meta"><nav className="service-breadcrumb" aria-label="현재 위치"><Link href="/" data-scroll-target="services" prefetch={false}>SERVICES</Link><span aria-hidden="true">/</span><span aria-current="page">웹사이트 제작</span></nav><span>YOUR BUSINESS, ONLINE.</span></div>
           <div className="web-hero-word" aria-hidden="true">WEB</div>
           <div className="service-hero-layout web-hero-layout">
-            <div className="web-hero-copy"><p className="service-detail-kicker">WEBSITE / 기획 · 디자인 · 개발</p><h1 id="service-title">{service.headline.map(line => <span className="service-headline-line" key={line}><span>{line}</span></span>)}</h1><p className="service-detail-summary" data-service-reveal>{service.intro}</p><div className="web-hero-actions"><a className="web-button" href="#pricing">제작 유형·비용 보기 <ServiceArrow/></a><a className="web-text-link" href="#why-service">왜 필요할까요? ↓</a></div></div>
+            <div className="web-hero-copy"><p className="service-detail-kicker">WEBSITE / 기획 · 디자인 · 개발</p><h1 id="service-title">{service.headline.map(line => <span className="service-headline-line" key={line}><span>{line}</span></span>)}</h1><p className="service-detail-summary" data-service-reveal>{service.intro}</p><div className="web-hero-actions"><Link className="web-button" href="/services/web" data-scroll-target="pricing" prefetch={false}>제작 유형·비용 보기 <ServiceArrow/></Link><Link className="web-text-link" href="/services/web" data-scroll-target="why-service" prefetch={false}>왜 필요할까요? ↓</Link></div></div>
             <figure className="service-hero-art web-device-photo"><div className="web-photo-mat"><Image src={devices} width={1440} height={1152} alt="노트북과 휴대폰에 화면 크기에 맞춰 표시된 웹사이트" unoptimized loading="eager" fetchPriority="high"/><span className="web-photo-label">PC부터 모바일까지</span></div><figcaption>외부 참고 이미지 · Azwedo L.LC / Unsplash</figcaption></figure>
           </div>
-          <div className="web-hero-bottom"><span>회사 소개 · 서비스 안내 · 고객 문의</span><a href="#why-service" aria-label="홈페이지가 필요한 이유 읽기">SCROLL TO EXPLORE ↓</a></div>
+          <div className="web-hero-bottom"><span>회사 소개 · 서비스 안내 · 고객 문의</span><Link href="/services/web" data-scroll-target="why-service" aria-label="홈페이지가 필요한 이유 읽기" prefetch={false}>SCROLL TO EXPLORE ↓</Link></div>
         </section>
 
-        <nav className="service-detail-nav" aria-label="상세 안내"><a href="#why-service">웹사이트가 필요한 순간</a><a href="#service-effects">우리가 만드는 웹사이트</a><a href="#service-scope">진행 과정</a><a href="#pricing">서비스 안내</a><a href="#web-faq">FAQ</a></nav>
+        <nav className="service-detail-nav" aria-label="상세 안내"><Link href="/services/web" data-scroll-target="why-service" prefetch={false}>웹사이트가 필요한 순간</Link><Link href="/services/web" data-scroll-target="service-effects" prefetch={false}>우리가 만드는 웹사이트</Link><Link href="/services/web" data-scroll-target="service-scope" prefetch={false}>진행 과정</Link><Link href="/services/web" data-scroll-target="pricing" prefetch={false}>서비스 안내</Link><Link href="/services/web" data-scroll-target="web-faq" prefetch={false}>FAQ</Link></nav>
 
         <section className="service-content-section web-detail-chapter web-why" id="why-service" aria-labelledby="web-why-title">
           <div className="web-chapter-heading" data-service-reveal><span className="web-eyebrow">01 / WHY A WEBSITE</span><h2 id="web-why-title">검색한 고객이<br/>우리 회사를 알 수 있도록</h2><p>홈페이지는 회사 소개, 서비스, 실적과 연락처를 한 주소에 모은 온라인 안내 공간입니다. 고객이 궁금한 내용을 확인하고 문의할 수 있게 만듭니다.</p></div>

@@ -1,5 +1,7 @@
 'use client';
 
+import Link from './page-link';
+
 import { useEffect, useRef, useState } from 'react';
 import { Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -103,7 +105,7 @@ export default function WebSection({ active, paused, covered }: {
       </div>
       <footer className="web-footer">
         <p>기획 · UI/UX · 웹사이트 제작 · 운영</p>
-        <a href="#card">NEXT / MARKETING <span aria-hidden="true">↗</span></a>
+        <Link href="/" data-scroll-target="card" prefetch={false}>NEXT / MARKETING <span aria-hidden="true">↗</span></Link>
       </footer>
     </section>
   );

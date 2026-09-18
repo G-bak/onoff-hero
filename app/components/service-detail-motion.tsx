@@ -64,7 +64,7 @@ export default function ServiceDetailMotion({ slug, children }: { slug: string; 
       let current = sections[0]?.id;
       for (const section of sections) if (section.getBoundingClientRect().top <= 180) current = section.id;
       navLinks.forEach(link => {
-        if (link.hash === `#${current}`) link.setAttribute('aria-current', 'location');
+        if (link.dataset.scrollTarget === current) link.setAttribute('aria-current', 'location');
         else link.removeAttribute('aria-current');
       });
     }

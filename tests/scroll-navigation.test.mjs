@@ -1,11 +1,11 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { createScrollNavigation, getScrollTarget, sectionNavigationEvent } from '../lib/scroll-navigation.ts';
+import { createScrollNavigation, getNavigationHash, getScrollTarget, sectionNavigationEvent } from '../lib/scroll-navigation.ts';
 import { siteSections } from '../lib/site-sections.ts';
 
-function harness(url = 'https://onoff.example/') {
+function harness(url = 'https://onoff.example/', useRouter = false) {
   let nextFrame = 0, loader = false, reduced = false, mutation;
-  const frames = new Map(), targets = new Map(), replacements = [], signals = [];
+  const frames = new Map(), targets = new Map(), replacements = [], signals = [], routes = [];
   const win = Object.assign(new EventTarget(), {
     location: new URL(url),
     history: { state: { routerKey: 'keep-me', scrollPosition: [0, 1400] }, replaceState(state, _, next) {
@@ -40,6 +40,7 @@ function harness(url = 'https://onoff.example/') {
   function click(href, options = {}) {
     const { target = '', ...eventOptions } = options;
     const link = { href, target, hasAttribute: name => name === 'download' && !!options.download,
+      getAttribute: name => name === 'data-scroll-target' ? options.section ?? null : null,
       classList: { contains: name => name === options.className } };
     const event = Object.assign(new Event('click', { cancelable: true }), { button: 0, detail: 1, ...eventOptions });
     Object.defineProperty(event, 'target', { value: { closest: () => link } });
@@ -48,8 +49,9 @@ function harness(url = 'https://onoff.example/') {
     return event;
   }
   win.addEventListener(sectionNavigationEvent, event => signals.push(event.detail));
-  const navigation = createScrollNavigation(win, doc, Observer);
-  return { win, doc, navigation, targets, frames, replacements, signals, addTarget, click,
+  const navigation = createScrollNavigation(win, doc, Observer, useRouter ? href => routes.push(href) : undefined);
+  return { win, doc, Observer, navigation, targets, frames, replacements, signals, routes, addTarget, click,
+    mutate() { mutation(); },
     flush() { const current = [...frames.values()]; frames.clear(); current.forEach(callback => callback()); },
     setLoader(value) { loader = value; mutation(); }, setReduced(value) { reduced = value; },
   };
@@ -59,7 +61,7 @@ await test('every side-menu destination scrolls without changing the URL or addi
   const h = harness('https://onoff.example/?preview=1');
   for (const { id } of siteSections) {
     const target = h.addTarget(id, '-1');
-    assert.equal(h.click(`#${id}`).defaultPrevented, true);
+    assert.equal(h.click('/', { section: id }).defaultPrevented, true);
     h.flush();
     assert.deepEqual(target.scrolls, [{ behavior: 'auto', block: 'start' }]);
     assert.equal(h.win.location.href, 'https://onoff.example/?preview=1');
@@ -89,7 +91,8 @@ await test('direct HOME section entry waits for the loader and final anchor geom
   const target = h.addTarget('web');
   h.setLoader(true); h.flush();
   assert.equal(target.scrolls.length, 0);
-  assert.equal(h.win.location.hash, '#web');
+  assert.equal(h.win.location.hash, '', 'The visible fragment is removed before loading finishes');
+  assert.equal(getNavigationHash(h.win), '#web', 'The loader retains the intended section separately');
   h.setLoader(false); h.flush();
   assert.equal(target.scrolls.length, 1);
   assert.equal(h.win.location.hash, '');
@@ -102,7 +105,7 @@ await test('a new section choice during opening supersedes the incoming fragment
   h.setLoader(true); h.flush();
   h.click('#services'); h.flush();
   assert.equal(h.win.location.hash, '');
-  assert.deepEqual(h.signals, ['services']);
+  assert.deepEqual(h.signals, ['home', 'services']);
   assert.equal(services.scrolls.length, 0);
   h.setLoader(false); h.flush();
   assert.equal(home.scrolls.length, 0);
@@ -110,23 +113,67 @@ await test('a new section choice during opening supersedes the incoming fragment
   h.navigation.dispose();
 });
 
-await test('cross-page return uses the router and clears its fragment after the destination is ready', () => {
-  const h = harness('https://onoff.example/services/design');
-  h.addTarget('services');
-  assert.equal(h.click('/#services').defaultPrevented, false);
-  assert.equal(h.frames.size, 0);
-  h.win.location = new URL('https://onoff.example/#services');
-  h.navigation.syncLocation(); h.setLoader(true); h.flush();
+await test('all service logos, service-list links and inquiry returns route without ever adding a fragment', () => {
+  for (const page of ['/services/planning', '/services/design', '/services/web', '/services/marketing', '/services/operations', '/inquiry?from=card']) {
+    for (const section of ['home', 'services', 'card', 'together']) {
+      const h = harness(`https://onoff.example${page}`, true);
+      assert.equal(h.click('/', { section }).defaultPrevented, true);
+      assert.deepEqual(h.routes, ['/']);
+      h.flush(); // A router request may take multiple frames to resolve.
+      assert.equal(h.win.location.hash, '');
+      h.win.location = new URL('https://onoff.example/');
+      h.navigation.syncLocation(); h.setLoader(true); h.flush();
+      assert.equal(getNavigationHash(h.win), `#${section}`);
+      h.setLoader(false); h.flush(); // Content can arrive after route state.
+      const target = h.addTarget(section);
+      h.mutate(); h.flush();
+      assert.deepEqual(target.scrolls, [{ behavior: 'instant', block: 'start' }]);
+      assert.equal(h.win.location.href, 'https://onoff.example/');
+      assert.equal(h.replacements.length, 0);
+      assert.equal(getNavigationHash(h.win), '');
+      h.navigation.dispose();
+    }
+  }
+});
+
+await test('legacy fragment links also route to a clean destination', () => {
+  const h = harness('https://onoff.example/services/design', true);
+  h.click('/?preview=1#services');
+  assert.deepEqual(h.routes, ['/?preview=1']);
+  h.win.location = new URL('https://onoff.example/?preview=1');
+  const target = h.addTarget('services');
+  h.navigation.syncLocation(); h.flush();
+  assert.equal(target.scrolls.length, 1);
+  assert.equal(h.win.location.search, '?preview=1');
+  h.navigation.dispose();
+});
+
+await test('effect reattachment retains a cleaned incoming section until it can scroll', () => {
+  const h = harness('https://onoff.example/#services');
+  h.setLoader(true); h.flush(); h.navigation.dispose();
+  const restarted = createScrollNavigation(h.win, h.doc, h.Observer);
+  const target = h.addTarget('services');
   h.setLoader(false); h.flush();
-  assert.equal(h.targets.get('services').scrolls.length, 1);
-  assert.equal(h.win.location.href, 'https://onoff.example/');
+  assert.equal(target.scrolls.length, 1);
+  assert.equal(h.win.location.hash, '');
+  restarted.dispose();
+});
+
+await test('a canceled cross-page destination cannot override browser back/forward restoration', () => {
+  const h = harness('https://onoff.example/services/design', true);
+  h.click('/', { section: 'services' });
+  h.win.location = new URL('https://onoff.example/');
+  const target = h.addTarget('services');
+  h.win.dispatchEvent(new Event('popstate')); h.flush();
+  assert.equal(target.scrolls.length, 0);
+  assert.equal(getNavigationHash(h.win), '');
   h.navigation.dispose();
 });
 
 await test('keyboard and skip links move focus without a second scroll; reduced motion stays instant', () => {
   const h = harness('https://onoff.example/services/design');
   const target = h.addTarget('service-main');
-  h.setReduced(true); h.click('#service-main', { detail: 0 }); h.flush();
+  h.setReduced(true); h.click('/services/design', { section: 'service-main', detail: 0 }); h.flush();
   assert.deepEqual(target.scrolls, [{ behavior: 'instant', block: 'start' }]);
   assert.deepEqual(target.focuses, [{ preventScroll: true }]);
   assert.equal(target.attributes.get('tabindex'), '-1');

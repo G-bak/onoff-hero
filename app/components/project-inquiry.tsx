@@ -102,8 +102,8 @@ export default function ProjectInquiry({ initialService, returnTo }: { initialSe
   const error = (key: keyof InquiryDraft) => errors[key] ? <p className="inquiry-error" id={`inquiry-${key}-error`}>{errors[key]}</p> : null;
 
   return <div className="inquiry-page">
-    <a className="inquiry-skip" href="#inquiry-form">문의 작성으로 이동</a>
-    <header className="inquiry-header"><Link href={`/#${returnTo}`} prefetch={false} className="inquiry-brand" aria-label="ON&OFF 홈페이지">ON&OFF<span>ALL-IN-ONE AGENCY</span></Link><Link href={`/#${returnTo}`} prefetch={false} className="inquiry-back"><ArrowLeft aria-hidden="true"/> 둘러보던 페이지로</Link></header>
+    <Link className="inquiry-skip" href="/inquiry" data-scroll-target="inquiry-form" prefetch={false}>문의 작성으로 이동</Link>
+    <header className="inquiry-header"><Link href="/" data-scroll-target={returnTo} prefetch={false} className="inquiry-brand" aria-label="ON&OFF 홈페이지">ON&OFF<span>ALL-IN-ONE AGENCY</span></Link><Link href="/" data-scroll-target={returnTo} prefetch={false} className="inquiry-back"><ArrowLeft aria-hidden="true"/> 둘러보던 페이지로</Link></header>
     <div className="inquiry-columns">
       <aside className="inquiry-intro">
         <div className="inquiry-intro-inner">
@@ -111,7 +111,7 @@ export default function ProjectInquiry({ initialService, returnTo }: { initialSe
           <p className="inquiry-display" aria-hidden="true"><span>LET’S</span><span>START<span className="inquiry-lime">.</span></span></p>
           <h1>어떤 일이<br/><span>필요하신가요?</span></h1>
           <p className="inquiry-intro-copy">한 가지 작업부터 통합 운영까지.<br/> 지금 필요한 일부터 알려주세요.</p>
-          <nav className="inquiry-index" aria-label="문의 작성 항목"><a href="#inquiry-services"><span>01</span> 필요한 서비스 <ArrowUpRight aria-hidden="true"/></a><a href="#inquiry-project"><span>02</span> 프로젝트 소개 <ArrowUpRight aria-hidden="true"/></a><a href="#inquiry-contact"><span>03</span> 담당자 정보 <ArrowUpRight aria-hidden="true"/></a></nav>
+          <nav className="inquiry-index" aria-label="문의 작성 항목"><Link href="/inquiry" data-scroll-target="inquiry-services" prefetch={false}><span>01</span> 필요한 서비스 <ArrowUpRight aria-hidden="true"/></Link><Link href="/inquiry" data-scroll-target="inquiry-project" prefetch={false}><span>02</span> 프로젝트 소개 <ArrowUpRight aria-hidden="true"/></Link><Link href="/inquiry" data-scroll-target="inquiry-contact" prefetch={false}><span>03</span> 담당자 정보 <ArrowUpRight aria-hidden="true"/></Link></nav>
           <div className="inquiry-intro-contact"><span>EMAIL US</span><a href={`mailto:${consultationEmail}`}>{consultationEmail} <ArrowUpRight aria-hidden="true"/></a>{consultationChatEnabled && <div className="inquiry-chat-entry"><ConsultationChat/></div>}</div>
         </div>
       </aside>
@@ -153,7 +153,7 @@ export default function ProjectInquiry({ initialService, returnTo }: { initialSe
           </fieldset>
         </form>
         <details className="inquiry-consent-preview inquiry-public-privacy" id="inquiry-privacy"><summary>프로젝트 문의 개인정보 처리 안내</summary><p>{inquiryPrivacyNotice}</p><p>{inquiryOverseasNotice}</p></details>
-        <footer className="inquiry-footer"><span>© 2026 ON&OFF</span><Link href="/#services" prefetch={false}>서비스 다시 보기 <ArrowUpRight aria-hidden="true"/></Link></footer>
+        <footer className="inquiry-footer"><span>© 2026 ON&OFF</span><Link href="/" data-scroll-target="services" prefetch={false}>서비스 다시 보기 <ArrowUpRight aria-hidden="true"/></Link></footer>
       </main>
     </div>
     <Dialog open={review} onOpenChange={open => { if (!sending.current) setReview(open); }}>

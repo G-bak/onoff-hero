@@ -135,7 +135,7 @@ await test('service preview fitting follows the Instagram size, contains content
 
 for (const entry of ['initial', 'resume']) {
   await test(`HOME ${entry} card startup failure retains the correct error UI and can retry`, () => {
-    const components = ['card-ribbon', 'wordmark', 'news-recruitment-link', 'site-controls', 'scene-loader', 'scene-recovery-notice', 'section-entry', 'why-section', 'card-showcase', 'design-editorial', 'web-section', 'services-section', 'brand-film'];
+    const components = ['page-link', 'card-ribbon', 'wordmark', 'news-recruitment-link', 'site-controls', 'scene-loader', 'scene-recovery-notice', 'section-entry', 'why-section', 'card-showcase', 'design-editorial', 'web-section', 'services-section', 'brand-film'];
     const dependencies = Object.fromEntries(components.map(name => [`./components/${name}`, { __esModule: true, default: name }]));
     Object.assign(dependencies, { '@/lib/site-sections': siteSections, '@/lib/galaxy': galaxy, '@/lib/consultation': consultation, '@/components/ui/button': { Button: 'Button' }, '@/components/ui/switch': { Switch: 'Switch' } });
   const harness = componentHarness('../app/home-content.tsx', dependencies);
@@ -192,7 +192,7 @@ await test('TOGETHER prompt waits for visible ready content, ends attention and 
     assert.equal(hasNote(render('together', true)), false, 'Hidden time does not complete the viewing interval');
     activity.visible = true; render('together', true); advance(2200);
     let tree = render('together', true); assert.equal(hasNote(tree), true); assert.equal(tree.props['data-attention'], true);
-    assert.equal(nodes(tree).find(node => node.type === 'PageLink').props.href, '/inquiry?from=together');
+    assert.equal(nodes(tree).find(node => node.props?.className?.includes('project-inquiry-launcher')).props.href, '/inquiry?from=together');
     advance(4400); tree = render('together', true); assert.equal(tree.props['data-attention'], undefined); assert.equal(hasNote(tree), true);
     activity.visible = false; assert.equal(hasNote(render('services', true)), false);
     activity.visible = true; tree = render('together', true); assert.equal(tree.props['data-attention'], undefined);
@@ -285,6 +285,7 @@ for (const failure of ['error', 'blocked']) {
       pause() { this.paused = true; }, load() { loads++; },
     });
     const harness = componentHarness('../app/components/web-section.tsx', {
+      './page-link': { __esModule: true, default: 'PageLink' },
       'lucide-react': { Pause: 'Pause', Play: 'Play', Volume2: 'Volume2', VolumeX: 'VolumeX' },
       '@/components/ui/button': { Button: 'Button' },
       './person-motion': { __esModule: true, default: 'PersonMotion' },
