@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-export const excludedDirectories = new Set(['.git', 'node_modules', 'outputs', 'work', 'dist', 'out', 'build', '.next', '.vinext', '.wrangler', '.vite', '.cache', '.openai', '.playwright-mcp', 'coverage', 'test-results', 'playwright-report', 'blob-report']);
+export const excludedDirectories = new Set(['.git', 'node_modules', 'outputs', 'work', 'daily-work', 'dist', 'out', 'build', '.next', '.vinext', '.wrangler', '.vite', '.cache', '.openai', '.playwright-mcp', 'coverage', 'test-results', 'playwright-report', 'blob-report']);
 
 export function repositoryFiles(directory) {
   return fs.readdirSync(directory, { withFileTypes: true }).flatMap(entry => {

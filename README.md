@@ -44,6 +44,7 @@ npm run dev -- --host 127.0.0.1 --port 5187 --strictPort
 | `scripts/` | [검사·자산 생성 명령](scripts/README.md) |
 | `tests/` | 상태·모션·복구 회귀 검사 |
 | `docs/` | [페이지 기준·운영·검토·참고 문서](docs/README.md) |
+| `daily-work/` | 로컬 업무일지·PDF; Git 제외 |
 | `design/` | 원본·프롬프트·제작 근거·해시·버전 이력 |
 | `design/archive/public/` | public에서 분리한 과거 시안·비교 GIF·자산 기록 |
 | `public/` | 공개 고정 자산·라이선스와 현재 팀·로고 원본 |
