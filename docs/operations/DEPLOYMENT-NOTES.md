@@ -2,7 +2,17 @@
 
 > 날짜별 배포 이력이다. 현재 운영 버전은 실제 Worker 배포와 GitHub 커밋을 함께 확인한다. 2026-09-13 초기 점검은 로컬이었으며, 최신 사용자가 실제 Slack 테스트 후 전체 GitHub 반영·배포를 승인했다.
 
+## 2026-09-18 — 마케팅 사용자 제공 카드3개
+
+- 사용자가 마케팅 상세02의 SNS·블로그·캠페인 교체본 배포를 요청했다. 사용자 제공720×1460 PNG3개와 픽셀을 보존한 무손실 WebP3개·재현 스크립트·기록을 GitHub main에 반영한다. 상세02에서만 새 이미지를 사용하고 SNS의 기존 HTML 게시물 틀 중복을 제거한다. 블로그 분류는 `HEALTH / BLOG`, 기본 프레임 비율은720/1460이다.
+- 최종 앱 소스의 `npm run ci:build`를 통과했고 로컬7페이지 HTTP200·변경 범위 제한·메타데이터 보존·실제 이미지3개 크기/해시와 원본 픽셀 일치를 확인했다. 이후 앱 변경은 없어 통과한 빌드를 재사용한다. HOME·HERO·다른 서비스·본문 문구·가상 시안 고지·OG/SEO는 유지한다.
+- 회사 계정·main 전용 GitHub 자동 배포·secret3개·workers.dev/Preview 비활성을 읽기 확인했다. 기존 자동 배포의 성공과 실제 운영 페이지·이미지를 확인한 뒤 완료를 기록한다. DNS·PC 설정과 기존 로컬 서버는 유지한다. 검증 원본은 Git 제외 `outputs/deploy/2026-09-18/marketing-cards-v2/`에 보관한다.
+
 ## 2026-09-18 — 사용자 제공 공통 OG 이미지
+
+- **10:00 KST 배포 완료:** 소스 커밋 `011c38b32918cda8bc856ae7f9e11deb983f1653`을 GitHub main에 반영했다. 해당 SHA의 Workers Builds 체크는 completed/success, Build `ab8a46dd-ebf1-4039-9a00-8c32415ab826`은 stopped/success다. 체크가 보고한 Worker 버전 `fe3d32ad-0885-491a-ae2f-eef9933bf1c6`과10:00:52 KST 배포 `79fa9209-b05d-4a62-bab3-798fe189002e`의100% 버전이 일치한다.
+- 10:01 KST 기본 DNS의 공개7페이지에서 새 OG/X 이미지·1200×630 크기·형식·대체 텍스트·큰 이미지 카드, 각 페이지 title/description·canonical·네이버 인증1개를 확인했다. `/og.png`는200이며53,241바이트와 사용자 원본 SHA-256이 정확히 일치한다. 배포 전 운영 응답과 main 마크업·CSS 참조·robots/sitemap이 동일하다. 운영 SEO 검사·www308·404 noindex·문의 GET enabled=true·로컬 서버200을 확인했다.
+- Facebook/X/카카오 스크랩 User-Agent를 지정한 홈페이지·이미지 HTTP 요청도200이다. 실제 메신저 수집·캐시 갱신이나 브라우저 시각 검수, 실제 문의 전송은 수행하지 않았다. 원본 결과는 `cloudflare-deployment.json`, `deployment.json`, `production-verification.json`, `production-seo.log`에 보관한다. 완료 기록은 로컬에만 남기며 기록만을 위한 추가 배포는 하지 않는다.
 
 - 사용자가 현재 변경 전체의 GitHub 반영과 운영 배포를 요청했다. 사용자 제공1200×630 PNG를 `public/og.png`로 사용하고 공개7페이지에 공통 Open Graph/X 이미지를 연결한다. 이미지 크기·형식·대체 텍스트와 X 큰 이미지 카드를 설정하며 제목·설명·canonical·네이버 인증·robots/sitemap·기존 UI는 유지한다.
 - 최종 사용자 이미지의 SHA-256은 `75e068fd34c2144b5cb5ad16814f1cc2bdc54a03e0e3b33c4eb45e3228fa51cc`이며53,241바이트다. 생성 시안v1과 사용자 제공v2의 원본·제작 기록, 앞선 SEO 배포 완료 기록을 함께 반영한다. 취소된 디자이너 가이드 요청의 파일 변경은 없다.

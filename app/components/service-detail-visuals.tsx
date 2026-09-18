@@ -46,19 +46,19 @@ export function ServiceExamples({ slug }: { slug: ProfessionalServiceSlug }) {
     <div className="guide-channel-grid">
       <article data-service-reveal>
         <div className="guide-channel-heading"><span>01 / SNS CONTENT</span><h3>멈춰 보게 하고, 기억하게</h3></div>
-        <div className="guide-channel-image guide-channel-instagram"><div className="guide-channel-frame"><div className="guide-channel-native"><InstagramPreview/></div></div></div>
+        <div className="guide-channel-image guide-channel-instagram"><div className="guide-channel-frame"><div className="guide-channel-native"><ServiceExampleImage image="instagramDetail" width={720} height={1460} alt="가상 뷰티 브랜드 LUMET의 홈케어 디바이스 SNS 광고 시안. 제품 사용 장면과 게시물 화면." unoptimized loading="lazy" decoding="async"/></div></div></div>
         <div className="guide-channel-caption"><span>BEAUTY / SNS CONTENT</span><p>{'인스타그램과 SNS 환경에 맞춰 이미지, 카드뉴스, 숏폼 등\n짧은 시간 안에 메시지가 전달되는 콘텐츠를 만듭니다.'}</p></div>
         <span className="guide-channel-check">확인할 반응 / 도달·저장·프로필 방문</span>
       </article>
       <article data-service-reveal>
         <div className="guide-channel-heading"><span>02 / BLOG &amp; SEARCH</span><h3>궁금한 순간, 더 자세히 알 수 있게</h3></div>
-        <div className="guide-channel-image guide-channel-blog"><div className="guide-channel-frame"><div className="guide-channel-native"><ServiceExampleImage image="blogDetail" width={720} height={1440} alt="루움 침구 블로그 시안. 이불 고를 때 꼭 확인할 3가지: 피부에 닿는 소재, 우리 집 온도에 맞는 두께, 세탁·건조 방법." unoptimized loading="lazy" decoding="async"/></div></div></div>
-        <div className="guide-channel-caption"><span>LIVING / BLOG</span><p>{'단순히 글을 많이 만드는 것보다\n검색한 고객이 읽을 이유가 있는 콘텐츠를 만듭니다.'}</p></div>
+        <div className="guide-channel-image guide-channel-blog"><div className="guide-channel-frame"><div className="guide-channel-native"><ServiceExampleImage image="blogDetail" width={720} height={1460} alt="가상 브랜드 NOURVE 누브의 영양제 블로그 콘텐츠 시안. 스틱형 제품 소개와 하루 한 포 주제의 본문 구성." unoptimized loading="lazy" decoding="async"/></div></div></div>
+        <div className="guide-channel-caption"><span>HEALTH / BLOG</span><p>{'단순히 글을 많이 만드는 것보다\n검색한 고객이 읽을 이유가 있는 콘텐츠를 만듭니다.'}</p></div>
         <span className="guide-channel-check">확인할 반응 / 조회·유입 경로·콘텐츠 반응</span>
       </article>
       <article data-service-reveal>
         <div className="guide-channel-heading"><span>03 / CAMPAIGN</span><h3>필요한 타이밍에, 필요한 메시지를</h3></div>
-        <div className="guide-channel-image guide-channel-poster"><div className="guide-channel-frame"><div className="guide-channel-native"><ServiceExampleImage image="campaignDetail" width={720} height={1440} alt="모닝오븐 매장 앞 세로형 입간판 광고 시안. 점심 고민 끝, 샌드위치와 아메리카노." unoptimized loading="lazy" decoding="async"/></div></div></div>
+        <div className="guide-channel-image guide-channel-poster"><div className="guide-channel-frame"><div className="guide-channel-native"><ServiceExampleImage image="campaignDetail" width={720} height={1460} alt="가상 음료 브랜드 PLOOP의 SUMMER SPLASH 캠페인 시안. 제품 라인업과 프로모션, SNS·포스터·패키지 구성." unoptimized loading="lazy" decoding="async"/></div></div></div>
         <div className="guide-channel-caption"><span>F&amp;B / CAMPAIGN</span><p>{'소재 제작부터 광고 집행, 반응 확인까지 연결해\n한 번의 캠페인이 다음 방향으로 이어지게 합니다.'}</p></div>
         <span className="guide-channel-check">확인할 내용 / 설치 위치·가독성·행사 안내</span>
       </article>

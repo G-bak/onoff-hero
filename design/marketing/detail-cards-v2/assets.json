@@ -1,0 +1,35 @@
+[
+  {
+    "name": "sns-lumet",
+    "filename": "detail-sns-lumet-v2.webp",
+    "width": 720,
+    "height": 1460,
+    "bytes": 622612,
+    "sourceBytes": 890377,
+    "sourceSha256": "a848ef8b7db8d234219b1aea87a583502fad942b3ed7aa835d2e48c5e1caf2f0",
+    "sha256": "829d2bde57763c88304abb8f9d779a2540740b6233f18ca10c026b082402195d",
+    "lossless": true
+  },
+  {
+    "name": "blog-nourve",
+    "filename": "detail-blog-nourve-v2.webp",
+    "width": 720,
+    "height": 1460,
+    "bytes": 651592,
+    "sourceBytes": 901922,
+    "sourceSha256": "1004ae2e0d13b5d8ac4964d6c6f4d322f48fbfe011cf2eaf5e84075737de2ebe",
+    "sha256": "3240a7ba9412fdad10fd4728ddaa04f3a95fe63c0e43abbd88e3f8b34e6ed6b4",
+    "lossless": true
+  },
+  {
+    "name": "campaign-ploop",
+    "filename": "detail-campaign-ploop-v2.webp",
+    "width": 720,
+    "height": 1460,
+    "bytes": 1097944,
+    "sourceBytes": 1365668,
+    "sourceSha256": "55e263c9f6ec205d43c3f03eebfe26040bc18b8cb75c2a6f28c434299191d107",
+    "sha256": "1e44be842d4c2e0e57c9cfee88cbea058cba49fc19d0dbdcd5cd94bee345dd46",
+    "lossless": true
+  }
+]

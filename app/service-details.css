@@ -150,7 +150,7 @@
 .guide-channel-heading h3 { font-size: clamp(22px, 2vw, 30px); margin: 12px 0 24px; }
 .guide-channel-image { min-width: 0; padding: 24px; background: #d9dddd; display: grid; place-items: center; }
 .guide-channel-image img { display: block; width: 100%; height: auto; box-shadow: 0 12px 25px #090a0f15; }
-.guide-channel-frame { position: relative; width: 100%; max-width: 330px; aspect-ratio: var(--channel-card-ratio, 330 / 656); overflow: hidden; background: #fff; box-shadow: 0 12px 25px #090a0f15; }
+.guide-channel-frame { position: relative; width: 100%; max-width: 330px; aspect-ratio: var(--channel-card-ratio, 720 / 1460); overflow: hidden; background: #fff; box-shadow: 0 12px 25px #090a0f15; }
 .guide-channel-native { position: absolute; width: 330px; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(var(--channel-preview-scale, 1)); transform-origin: center; }
 .guide-channel-native :is(.guide-feed-preview, img) { box-shadow: none; }
 .guide-feed-preview { width: 100%; max-width: 330px; background: #fff; color: #090a0f; box-shadow: 0 12px 25px #090a0f15; }
