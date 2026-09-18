@@ -14,7 +14,7 @@
 | 06 SERVICES | `services` | [목록·진입·모션](pages/PAGE6-NOTES.md) |
 | 07 TOGETHER | `together` | [마무리 영상·주소 정리](pages/PAGE7-NOTES.md), [프로젝트 문의 안내·검증](reviews/OPENING-AND-INQUIRY-2026-09-13.md), [원본 출처](../design/brand-film/README.md) |
 
-메뉴·진행률은 `lib/site-sections.ts`의 7개 항목을 기준으로 하며 전환은 6개다. TOGETHER의 현재 주소·내부 ID는 `together`다. 이전 `#film`·`from=film`은 호환 입력으로만 받아 새 위치·복귀 링크로 연결한다.
+메뉴·진행률은 `lib/site-sections.ts`의 7개 항목을 기준으로 하며 전환은 6개다. TOGETHER의 내부 ID는 `together`이며 이동 URL에는 해시를 붙이지 않는다. `data-scroll-target`으로 섹션을 지정하고 이전 `#film`·`from=film`은 호환 입력으로만 받아 새 위치·복귀 링크로 연결한다.
 
 서비스 요약·메타데이터는 `lib/services.ts`, 기획·디자인·마케팅·운영 상세는 `lib/service-details.ts`, 웹 상세는 `lib/web-service.ts`가 담당한다. [네 서비스 상세](pages/SERVICE-DETAILS-NOTES.md)와 [웹 상세](pages/WEB-SERVICE-NOTES.md)가 초기 PAGE6 상세 시안보다 우선한다. 견적·계약 조건은 상담 후 확인한다.
 
@@ -24,6 +24,7 @@
 
 ## 운영과 검토
 
+- [2026-09-18 프로젝트 분석·GitHub 반영](reviews/PROJECT-REVIEW-2026-09-18.md): 현재 구조·이동·문의·SEO·배포 연결 분석과 이번 반영 범위.
 - [날짜별 작업 일지](daily-work/README.md): 슬랙 공유용 일일 보고, 날짜별 완료 작업과 배포·로컬 상태 구분.
 - [2026-09-15 운영 전체 점검·흰 배경 파비콘](reviews/PRODUCTION-REVIEW-2026-09-15.md): 도메인·배포·검색·광고·문의, PC/모바일 동작, 남은 계정 설정.
 - [SEO 문서 모음](seo/README.md): Google·네이버 공식 조사, 구현·검증, Search Console·서치어드바이저 등록 방법.

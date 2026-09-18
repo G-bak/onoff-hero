@@ -2,7 +2,7 @@
 
 브랜드 기획부터 디자인·웹사이트·마케팅·운영까지 소개하는 사이트다. React·TypeScript, Vinext·Vite, Tailwind CSS, Three.js와 Cloudflare Worker 구성을 사용한다.
 
-현재 홈페이지는 **HOME → SYSTEM → DESIGN → WEB → MARKETING → SERVICES → TOGETHER**의 7개 섹션과 6개 면 전환이다. 마지막 메뉴명과 주소는 TOGETHER·`/#together`로 맞췄으며 기존 `/#film`은 같은 위치로 연결한다. 다섯 서비스 상세와 프로젝트 문의 페이지를 제공한다. 자세한 현재 기준은 [문서 색인](docs/README.md)에 있다.
+현재 홈페이지는 **HOME → SYSTEM → DESIGN → WEB → MARKETING → SERVICES → TOGETHER**의 7개 섹션과 6개 면 전환이다. 내부 이동 URL에는 해시를 붙이지 않고 `data-scroll-target`으로 섹션을 지정한다. 마지막 메뉴명·섹션 ID는 TOGETHER·`together`이며, 기존 `/#together`·`/#film` 주소도 해당 위치로 이동한 뒤 해시를 정리한다. 다섯 서비스 상세와 프로젝트 문의 페이지를 제공한다. 자세한 현재 기준은 [문서 색인](docs/README.md)에 있다.
 
 ## 로컬 실행
 
@@ -31,7 +31,7 @@ npm run dev -- --host 127.0.0.1 --port 5187 --strictPort
 - `/inquiry`는 입력·참고 링크를 Slack 메시지로 전달하며 실제 테스트 성공 응답을 확인했다. 최대 90일 보관과 담당 업무명·이메일을 안내하고 수집·이용/국외 처리위탁 동의를 따로 받는다. 웹훅과 현재 정책 버전이 없으면 접수를 잠근다. 파일 업로드·메일 자동 발송·DB는 추가하지 않았다. [연결과 검증](docs/operations/SLACK-INQUIRY.md), [로컬 산출물 정리](docs/operations/OUTPUTS.md).
 - `/services/` 아래 `planning`, `design`, `web`, `marketing`, `operations`의 다섯 상세 경로를 제공한다. 금액·납기·수정 횟수는 확정하지 않고 상담 후 견적으로 안내한다.
 - 포트폴리오와 인물은 가상 브랜드 시안·직무별 캐릭터다. 실제 고객 실적·직원·성과로 설명하지 않는다. 참고 사진과 글꼴의 출처·라이선스를 보존한다.
-- 홈페이지의 부드러운 섹션 이동을 유지한다. 별도 페이지는 `PageLink`와 루트 `scroll-behavior:auto` 규칙으로 진입·뒤로가기·직접 해시를 처리한다.
+- 홈페이지의 부드러운 섹션 이동을 유지한다. 공통 `ScrollNavigation`이 해시 없는 섹션 이동·페이지 전환·기존 해시 주소를 처리하며, `PageLink`와 루트 `scroll-behavior:auto` 규칙으로 일반 페이지 진입·뒤로가기를 보완한다.
 
 ## 디렉터리
 
