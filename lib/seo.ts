@@ -2,6 +2,10 @@ import type { Metadata, MetadataRoute } from 'next';
 
 export const siteOrigin = 'https://on-onf.com';
 export const siteName = '온앤오프';
+export const socialPreviewImage = {
+  url: `${siteOrigin}/og.png`, width: 1200, height: 630, type: 'image/png',
+  alt: '온앤오프 ON&OFF | 당신은 사업만 ON, 복잡한 마케팅은 OFF',
+};
 
 // Canonical URLs describe public pages, never navigation or campaign parameters.
 export const seoPages = [
@@ -21,8 +25,8 @@ export function pageMetadata(path: string): Metadata {
   return {
     title: page.title, description: page.description,
     alternates: { canonical: url },
-    openGraph: { type: 'website', locale: 'ko_KR', siteName, url, title: page.title, description: page.description },
-    twitter: { card: 'summary', title: page.title, description: page.description },
+    openGraph: { type: 'website', locale: 'ko_KR', siteName, url, title: page.title, description: page.description, images: [socialPreviewImage] },
+    twitter: { card: 'summary_large_image', title: page.title, description: page.description, images: [{ url: socialPreviewImage.url, alt: socialPreviewImage.alt }] },
   };
 }
 

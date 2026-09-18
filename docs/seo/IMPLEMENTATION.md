@@ -2,6 +2,16 @@
 
 기준일: **2026-09-15**. 사용자가 공식 SEO 자료 조사·문서 작성·코드 개선·GitHub 반영·운영 배포를 요청했다. 대표 사이트는 **https://on-onf.com/** 이며 기존 `main` → Cloudflare Workers Builds를 사용한다.
 
+## 2026-09-18 OG 이미지 로컬 적용
+
+후속 사용자 요청으로 현재 변경 전체의 GitHub 반영·운영 배포를 진행한다. 아래 로컬 전용 상태는 검토 당시 이력이며 실제 운영 완료 여부는 [배포 기록](../operations/DEPLOYMENT-NOTES.md)을 따른다.
+
+최신 선택: 사용자가 직접 첨부한 [OG 이미지 v2](../../design/og/v2/README.md)로 `public/og.png`를 교체했다. PNG1200×630 원본을 수정 없이 사용하며 `lib/seo.ts`의 이미지 너비·높이·대체 텍스트를 맞췄다. 공개7페이지의 공통 OG/X 연결과 기존 제목·설명·canonical·인증·robots/sitemap·UI는 유지한다. 로컬 반영 상태이며 운영 배포하지 않았다. 아래 생성 이미지 내용은 최초 적용 이력이다.
+
+사용자가 선택한 [OG 이미지 시안](../../design/og/v1/README.md)을 `public/og.png`로 복사했다. 생성 원본1730×909 PNG를 변경 없이 사용한다. `lib/seo.ts`의 공통 메타데이터에서 공개7페이지에 `og:image`·너비·높이·형식·대체 텍스트와 `twitter:image`·`summary_large_image`를 설정한다. 이미지 URL은 대표 주소 기반 `https://on-onf.com/og.png`다. 각 페이지의 제목·설명·canonical, 네이버 인증값, robots/sitemap 및 기존 UI는 유지한다. 로컬 적용 상태이며 운영 배포는 하지 않았다.
+
+로컬 `npm run ci:build`와 SEO HTTP 검사를 통과했다. 공개7페이지의 OG/X 이미지 태그·크기·형식·대체 텍스트, 이미지200 응답과 생성 원본/빌드 파일 바이트 일치를 확인했다. 변경 전 응답과 비교해 본문 main·CSS 참조·기존 제목/설명·canonical·인증 태그 상태 및 robots/sitemap이 동일하다. 실제 메신저 공유 미리보기와 운영 배포는 검증 범위에 포함하지 않는다. 상세 결과는 Git 제외 `outputs/qa/2026-09-18/og-image/verification.json`에 보관한다.
+
 ## 2026-09-18 지역 검색 메타데이터
 
 사용자 제공 title/description을 HOME·마케팅·웹·디자인에 그대로 반영한다. title은 아래와 같으며 description의 단일 원본은 `lib/seo.ts`다.
@@ -18,6 +28,8 @@
 디자인·애니메이션·UI 코드와 화면의 메인 카피·제목은 유지한다. 사용자 선택 요청에 따라 마케팅/디자인 작업 안내에 **평택 광고대행사 / 평택 로고디자인**, 웹의 자료 준비 FAQ 답변에 **평택 홈페이지 제작**을 각각 본문1회만 넣는다. 기존 설명의 의미와 안내 조건을 보존하고 별도 keywords 태그는 추가하지 않는다. 기존 SEO 회귀 검사의 브랜드 표기를 ON&OFF에 맞추며 HTTP 검사에 실제 `og:title`·`og:description` 일치 검증을 포함한다. 실제 배포 결과는 [배포 기록](../operations/DEPLOYMENT-NOTES.md)을 따른다.
 
 로컬 검증: `npm run ci:build`의162개 검사·린트·타입·프로덕션 빌드·CSS/자산 검사를 통과했다.7개 페이지 HTTP/SSR 검사에서 사용자 지정 문구·고유 제목/설명·Open Graph/Twitter 일치·canonical을 확인했다. 변경 전 HTML과 비교해 본문은 지정한 설명3곳만 바뀌고 모든 제목·나머지 main 마크업, robots/sitemap 응답은 그대로임을 확인했다. 실제 브라우저 시각 검수는 수행하지 않았다. 근거는 Git 제외 `outputs/deploy/2026-09-18/local-seo/local-verification.json`, `outputs/logs/local-seo-ci-20260918.log`·`local-seo-http-20260918.log`에 있다.
+
+운영 검증: 2026-09-18 09:12 KST 소스 `d241d16`의 자동 배포가 성공했다. 기본 DNS의7개 공개 페이지에서 요청 메타데이터·고유 제목/설명·Open Graph/Twitter·canonical·네이버 인증 태그 보존을 확인했다. 변경 전 운영 HTML과 비교해 본문은 승인된 설명3곳만 바뀌고 나머지 main 마크업·모든 제목·CSS 참조, robots/sitemap 원문은 동일하다. 운영 SEO·www308·404·Googlebot/Yeti 응답과 문의 GET 활성 검사도 통과했다. `production-verification.json`·`seo-production.log`·`cloudflare-verification.json`·`deployment.json`을 위 Git 제외 폴더에 보관하며 검색엔진의 실제 재수집·색인 완료로 설명하지 않는다. 이 완료 기록은 로컬만 유지한다.
 
 ## 발견한 문제와 변경
 

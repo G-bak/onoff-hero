@@ -1,0 +1,11 @@
+Use case: ads-marketing.
+Create ONE finished Open Graph / social link preview image for the Korean creative agency ON&OFF (온앤오프), suitable for its existing graphic-design portfolio website.
+Canvas: landscape 1200 x 630 pixels, approximately 1.905:1. A complete flat graphic artwork, edge to edge, not a photograph of a poster or a mockup.
+Art direction: confident, restrained Swiss/editorial graphic design, as if carefully typeset by a human brand designer. Precise baseline alignment, generous intentional negative space, a clear hierarchy, crisp typography. The existing website uses cool pale gray, near-black, electric blue, and a small acidic lime accent. Use those colors tastefully: background #e9edef, text #333333, blue #343CFF, tiny accent #D8FF3E. Flat solid ink, perfectly clean background.
+Composition: an oversized, beautifully kerned heavy modern sans-serif “ON&OFF” across the middle, easily legible in a small link thumbnail; the ampersand may be electric blue, with the rest near-black. Keep all letters wholly inside the canvas, with substantial side margins. Small “온앤오프” in the upper left, a discreet lime horizontal rectangle nearby as the only small decorative shape. A quiet thin horizontal rule near the bottom creates an editorial footer. In the footer, left-align the Korean service line in a medium-weight clean Korean sans-serif and right-align the website address. Avoid crowding. Typography and deliberate whitespace are the actual subject.
+Exact text, spelled correctly and each appearing once:
+“온앤오프”
+“ON&OFF”
+“광고 · 웹디자인 · 브랜딩”
+“on-onf.com”
+Constraints: produce only this one image. Korean glyphs must be natural and accurate. No additional copy, no invented slogan, no changed domain spelling. No fake logo symbols. No photos, people, devices, website screenshots, 3D, chrome, glass, gradients, glow, shadows, grain, splatter, AI-looking abstract blobs, floating objects, arrows, badges, borders, watermark, or ornamental filler. This should feel quietly professional and unmistakably designed, not like a generative-AI illustration.

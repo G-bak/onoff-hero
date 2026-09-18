@@ -1,5 +1,15 @@
 # ON&OFF 프로젝트 작업 지침
+## 2026-09-18 공통 OG 이미지 GitHub 반영·운영 배포 승인
+
+사용자가 현재 변경 전체를 GitHub에 올리고 배포하도록 요청했다. 사용자 제공1200×630 OG 이미지와 공개7페이지의 공통 OG/X 연결, 공개 자산 목록, 원본·제작 이력 및 기존 로컬 완료 문서를 기존 GitHub main에 반영한다. 아래 로컬 전용 표기는 검토 당시 이력이며 이번 배포 승인이 우선한다. 사용자 제공 이미지 적용 후 `npm run ci:build`와7페이지 HTTP/SSR·원본/빌드 이미지 일치 검사를 통과했고 이후 앱 소스 변경은 없다. 기존 회사 계정 Cloudflare Workers Builds 자동 배포를 사용하며 실제 결과는 [배포 기록](docs/operations/DEPLOYMENT-NOTES.md)을 따른다. 환경변수·로그·검증 도구는 Git에서 제외하고 로컬 서버·DNS·PC 설정을 유지한다.
+
+## 2026-09-18 공통 OG 이미지 로컬 적용
+
+사용자가 최초 생성 시안 대신 직접 첨부한 `onoff_og.png`를 최종 선택했다. [사용자 제공 OG 기록](design/og/v2/README.md)의1200×630 PNG 원본을 변경 없이 `public/og.png`로 교체하고 `lib/seo.ts`의 공통 `pageMetadata`에서 공개7페이지의 Open Graph 이미지와 X/Twitter 큰 이미지 카드에 연결한다. 절대 주소는 `https://on-onf.com/og.png`이며 크기·대체 텍스트도 새 이미지에 맞춘다. 이전 생성 시안은 `design/og/v1/`에 보존한다. 페이지별 title/description·canonical·네이버 인증·robots/sitemap과 기존 화면·애니메이션은 유지한다. 로컬 반영 상태이며 commit·push·운영 배포하지 않고 기존 로컬 서버를 유지한다.
+
 ## 2026-09-18 평택 검색 메타데이터·운영 배포
+
+소스 커밋 `d241d16fd55538152dc66cb9600f59990f5ee0c0`의 GitHub Workers Builds 체크와 Build `d7845cc8-798c-4c53-b3cf-b6ac6e21fb4e`가 success이며09:12 KST Worker 버전 `8a5c9c33-e3c1-4aab-986a-49e82bdf02ca`가100% 배포됐다. 기본 DNS의 운영7페이지에서 지정 메타데이터·고유 제목/설명·Open Graph/Twitter·canonical·네이버 인증 태그1개를 확인했다. 변경 전 응답과 비교해 승인된 본문 설명3곳 외 main 마크업·모든 제목·CSS 참조, robots/sitemap 응답이 동일하다. SEO·리다이렉트·문의 GET 활성 검사도 통과했다. 완료 기록은 로컬에 남기고 기록만을 위한 추가 배포는 하지 않는다.
 
 사용자가 HOME·마케팅·웹·디자인의 title/description을 제공하고 운영 배포를 요청했다. `lib/seo.ts`에 지정 문구를 그대로 반영하고 공통 메타데이터 함수로 Open Graph·Twitter·WebPage 구조화 데이터의 제목/설명을 연결한다. 기획·운영·문의의 기존 고유 메타데이터, 각 실제 URL canonical, 네이버 소유 확인 runtime secret, robots·sitemap 설정은 유지한다. 디자인·애니메이션·UI·HERO와 본문 제목은 변경하지 않는다. 선택 요청에 따라 마케팅/디자인의 기존 작업 안내와 웹 FAQ 설명에 **평택 광고대행사 / 평택 로고디자인 / 평택 홈페이지 제작**을 각 페이지 본문1회만 자연스럽게 추가한다. 별도 keywords 태그나 반복 문구를 추가하지 않는다. 기존 회사 계정 main 자동 배포를 사용하고 검증·실제 완료는 [SEO 기록](docs/seo/IMPLEMENTATION.md)과 [배포 기록](docs/operations/DEPLOYMENT-NOTES.md)에 남긴다. 로컬 서버·DNS·PC 설정을 유지하고 검증 로그·환경변수는 Git에서 제외한다.
 

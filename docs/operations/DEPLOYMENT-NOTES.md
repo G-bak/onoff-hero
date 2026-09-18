@@ -2,12 +2,21 @@
 
 > 날짜별 배포 이력이다. 현재 운영 버전은 실제 Worker 배포와 GitHub 커밋을 함께 확인한다. 2026-09-13 초기 점검은 로컬이었으며, 최신 사용자가 실제 Slack 테스트 후 전체 GitHub 반영·배포를 승인했다.
 
+## 2026-09-18 — 사용자 제공 공통 OG 이미지
+
+- 사용자가 현재 변경 전체의 GitHub 반영과 운영 배포를 요청했다. 사용자 제공1200×630 PNG를 `public/og.png`로 사용하고 공개7페이지에 공통 Open Graph/X 이미지를 연결한다. 이미지 크기·형식·대체 텍스트와 X 큰 이미지 카드를 설정하며 제목·설명·canonical·네이버 인증·robots/sitemap·기존 UI는 유지한다.
+- 최종 사용자 이미지의 SHA-256은 `75e068fd34c2144b5cb5ad16814f1cc2bdc54a03e0e3b33c4eb45e3228fa51cc`이며53,241바이트다. 생성 시안v1과 사용자 제공v2의 원본·제작 기록, 앞선 SEO 배포 완료 기록을 함께 반영한다. 취소된 디자이너 가이드 요청의 파일 변경은 없다.
+- 사용자 이미지 적용 후 로컬 `npm run ci:build`와7페이지 OG/X 메타데이터·1200×630 크기·원본/빌드 파일 일치 검사를 통과했다. 이전 main/CSS·제목/설명·canonical·인증 태그 상태와 robots/sitemap 응답이 동일함을 확인했다. 이후 앱 소스 변경은 없어 해당 빌드 결과를 재사용한다.
+- 회사 MCP의 실제 계정·main 전용 자동 배포·문의 및 네이버 secret3개·workers.dev/Preview 비활성을 재확인했다. 기존 GitHub main → 회사 계정 Cloudflare Workers Builds 자동 배포를 사용한다. 검증 근거는 Git 제외 `outputs/deploy/2026-09-18/og-image/`에 보관하며 실제 완료는 배포 결과 확인 후 기록한다. DNS·PC 설정·로컬 서버는 유지한다.
+
 ## 2026-09-18 — 평택 검색 메타데이터
 
+- **09:12 KST 배포 완료:** 소스 커밋 `d241d16fd55538152dc66cb9600f59990f5ee0c0`을 GitHub main에 반영했다. 해당 SHA의 `Workers Builds: onoff-hero-preview` 체크가 completed/success이며 Cloudflare Build `d7845cc8-798c-4c53-b3cf-b6ac6e21fb4e`도 stopped/success다. 체크의 Worker 버전 `8a5c9c33-e3c1-4aab-986a-49e82bdf02ca`와 실제09:12:01 KST 배포 `08ec1c5b-129f-4168-ab77-837a5717162a`의100% 버전이 일치한다. 네이버 인증을 포함한 secret3개와 workers.dev·Preview 비활성을 유지한다.
+- 09:12 KST 기본 DNS의 공개7개 페이지가200이며, 요청한4개 title/description 정확 일치·기존3개 메타데이터 보존·7개 제목/설명 고유성·Open Graph/Twitter 일치·canonical·각 head의 네이버 인증 태그1개를 검증했다. 변경 전 운영 HTML과 비교해 승인된 설명3곳만 변경됐고 모든 제목·나머지 main 마크업·스타일시트 URL, robots/sitemap 응답은 동일하다. 실제 운영 HTTP SEO 검사(robots/sitemap·404·www308·Googlebot/Yeti 응답)와 문의 GET200/enabled=true도 통과했다. 브라우저 시각 검수·실제 문의 전송·검색엔진 재수집/색인은 이번 검증 범위가 아니다.
 - 사용자 요청으로 HOME·마케팅·웹·디자인의 title/description을 지정 문구로 바꾸며 Open Graph·Twitter·WebPage 구조화 데이터도 같은 원본으로 맞춘다. 기획·운영·문의는 기존 고유 메타데이터를 유지한다. canonical·네이버 인증 태그·robots/sitemap·디자인·애니메이션·메인 카피는 보존한다.
 - 마케팅/디자인 작업 안내와 웹의 자료 준비 FAQ 설명에 각 페이지 지역 키워드를1회씩만 넣는다. 변경은 데이터3개와 기존 검증 도구에 한정하며 UI 컴포넌트·CSS·모션·자산은 수정하지 않는다.
 - 로컬 `npm run ci:build`의162개 검사·린트·타입·빌드·CSS/자산 검사를 통과했다.7개 페이지의 실제 title/description·Open Graph/Twitter·canonical·제목 고유성과 기존3페이지 메타데이터를 확인했다. 변경 전 HTML 대비 승인된 설명3곳 외 본문 마크업·모든 제목·robots/sitemap 응답 보존도 확인했다. 기존 회사 계정과 네이버 인증 secret을 포함한 기존3개 secret·main 배포 트리거를 읽기 조회했다.
-- 기존 GitHub main → 회사 계정 Cloudflare Workers Builds 자동 배포를 사용한다. 로컬 검사와 실제 배포·공개 응답 검증은 완료 후 기록한다. 검증 원본은 Git 제외 `outputs/deploy/2026-09-18/local-seo/`에 보관한다. DNS·PC 설정·로컬 서버를 유지하고 실제 문의 전송은 하지 않는다.
+- 기존 GitHub main → 회사 계정 Cloudflare Workers Builds 자동 배포를 사용했다. 검증 원본은 Git 제외 `outputs/deploy/2026-09-18/local-seo/`에 보관한다. DNS·PC 설정·로컬 서버를 유지하고 실제 문의 전송은 하지 않았다. 완료 기록은 로컬에 남기며 기록만을 위한 추가 push·배포는 하지 않는다.
 
 ## 2026-09-17 — 네이버 소유 확인 태그
 
