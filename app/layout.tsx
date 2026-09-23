@@ -46,11 +46,12 @@ export function generateMetadata(): Metadata {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return <html lang="ko" data-scroll-behavior="smooth">
     <head>
-      <Script id="google-ads-loader" strategy="beforeInteractive" async src="https://www.googletagmanager.com/gtag/js?id=AW-18383031274" />
-      <Script id="google-ads-tag" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: `
+      <Script id="google-tag-loader" strategy="beforeInteractive" async src="https://www.googletagmanager.com/gtag/js?id=G-BHNVERX19B" />
+      <Script id="google-tag-config" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: `
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
+        gtag('config', 'G-BHNVERX19B');
         gtag('config', 'AW-18383031274');
       ` }} />
     </head>
