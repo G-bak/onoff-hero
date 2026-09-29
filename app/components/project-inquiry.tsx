@@ -23,6 +23,7 @@ export default function ProjectInquiry({ initialService, returnTo }: { initialSe
   const [errors, setErrors] = useState<InquiryErrors>({});
   const [review, setReview] = useState(false);
   const [delivery, setDelivery] = useState<InquiryDeliveryStatus>({ enabled: false, privacyVersion: null, privacyNotice: null, overseasNotice: null });
+  const [deliveryChecked, setDeliveryChecked] = useState(false);
   const [consent, setConsent] = useState(false);
   const [overseasConsent, setOverseasConsent] = useState(false);
   const [submission, setSubmission] = useState<'idle' | 'sending' | 'sent' | 'unknown'>('idle');
@@ -34,6 +35,8 @@ export default function ProjectInquiry({ initialService, returnTo }: { initialSe
 
   useEffect(() => {
     const controller = new AbortController();
+    let mounted = true;
+    const timeout = setTimeout(() => controller.abort(), 8000);
     fetch('/api/inquiry', { cache: 'no-store', signal: controller.signal })
       .then(async response => {
         if (!response.ok) return;
@@ -41,8 +44,9 @@ export default function ProjectInquiry({ initialService, returnTo }: { initialSe
         if (!controller.signal.aborted && status && typeof status === 'object' && 'enabled' in status && status.enabled === true && 'privacyVersion' in status && status.privacyVersion === inquiryPrivacyVersion && 'privacyNotice' in status && status.privacyNotice === inquiryPrivacyNotice && 'overseasNotice' in status && status.overseasNotice === inquiryOverseasNotice) {
           setDelivery({ enabled: true, privacyVersion: status.privacyVersion, privacyNotice: status.privacyNotice, overseasNotice: status.overseasNotice });
         }
-      }).catch(() => { /* Keep the email and preview available when status is unavailable. */ });
-    return () => controller.abort();
+      }).catch(() => { /* Keep the draft and email available when status is unavailable. */ })
+      .finally(() => { clearTimeout(timeout); if (mounted) setDeliveryChecked(true); });
+    return () => { mounted = false; clearTimeout(timeout); controller.abort(); };
   }, []);
 
   function update<K extends keyof InquiryDraft>(key: K, value: InquiryDraft[K]) {
@@ -117,7 +121,7 @@ export default function ProjectInquiry({ initialService, returnTo }: { initialSe
       </aside>
       <main className="inquiry-main">
         <div className="inquiry-page-label"><span>PROJECT INQUIRY</span><span>LET’S WORK TOGETHER</span></div>
-        <div className="inquiry-preview-notice"><span>{delivery.enabled ? '프로젝트 문의' : '미리보기'}</span><p>{delivery.enabled ? <>작성 내용을 확인한 뒤 문의를 접수해 주세요.<br/>담당자가 남겨주신 연락처로 답변드립니다.</> : <>작성 내용은 전송되지 않습니다.<br/>현재는 입력과 내용 확인만 가능합니다.</>}</p></div>
+        <div className="inquiry-preview-notice"><span>프로젝트 문의</span><p>{delivery.enabled ? <>작성 내용을 확인한 뒤 문의를 접수해 주세요.<br/>담당자가 남겨주신 연락처로 답변드립니다.</> : deliveryChecked ? <>온라인 접수 연결을 확인하지 못했습니다.<br/>새로고침하거나 아래 이메일로 문의해 주세요.</> : <>문의 접수 연결을 확인하고 있습니다.<br/>아래에서 문의 내용을 작성해 주세요.</>}</p></div>
         <noscript><p className="inquiry-no-script">입력 화면을 사용하려면 JavaScript를 켜 주세요. 이메일 문의는 계속 이용할 수 있습니다.</p><style>{'.inquiry-form,.inquiry-index,.inquiry-chat-entry,.inquiry-skip,.inquiry-preview-notice{display:none}'}</style></noscript>
         <form id="inquiry-form" ref={form} className="inquiry-form" onSubmit={showReview} noValidate aria-busy={!hydrated}>
           <fieldset className="inquiry-ready-fields" disabled={!hydrated}>
@@ -149,7 +153,7 @@ export default function ProjectInquiry({ initialService, returnTo }: { initialSe
             ] as const).map(field => <div className="inquiry-field" key={field.key}><label htmlFor={`inquiry-${field.key}`}>{field.label}{field.required ? <i>필수</i> : <em>선택</em>}</label><Input className="inquiry-input" id={`inquiry-${field.key}`} name={field.key} type={field.type} autoComplete={field.autoComplete} maxLength={field.key === 'email' ? 254 : 100} value={draft[field.key]} onChange={e => update(field.key, e.target.value)} required={field.required} aria-invalid={!!errors[field.key]} aria-describedby={errors[field.key] ? `inquiry-${field.key}-error` : undefined} placeholder={field.placeholder}/>{error(field.key)}</div>)}</div>
           </fieldset>
           <div className="inquiry-review-action"><div><span>YOUR NEXT, WITH ON&OFF.</span><p>작성하신 내용을 한 번 더 확인해 주세요.</p></div><Button type="submit" className="inquiry-review-button">작성 내용 확인 <ArrowUpRight aria-hidden="true"/></Button></div>
-          <p className="inquiry-local-note">{delivery.enabled ? '이메일로도 문의하실 수 있어요. ' : '아직 문의가 접수되지 않습니다. 실제 문의는 이메일을 이용해 주세요. '}<a href={`mailto:${consultationEmail}`}>{consultationEmail}</a></p>
+          <p className="inquiry-local-note">이메일로도 문의하실 수 있어요. <a href={`mailto:${consultationEmail}`}>{consultationEmail}</a></p>
           </fieldset>
         </form>
         <details className="inquiry-consent-preview inquiry-public-privacy" id="inquiry-privacy"><summary>프로젝트 문의 개인정보 처리 안내</summary><p>{inquiryPrivacyNotice}</p><p>{inquiryOverseasNotice}</p></details>
@@ -158,11 +162,11 @@ export default function ProjectInquiry({ initialService, returnTo }: { initialSe
     </div>
     <Dialog open={review} onOpenChange={open => { if (!sending.current) setReview(open); }}>
       <DialogContent className="inquiry-review-dialog" showCloseButton={false}>
-        <header className="inquiry-review-header"><span>PROJECT BRIEF{!delivery.enabled && ' / PREVIEW'}</span><DialogClose render={<Button variant="ghost" className="inquiry-review-close" aria-label="작성 내용 확인 닫기" disabled={submission === 'sending'}/>}><X aria-hidden="true"/></DialogClose></header>
+        <header className="inquiry-review-header"><span>PROJECT BRIEF</span><DialogClose render={<Button variant="ghost" className="inquiry-review-close" aria-label="작성 내용 확인 닫기" disabled={submission === 'sending'}/>}><X aria-hidden="true"/></DialogClose></header>
         <DialogTitle className="inquiry-review-title">{submission === 'sent' ? <>문의가<br/>전달됐어요.</> : <>함께할 일을<br/>정리했어요.</>}</DialogTitle>
-        <DialogDescription className="inquiry-review-description">{submission === 'sent' ? '담당자가 내용을 확인한 뒤 남겨주신 연락처로 답변드립니다.' : delivery.enabled ? '내용과 연락처를 확인하고 개인정보 안내에 동의한 뒤 접수해 주세요.' : '입력 내용 확인용 화면입니다. 문의가 전송되거나 접수되지 않았습니다.'}</DialogDescription>
+        <DialogDescription className="inquiry-review-description">{submission === 'sent' ? '문의가 접수되었습니다. 확인 후 연락드리겠습니다.' : delivery.enabled ? '내용과 연락처를 확인하고 개인정보 안내에 동의한 뒤 접수해 주세요.' : deliveryChecked ? '온라인 접수 연결을 확인하지 못했습니다. 작성 내용을 보관한 뒤 새로고침하거나 이메일로 문의해 주세요.' : '문의 접수 연결을 확인하고 있습니다. 잠시만 기다려 주세요.'}</DialogDescription>
         <dl className="inquiry-review-list"><div><dt>필요한 서비스</dt><dd>{selectedNames.join(' · ')}</dd></div><div><dt>프로젝트 소개</dt><dd className="inquiry-review-text">{draft.description}</dd></div><div><dt>예산 · 일정</dt><dd>{draft.budget} {draft.budget !== inquiryBudgets[0] ? `(${draft.budgetBasis})` : ''}<br/>{draft.schedule}</dd></div><div><dt>담당자</dt><dd>{draft.company} · {draft.name}<br/>{draft.email}{draft.phone && <><br/>{draft.phone}</>}</dd></div>{draft.reference && <div><dt>참고 링크</dt><dd>{draft.reference}</dd></div>}</dl>
-        <details className="inquiry-consent-preview" open={delivery.enabled}><summary>개인정보 수집·이용 안내</summary><p>{delivery.privacyNotice ?? '실제 접수 기능이 열리면 수집 항목, 이용 목적, 보유 기간 등을 안내하고 동의를 받습니다. 현재 입력 내용은 서버로 전송·저장되지 않습니다.'}</p></details>
+        <details className="inquiry-consent-preview" open={delivery.enabled}><summary>개인정보 수집·이용 안내</summary><p>{delivery.privacyNotice ?? inquiryPrivacyNotice}</p></details>
         {delivery.enabled && submission !== 'sent' && <label className="inquiry-consent"><input type="checkbox" checked={consent} onChange={e => setConsent(e.target.checked)} disabled={submission === 'sending' || submission === 'unknown'}/><span>위 개인정보 수집·이용 안내를 확인했고 동의합니다. (필수)</span></label>}
         {delivery.enabled && <details className="inquiry-consent-preview" open><summary>개인정보 국외 처리위탁 안내</summary><p>{delivery.overseasNotice}</p></details>}
         {delivery.enabled && submission !== 'sent' && <label className="inquiry-consent"><input type="checkbox" checked={overseasConsent} onChange={e => setOverseasConsent(e.target.checked)} disabled={submission === 'sending' || submission === 'unknown'}/><span>위 개인정보 국외 처리위탁 안내를 확인했고 동의합니다. (필수)</span></label>}
