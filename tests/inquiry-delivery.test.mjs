@@ -24,12 +24,12 @@ function loadSource(url) {
   }, exports);
   return exports;
 }
-const { createInquiryStatus, createInquiryDeliveryGuard, createInquirySlackMessage, handleInquirySubmission, inquiryBodyLimit } = loadSource(new URL('../lib/inquiry-delivery.ts', import.meta.url));
-const webhookUrl = 'https://hooks.slack.com/services/T_TEST/B_TEST/FAKE_SECRET_NEVER_SENT';
+const { createInquiryStatus, createInquiryDeliveryGuard, createInquiryFormspreeMessage, handleInquirySubmission, inquiryBodyLimit } = loadSource(new URL('../lib/inquiry-delivery.ts', import.meta.url));
+const formUrl = 'https://formspree.io/f/testform';
 const { inquiryPrivacyVersion: privacyVersion, inquiryPrivacyNotice: privacyNotice, inquiryOverseasNotice: overseasNotice } = loadSource(new URL('../lib/inquiry-privacy.ts', import.meta.url));
 const draft = () => ({ services: ['web'], description: '신제품 소개 홈페이지 제작을 문의합니다.', budget: '상담 후 결정', budgetBasis: '프로젝트 전체', schedule: '일정 협의', reference: '', company: '가상 검증 브랜드', name: '테스트 담당자', email: 'qa@example.test', phone: '', consent: true, overseasConsent: true, privacyVersion, requestId: randomUUID() });
 const request = (payload = draft(), headers = {}, body) => new Request('https://onoff.example/api/inquiry', { method: 'POST', headers: { origin: 'https://onoff.example', 'content-type': 'application/json', ...headers }, body: body ?? JSON.stringify(payload) });
-const configured = overrides => ({ webhookUrl, privacyVersion, guard: createInquiryDeliveryGuard(), fetcher: async () => new Response('ok'), ...overrides });
+const configured = overrides => ({ formUrl, privacyVersion, guard: createInquiryDeliveryGuard(), fetcher: async () => new Response('{"ok":true}'), ...overrides });
 async function result(response) {
   assert.equal(response.headers.get('cache-control'), 'no-store');
   const text = await response.text();
@@ -38,16 +38,16 @@ async function result(response) {
 }
 
 await test('status exposes only readiness and approved public notice', async () => {
-  for (const config of [{}, { webhookUrl }, { privacyVersion }, { webhookUrl, privacyVersion: 'outdated' }, { webhookUrl: 'https://attacker.example/services/a/b/c', privacyVersion }]) {
+  for (const config of [{}, { formUrl }, { privacyVersion }, { formUrl, privacyVersion: 'outdated' }, { formUrl: 'https://attacker.example/f/testform', privacyVersion }]) {
     assert.deepEqual((await result(createInquiryStatus(config))).body, { enabled: false, privacyVersion: null, privacyNotice: null, overseasNotice: null });
   }
-  assert.deepEqual((await result(createInquiryStatus({ webhookUrl, privacyVersion }))).body, { enabled: true, privacyVersion, privacyNotice, overseasNotice });
+  assert.deepEqual((await result(createInquiryStatus({ formUrl, privacyVersion }))).body, { enabled: true, privacyVersion, privacyNotice, overseasNotice });
 });
 
 await test('missing configuration and unsafe webhook URLs never call the transport', async () => {
   let calls = 0;
-  for (const bad of [undefined, '', 'http://hooks.slack.com/services/a/b/c', 'https://hooks.slack.com.attacker.example/services/a/b/c', 'https://user@hooks.slack.com/services/a/b/c', 'https://hooks.slack.com:8080/services/a/b/c', `${webhookUrl}?token=leak`, `${webhookUrl}#secret`, 'https://hooks.slack.com/services/a/b']) {
-    const outcome = await result(await handleInquirySubmission(request(), configured({ webhookUrl: bad, fetcher: async () => { calls++; throw new Error('must not fetch'); } })));
+  for (const bad of [undefined, '', 'http://formspree.io/f/testform', 'https://formspree.io.attacker.example/f/testform', 'https://user@formspree.io/f/testform', 'https://formspree.io:8080/f/testform', `${formUrl}?token=leak`, `${formUrl}#secret`, 'https://formspree.io/f/']) {
+    const outcome = await result(await handleInquirySubmission(request(), configured({ formUrl: bad, fetcher: async () => { calls++; throw new Error('must not fetch'); } })));
     assert.equal(outcome.status, 503);
     assert.equal(outcome.body.code, 'configuration_required');
   }
@@ -85,96 +85,76 @@ await test('strict types, enum values, field bounds, consent and request IDs are
   for (const invalid of [null, [], 'text', 4]) assert.equal((await handleInquirySubmission(request(invalid), configured({ fetcher: async () => assert.fail('must not fetch') }))).status, 400);
 });
 
-await test('valid inquiry preserves customer text without Slack mention or formatting injection', async () => {
-  const input = { ...draft(), company: '<!channel> *회사*', name: '<@U123> 담당자', description: `${'가'.repeat(2982)}<!here>🙂`, reference: 'https://example.test/<!channel>' };
+await test('Formspree receives every inquiry field with reply-to email and literal customer text', async () => {
+  const input = { ...draft(), company: '<!channel> *회사*', name: '가상 담당자', description: '가'.repeat(3000), reference: 'https://example.test/brief?a=1&b=2', phone: '010-0000-0000' };
   let calls = 0;
   const response = await handleInquirySubmission(request(input), configured({ fetcher: async (url, init) => {
     calls++;
-    assert.equal(url, webhookUrl);
+    assert.equal(url, formUrl);
     assert.equal(init.method, 'POST');
     assert.equal(init.redirect, 'manual');
     assert.equal(init.cache, 'no-store');
     assert.equal(init.headers['Content-Type'], 'application/json');
+    assert.equal(init.headers.Accept, 'application/json');
+    assert.equal(init.headers.Referer, 'https://onoff.example/inquiry');
     assert.ok(init.signal instanceof AbortSignal);
     const payload = JSON.parse(init.body);
-    assert.ok(payload.text.startsWith('ON&amp;OFF | 신규 프로젝트 문의'));
-    assert.ok(payload.text.includes('&lt;!channel&gt; *회사*'));
-    assert.ok(!payload.text.includes('<!channel>') && !payload.text.includes('<@U123>'));
-    assert.equal(payload.mrkdwn, false);
-    assert.equal(payload.parse, 'none');
-    assert.equal(payload.unfurl_links, false);
-    assert.equal(payload.unfurl_media, false);
-    assert.ok(!('channel' in payload) && !('files' in payload));
-    assert.ok(payload.blocks.some(block => block.text?.type === 'plain_text' && block.text.text === input.description));
-    const inline = payload.blocks.filter(block => block.type === 'rich_text').flatMap(block => block.elements.flatMap(section => section.elements));
-    assert.ok(inline.some(element => element.type === 'text' && element.text === `${input.company}\n` && !element.style));
-    assert.ok(inline.some(element => element.type === 'text' && element.text === `${input.name}\n` && !element.style));
-    assert.ok(inline.some(element => element.type === 'text' && element.text === input.reference));
-    assert.ok(inline.every(element => ['text', 'link'].includes(element.type)));
-    assert.ok(payload.blocks.every(block => !('accessory' in block) && block.type !== 'actions'));
-    assert.ok(payload.blocks.at(-1).elements[0].text.includes(input.requestId));
-    assert.ok(payload.blocks.at(-2).elements[0].text.includes(`안내 버전 ${privacyVersion}`));
-    return new Response('ok', { status: 200 });
+    assert.equal(payload.email, input.email);
+    assert.equal(payload.name, input.name);
+    assert.equal(payload.message, input.description);
+    assert.equal(payload['회사·브랜드'], input.company);
+    assert.equal(payload['참고 자료'], input.reference);
+    assert.equal(payload['연락처'], input.phone);
+    assert.equal(payload['접수 ID'], input.requestId);
+    assert.equal(payload['안내 버전'], privacyVersion);
+    assert.equal(payload['개인정보 수집·이용 동의'], '동의 완료');
+    assert.equal(payload['국외 처리위탁 동의'], '동의 완료');
+    assert.ok(!('blocks' in payload) && !('_to' in payload) && !('ip' in payload));
+    return Response.json({ ok: true });
   } }));
   assert.deepEqual((await result(response)).body, { ok: true, code: 'delivered', requestId: input.requestId });
   assert.equal(calls, 1);
 });
 
-await test('exactly 3000 description characters fit their own Slack block', async () => {
-  const response = await handleInquirySubmission(request({ ...draft(), description: '가'.repeat(3000) }), configured({ fetcher: async (_, init) => {
-    assert.ok(JSON.parse(init.body).blocks.some(block => block.text?.type === 'plain_text' && block.text.text === '가'.repeat(3000)));
-    return new Response('ok');
-  } }));
-  assert.equal(response.status, 200);
-});
-
-await test('Slack receipt shows Korean time across year boundaries and separates inquiry from audit details', () => {
+await test('email receipt preserves Korean time, service labels and optional values', () => {
   const input = { ...draft(), services: ['planning', 'design', 'web', 'marketing', 'operations'], budget: '300만~1,000만 원', schedule: '1개월 이내' };
-  const payload = createInquirySlackMessage(input, input.requestId, new Date('2026-12-31T15:00:05Z'));
-  assert.equal(payload.blocks[1].elements[0].text, '홈페이지 접수 · 2027.01.01 00:00:05 (한국시간)');
-  assert.ok(payload.text.includes(input.company) && payload.text.includes(input.email) && payload.text.includes(input.description) && payload.text.includes(input.requestId));
-  const fields = payload.blocks.find(block => block.fields)?.fields;
-  assert.deepEqual(fields.map(field => field.text), ['*희망 예산*\n300만~1,000만 원\n프로젝트 전체', '*희망 일정*\n1개월 이내']);
-  assert.ok(fields.every(field => field.verbatim && field.text.length <= 2000));
-  assert.ok(payload.blocks.some(block => block.type === 'rich_text' && block.elements[0].elements.some(element => element.text === '기획·전략 · 브랜드·디자인 · 웹사이트 · 콘텐츠·마케팅 · 운영·유지관리')));
-  assert.ok(payload.text.includes('미기재 · 이메일로 회신'));
-  assert.ok(payload.blocks.at(-2).elements[0].text.includes('최대 90일'));
-  assert.ok(payload.blocks.length <= 50);
-  for (const block of payload.blocks) {
-    if (block.text) assert.ok(block.text.text.length <= (block.type === 'header' ? 150 : 3000));
-    if (block.type === 'context') assert.ok(block.elements.length <= 10 && block.elements.every(element => element.text.length <= 3000));
-  }
+  const payload = createInquiryFormspreeMessage(input, input.requestId, new Date('2026-12-31T15:00:05Z'));
+  assert.equal(payload['접수 시각'], '2027.01.01 00:00:05 (한국시간)');
+  assert.equal(payload['희망 서비스'], '기획·전략 · 브랜드·디자인 · 웹사이트 · 콘텐츠·마케팅 · 운영·유지관리');
+  assert.equal(payload['희망 예산'], input.budget);
+  assert.equal(payload['예산 기준'], input.budgetBasis);
+  assert.equal(payload['희망 일정'], input.schedule);
+  assert.equal(payload['연락처'], '미기재 · 이메일로 회신');
+  assert.equal(payload['참고 자료'], '미기재');
+  assert.ok(payload['보관 안내'].includes('최대 90일'));
+  assert.equal(createInquiryFormspreeMessage(draft(), input.requestId)['예산 기준'], '상담 후 결정');
 });
 
-await test('Slack links are explicit safe destinations and optional notes remain literal', () => {
-  const elements = payload => payload.blocks.filter(block => block.type === 'rich_text').flatMap(block => block.elements.flatMap(section => section.elements));
-  const input = { ...draft(), email: 'qa+design@example.test', reference: 'https://example.test/brief?a=1&b=2', phone: '010-0000-0000' };
-  const message = createInquirySlackMessage(input, input.requestId);
-  const links = elements(message).filter(element => element.type === 'link');
-  assert.deepEqual(links.map(link => link.url), ['mailto:qa%2Bdesign@example.test', 'https://example.test/brief?a=1&b=2']);
-  assert.equal(links[1].text, input.reference);
-  for (const reference of ['javascript:alert(1)', 'data:text/html,test', 'https://user:password@example.test/', 'https://example.test/\n비밀번호: sample', '<!channel> https://example.test/', 'https://example.test/ https://other.test/', 'https://example.test/<!here>', 'http://[invalid']) {
-    const inline = elements(createInquirySlackMessage({ ...input, reference }, input.requestId));
-    assert.ok(inline.some(element => element.type === 'text' && element.text === reference), reference);
-    assert.equal(inline.filter(element => element.type === 'link').length, 1, reference);
-  }
-  const unusualEmail = 'qa@example.test?bcc=other@example.test';
-  const plainEmail = elements(createInquirySlackMessage({ ...input, email: unusualEmail, reference: '' }, input.requestId));
-  assert.ok(plainEmail.some(element => element.type === 'text' && element.text === unusualEmail));
-  assert.ok(!plainEmail.some(element => element.type === 'link'));
-  const undecided = createInquirySlackMessage(draft(), input.requestId);
-  assert.equal(undecided.blocks.find(block => block.fields).fields[0].text, '*희망 예산*\n상담 후 결정');
-  assert.ok(!elements(undecided).some(element => element.text === '참고 자료\n'));
-});
-
-await test('only HTTP 200 with ok body is success and no upstream error details leak', async () => {
-  for (const [status, text] of [[200, 'invalid_payload FAKE_SECRET_NEVER_SENT'], [201, 'ok'], [204, null], [301, 'redirect'], [302, 'redirect'], [307, 'redirect'], [308, 'redirect'], [403, 'secret revoked'], [429, 'limited'], [500, 'upstream internals']]) {
+await test('upstream rejection never reports success or leaks response details', async () => {
+  for (const status of [301, 302, 307, 308, 400, 403, 422, 429]) {
     const input = draft(), guard = createInquiryDeliveryGuard();
-    const response = await result(await handleInquirySubmission(request(input), configured({ guard, fetcher: async () => new Response(text, { status }) })));
+    const response = await result(await handleInquirySubmission(request(input), configured({ guard, fetcher: async () => new Response(status === 204 ? null : 'FAKE_SECRET_NEVER_SENT', { status }) })));
     assert.equal(response.status, 502);
     assert.equal(response.body.code, 'delivery_failed');
-    const corrected = await handleInquirySubmission(request(input), configured({ guard }));
-    assert.equal(corrected.status, 200, 'Known rejection permits an explicit corrected retry');
+    assert.equal((await handleInquirySubmission(request(input), configured({ guard }))).status, 200);
+  }
+});
+
+await test('server failures and unexpected successful status codes suppress unsafe retries', async () => {
+  for (const status of [201, 204, 500, 502, 503]) {
+    let calls = 0;
+    const input = draft(), options = configured({ fetcher: async () => { calls++; return new Response(status === 204 ? null : '{"ok":true}', { status }); } });
+    for (let i = 0; i < 2; i++) assert.equal((await result(await handleInquirySubmission(request(input), options))).body.code, 'delivery_unknown');
+    assert.equal(calls, 1);
+  }
+});
+
+await test('HTTP 200 requires an explicit JSON success receipt and ambiguous replies cannot resend', async () => {
+  for (const body of ['ok', '<html>captcha</html>', '{}', 'null', '{"ok":false}', '{"ok":"true"}']) {
+    let calls = 0;
+    const input = draft(), options = configured({ fetcher: async () => { calls++; return new Response(body); } });
+    for (let i = 0; i < 2; i++) assert.equal((await result(await handleInquirySubmission(request(input), options))).body.code, 'delivery_unknown');
+    assert.equal(calls, 1);
   }
 });
 
@@ -217,7 +197,7 @@ await test('simultaneous duplicate returns pending and a completed duplicate sen
   const pending = await result(await handleInquirySubmission(request(input), options));
   assert.equal(pending.status, 429);
   assert.equal(pending.body.code, 'duplicate_pending');
-  complete(new Response('ok'));
+  complete(new Response('{"ok":true}'));
   assert.equal((await first).status, 200);
   assert.equal((await result(await handleInquirySubmission(request(input), options))).body.code, 'delivered');
   assert.equal(calls, 1);
@@ -239,7 +219,7 @@ await test('Cloudflare metadata enables best-effort 3-per-minute address cooldow
   let time = 0;
   const guard = createInquiryDeliveryGuard({ now: () => time });
   let calls = 0;
-  const options = configured({ guard, fetcher: async () => { calls++; return new Response('ok'); } });
+  const options = configured({ guard, fetcher: async () => { calls++; return new Response('{"ok":true}'); } });
   const cfRequest = () => {
     const incoming = request(draft(), { 'cf-connecting-ip': '203.0.113.4', 'x-forwarded-for': randomUUID() });
     Object.defineProperty(incoming, 'cf', { value: { colo: 'TEST' } });

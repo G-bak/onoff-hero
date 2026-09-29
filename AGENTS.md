@@ -1,4 +1,8 @@
 # ON&OFF 프로젝트 작업 지침
+## 2026-09-29 문의 이메일 전환
+
+사용자가 Slack 문의를 제공한 Formspree `https://formspree.io/f/mqpawbdg`로 전환하고 실제 동작까지 완료하도록 요청했다. 기존 문의 화면·입력 검증·중복 방지를 유지하고 서버 전달 형식·성공 판정·개인정보 안내를 변경한다. [운영 기준](docs/operations/FORMSPREE-INQUIRY.md)을 따른다. 기존 Slack 환경값은 더 이상 사용하지 않는다. 전체 검사 후 기존 main → 회사 Cloudflare 자동 배포와 실제 운영 접수를 확인한다. Formspree 접수 성공과 메일함 도착은 구분하며 실제 완료 기록은 로컬 업무일지에 남긴다. 기존 사용자 문서 변경·호스팅·DNS·PC 설정은 보존한다.
+
 ## 2026-09-23 Google Analytics 태그·운영 배포 요청
 
 사용자가 Google Analytics `G-BHNVERX19B`를 메인페이지 헤더에 삽입하고 배포하도록 요청했다. `app/layout.tsx`의 공통 `<head>`에서 Google 태그 로더를 해당 ID로 연결하고 Analytics 설정을 추가한다. 기존 광고 `AW-18383031274` 설정은 같은 초기화 안에 유지하며 로더·dataLayer 초기화를 중복하지 않는다. 메인을 포함한 공개 페이지가 공통 헤더를 사용한다. 화면·모션·SEO/인증·문의·호스팅 설정은 유지한다. `npm run ci:build` 후 기존 main → 회사 Cloudflare 자동 배포와 운영 HTML의 태그 반영을 확인한다. Analytics 관리자 화면의 실제 수신 확인과 코드 배포 완료를 구분하고, 완료 기록·업무일지는 로컬에 남기며 기존 서버·DNS·PC 설정을 유지한다.
