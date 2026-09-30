@@ -2,12 +2,12 @@ import { createInquiryStatus, handleInquirySubmission } from '@/lib/inquiry-deli
 
 export const dynamic = 'force-dynamic';
 
-// The public form endpoint and approved policy ship atomically with the route.
-// Legacy Slack secrets are intentionally unused; never fall back to Slack.
+// Cloudflare nodejs_compat and the local Node preview expose server-only env.
+// Never prefix the webhook secret with VITE_ or NEXT_PUBLIC_.
 function configuration() {
   return {
-    formUrl: 'https://formspree.io/f/mqpawbdg',
-    privacyVersion: '2026-09-29',
+    webhookUrl: process.env.SLACK_INQUIRY_WEBHOOK_URL,
+    privacyVersion: process.env.INQUIRY_PRIVACY_VERSION,
   };
 }
 

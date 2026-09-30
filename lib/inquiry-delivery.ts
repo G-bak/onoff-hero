@@ -10,7 +10,7 @@ const expectedKeys = new Set(['services', ...Object.keys(limits), 'consent', 'ov
 const unavailableMessage = '문의 접수를 준비하고 있습니다. 이메일로 문의해 주세요.';
 const uncertainMessage = '접수 여부를 확인하지 못했습니다. 중복 문의를 피하려면 이메일로 확인해 주세요.';
 
-type DeliveryConfig = { formUrl?: string; privacyVersion?: string };
+type DeliveryConfig = { webhookUrl?: string; privacyVersion?: string };
 type DeliveryState = 'pending' | 'delivered' | 'uncertain';
 type GuardEntry = { fingerprint: string; state: DeliveryState; expiresAt: number };
 type GuardResult = DeliveryState | 'new' | 'conflict' | 'full' | 'rate-limited';
@@ -33,11 +33,11 @@ function json(status: number, data: object, headers?: Record<string, string>) {
 }
 
 function resolveConfig(config: DeliveryConfig) {
-  if (typeof config.formUrl !== 'string' || config.privacyVersion !== inquiryPrivacyVersion) return null;
+  if (typeof config.webhookUrl !== 'string' || config.privacyVersion !== inquiryPrivacyVersion) return null;
   try {
-    const url = new URL(config.formUrl);
-    if (url.protocol !== 'https:' || url.hostname !== 'formspree.io' || url.port || url.username || url.password || url.search || url.hash || !/^\/f\/[a-zA-Z0-9]+$/.test(url.pathname)) return null;
-    return { formUrl: url.href };
+    const url = new URL(config.webhookUrl);
+    if (url.protocol !== 'https:' || url.hostname !== 'hooks.slack.com' || url.port || url.username || url.password || url.search || url.hash || !/^\/services\/[A-Za-z0-9_-]+\/[A-Za-z0-9_-]+\/[A-Za-z0-9_-]+$/.test(url.pathname)) return null;
+    return { webhookUrl: url.href };
   } catch { return null; }
 }
 
@@ -135,33 +135,79 @@ function parseSubmission(value: unknown): { draft: InquiryDraft; requestId: stri
   return { draft, requestId: input.requestId.toLowerCase() };
 }
 
+type SlackInline = { type: 'text'; text: string; style?: { bold: boolean } } | { type: 'link'; url: string; text: string };
 const receiptTimeFormatter = new Intl.DateTimeFormat('en-CA', {
   timeZone: 'Asia/Seoul', year: 'numeric', month: '2-digit', day: '2-digit',
   hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23',
 });
 
-export function createInquiryFormspreeMessage(draft: InquiryDraft, requestId: string, receivedAt = new Date()) {
+function inquiryReferenceLink(reference: string): SlackInline {
+  // Only an entire, unambiguous web URL becomes a link. Notes, multiple links,
+  // credentials and other schemes remain literal customer text.
+  if (/^https?:\/\/[^\s<>"`|\\]+$/i.test(reference)) {
+    try {
+      const url = new URL(reference);
+      if (url.hostname && !url.username && !url.password) return { type: 'link', url: url.href, text: reference };
+    } catch { /* Preserve the original text below. */ }
+  }
+  return { type: 'text', text: reference };
+}
+
+export function createInquirySlackMessage(draft: InquiryDraft, requestId: string, receivedAt = new Date()) {
+  const plain = (text: string) => ({ type: 'plain_text' as const, text, emoji: false });
+  const section = (text: string) => ({ type: 'section' as const, text: plain(text) });
+  const context = (text: string) => ({ type: 'context' as const, elements: [plain(text)] });
+  const richText = (elements: SlackInline[]) => ({ type: 'rich_text' as const, elements: [{ type: 'rich_text_section' as const, elements }] });
+  const label = (text: string): SlackInline => ({ type: 'text', text, style: { bold: true } });
+  const literal = (text: string): SlackInline => ({ type: 'text', text });
+  const selectedNames = inquiryServiceOptions.filter(option => draft.services.includes(option.value)).map(option => option.label).join(' · ');
   const parts = Object.fromEntries(receiptTimeFormatter.formatToParts(receivedAt).map(part => [part.type, part.value]));
-  // Fixed field names prevent customer text from becoming transport options.
-  // `email` is Formspree's reply-to field; recipient settings live in its dashboard.
+  const receipt = `${parts.year}.${parts.month}.${parts.day} ${parts.hour}:${parts.minute}:${parts.second} (한국시간)`;
+  const budget = `${draft.budget}${draft.budget === inquiryBudgets[0] ? '' : `\n${draft.budgetBasis}`}`;
+  const phone = draft.phone || '미기재 · 이메일로 회신';
+  const consent = `개인정보 수집·이용 동의 완료 · 국외 처리위탁 동의 완료\n안내 버전 ${inquiryPrivacyVersion}`;
+  const retention = '보관: 접수일로부터 최대 90일 · 목적 달성·삭제 요청 시 조기 삭제';
+  let email: SlackInline = literal(draft.email);
+  if (/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i.test(draft.email)) {
+    const [mailbox, domain] = draft.email.split('@');
+    email = { type: 'link', url: `mailto:${encodeURIComponent(mailbox)}@${domain}`, text: draft.email };
+  }
+  // Include the content for screen readers as well as blocks. Escape Slack's
+  // control syntax independently of the disabled automatic/Markdown parsing.
+  const fallback = [
+    'ON&OFF | 신규 프로젝트 문의', `홈페이지 접수 · ${receipt}`,
+    `회사·브랜드: ${draft.company}`, `문의자: ${draft.name}`, `이메일: ${draft.email}`, `연락처: ${phone}`,
+    `희망 서비스: ${selectedNames}`, `희망 예산: ${budget}`, `희망 일정: ${draft.schedule}`,
+    `문의 내용\n${draft.description}`, ...(draft.reference ? [`참고 자료\n${draft.reference}`] : []),
+    consent, retention, `접수 ID: ${requestId}`,
+  ].join('\n\n').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   return {
-    subject: 'ON&OFF | 신규 프로젝트 문의',
-    name: draft.name,
-    email: draft.email,
-    message: draft.description,
-    '회사·브랜드': draft.company,
-    '연락처': draft.phone || '미기재 · 이메일로 회신',
-    '희망 서비스': inquiryServiceOptions.filter(option => draft.services.includes(option.value)).map(option => option.label).join(' · '),
-    '희망 예산': draft.budget,
-    '예산 기준': draft.budget === inquiryBudgets[0] ? '상담 후 결정' : draft.budgetBasis,
-    '희망 일정': draft.schedule,
-    '참고 자료': draft.reference || '미기재',
-    '접수 시각': `${parts.year}.${parts.month}.${parts.day} ${parts.hour}:${parts.minute}:${parts.second} (한국시간)`,
-    '접수 ID': requestId,
-    '개인정보 수집·이용 동의': '동의 완료',
-    '국외 처리위탁 동의': '동의 완료',
-    '안내 버전': inquiryPrivacyVersion,
-    '보관 안내': '접수일로부터 최대 90일 · 목적 달성·삭제 요청 시 조기 삭제',
+    text: fallback, mrkdwn: false, parse: 'none',
+    unfurl_links: false, unfurl_media: false,
+    blocks: [
+      { type: 'header', text: plain('ON&OFF | 신규 프로젝트 문의') },
+      context(`홈페이지 접수 · ${receipt}`),
+      { type: 'divider' },
+      richText([
+        label('회사·브랜드  '), literal(`${draft.company}\n`),
+        label('문의자  '), literal(`${draft.name}\n`),
+        label('이메일  '), email, literal('\n'),
+        label('연락처  '), literal(phone),
+      ]),
+      richText([label('희망 서비스\n'), literal(selectedNames)]),
+      // These values come only from the server-validated enums, not free text.
+      { type: 'section', fields: [
+        { type: 'mrkdwn', text: `*희망 예산*\n${budget}`, verbatim: true },
+        { type: 'mrkdwn', text: `*희망 일정*\n${draft.schedule}`, verbatim: true },
+      ] },
+      { type: 'divider' },
+      richText([label('문의 내용')]),
+      section(draft.description),
+      ...(draft.reference ? [richText([label('참고 자료\n'), inquiryReferenceLink(draft.reference)])] : []),
+      { type: 'divider' },
+      context(`${consent}\n${retention}`),
+      context(`접수 ID: ${requestId}`),
+    ],
   };
 }
 
@@ -171,7 +217,7 @@ async function fingerprint(value: string) {
   return Array.from(new Uint8Array(hash), byte => byte.toString(16).padStart(2, '0')).join('');
 }
 
-// Always inject fetch. Unit tests supply a mock and never contact Formspree.
+// Always inject fetch. Unit tests supply a mock and never contact Slack.
 export async function handleInquirySubmission(request: Request, options: InquiryDeliveryOptions): Promise<Response> {
   if (request.method !== 'POST') return json(405, { ok: false, code: 'method_not_allowed' }, { Allow: 'POST' });
   const config = resolveConfig(options);
@@ -215,10 +261,10 @@ export async function handleInquirySubmission(request: Request, options: Inquiry
     });
     const delivered = await Promise.race([
       (async () => {
-        const response = await options.fetcher(config.formUrl, {
+        const response = await options.fetcher(config.webhookUrl, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', Accept: 'application/json', Referer: `${new URL(request.url).origin}/inquiry` },
-          body: JSON.stringify(createInquiryFormspreeMessage(draft, requestId)),
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(createInquirySlackMessage(draft, requestId)),
           signal: controller.signal,
           // Workers supports manual/follow, not redirect:error. Do not follow
           // redirects; the HTTP 200 check below rejects every 3xx response.
@@ -227,14 +273,9 @@ export async function handleInquirySubmission(request: Request, options: Inquiry
         });
         if (response.status !== 200) {
           void response.body?.cancel().catch(() => {});
-          // A server error or unexpected 2xx may follow acceptance. Avoid
-          // turning an uncertain receipt into a duplicate email on retry.
-          if (response.status >= 500 || response.ok) throw new Error('Unconfirmed Formspree receipt');
           return false;
         }
-        const receipt: unknown = await response.json();
-        if (!receipt || typeof receipt !== 'object' || !('ok' in receipt) || receipt.ok !== true) throw new Error('Unconfirmed Formspree receipt');
-        return true;
+        return (await response.text()).trim() === 'ok';
       })(),
       timedOut,
     ]);
