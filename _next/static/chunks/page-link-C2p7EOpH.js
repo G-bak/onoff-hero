@@ -1,0 +1,1 @@
+import{r as e}from"./framework-JGc2HF7T.js";import{t}from"./link-CZ6gAC52.js";var n=e();function r(e){return(0,n.jsx)(t,{...e,onNavigate:()=>{window.scrollTo({left:window.scrollX,top:window.scrollY,behavior:`instant`})}})}export{r as default};
